@@ -10,12 +10,14 @@
 #include <QPainter>
 #include "arrow.h"
 #include "diagramscene.h"
+#include "myqgraphictextitem.h"
 
 class Arrow;
 class DiagramScene;
 
 class StateNode : public QGraphicsItem
 {
+    Q_DECLARE_TR_FUNCTIONS(StateNode)
 public:
     enum { Type = UserType + 1 };
 
@@ -37,13 +39,22 @@ public:
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 signals:
     void deleteItem();
 //    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
 private:
+    static unsigned int ID_counter;
+    QRectF recalculateTextSpace() const;
+    bool setName(QString new_name);
+    bool isNameUnique(QString s);
+    QStringList getAllNodenames();
+    static const int padding = 8;
     QString node_name;
-//    QGraphicsTextItem* text;
+    myQGraphicTextItem* mytext;
+    //QGraphicsTextItem* text;
     DiagramScene* myscene;
     double radius;
     QBrush* nodeBrush;
@@ -52,5 +63,4 @@ private:
     bool pressed;
     QList<Arrow *> arrows;
 };
-
 #endif // STATENODE_H

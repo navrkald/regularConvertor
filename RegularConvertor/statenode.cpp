@@ -1,5 +1,8 @@
 #include "statenode.h"
 #include <iostream>
+#include <QGraphicsItem>
+
+unsigned int StateNode::ID_counter = 1;
 
 int StateNode::type() const
 {
@@ -10,9 +13,20 @@ int StateNode::type() const
 StateNode::StateNode(DiagramScene* scene)
 {
     node_name = "jmeno uzlu";
+
+//    mytext = new myQGraphicTextItem(this);
+//    mytext->setPlainText(node_name);
+//    int x = mytext->x() - mytext->boundingRect().width() / 2;
+//    int y = mytext->y() - mytext->boundingRect().height() / 2;
+//    mytext->setPos(x, y);
+
 //    text = new QGraphicsTextItem(this);
 //    text->setTextInteractionFlags(Qt::TextEditable|Qt::TextSelectableByMouse);
 //    text->setPlainText("toto je text");
+//    int x = text->x() - text->boundingRect().width() / 2;
+//    int y = text->y() - text->boundingRect().height() / 2;
+//    text->setPos(x, y);
+
     myscene = scene;
     radius = NODE_RADIUS;
     nodeBrush = new QBrush(Qt::yellow);
@@ -37,8 +51,14 @@ StateNode::StateNode(DiagramScene* scene)
 
 QRectF StateNode::boundingRect() const
 {
-    return QRectF(-radius - NODE_PEN_WIDTH / 2, -radius - NODE_PEN_WIDTH / 2,
+    QRectF textRect = recalculateTextSpace();
+    QRectF defaultRect = QRectF(-radius - NODE_PEN_WIDTH / 2, -radius - NODE_PEN_WIDTH / 2,
                   radius*2 + NODE_PEN_WIDTH, radius*2 + NODE_PEN_WIDTH);
+    defaultRect.adjust(-padding,-padding,padding,padding);
+    if(textRect.width() > defaultRect.width())
+        return textRect;
+    else
+        return defaultRect;
 }
 
 void StateNode::removeArrow(Arrow *arrow)
@@ -97,21 +117,18 @@ double StateNode::getRadius()
 
 void StateNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    painter->setBrush(*nodeBrush);
     if(selected)
     {
-        painter->setBrush(*nodeBrush);
-        //painter->setPen(nodePen);
         QPen selectedPen(Qt::DashLine);
-        painter->setPen(selectedPen);
-        painter->drawEllipse(boundingRect());
-        painter->drawText(rect,Qt::AlignCenter,node_name);
+        painter->setPen(selectedPen);        
     }
     else
     {
-        painter->setBrush(*nodeBrush);
         painter->setPen(nodePen);
-        painter->drawEllipse(boundingRect());
     }
+    painter->drawEllipse(boundingRect());
+    painter->drawText(boundingRect(), Qt::AlignCenter, node_name);
 }
 
 
@@ -129,7 +146,37 @@ void StateNode::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseReleaseEvent(event);
     if(myscene->getMode() == DiagramScene::DeleteNode)
         myscene->emitDeleteSelected();
-        //emit myscene->deleteSelected();
+    //emit myscene->deleteSelected();
+}
+
+void StateNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    QString text = QInputDialog::getText(event->widget(),tr("New node name dialog"),tr("Enter unigue node name"),QLineEdit::Normal,node_name);
+    if(!text.isEmpty())
+        setName(text);
+}
+
+void StateNode::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    QMenu myContextMenu;
+    //create checkboxes
+    QCheckBox *setStartStateCheckbox = new QCheckBox(tr("start state"),&myContextMenu);
+    QCheckBox *setFinalStateCheckbox = new QCheckBox(tr("final state"),&myContextMenu);
+
+    //create QWidgetAction
+    QWidgetAction *setStartStateAction = new QWidgetAction(&myContextMenu);
+    QWidgetAction *setFinalStateAction = new QWidgetAction(&myContextMenu);
+
+    //Set widgets to actions
+    setStartStateAction->setDefaultWidget(setStartStateCheckbox);
+    setFinalStateAction->setDefaultWidget(setFinalStateCheckbox);
+
+    //Add action to menu
+    myContextMenu.addAction(setStartStateAction);
+    myContextMenu.addAction(setFinalStateAction);
+
+    //show menu
+    myContextMenu.exec(event->screenPos());
 }
 
 
@@ -142,4 +189,40 @@ QPainterPath StateNode::shape() const
 
 //void StateNode::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 //{
+//}
+
+
+QRectF StateNode::recalculateTextSpace() const
+{
+    //prevzato z c++ GUI programming wiht Qt 4, str. 203
+    QFontMetrics metrics = qApp->font();
+    QRectF rect = metrics.boundingRect(node_name);
+    //aby byli kolecka a elipsy stejne vysoke
+    if(rect.height()<2*radius)
+        rect.setHeight(2*radius);
+    rect.adjust(-padding - NODE_PEN_WIDTH / 2,-padding - NODE_PEN_WIDTH / 2,padding+ NODE_PEN_WIDTH,padding+ NODE_PEN_WIDTH);
+    rect.translate(-rect.center());
+    return rect;
+}
+
+bool StateNode::setName(QString new_name)
+{
+    node_name = new_name;
+    update();
+    //todo
+    return true;
+}
+
+bool StateNode::isNameUnique(QString s)
+{
+    //TODO
+    return true;
+}
+
+//QStringList StateNode::getAllNodenames()
+//{
+//    //TODO
+//    QStringList names;
+//    QList<QGraphicsItem *> items = myscene->items();
+//    return NULL;
 //}

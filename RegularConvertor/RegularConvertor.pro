@@ -16,11 +16,17 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     diagramscene.cpp \
     statenode.cpp \
-    arrow.cpp
+    arrow.cpp \
+    myqgraphictextitem.cpp \
+    finiteautomata.cpp \
+    computationalrules.cpp
 
 HEADERS  += mainwindow.h \
     diagramscene.h \
     statenode.h \
-    arrow.h
+    arrow.h \
+    myqgraphictextitem.h \
+    finiteautomata.h \
+    computationalrules.h
 
 FORMS    += mainwindow.ui

@@ -69,6 +69,18 @@ void StateNode::removeArrow(Arrow *arrow)
         arrows.removeAt(index);
 }
 
+void StateNode::setStartinState(bool _startingState)
+{
+    startingState = _startingState;
+    update();
+}
+
+void StateNode::setEndingState(bool _endingState)
+{
+    endingState = _endingState;
+    update();
+}
+
 void StateNode::removeArrows()
 {
     foreach (Arrow *arrow, arrows) {
@@ -163,6 +175,12 @@ void StateNode::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QCheckBox *setStartStateCheckbox = new QCheckBox(tr("start state"),&myContextMenu);
     QCheckBox *setFinalStateCheckbox = new QCheckBox(tr("final state"),&myContextMenu);
 
+    setStartStateCheckbox->setChecked(startingState);
+    setFinalStateCheckbox->setChecked(endingState);
+
+    connect(setStartStateCheckbox, SIGNAL(toggled(bool)), this,SLOT(setEndingState(bool)));
+    connect(setFinalStateCheckbox, SIGNAL(toggled(bool)), this,SLOT(setStartinState(bool)));
+
     //create QWidgetAction
     QWidgetAction *setStartStateAction = new QWidgetAction(&myContextMenu);
     QWidgetAction *setFinalStateAction = new QWidgetAction(&myContextMenu);
@@ -178,6 +196,7 @@ void StateNode::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     //show menu
     myContextMenu.exec(event->screenPos());
 }
+
 
 
 QPainterPath StateNode::shape() const

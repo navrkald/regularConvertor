@@ -12,16 +12,30 @@ public:
     explicit FiniteAutomata(QObject *parent = 0);
 
 private:
-    QSet <QString>  nodes;
+    QSet <QString>  states;
     QSet <QString> alphabet;
     QSet <ComputationalRules> rules;
-    QString starNode;
+    QString starState;
     QSet <QString> finalStates;
     
 signals:
     
 public slots:
-    
+    void addState(QString stateName);
+    //Nemuzu odstaranit stav pokud do nej vede sipka
+    //Pokud ostranim stav, do ktereho vede sipka muzu ukazat uzivateli varovani
+    bool removeState(QString stateName);
+    void renameState(QString oldStateName, QString newStateName);
+    void changeStartState(QString StateName);
+    void addFinalState(QString StateName);
+    void removeFinalState(QString StateName);
+    void addSymbol(QString symbol);
+    void removeSymbol(QString symbol);
+    //TODO parametry
+    void addRule();
+    void removeRule();
+    void changeRule();
+
 };
 
 #endif // FINITEAUTOMATA_H

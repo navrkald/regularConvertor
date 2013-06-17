@@ -5,7 +5,7 @@
 #define NODE_RADIUS 25.0
 #define NODE_PEN_WIDTH 1.0
 
-
+#include <QtCore>
 #include <QGraphicsItem>
 #include <QPainter>
 #include "arrow.h"
@@ -15,9 +15,10 @@
 class Arrow;
 class DiagramScene;
 
-class StateNode : public QGraphicsItem
+class StateNode : public QGraphicsObject //public QObject, public QGraphicsItem
 {
-    Q_DECLARE_TR_FUNCTIONS(StateNode)
+    Q_OBJECT
+    //Q_DECLARE_TR_FUNCTIONS(StateNode)
 public:
     enum { Type = UserType + 1 };
 
@@ -36,6 +37,7 @@ public:
     void addArrow(Arrow *arrow);
     void removeArrows();
     void removeArrow(Arrow *arrow);
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
@@ -44,6 +46,9 @@ protected:
 signals:
     void deleteItem();
 //    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+public slots:
+    void setStartinState(bool _startingState);
+    void setEndingState(bool _endingState);
 
 private:
     static unsigned int ID_counter;
@@ -61,6 +66,8 @@ private:
     QPen   nodePen;
     bool selected;
     bool pressed;
+    bool startingState;
+    bool endingState;
     QList<Arrow *> arrows;
 };
 #endif // STATENODE_H

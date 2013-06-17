@@ -17,7 +17,6 @@ SOURCES += main.cpp\
     diagramscene.cpp \
     statenode.cpp \
     arrow.cpp \
-    myqgraphictextitem.cpp \
     finiteautomata.cpp \
     computationalrules.cpp
 
@@ -25,7 +24,6 @@ HEADERS  += mainwindow.h \
     diagramscene.h \
     statenode.h \
     arrow.h \
-    myqgraphictextitem.h \
     finiteautomata.h \
     computationalrules.h
 

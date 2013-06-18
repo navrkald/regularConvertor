@@ -2,7 +2,6 @@
 #define COMPUTATIONALRULES_H
 
 #include <QObject>
-#include "computationalrules.h"
 
 class ComputationalRules : public QObject
 {

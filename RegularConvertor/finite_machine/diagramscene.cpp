@@ -1,13 +1,15 @@
 #include "diagramscene.h"
 #include "statenode.h"
 #include <iostream>
-
-DiagramScene::DiagramScene(QWidget *parent) : QGraphicsScene(parent)
+#include <QWidget>
+#include <QGraphicsSceneMouseEvent>
+DiagramScene::DiagramScene(FiniteAutomata* _FA, QWidget *parent = 0) : QGraphicsScene(parent)
 {
     this->actMode = AddNode;
     clicked = false;
     actLine = 0;
-    //connect(this, SIGNAL(selectionChanged()), this, SLOT(changeSelected()));
+    FA = _FA;
+    connect(this, SIGNAL(selectionChanged()), this, SLOT(changeSelected()));
 }
 
 
@@ -16,6 +18,7 @@ void DiagramScene::setMode(DiagramScene::Mode mode)
     this->actMode = mode;
 
 }
+
 
 
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -27,11 +30,12 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
      switch(this->actMode)
      {
         case AddNode:
-             newNode = new StateNode(this);
+             newNode = new StateNode(this, FA);
              this->addItem(newNode);
              newNode->setPos(mouseEvent->scenePos());
              break;
         case AddArrow:
+             //TODO predelat caru na sipku
              actLine = new QGraphicsLineItem(QLineF(mouseEvent->scenePos(),
                                          mouseEvent->scenePos()));
              actLine->setPen(QPen(Qt::black, 2));
@@ -89,7 +93,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
              std::cout <<"vypise nevypise"<< std::endl;
              StateNode *startItem = qgraphicsitem_cast<StateNode *>(startItems.first());
              StateNode *endItem = qgraphicsitem_cast<StateNode *>(endItems.first());
-             Arrow *arrow = new Arrow(startItem, endItem);
+             Arrow *arrow = new Arrow(startItem, endItem, FA);
              //arrow->setColor(myLineColor);
              startItem->addArrow(arrow);
              endItem->addArrow(arrow);
@@ -104,28 +108,43 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
  }
 
  //pokud jsme v modu ruseni zulu pak po oznaceni uzlu ho zrus
-// void DiagramScene::changeSelected()
-// {
-//     if(actMode == DeleteNode && !this->selectedItems().isEmpty())
+ void DiagramScene::changeSelected()
+ {
+     if(actMode == DeleteNode && !this->selectedItems().isEmpty())
+     {
+         std::cout<<"call DeleteSelected()"<<std::endl;
+         deleteSelected();
+     }
+ }
+
+void DiagramScene::deleteSelected()
+{
+    QList<QGraphicsItem*> items = this->selectedItems();
+    QMutableListIterator<QGraphicsItem *> i (items);
+    while (i.hasNext())
+    {
+        QGraphicsItem * item = i.next();
+        //this->removeItem(item);
+        Arrow* arrow = dynamic_cast<Arrow*>(item);
+        if (arrow)
+        {
+
+            delete arrow;
+            i.remove();
+        }
+    }
+    qDeleteAll(items);
+     //     foreach (QGraphicsItem *item, this->selectedItems())
 //     {
-//         std::cout<<"call DeleteSelected()"<<std::endl;
-//         deleteSelected();
+//          if (item->type() == StateNode::Type) {
+//              qgraphicsitem_cast<DiagramItem *>(item)->removeArrows();
+//          }
+//          removeItem(item);
+
+//          TODO proc pada na tomto prikazu???????
+//          delete item;
 //     }
-// }
-
- //void DiagramScene::deleteSelected()
- //{
-    // foreach (QGraphicsItem *item, this->selectedItems())
-    // {
-          //if (item->type() == StateNode::Type) {
-              //qgraphicsitem_cast<DiagramItem *>(item)->removeArrows();
-          //}
-       //   removeItem(item);
-
-          //TODO proc pada na tomto prikazu???????
-          //delete item;
-     //}
- //}
+}
 
  DiagramScene::Mode DiagramScene::getMode()
  {

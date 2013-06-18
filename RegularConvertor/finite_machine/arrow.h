@@ -38,27 +38,29 @@
  **
  ****************************************************************************/
 
- #ifndef ARROW_H
- #define ARROW_H
+#ifndef ARROW_H
+#define ARROW_H
 
- #include <QGraphicsLineItem>
+#include <QGraphicsLineItem>
+#include <QtWidgets>
+#include "statenode.h"
+#include "finiteautomata.h"
 
- #include "statenode.h"
+class QGraphicsPolygonItem;
+class QGraphicsLineItem;
+class QGraphicsScene;
+class QRectF;
+class QGraphicsSceneMouseEvent;
+class QPainterPath;
+class StateNode;
 
- class QGraphicsPolygonItem;
- class QGraphicsLineItem;
- class QGraphicsScene;
- class QRectF;
- class QGraphicsSceneMouseEvent;
- class QPainterPath;
- class StateNode;
+class Arrow : public QGraphicsLineItem
+{
+public:
+    ~Arrow();
+    enum { Type = UserType + 2 };
 
- class Arrow : public QGraphicsLineItem
- {
- public:
-     enum { Type = UserType + 2 };
-
-     Arrow(StateNode *startItem, StateNode *endItem,
+     Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA,
        QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
 
      int type() const
@@ -79,6 +81,7 @@
                 QWidget *widget = 0);
 
  private:
+     FiniteAutomata* FA;
      StateNode *myStartItem;
      StateNode *myEndItem;
      QColor myColor;

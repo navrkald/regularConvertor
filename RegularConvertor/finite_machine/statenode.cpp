@@ -1,6 +1,7 @@
 #include "statenode.h"
 #include <iostream>
 #include <QGraphicsItem>
+#include <QWidget>
 
 unsigned int StateNode::ID_counter = 1;
 
@@ -10,10 +11,12 @@ int StateNode::type() const
         return Type;
 }
 
-StateNode::StateNode(DiagramScene* scene)
+StateNode::StateNode(DiagramScene* scene, FiniteAutomata* _FA)
 {
-    node_name = "jmeno uzlu";
+    FA = _FA;
+    node_name = FA->createUniqueName();
 
+    FA->addState(node_name);
 //    mytext = new myQGraphicTextItem(this);
 //    mytext->setPlainText(node_name);
 //    int x = mytext->x() - mytext->boundingRect().width() / 2;
@@ -41,6 +44,11 @@ StateNode::StateNode(DiagramScene* scene)
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+}
+
+StateNode::~StateNode()
+{
+    removeArrows();
 }
 
 //StateNode::~StateNode()
@@ -84,8 +92,8 @@ void StateNode::setEndingState(bool _endingState)
 void StateNode::removeArrows()
 {
     foreach (Arrow *arrow, arrows) {
-        arrow->startItem()->removeArrow(arrow);
-        arrow->endItem()->removeArrow(arrow);
+        //arrow->startItem()->removeArrow(arrow);
+        //arrow->endItem()->removeArrow(arrow);
         //scene()->removeItem(arrow);
         delete arrow;
     }
@@ -146,6 +154,12 @@ void StateNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 void StateNode::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    //TODO
+    if(myscene->actMode == DiagramScene::MoveNode)
+    {
+        //TODO po kliknuti na uzel se automaticky presune na popredi + snizi se vsechny hodnoty na minimun (mozna snizeni hodnot v samostatnem thredu...)
+        ;
+    }
     pressed = true;
     update();
     QGraphicsItem::mousePressEvent(event);
@@ -156,16 +170,20 @@ void StateNode::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     pressed = false;
     update();
     QGraphicsItem::mouseReleaseEvent(event);
-    if(myscene->getMode() == DiagramScene::DeleteNode)
-        myscene->emitDeleteSelected();
-    //emit myscene->deleteSelected();
+    //if(myscene->getMode() == DiagramScene::DeleteNode)
+    //    myscene->emitDeleteSelected();
 }
 
 void StateNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    QString text = QInputDialog::getText(event->widget(),tr("New node name dialog"),tr("Enter unigue node name"),QLineEdit::Normal,node_name);
-    if(!text.isEmpty())
-        setName(text);
+    if(myscene->actMode == DiagramScene::MoveNode)
+    {
+        QString text = QInputDialog::getText(event->widget(),tr("New node name dialog"),tr("Enter unigue node name"),QLineEdit::Normal,node_name);
+        if(!text.isEmpty())
+            changeName(text);
+    }
+
+    //QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
 void StateNode::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
@@ -214,7 +232,7 @@ QPainterPath StateNode::shape() const
 QRectF StateNode::recalculateTextSpace() const
 {
     //prevzato z c++ GUI programming wiht Qt 4, str. 203
-    QFontMetrics metrics = qApp->font();
+    QFontMetrics metrics(qApp->font());
     QRectF rect = metrics.boundingRect(node_name);
     //aby byli kolecka a elipsy stejne vysoke
     if(rect.height()<2*radius)
@@ -224,8 +242,13 @@ QRectF StateNode::recalculateTextSpace() const
     return rect;
 }
 
-bool StateNode::setName(QString new_name)
+bool StateNode::changeName(QString new_name)
 {
+    if(!isNameUnique(new_name))
+    {
+        return false;
+    }
+
     node_name = new_name;
     update();
     //todo
@@ -234,8 +257,7 @@ bool StateNode::setName(QString new_name)
 
 bool StateNode::isNameUnique(QString s)
 {
-    //TODO
-    return true;
+    return FA->isStateUnique(s);
 }
 
 //QStringList StateNode::getAllNodenames()
@@ -245,3 +267,6 @@ bool StateNode::isNameUnique(QString s)
 //    QList<QGraphicsItem *> items = myscene->items();
 //    return NULL;
 //}
+
+
+

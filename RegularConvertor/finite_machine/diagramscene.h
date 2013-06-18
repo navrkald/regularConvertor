@@ -4,38 +4,40 @@
 #include <QGraphicsScene>
 #include <QtCore>
 #include <QtGui>
- #include "arrow.h"
+#include "arrow.h"
+#include "finiteautomata.h"
 
 class DiagramScene : public QGraphicsScene
 {
     Q_OBJECT
 signals:
-    void deleteSelected();
+    //void deleteSelected();
 public:
-    DiagramScene(QWidget *parent);
+    DiagramScene(FiniteAutomata* _FA, QWidget *parent);
     //~DiagramScene();
 
     enum Mode { AddNode, MoveNode, DeleteNode, AddArrow};
-
+    Mode actMode;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
     Mode getMode();
-    void emitDeleteSelected()
-    {emit deleteSelected();}
+    //void emitDeleteSelected()
+    //{emit deleteSelected();}
 
 
 public slots:
     void setMode(Mode mode);
-//private slots:
-//    void changeSelected();
+    void changeSelected();
+    void deleteSelected();
 
 private:
     bool clicked;
-    Mode actMode;
     QGraphicsLineItem *actLine;
+    FiniteAutomata* FA;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
+
     //    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
 //    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
 };

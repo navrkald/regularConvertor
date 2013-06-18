@@ -4,7 +4,8 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QToolButton>
-#include <diagramscene.h>
+#include <finite_machine/diagramscene.h>
+#include <QShortcut>
 
 namespace Ui {
 class MainWindow;
@@ -17,23 +18,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-
-
-
     QShortcut* deleteShortCut;
 private slots:
-    //void on_graphicsView_customContextMenuRequested(const QPoint &pos);
-
-    void on_AddNodeBut_clicked();
-
-    void on_MoveNodeBut_clicked();
-
-    void on_DeleteNodeBut_clicked();
-    void deleteItem();
-
-    void on_AddArrow_clicked(bool checked);
-    void delaidDelete();
 private:
     Ui::MainWindow *ui;
     DiagramScene *scene1;

@@ -10,7 +10,9 @@
 #include <QPainter>
 #include "arrow.h"
 #include "diagramscene.h"
-#include "myqgraphictextitem.h"
+#include <QInputDialog>
+#include <QtWidgets>
+#include "finiteautomata.h"
 
 class Arrow;
 class DiagramScene;
@@ -26,8 +28,8 @@ public:
 
     //StateNode();
 
-    StateNode(DiagramScene* scene);
-    //~StateNode();
+    StateNode(DiagramScene* scene, FiniteAutomata* _FA);
+    ~StateNode();
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -51,14 +53,17 @@ public slots:
     void setEndingState(bool _endingState);
 
 private:
-    static unsigned int ID_counter;
+    //methods
     QRectF recalculateTextSpace() const;
-    bool setName(QString new_name);
+    bool changeName(QString new_name);
     bool isNameUnique(QString s);
     QStringList getAllNodenames();
+
+    //properties
+    FiniteAutomata* FA;
+    static unsigned int ID_counter;
     static const int padding = 8;
     QString node_name;
-    myQGraphicTextItem* mytext;
     //QGraphicsTextItem* text;
     DiagramScene* myscene;
     double radius;

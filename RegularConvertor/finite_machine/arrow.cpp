@@ -39,22 +39,28 @@
  ****************************************************************************/
 
  #include <QtGui>
-
  #include "arrow.h"
  #include <math.h>
 #include <iostream>
  const qreal Pi = 3.14;
 
- Arrow::Arrow(StateNode *startItem, StateNode *endItem,
+ Arrow::Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA,
           QGraphicsItem *parent, QGraphicsScene *scene)
-     : QGraphicsLineItem(parent, scene)
+     : QGraphicsLineItem(parent)
  {
+     FA = _FA;
      myStartItem = startItem;
      myEndItem = endItem;
      setFlag(QGraphicsItem::ItemIsSelectable, true);
      myColor = Qt::black;
      setPen(QPen(myColor, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
      debugCounter = 0;
+ }
+
+ Arrow::~Arrow()
+ {
+    myStartItem->removeArrow(this);
+    myEndItem->removeArrow(this);
  }
 
  QRectF Arrow::boundingRect() const

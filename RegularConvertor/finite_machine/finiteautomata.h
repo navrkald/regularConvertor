@@ -3,13 +3,16 @@
 
 #include <QObject>
 #include <QtCore>
-#include <computationalrules.h>
+#include <finite_machine/computationalrules.h>
 
 class FiniteAutomata : public QObject
 {
     Q_OBJECT
 public:
     explicit FiniteAutomata(QObject *parent = 0);
+    int nextId;
+    bool isStateUnique(QString state);
+    QString createUniqueName();
 
 private:
     QSet <QString>  states;
@@ -17,11 +20,12 @@ private:
     QSet <ComputationalRules> rules;
     QString starState;
     QSet <QString> finalStates;
+
     
 signals:
     
 public slots:
-    void addState(QString stateName);
+    bool addState(QString stateName);
     //Nemuzu odstaranit stav pokud do nej vede sipka
     //Pokud ostranim stav, do ktereho vede sipka muzu ukazat uzivateli varovani
     bool removeState(QString stateName);

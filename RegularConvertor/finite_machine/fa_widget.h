@@ -2,8 +2,8 @@
 #define FA_WIDGET_H
 
 #include <QWidget>
-#include <finite_machine/diagramscene.h>
-#include "finite_machine/finiteautomata.h"
+#include "diagramscene.h"
+#include "finiteautomata.h"
 
 namespace Ui {
 class FA_widget;

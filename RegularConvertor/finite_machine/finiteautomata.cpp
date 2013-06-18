@@ -39,7 +39,7 @@ bool FiniteAutomata::addState(QString stateName)
 
 bool FiniteAutomata::removeState(QString stateName)
 {
-
+    return true;
 }
 
 void FiniteAutomata::renameState(QString oldStateName, QString newStateName)

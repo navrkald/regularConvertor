@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QToolButton>
-#include <finite_machine/diagramscene.h>
+#include "finite_machine/diagramscene.h"
 #include <QShortcut>
 
 namespace Ui {

@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QtCore>
-#include <finite_machine/computationalrules.h>
+#include "computationalrules.h"
 
 class FiniteAutomata : public QObject
 {

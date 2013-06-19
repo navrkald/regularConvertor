@@ -59,6 +59,9 @@ FA_widget::FA_widget(QWidget *parent) :
     hlayout->addWidget(DeleteNodeBut);
     hlayout->setMargin(0);
     vlayout->setMargin(4);
+    #if defined(_WIN64) || defined(_WIN32)
+        hlayout->addSpacing(18);
+    #endif
     vlayout->addLayout(hlayout);
     vlayout->addStretch();
 }

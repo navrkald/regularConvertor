@@ -119,6 +119,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void DiagramScene::deleteSelected()
 {
+    qDebug() <<"Zavolana fce deleteSelected!";
     QList<QGraphicsItem*> items = this->selectedItems();
     QMutableListIterator<QGraphicsItem *> i (items);
     while (i.hasNext())

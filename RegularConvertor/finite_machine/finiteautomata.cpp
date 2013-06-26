@@ -4,6 +4,7 @@ FiniteAutomata::FiniteAutomata(QObject *parent) :
     QObject(parent)
 {
     nextId = 0;
+    starState = "";
 }
 
 QString FiniteAutomata::createUniqueName()

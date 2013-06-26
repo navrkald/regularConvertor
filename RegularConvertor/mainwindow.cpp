@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     deleteShortCut = new QShortcut(QKeySequence::Delete, this);
     connect( deleteShortCut, SIGNAL(activated()), ui->FA1_widget->scene, SLOT(deleteSelected()));
     connect( deleteShortCut, SIGNAL(activated()), ui->FA2_widget->scene, SLOT(deleteSelected()));
+    connect( deleteShortCut, SIGNAL(activated()), this, SLOT(testing_slot()));
+    testing_slot();
     //connect( scene1, SIGNAL(deleteSelected()), this, SLOT(deleteItem()));
 
     //connect(ui->AddNodeBut,SIGNAL(clicked()), scene,SLOT(setMode(DiagramScene::AddNode)));
@@ -35,4 +37,9 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::testing_slot()
+{
+    qDebug() <<"Testing slot launched!";
 }

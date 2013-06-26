@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     finite_machine/arrow.cpp \
     finite_machine/finiteautomata.cpp \
     finite_machine/computationalrules.cpp \
-    finite_machine/fa_widget.cpp
+    finite_machine/fa_widget.cpp \
+    finite_machine/multiselectcompleter.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -27,7 +28,8 @@ HEADERS  += mainwindow.h \
     finite_machine/arrow.h \
     finite_machine/finiteautomata.h \
     finite_machine/computationalrules.h \
-    finite_machine/fa_widget.h
+    finite_machine/fa_widget.h \
+    finite_machine/multiselectcompleter.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui

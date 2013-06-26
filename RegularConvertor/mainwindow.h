@@ -19,13 +19,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QShortcut* deleteShortCut;
+public slots:
+    void testing_slot();
 private slots:
 private:
     Ui::MainWindow *ui;
     DiagramScene *scene1;
     DiagramScene *scene2;
     QList<QGraphicsItem*> itemsToDelete;
-
     //void deleteSelected(QGraphicsScene *scene);
 
 //    QToolButton *sceneBut;

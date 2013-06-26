@@ -14,7 +14,7 @@ public:
     bool isStateUnique(QString state);
     QString createUniqueName();
 
-private:
+public:
     QSet <QString>  states;
     QSet <QString> alphabet;
     QSet <ComputationalRules> rules;

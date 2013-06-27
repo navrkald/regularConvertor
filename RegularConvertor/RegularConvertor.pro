@@ -33,3 +33,5 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui
+
+CONFIG += static

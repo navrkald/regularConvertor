@@ -1,0 +1,9 @@
+* nastudovat si požadavky pro Qt na http://qt-project.org/doc/qt-5.0/qtdoc/requirements-win.html
+* je nutne mit zdrojove kody Qt pro statickou kompilaci
+* pruvodce statickou compilaci pro Qt
+* nutne prvne staticky prelozit Qt5
+* stahnout a nainstalovat active perl http://www.activestate.com/activeperl
+* nakonfigurovat QT staticky (mùže trvat dlouhou dobu)
+	C:\Qt\Qt5.0.2\5.0.2\Src\qtbase>configure.bat -opensource -confirm-license -prefix %CD%\qtbase -make libs -make tools -make examples -no-incredibuild-xge -release -opengl desktop -static -skip qtwebkit -no-icu -nomake tests -nomake examples
+* zkompilovat qt5 staticky
+	C:\Qt\Qt5.0.2\5.0.2\Src\qtbase>mingw32-make

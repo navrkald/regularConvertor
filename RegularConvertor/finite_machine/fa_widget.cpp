@@ -116,7 +116,7 @@ QStringList FA_widget::getSortedUniqueList(QString raw_text)
     QStringList raw_list_of_states = raw_text.simplified().replace(" ", "" ).split(",");
     QStringList unique_list_of_states = raw_list_of_states.toSet().toList();
     unique_list_of_states.sort();
-    return raw_list_of_states;
+    return unique_list_of_states;
 }
 
 FA_widget::~FA_widget()

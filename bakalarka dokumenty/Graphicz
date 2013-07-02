@@ -1,0 +1,2 @@
+instalace na debianu
+apt-get install graphviz libcdt4 libcgraph5 libgraph4 libgvc5 libgvpr1 libpathplan4 libxdot4 libgraphviz-dev  libc6-dev libexpat1-dev zlib1g-dev ocaml-base-nox  libc-dev-bin linux-libc-dev

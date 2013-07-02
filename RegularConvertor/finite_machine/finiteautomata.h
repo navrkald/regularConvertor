@@ -36,9 +36,9 @@ public slots:
     void addSymbol(QString symbol);
     void removeSymbol(QString symbol);
     //TODO parametry
-    void addRule();
-    void removeRule();
-    void changeRule();
+    bool addRule(ComputationalRules newrule);
+    void removeRule(ComputationalRules rule);
+    bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
 
 };
 

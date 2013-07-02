@@ -2,10 +2,12 @@
 #define FA_WIDGET_H
 
 #include <QWidget>
+#include <QDebug>
 #include "diagramscene.h"
 #include "finiteautomata.h"
 #include <QtAlgorithms>
 #include "multiselectcompleter.h"
+#include "editruledialog.h"
 
 namespace Ui
 {
@@ -33,12 +35,19 @@ private slots:
 
     void statesEdited();
     void endingStatesEdited();
-    //void alphaberEdited();
+    void alphaberEdited();
     //void on_startStateLineEdit_textChanged(const QString &arg1);
 
     void on_startStateComboBox_currentIndexChanged(const QString &arg1);
 
     void on_startStateComboBox_activated(const QString &arg1);
+
+
+    void on_addRuleToolButton_clicked();
+
+    void on_removeRuleToolButton_clicked();
+
+    void on_rulesListWidget_itemDoubleClicked(QListWidgetItem *item);
 
 public slots:
     void updateStates();
@@ -60,6 +69,7 @@ private:
     //methods
     void setupValidators();
     QStringList getSortedUniqueList(QString raw_text);
+    QErrorMessage errorMessage;
 
 };
 

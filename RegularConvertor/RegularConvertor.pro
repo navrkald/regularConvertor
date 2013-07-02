@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     finite_machine/finiteautomata.cpp \
     finite_machine/computationalrules.cpp \
     finite_machine/fa_widget.cpp \
-    finite_machine/multiselectcompleter.cpp
+    finite_machine/multiselectcompleter.cpp \
+    finite_machine/editruledialog.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -29,9 +30,11 @@ HEADERS  += mainwindow.h \
     finite_machine/finiteautomata.h \
     finite_machine/computationalrules.h \
     finite_machine/fa_widget.h \
-    finite_machine/multiselectcompleter.h
+    finite_machine/multiselectcompleter.h \
+    finite_machine/editruledialog.h
 
 FORMS    += mainwindow.ui \
-    finite_machine/fa_widget.ui
+    finite_machine/fa_widget.ui \
+    finite_machine/editruledialog.ui
 
 CONFIG += static

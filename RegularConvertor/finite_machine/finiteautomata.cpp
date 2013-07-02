@@ -68,14 +68,33 @@ void FiniteAutomata::removeSymbol(QString symbol)
 {
 }
 
-void FiniteAutomata::addRule()
+bool FiniteAutomata::addRule(ComputationalRules rule)
 {
+    if(rules.contains(rule))
+    {
+        qDebug()<<"Mnozina pravidel uz obsahuje "<<rule.from<<" " <<rule.symbol<<"->"<<rule.to;
+        return false;
+    }
+    rules.insert(rule);
+    return true;
 }
 
-void FiniteAutomata::removeRule()
+void FiniteAutomata::removeRule(ComputationalRules rule)
 {
+    rules.remove(rule);
 }
 
-void FiniteAutomata::changeRule()
+//vrati true kdyz jsou odlisne, jinak true
+bool FiniteAutomata::changeRule(ComputationalRules oldrule, ComputationalRules newrule)
 {
+    if(oldrule == newrule)
+    {
+        return false;
+    }
+    else
+    {
+        rules.remove(oldrule);
+        rules.insert(newrule);
+        return true;
+    }
 }

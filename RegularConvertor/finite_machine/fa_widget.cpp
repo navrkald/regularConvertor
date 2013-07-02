@@ -53,6 +53,7 @@ FA_widget::FA_widget(QWidget *parent) :
     //
     connect(this->ui->statesLineEdit,SIGNAL(editingFinished()),this,SLOT(statesEdited()));
     connect(this->ui->endingStatesLineEdit,SIGNAL(editingFinished()),this,SLOT(endingStatesEdited()));
+    connect(this->ui->alphabetLineEdit,SIGNAL(editingFinished()),this,SLOT(alphaberEdited()));
 
     //this code displayes edit buttons in front of graphicsView
     QVBoxLayout* vlayout = new QVBoxLayout(ui->graphicsView);
@@ -168,6 +169,14 @@ void FA_widget::endingStatesEdited()
     FA->finalStates = setOfEndigStates;
 }
 
+void FA_widget::alphaberEdited()
+{
+    QStringList SortedUniqueList = getSortedUniqueList(ui->alphabetLineEdit->text());
+    ui->alphabetLineEdit->setText(SortedUniqueList.join(", "));
+    FA->alphabet = SortedUniqueList.toSet();
+    //TODO! osetrit kdyz se vyskytuji symboly abecedy v prechodech
+}
+
 void FA_widget::updateStates()
 {
     //update start item
@@ -191,12 +200,7 @@ void FA_widget::updateStates()
     awailableStates = "(" + awailableStates + ")";
     //^\\w+(,\\s*\\w+)*,?$
     endingStatesValidator->setRegExp(QRegExp("^" + awailableStates + "+(,\\s*" + awailableStates + ")*,?$"));
-
-            //QRegExp emptyRegExp("^$");
-            //QRegExpValidator* validator= new QRegExpValidator(QRegExp);// QRegExp( sl.join( "|" ) ) );
-        //lineEdit->setValidator( validator );
-    //validator.setRegExp();
-    //validator->setRegExp();
+    //TODO! osetrit kdyz se smaze uzel ktery se vyskytuje v prechodech
 }
 
 
@@ -216,6 +220,97 @@ void FA_widget::on_startStateComboBox_currentIndexChanged(const QString &arg1)
 
 void FA_widget::on_startStateComboBox_activated(const QString &arg1)
 {
+    statesEdited(); //zavolame explicitne protoze "strati fokus, tak aby to fungovalo"
     if(arg1 != "")
         FA->starState = QString(arg1);
+}
+
+//DOTO kdyz jsou prazdne uzly tak vyhodit pri pokusu pridavat prechody error message
+
+
+void FA_widget::on_addRuleToolButton_clicked()
+{
+    if(FA->states.isEmpty())
+    {
+        errorMessage.showMessage("Nelse pridavat prechody. Musite prvne pridat nejake uzly!");
+        errorMessage.exec();
+        return;
+    }
+    //updatovani stavu a abecedy (zavolame explicitne protoze "nestrati fokus, tak aby to fungovalo")
+    statesEdited();
+    alphaberEdited();
+
+    //Predavani serazenych listu
+    QStringList states_list = FA->states.toList();
+    QStringList alphabet_list = FA->alphabet.toList();
+    states_list.sort();
+    alphabet_list.sort();
+    editRuleDialog* ruleEditWindow = new editRuleDialog(states_list,alphabet_list,this);
+
+    if(ruleEditWindow->exec())
+    {
+        QString from = ruleEditWindow->getFrom();
+        QString symbol = ruleEditWindow->getSymbol();
+        QString to = ruleEditWindow->getTo();
+        if(FA->addRule(ComputationalRules(from,to, symbol)))
+        {
+            ui->rulesListWidget->addItem(from + " " + symbol + " -> " + to);
+        }
+        else
+        {
+            ;//TODO vypsat warning
+        }
+    }
+}
+
+//TODO vypisovat warningy na statusbar
+//TODO dodelat errorove messages pomoci privatniho obektu errorMessage
+
+void FA_widget::on_removeRuleToolButton_clicked()
+{
+    //updatovani stavu a abecedy (zavolame explicitne protoze "nestrati fokus, tak aby to fungovalo")
+    statesEdited();
+    alphaberEdited();
+
+    QList<QListWidgetItem *> items = ui->rulesListWidget->selectedItems();
+    foreach(QListWidgetItem* i, items)
+    {
+        FA->removeRule(ComputationalRules(i->text()));
+    }
+
+    qDeleteAll(ui->rulesListWidget->selectedItems());
+
+}
+
+void FA_widget::on_rulesListWidget_itemDoubleClicked(QListWidgetItem *item)
+{
+    //updatovani stavu a abecedy (zavolame explicitne protoze "nestrati fokus, tak aby to fungovalo")
+    statesEdited();
+    alphaberEdited();
+
+    ComputationalRules oldrule(item->text());
+
+    //Predavani serazenych listu
+    QStringList states_list = FA->states.toList();
+    QStringList alphabet_list = FA->alphabet.toList();
+    states_list.sort();
+    alphabet_list.sort();
+
+    editRuleDialog* ruleEditWindow = new editRuleDialog(states_list,alphabet_list,this);
+    ruleEditWindow->setFrom(oldrule.from);
+    ruleEditWindow->setSymbol(oldrule.symbol);
+    ruleEditWindow->setTo(oldrule.to);
+    if(ruleEditWindow->exec())
+    {
+        ComputationalRules newrule(ruleEditWindow->getFrom(),ruleEditWindow->getTo(),ruleEditWindow->getSymbol());
+        if(FA->changeRule(oldrule,newrule))
+        {
+            QListWidgetItem* selectedItem = ui->rulesListWidget->currentItem();
+            selectedItem->setText(newrule.toString());
+        }
+        else
+        {
+            ;//TODO item se nezmenil
+        }
+    }
 }

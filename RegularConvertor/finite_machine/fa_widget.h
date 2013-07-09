@@ -24,7 +24,9 @@ public:
     DiagramScene *scene;
     FiniteAutomata* FA;
     QShortcut* deleteShortCut;
+    QErrorMessage errorMessage;
 private slots:
+    //sloty na tlacitka na editaci grafu
     void MoveNodeBut_clicked();
 
     void AddNodeBut_clicked();
@@ -33,24 +35,32 @@ private slots:
 
     void DeleteNodeBut_clicked();
 
+    //sloty na editaci formalniho popisu KA
     void statesEdited();
     void endingStatesEdited();
     void alphaberEdited();
-    //void on_startStateLineEdit_textChanged(const QString &arg1);
-
-    void on_startStateComboBox_currentIndexChanged(const QString &arg1);
-
     void on_startStateComboBox_activated(const QString &arg1);
-
-
     void on_addRuleToolButton_clicked();
-
     void on_removeRuleToolButton_clicked();
-
     void on_rulesListWidget_itemDoubleClicked(QListWidgetItem *item);
+
+    void on_tabWidget_currentChanged(int index);
 
 public slots:
     void updateStates();
+    void testingSlot(QString msg);
+
+signals:
+    void addNodes(QSet <QString> nodes);
+    void removeNodes(QSet <QString> nodes);
+    void addSymbols(QSet <QString> symbols);
+    void removeSymbols(QSet <QString> symbols);
+    void addEdges(QSet <ComputationalRules> rules);
+    void removeEdges(QSet <ComputationalRules> rules);
+    void setStartNode(QString n);
+    void addEndingNodes(QSet <QString> nodes);
+    void removeEndingNodes(QSet <QString> nodes);
+    void errorMessageSignal(QString message);
 
 private:
     //properties
@@ -69,7 +79,6 @@ private:
     //methods
     void setupValidators();
     QStringList getSortedUniqueList(QString raw_text);
-    QErrorMessage errorMessage;
 
 };
 

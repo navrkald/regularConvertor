@@ -4,6 +4,9 @@
 
 #define NODE_RADIUS 25.0
 #define NODE_PEN_WIDTH 1.0
+#define ENDING_STATE_PAADING 10
+#define START_STATE_ARROW_LENTH 40
+#define START_STATE_ARROW_PEN_WIDTH 5
 
 #include <QtCore>
 #include <QGraphicsItem>
@@ -29,6 +32,8 @@ public:
     //StateNode();
 
     StateNode(DiagramScene* scene, FiniteAutomata* _FA);
+    //tento konstruktor se pouziva pri pri automatickem vytvareni uzlu, nikdy nepouzivat rucne
+    StateNode(DiagramScene* scene, FiniteAutomata* _FA, QString uniqueName);
     ~StateNode();
     QRectF boundingRect() const;
     QPainterPath shape() const;
@@ -39,7 +44,11 @@ public:
     void addArrow(Arrow *arrow);
     void removeArrows();
     void removeArrow(Arrow *arrow);
-
+    bool changeName(QString new_name);
+    void setNameWithoutCheck(QString node_name);
+    QList<Arrow *> arrows;
+    QString getName();
+    QErrorMessage errorMessage;
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
@@ -47,23 +56,27 @@ protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 signals:
     void deleteItem();
+    void sendErrorMessage(QString message);
 //    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 public slots:
-    void setStartinState(bool _startingState);
+    void setStartinState();
     void setEndingState(bool _endingState);
 
 private:
     //methods
+    void firstInit();
     QRectF recalculateTextSpace() const;
-    bool changeName(QString new_name);
+    QRectF elipseBoundingRect() const;
     bool isNameUnique(QString s);
     QStringList getAllNodenames();
+
 
     //properties
     FiniteAutomata* FA;
     static unsigned int ID_counter;
     static const int padding = 8;
     QString node_name;
+
     //QGraphicsTextItem* text;
     DiagramScene* myscene;
     double radius;
@@ -71,8 +84,8 @@ private:
     QPen   nodePen;
     bool selected;
     bool pressed;
-    bool startingState;
+    //bool startingState;
     bool endingState;
-    QList<Arrow *> arrows;
+
 };
 #endif // STATENODE_H

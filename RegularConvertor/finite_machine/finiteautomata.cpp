@@ -40,32 +40,67 @@ bool FiniteAutomata::addState(QString stateName)
 
 bool FiniteAutomata::removeState(QString stateName)
 {
-    return true;
+    return states.remove(stateName);
 }
 
-void FiniteAutomata::renameState(QString oldStateName, QString newStateName)
+bool FiniteAutomata::renameState(QString oldStateName, QString newStateName)
 {
+    if(!isStateUnique(newStateName))
+        return false;
 
+    //rename start state
+    if(starState == oldStateName)
+        starState = newStateName;
+
+    //rename state in finalStates
+    if(finalStates.contains(oldStateName))
+    {
+        removeFinalState(oldStateName);
+        addFinalState(newStateName);
+    }
+
+    //rename state name in all rules
+    foreach(ComputationalRules rule,rules)
+    {
+        if(rule.from == oldStateName || rule.to == oldStateName)
+        {
+            ComputationalRules newRule = rule;
+            if(rule.from == oldStateName)
+                newRule.from = newStateName;
+            if(rule.to == oldStateName)
+                newRule.to = newStateName;
+            removeRule(rule);
+            addRule(newRule);
+        }
+    }
+    //rename state in states set
+    removeState(oldStateName);
+    return addState(newStateName);
 }
 
 void FiniteAutomata::changeStartState(QString StateName)
 {
+    this->starState = StateName;
 }
 
 void FiniteAutomata::addFinalState(QString StateName)
 {
+    finalStates.insert(StateName);
 }
 
 void FiniteAutomata::removeFinalState(QString StateName)
 {
+    finalStates.remove(StateName);
 }
 
 void FiniteAutomata::addSymbol(QString symbol)
 {
+    alphabet.insert(symbol);
 }
 
 void FiniteAutomata::removeSymbol(QString symbol)
 {
+    alphabet.remove(symbol);
 }
 
 bool FiniteAutomata::addRule(ComputationalRules rule)
@@ -83,6 +118,15 @@ void FiniteAutomata::removeRule(ComputationalRules rule)
 {
     rules.remove(rule);
 }
+
+bool FiniteAutomata::changeSymbolInRule(ComputationalRules rule, QString symbol)
+{
+    removeRule(rule);
+    ComputationalRules newRule = rule;
+    newRule.symbol = symbol;
+    return addRule(newRule);
+}
+
 
 //vrati true kdyz jsou odlisne, jinak true
 bool FiniteAutomata::changeRule(ComputationalRules oldrule, ComputationalRules newrule)

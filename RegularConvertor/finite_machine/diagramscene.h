@@ -1,17 +1,23 @@
 #ifndef MYQGRAPHICSSCENE_H
 #define MYQGRAPHICSSCENE_H
 
+//pocet pokusu umistit uzel bez kolize s ostatnimi
+#define NUM_OF_TRYES 1000
+
 #include <QGraphicsScene>
 #include <QtCore>
 #include <QtGui>
 #include "arrow.h"
 #include "finiteautomata.h"
-
+#include "statenode.h"
+class StateNode;
+class Arrow;
 class DiagramScene : public QGraphicsScene
 {
     Q_OBJECT
 signals:
     //void deleteSelected();
+    void sendErrorMessage(QString message);
 public:
     DiagramScene(FiniteAutomata* _FA, QWidget *parent);
     //~DiagramScene();
@@ -21,95 +27,33 @@ public:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
     Mode getMode();
-    //void emitDeleteSelected()
-    //{emit deleteSelected();}
+    StateNode* startingState;
+    Arrow* getArrow(StateNode* from, StateNode* to);
 
 
 public slots:
     void setMode(Mode mode);
     void changeSelected();
     void deleteSelected();
+    void addNodes(QSet<QString> nodes);
+    void removeNodes(QSet<QString> nodes);
+    void setStartNode(QString nodeName);
+    void addEndingNodes(QSet <QString> nodes);
+    void removeEndingNodes(QSet <QString> nodes);
+    void addEdges(QSet <ComputationalRules> rules);
+    void removeEdges(QSet <ComputationalRules> rules);
 
 private:
     bool clicked;
     QGraphicsLineItem *actLine;
     FiniteAutomata* FA;
+    QPoint randGeneratePos();
+    //automaticaly place new node
+    void addNode(QString node);
+    StateNode* getNodeByName(QString nodeName);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
-
-    //    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
-//    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
 };
 
 #endif // MYQGRAPHICSSCENE_H
-
-
-//#ifndef DIAGRAMSCENE_H
-//#define DIAGRAMSCENE_H
-
-//#include <QGraphicsScene>
-//#include "diagramitem.h"
-//#include "diagramtextitem.h"
-
-//class QGraphicsSceneMouseEvent;
-//class QMenu;
-//class QPointF;
-//class QGraphicsLineItem;
-//class QFont;
-//class QGraphicsTextItem;
-//class QColor;
-
-//class DiagramScene : public QGraphicsScene
-//{
-//    Q_OBJECT
-
-//public:
-//    enum Mode { InsertItem, InsertLine, InsertText, MoveItem };
-
-//    DiagramScene(QMenu *itemMenu, QObject *parent = 0);
-//    QFont font() const
-//        { return myFont; }
-//    QColor textColor() const
-//        { return myTextColor; }
-//    QColor itemColor() const
-//        { return myItemColor; }
-//    QColor lineColor() const
-//        { return myLineColor; }
-//    void setLineColor(const QColor &color);
-//    void setTextColor(const QColor &color);
-//    void setItemColor(const QColor &color);
-//    void setFont(const QFont &font);
-
-//public slots:
-//    void setMode(Mode mode);
-//    void setItemType(DiagramItem::DiagramType type);
-//    void editorLostFocus(DiagramTextItem *item);
-
-//signals:
-//    void itemInserted(DiagramItem *item);
-//    void textInserted(QGraphicsTextItem *item);
-//    void itemSelected(QGraphicsItem *item);
-
-//protected:
-//    void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
-//    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
-//    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
-
-//private:
-//    bool isItemChange(int type);
-
-//    DiagramItem::DiagramType myItemType;
-//    QMenu *myItemMenu;
-//    Mode myMode;
-//    bool leftButtonDown;
-//    QPointF startPoint;
-//    QGraphicsLineItem *line;
-//    QFont myFont;
-//    DiagramTextItem *textItem;
-//    QColor myTextColor;
-//    QColor myItemColor;
-//    QColor myLineColor;
-//};
-
-//#endif

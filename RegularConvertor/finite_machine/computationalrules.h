@@ -26,6 +26,11 @@ public:
                     (this->symbol==secondRule.symbol) &&
                      this->to == secondRule.to);
         }
+    ComputationalRules& operator=(const ComputationalRules& rule) const
+    {
+         ComputationalRules returnRule(rule.from,rule.to,rule.symbol);
+        return returnRule;
+    }
     QString from;
     QString to;
     QString symbol;

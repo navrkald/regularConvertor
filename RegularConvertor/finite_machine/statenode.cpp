@@ -13,37 +13,37 @@ int StateNode::type() const
 
 StateNode::StateNode(DiagramScene* scene, FiniteAutomata* _FA)
 {
+
     FA = _FA;
+    myscene = scene;
     node_name = FA->createUniqueName();
 
     FA->addState(node_name);
-//    mytext = new myQGraphicTextItem(this);
-//    mytext->setPlainText(node_name);
-//    int x = mytext->x() - mytext->boundingRect().width() / 2;
-//    int y = mytext->y() - mytext->boundingRect().height() / 2;
-//    mytext->setPos(x, y);
+    firstInit();
+    connect(this,SIGNAL(sendErrorMessage(QString)),scene,SIGNAL(sendErrorMessage(QString)));
+}
 
-//    text = new QGraphicsTextItem(this);
-//    text->setTextInteractionFlags(Qt::TextEditable|Qt::TextSelectableByMouse);
-//    text->setPlainText("toto je text");
-//    int x = text->x() - text->boundingRect().width() / 2;
-//    int y = text->y() - text->boundingRect().height() / 2;
-//    text->setPos(x, y);
-
+StateNode::StateNode(DiagramScene *scene, FiniteAutomata *_FA, QString uniqueName)
+{
+    FA = _FA;
     myscene = scene;
-    radius = NODE_RADIUS;
-    nodeBrush = new QBrush(Qt::yellow);
-    //nodeBrush->setColor(Qt::darkBlue);
+    node_name = uniqueName;
+    firstInit();
+}
 
-    nodePen.setColor(Qt::black);
-    nodePen.setWidth(NODE_PEN_WIDTH);
-    selected = false;
-    pressed = false;
-//    setFlag(ItemIsMovable);
-//    setFlag(QGraphicsItem::ItemIsSelectable);
-    setFlag(QGraphicsItem::ItemIsMovable, true);
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+void StateNode::firstInit()
+{
+        this->endingState = false;
+        radius = NODE_RADIUS;
+        nodeBrush = new QBrush(Qt::yellow);
+
+        nodePen.setColor(Qt::black);
+        nodePen.setWidth(NODE_PEN_WIDTH);
+        selected = false;
+        pressed = false;
+        setFlag(QGraphicsItem::ItemIsMovable, true);
+        setFlag(QGraphicsItem::ItemIsSelectable, true);
+        setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
 StateNode::~StateNode()
@@ -51,23 +51,15 @@ StateNode::~StateNode()
     removeArrows();
 }
 
-//StateNode::~StateNode()
-//{
-//    delete nodeBrush;
-//    std::cout << "~test()" << std::endl;
-//}
-
 QRectF StateNode::boundingRect() const
 {
-    QRectF textRect = recalculateTextSpace();
-    QRectF defaultRect = QRectF(-radius - NODE_PEN_WIDTH / 2, -radius - NODE_PEN_WIDTH / 2,
-                  radius*2 + NODE_PEN_WIDTH, radius*2 + NODE_PEN_WIDTH);
-    defaultRect.adjust(-padding,-padding,padding,padding);
-    if(textRect.width() > defaultRect.width())
-        return textRect;
+    if(myscene->startingState == this)
+        return elipseBoundingRect().adjusted(-START_STATE_ARROW_LENTH,0,+START_STATE_ARROW_LENTH,0);
     else
-        return defaultRect;
+        return elipseBoundingRect();
 }
+
+
 
 void StateNode::removeArrow(Arrow *arrow)
 {
@@ -77,14 +69,25 @@ void StateNode::removeArrow(Arrow *arrow)
         arrows.removeAt(index);
 }
 
-void StateNode::setStartinState(bool _startingState)
+void StateNode::setStartinState()
 {
-    startingState = _startingState;
+    if(myscene->startingState != NULL)
+    {
+        myscene->startingState->prepareGeometryChange();
+    }
+    myscene->startingState = this;
+    FA->changeStartState(getName());
     update();
 }
 
 void StateNode::setEndingState(bool _endingState)
 {
+    //setup FA
+    if(_endingState)
+        FA->addFinalState(getName());
+    else
+        FA->removeFinalState(getName());
+
     endingState = _endingState;
     update();
 }
@@ -94,14 +97,14 @@ void StateNode::removeArrows()
     foreach (Arrow *arrow, arrows) {
         //arrow->startItem()->removeArrow(arrow);
         //arrow->endItem()->removeArrow(arrow);
-        //scene()->removeItem(arrow);
         delete arrow;
     }
 }
 
 void StateNode::addArrow(Arrow *arrow)
 {
-    arrows.append(arrow);
+    if(!arrows.contains(arrow))
+        arrows.append(arrow);
 }
 
 QVariant StateNode::itemChange(GraphicsItemChange change, const QVariant &value)
@@ -147,8 +150,30 @@ void StateNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     {
         painter->setPen(nodePen);
     }
-    painter->drawEllipse(boundingRect());
-    painter->drawText(boundingRect(), Qt::AlignCenter, node_name);
+    painter->drawEllipse(elipseBoundingRect());
+    painter->drawText(elipseBoundingRect(), Qt::AlignCenter, node_name);
+    if(this->endingState)
+    {
+        QRectF smalerRect = elipseBoundingRect();
+        smalerRect.setWidth(smalerRect.width()-ENDING_STATE_PAADING);
+        smalerRect.setHeight(smalerRect.height()-ENDING_STATE_PAADING);
+        smalerRect.moveCenter(elipseBoundingRect().center());
+        painter->setBrush(Qt::NoBrush);
+        painter->setPen(nodePen);
+        painter->drawEllipse(smalerRect);
+    }
+    if(myscene->startingState == this)
+    {
+        qreal centerLeft_y = elipseBoundingRect().bottom() - elipseBoundingRect().height()/2.0;
+        qreal centerLeft_x = elipseBoundingRect().left();
+        QPen startStateArrowPen;
+        startStateArrowPen.setColor(Qt::black);
+        startStateArrowPen.setWidth(START_STATE_ARROW_PEN_WIDTH);
+        painter->setPen(startStateArrowPen);
+        painter->drawLine(centerLeft_x,centerLeft_y,centerLeft_x-START_STATE_ARROW_LENTH,centerLeft_y);
+        painter->drawLine(centerLeft_x,centerLeft_y,centerLeft_x-START_STATE_ARROW_LENTH/2,centerLeft_y-elipseBoundingRect().height()/4.0);
+        painter->drawLine(centerLeft_x,centerLeft_y,centerLeft_x-START_STATE_ARROW_LENTH/2,centerLeft_y+elipseBoundingRect().height()/4.0);
+    }
 }
 
 
@@ -170,8 +195,6 @@ void StateNode::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     pressed = false;
     update();
     QGraphicsItem::mouseReleaseEvent(event);
-    //if(myscene->getMode() == DiagramScene::DeleteNode)
-    //    myscene->emitDeleteSelected();
 }
 
 void StateNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -180,7 +203,20 @@ void StateNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     {
         QString text = QInputDialog::getText(event->widget(),tr("New node name dialog"),tr("Enter unigue node name"),QLineEdit::Normal,node_name);
         if(!text.isEmpty())
-            changeName(text);
+        {
+            if(FA->renameState(this->node_name,text))
+            {
+                changeName(text);
+            }
+            else
+            {
+                QString message = tr("Uzel se stejnym jmenem jiz existuje!");
+                errorMessage.showMessage(message);
+                errorMessage.exec();
+                emit sendErrorMessage(message);
+
+            }
+        }
     }
 
     //QGraphicsItem::mouseDoubleClickEvent(event);
@@ -193,11 +229,11 @@ void StateNode::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QCheckBox *setStartStateCheckbox = new QCheckBox(tr("start state"),&myContextMenu);
     QCheckBox *setFinalStateCheckbox = new QCheckBox(tr("final state"),&myContextMenu);
 
-    setStartStateCheckbox->setChecked(startingState);
+    setStartStateCheckbox->setChecked(myscene->startingState == this);
     setFinalStateCheckbox->setChecked(endingState);
 
-    connect(setStartStateCheckbox, SIGNAL(toggled(bool)), this,SLOT(setEndingState(bool)));
-    connect(setFinalStateCheckbox, SIGNAL(toggled(bool)), this,SLOT(setStartinState(bool)));
+    connect(setStartStateCheckbox, SIGNAL(toggled(bool)), this,SLOT(setStartinState()));
+    connect(setFinalStateCheckbox, SIGNAL(toggled(bool)), this,SLOT(setEndingState(bool)));
 
     //create QWidgetAction
     QWidgetAction *setStartStateAction = new QWidgetAction(&myContextMenu);
@@ -242,31 +278,49 @@ QRectF StateNode::recalculateTextSpace() const
     return rect;
 }
 
+QRectF StateNode::elipseBoundingRect() const
+{
+    QRectF textRect = recalculateTextSpace();
+    QRectF defaultRect = QRectF(-radius - NODE_PEN_WIDTH / 2, -radius - NODE_PEN_WIDTH / 2,
+                  radius*2 + NODE_PEN_WIDTH, radius*2 + NODE_PEN_WIDTH);
+    defaultRect.adjust(-padding,-padding,padding,padding);
+    if(textRect.width() > defaultRect.width())
+    {
+        return textRect;
+    }
+    else
+    {
+        return defaultRect;
+    }
+}
+
 bool StateNode::changeName(QString new_name)
 {
-    if(!isNameUnique(new_name))
-    {
-        return false;
-    }
+    //if(!isNameUnique(new_name))
+    //{
+    //    return false;
+    //}
 
     node_name = new_name;
     update();
-    //todo
     return true;
+}
+
+void StateNode::setNameWithoutCheck(QString node_name)
+{
+    this->node_name = node_name;
+    update();
+}
+
+QString StateNode::getName()
+{
+    return node_name;
 }
 
 bool StateNode::isNameUnique(QString s)
 {
     return FA->isStateUnique(s);
 }
-
-//QStringList StateNode::getAllNodenames()
-//{
-//    //TODO
-//    QStringList names;
-//    QList<QGraphicsItem *> items = myscene->items();
-//    return NULL;
-//}
 
 
 

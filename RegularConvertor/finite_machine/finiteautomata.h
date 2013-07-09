@@ -29,7 +29,7 @@ public slots:
     //Nemuzu odstaranit stav pokud do nej vede sipka
     //Pokud ostranim stav, do ktereho vede sipka muzu ukazat uzivateli varovani
     bool removeState(QString stateName);
-    void renameState(QString oldStateName, QString newStateName);
+    bool renameState(QString oldStateName, QString newStateName);
     void changeStartState(QString StateName);
     void addFinalState(QString StateName);
     void removeFinalState(QString StateName);
@@ -38,6 +38,7 @@ public slots:
     //TODO parametry
     bool addRule(ComputationalRules newrule);
     void removeRule(ComputationalRules rule);
+    bool changeSymbolInRule(ComputationalRules rule, QString symbol);
     bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
 
 };

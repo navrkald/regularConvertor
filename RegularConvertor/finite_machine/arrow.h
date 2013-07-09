@@ -41,10 +41,14 @@
 #ifndef ARROW_H
 #define ARROW_H
 
+#define TEXT_DISTANCE 20
+#define LINES_DISTANCE 10
+
 #include <QGraphicsLineItem>
 #include <QtWidgets>
 #include "statenode.h"
 #include "finiteautomata.h"
+#include "symbolsinputdialog.h"
 
 class QGraphicsPolygonItem;
 class QGraphicsLineItem;
@@ -60,33 +64,47 @@ public:
     ~Arrow();
     enum { Type = UserType + 2 };
 
-     Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA,
-       QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA, QStringList symbol,
+    QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
 
-     int type() const
-         { return Type; }
-     QRectF boundingRect() const;
-     QPainterPath shape() const;
-     void setColor(const QColor &color)
-         { myColor = color; }
-     StateNode *startItem() const
-         { return myStartItem; }
-     StateNode *endItem() const
-         { return myEndItem; }
-
-     void updatePosition();
-
- protected:
-     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                QWidget *widget = 0);
-
- private:
+    int type() const { return Type; }
+    QRectF boundingRect() const;
+    QPainterPath shape() const;
+    void setColor(const QColor &color) { myColor = color; }
+    StateNode *startItem() const { return myStartItem; }
+    StateNode *endItem() const { return myEndItem; }
+    void addSymbol(QString symbol);
+    //return true if there are no aditonal symbols
+    bool removeSymbol(QString symbol);
+    void updatePosition();
+    StateNode *myStartItem;
+    StateNode *myEndItem;
+    QStringList symbols;
+protected:
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+            QWidget *widget = 0);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+private:
      FiniteAutomata* FA;
-     StateNode *myStartItem;
-     StateNode *myEndItem;
+
+     QString displayText;
      QColor myColor;
      QPolygonF arrowHead;
+     QPolygonF selfArrowHead;
      long int debugCounter;
+     QPointF textPos() const;
+     QPolygonF SelfArrowHead();
+     QPointF getDistancePoint() const;
+     //Between same nodes are arrows with oposit direction
+     bool arrowHasSibling() const;
+     QPointF getStartItemPos() const;
+     QPointF getEndItemPos()const;
+     //pro vypocet jakym smerem se ma sipka posunout, je to proto, aby se opacne sipky mezi stejnymi
+     //uzly neprekrivali
+     QPointF perpendicularDifference(QLineF line, qreal distance)const;
+     QRectF recalculateTextSpace() const;
  };
 
- #endif
+#endif
+
+

@@ -23,11 +23,26 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->graphicsView1->show();
     //ui->graphicsView2->show();
 
+    FA1_widget = new FA_widget(this);
+    FA2_widget = new FA_widget(this);
+    QGridLayout* layout  = dynamic_cast<QGridLayout*> (ui->centralWidget->layout());
+    if(layout != NULL)
+    {
+        layout->addWidget(FA1_widget);
+        layout->addWidget(FA2_widget);
+    }
+
+    statusBarTimeout = 5000; //5 second
+
+
+
     deleteShortCut = new QShortcut(QKeySequence::Delete, this);
-    connect( deleteShortCut, SIGNAL(activated()), ui->FA1_widget->scene, SLOT(deleteSelected()));
-    connect( deleteShortCut, SIGNAL(activated()), ui->FA2_widget->scene, SLOT(deleteSelected()));
+    connect( deleteShortCut, SIGNAL(activated()), FA1_widget->scene, SLOT(deleteSelected()));
+    connect( deleteShortCut, SIGNAL(activated()), FA2_widget->scene, SLOT(deleteSelected()));
     connect( deleteShortCut, SIGNAL(activated()), this, SLOT(testing_slot()));
-    testing_slot();
+
+    connect(FA1_widget,SIGNAL(errorMessageSignal(QString)),this, SLOT(myStatusbarShowMessage(QString)));
+    connect(FA1_widget->scene,SIGNAL(sendErrorMessage(QString)),this,SLOT(myStatusbarShowMessage(QString)));
     //connect( scene1, SIGNAL(deleteSelected()), this, SLOT(deleteItem()));
 
     //connect(ui->AddNodeBut,SIGNAL(clicked()), scene,SLOT(setMode(DiagramScene::AddNode)));
@@ -42,4 +57,9 @@ MainWindow::~MainWindow()
 void MainWindow::testing_slot()
 {
     qDebug() <<"Testing slot launched!";
+}
+
+void MainWindow::myStatusbarShowMessage(QString message)
+{
+    this->ui->statusBar->showMessage(message,statusBarTimeout);
 }

@@ -24,26 +24,6 @@
     <property name="verticalSpacing">
      <number>0</number>
     </property>
-    <item row="0" column="1">
-     <widget class="QTabWidget" name="tabWidget_3">
-      <widget class="QWidget" name="tab_5">
-       <attribute name="title">
-        <string>Tab 1</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="tab_6">
-       <attribute name="title">
-        <string>Tab 2</string>
-       </attribute>
-      </widget>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="FA_widget" name="FA1_widget" native="true"/>
-    </item>
-    <item row="0" column="0">
-     <widget class="FA_widget" name="FA2_widget" native="true"/>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -67,17 +47,6 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>FA_widget</class>
-   <extends>QWidget</extends>
-   <header location="global">finite_machine/fa_widget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroup"/>
- </buttongroups>
 </ui>

@@ -1,6 +1,5 @@
 #include <QApplication>
 #include "mainwindow.h"
-#include "finite_machine/graphviz.h"
 #include <QDebug>
 
 int main(int argc, char *argv[])
@@ -41,6 +40,7 @@ int main(int argc, char *argv[])
     w.show();
 
     return a.exec();
+    return 0;
 }
 
 //#include <graphviz/cgraph.h>

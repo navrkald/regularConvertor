@@ -1,7 +1,11 @@
 #ifndef MULTISELECTCOMPLETER_H
 #define MULTISELECTCOMPLETER_H
 #include <QCompleter>
-#include <QtWidgets>
+#if QT_VERSION >= 0x050000
+    #include <QtWidgets>
+#else
+    #include <QtGui>
+#endif
 
 class MultiSelectCompleter : public QCompleter
 {

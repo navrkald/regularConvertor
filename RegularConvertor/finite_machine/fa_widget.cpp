@@ -1,7 +1,6 @@
 #include "fa_widget.h"
 #include "ui_fa_widget.h"
 #include <QRegExpValidator>
-#include "graphviz.h"
 FA_widget::FA_widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FA_widget)

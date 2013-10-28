@@ -22,7 +22,6 @@ SOURCES += main.cpp\
     finite_machine/fa_widget.cpp \
     finite_machine/multiselectcompleter.cpp \
     finite_machine/editruledialog.cpp \
-    finite_machine/graphviz.cpp \
     finite_machine/symbolsinputdialog.cpp
 
 HEADERS  += mainwindow.h \
@@ -34,7 +33,6 @@ HEADERS  += mainwindow.h \
     finite_machine/fa_widget.h \
     finite_machine/multiselectcompleter.h \
     finite_machine/editruledialog.h \
-    finite_machine/graphviz.h \
     finite_machine/symbolsinputdialog.h
 
 FORMS    += mainwindow.ui \
@@ -44,6 +42,6 @@ FORMS    += mainwindow.ui \
 
 CONFIG += static
 
-QMAKE_CFLAGS_DEBUG += -I/usr/local/include/graphviz -Wall -g -O2
-QMAKE_LFLAGS += -L/usr/local/lib -lgvc -lcgraph -lcdt
-INCLUDEPATH += /usr/include/graphviz
+#QMAKE_CFLAGS_DEBUG += -I/usr/local/include/graphviz -Wall -g -O2
+#QMAKE_LFLAGS += -L/usr/local/lib -lgvc -lcgraph -lcdt
+#INCLUDEPATH += /usr/include/graphviz

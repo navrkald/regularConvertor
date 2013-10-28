@@ -14,7 +14,11 @@
 #include "arrow.h"
 #include "diagramscene.h"
 #include <QInputDialog>
-#include <QtWidgets>
+#if QT_VERSION >= 0x050000
+    #include <QtWidgets>
+#else
+    #include <QtGui>
+#endif
 #include "finiteautomata.h"
 
 class Arrow;

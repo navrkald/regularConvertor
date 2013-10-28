@@ -45,7 +45,11 @@
 #define LINES_DISTANCE 10
 
 #include <QGraphicsLineItem>
-#include <QtWidgets>
+#if QT_VERSION >= 0x050000
+    #include <QtWidgets>
+#else
+    #include <QtGui>
+#endif
 #include "statenode.h"
 #include "finiteautomata.h"
 #include "symbolsinputdialog.h"

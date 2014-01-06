@@ -45,11 +45,7 @@
 #define LINES_DISTANCE 10
 
 #include <QGraphicsLineItem>
-#if QT_VERSION >= 0x050000
-    #include <QtWidgets>
-#else
-    #include <QtGui>
-#endif
+#include <QtWidgets>
 #include "statenode.h"
 #include "finiteautomata.h"
 #include "symbolsinputdialog.h"
@@ -102,11 +98,13 @@ private:
      //Between same nodes are arrows with oposit direction
      bool arrowHasSibling() const;
      QPointF getStartItemPos() const;
-     QPointF getEndItemPos()const;
+     QPointF getEndItemPos() const;
      //pro vypocet jakym smerem se ma sipka posunout, je to proto, aby se opacne sipky mezi stejnymi
      //uzly neprekrivali
      QPointF perpendicularDifference(QLineF line, qreal distance)const;
      QRectF recalculateTextSpace() const;
+     QPointF findEllipseSegmentIntersections(QRectF rect, QPointF pt1, QPointF pt2, bool segment_only = false) const;
+     QPointF intersectionPoint1(StateNode *circle, QLineF *line) const;
  };
 
 #endif

@@ -1,6 +1,7 @@
 #include "fa_widget.h"
 #include "ui_fa_widget.h"
 #include <QRegExpValidator>
+//#include "graphviz.h"
 FA_widget::FA_widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FA_widget)
@@ -218,13 +219,13 @@ void FA_widget::updateStates()
     QList <QString> items = FA->states.toList();
     qSort(items.begin(),items.end());
     ui->startStateComboBox->addItems(items);
-    int indexOfCombobox = ui->startStateComboBox->findText(FA->starState);
+    int indexOfCombobox = ui->startStateComboBox->findText(FA->startState);
     ui->startStateComboBox->setCurrentIndex(indexOfCombobox);
-    if(FA->starState == "")
+    if(FA->startState == "")
     {//if start state wasn't defined define it
         ui->startStateComboBox->setCurrentIndex(0);
-        FA->starState = ui->startStateComboBox->itemText(0);
-        emit setStartNode(FA->starState);
+        FA->startState = ui->startStateComboBox->itemText(0);
+        emit setStartNode(FA->startState);
     }
 
     //This block of code update ending state validator and completer
@@ -249,7 +250,7 @@ void FA_widget::on_startStateComboBox_activated(const QString &arg1)
     statesEdited(); //zavolame explicitne protoze "strati fokus, tak aby to fungovalo"
     if(arg1 != "")
     {
-        FA->starState = QString(arg1);
+        FA->startState = QString(arg1);
         emit setStartNode(arg1);
     }
 }

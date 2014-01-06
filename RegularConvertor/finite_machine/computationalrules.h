@@ -1,16 +1,19 @@
 #ifndef COMPUTATIONALRULES_H
 #define COMPUTATIONALRULES_H
 
-#include <QObject>
+//#include <QObject>
 #include <QRegExp>
 #include <QDebug>
-class ComputationalRules : public QObject
+
+#define EPSILON "ε"
+
+class ComputationalRules// : public QObject
 {
-    Q_OBJECT
+//    Q_OBJECT
 public:
-    explicit ComputationalRules(QObject *parent = 0);
-    ComputationalRules(QString _from, QString _to, QString _symbol, QObject *parent = 0);
-    ComputationalRules(QString rule, QObject *parent = 0);
+    explicit ComputationalRules();
+    ComputationalRules(QString _from, QString _to, QString _symbol);
+    ComputationalRules(QString rule);
     ComputationalRules(const ComputationalRules& object);//Toto je kopirovaci konstruktor
     QString toString() {return from + " " + symbol + "-> " + to;}
 
@@ -26,7 +29,7 @@ public:
                     (this->symbol==secondRule.symbol) &&
                      this->to == secondRule.to);
         }
-    ComputationalRules& operator=(const ComputationalRules& rule) const
+    const ComputationalRules operator=(const ComputationalRules& rule) const
     {
          ComputationalRules returnRule(rule.from,rule.to,rule.symbol);
         return returnRule;
@@ -36,9 +39,9 @@ public:
     QString symbol;
 private:
 
-signals:
+//signals:
     
-public slots:
+//public slots:
     
 };
 uint qHash(const ComputationalRules& rule);

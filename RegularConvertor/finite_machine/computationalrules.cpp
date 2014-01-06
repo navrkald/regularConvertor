@@ -1,19 +1,18 @@
 #include "computationalrules.h"
 
-ComputationalRules::ComputationalRules(QObject *parent) :
-    QObject(parent)
+ComputationalRules::ComputationalRules()
 {
 
 }
 
-ComputationalRules::ComputationalRules(QString _from, QString _to, QString _symbol, QObject *parent) : QObject(parent)
+ComputationalRules::ComputationalRules(QString _from, QString _to, QString _symbol)
 {
     from = _from;
     to = _to;
     symbol= _symbol;
 }
 
-ComputationalRules::ComputationalRules(QString rule, QObject *parent) : QObject(parent)
+ComputationalRules::ComputationalRules(QString rule)
 {
     QRegExp ruleRegExp("^(\\w+)\\s+(\\w)\\s*->\\s*(\\w+)$");
     if(ruleRegExp.exactMatch(rule))

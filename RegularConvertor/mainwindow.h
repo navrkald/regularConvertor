@@ -7,7 +7,8 @@
 #include "finite_machine/diagramscene.h"
 #include <QShortcut>
 #include "finite_machine/fa_widget.h"
-
+#include "reg_exp/regextextedit.h"
+#include "reg_exp/regexpwidget.h"
 namespace Ui {
 class MainWindow;
 }
@@ -32,8 +33,9 @@ private:
 
     FA_widget* FA1_widget;
     FA_widget* FA2_widget;
-
+    //RegExpTextEdit* regExpWidget;
     int statusBarTimeout;
+    RegExpWidget* regExpWidget;
 
     //void deleteSelected(QGraphicsScene *scene);
 

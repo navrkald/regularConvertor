@@ -2,7 +2,7 @@
 #define STATENODE_H
 
 
-#define NODE_RADIUS 25.0
+#define NODE_RADIUS 15.0
 #define NODE_PEN_WIDTH 1.0
 #define ENDING_STATE_PAADING 10
 #define START_STATE_ARROW_LENTH 40
@@ -14,11 +14,7 @@
 #include "arrow.h"
 #include "diagramscene.h"
 #include <QInputDialog>
-#if QT_VERSION >= 0x050000
-    #include <QtWidgets>
-#else
-    #include <QtGui>
-#endif
+#include <QtWidgets>
 #include "finiteautomata.h"
 
 class Arrow;
@@ -50,6 +46,7 @@ public:
     void removeArrow(Arrow *arrow);
     bool changeName(QString new_name);
     void setNameWithoutCheck(QString node_name);
+    QRectF elipseBoundingRect() const;
     QList<Arrow *> arrows;
     QString getName();
     QErrorMessage errorMessage;
@@ -70,7 +67,7 @@ private:
     //methods
     void firstInit();
     QRectF recalculateTextSpace() const;
-    QRectF elipseBoundingRect() const;
+
     bool isNameUnique(QString s);
     QStringList getAllNodenames();
 

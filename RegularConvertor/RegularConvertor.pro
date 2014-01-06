@@ -22,7 +22,18 @@ SOURCES += main.cpp\
     finite_machine/fa_widget.cpp \
     finite_machine/multiselectcompleter.cpp \
     finite_machine/editruledialog.cpp \
-    finite_machine/symbolsinputdialog.cpp
+    finite_machine/symbolsinputdialog.cpp \
+    reg_exp/regexp.cpp \
+    algorithms/algorithmwidget.cpp \
+    algorithms/algorithm.cpp \
+    algorithms/regexptofa.cpp \
+    reg_exp/parserstack.cpp \
+    reg_exp/regexpparser.cpp \
+    reg_exp/regexpnode.cpp \
+    reg_exp/charpos.cpp \
+    reg_exp/regexptreemodel.cpp \
+    reg_exp/regextextedit.cpp \
+    reg_exp/regexpwidget.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -33,15 +44,28 @@ HEADERS  += mainwindow.h \
     finite_machine/fa_widget.h \
     finite_machine/multiselectcompleter.h \
     finite_machine/editruledialog.h \
-    finite_machine/symbolsinputdialog.h
+    finite_machine/symbolsinputdialog.h \
+    reg_exp/regexp.h \
+    algorithms/algorithmwidget.h \
+    algorithms/algorithm.h \
+    algorithms/regexptofa.h \
+    reg_exp/parserstack.h \
+    reg_exp/regexpparser.h \
+    reg_exp/charpos.h \
+    reg_exp/rules_defines.h \
+    reg_exp/regexpnode.h \
+    reg_exp/regexptreemodel.h \
+    reg_exp/regextextedit.h \
+    reg_exp/regexpwidget.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \
     finite_machine/editruledialog.ui \
-    finite_machine/symbolsinputdialog.ui
+    finite_machine/symbolsinputdialog.ui \
+    algorithms/algorithmwidget.ui \
+    reg_exp/regexpwidget.ui
 
 CONFIG += static
 
-#QMAKE_CFLAGS_DEBUG += -I/usr/local/include/graphviz -Wall -g -O2
-#QMAKE_LFLAGS += -L/usr/local/lib -lgvc -lcgraph -lcdt
-#INCLUDEPATH += /usr/include/graphviz
+RESOURCES += \
+    pictures.qrc

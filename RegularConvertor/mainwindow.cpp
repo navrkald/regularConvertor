@@ -24,12 +24,14 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->graphicsView2->show();
 
     FA1_widget = new FA_widget(this);
-    FA2_widget = new FA_widget(this);
+    //FA2_widget = new FA_widget(this);
+    this->regExpWidget = new RegExpWidget(this);
+
     QGridLayout* layout  = dynamic_cast<QGridLayout*> (ui->centralWidget->layout());
     if(layout != NULL)
     {
-        layout->addWidget(FA1_widget);
-        layout->addWidget(FA2_widget);
+        layout->addWidget(FA1_widget,0,0);
+        layout->addWidget(regExpWidget,1,0);
     }
 
     statusBarTimeout = 5000; //5 second
@@ -38,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     deleteShortCut = new QShortcut(QKeySequence::Delete, this);
     connect( deleteShortCut, SIGNAL(activated()), FA1_widget->scene, SLOT(deleteSelected()));
-    connect( deleteShortCut, SIGNAL(activated()), FA2_widget->scene, SLOT(deleteSelected()));
+    //connect( deleteShortCut, SIGNAL(activated()), FA2_widget->scene, SLOT(deleteSelected()));
     connect( deleteShortCut, SIGNAL(activated()), this, SLOT(testing_slot()));
 
     connect(FA1_widget,SIGNAL(errorMessageSignal(QString)),this, SLOT(myStatusbarShowMessage(QString)));

@@ -149,7 +149,7 @@ void DiagramScene::removeNodes(QSet<QString> nodes)
         if(node == startingState)
         {
             startingState = NULL;
-            FA->starState = "";
+            FA->startState = "";
         }
         removeItem(node);
         foreach(Arrow* arrowToRemove,node->arrows)
@@ -185,7 +185,7 @@ void DiagramScene::deleteSelected()
             if(node == startingState)
             {
                 startingState = NULL;
-                FA->starState = "";
+                FA->startState = "";
             }
             removeItem(node);
             foreach(Arrow* arrowToRemove,node->arrows)

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RegExpWidget</class>
+ <widget class="QWidget" name="RegExpWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>689</width>
+    <height>538</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="RegExpTextEdit" name="regExpTextEdit"/>
+   </item>
+   <item>
+    <widget class="QTreeView" name="treeView">
+     <property name="styleSheet">
+      <string notr="true"> QTreeView::branch:has-siblings:!adjoins-item {
+     border-image: url(:/reg_exp/reg_exp/pictures/vline.png) 2;
+ }
+
+ QTreeView::branch:has-siblings:adjoins-item {
+     border-image: url(:/reg_exp/reg_exp/pictures/branch-more.png) 2;
+ }
+
+ QTreeView::branch:!has-children:!has-siblings:adjoins-item {
+     border-image: url(:/reg_exp/reg_exp/pictures/branch-end.png) url(:/reg_exp/reg_exp/pictures/branch-end.png) url(:/reg_exp/reg_exp/pictures/branch-end.png) url(:/reg_exp/reg_exp/pictures/branch-end.png);
+ }
+
+ QTreeView::branch:has-children:!has-siblings:closed,
+ QTreeView::branch:closed:has-children:has-siblings {
+         border-image: none;
+         image: url(:/reg_exp/reg_exp/pictures/branch-closed.png);
+ }
+
+ QTreeView::branch:open:has-children:!has-siblings,
+ QTreeView::branch:open:has-children:has-siblings  {
+         border-image: none;
+         image: url(:/reg_exp/reg_exp/pictures/branch-open.png);
+ }</string>
+     </property>
+     <property name="showDropIndicator" stdset="0">
+      <bool>false</bool>
+     </property>
+     <property name="autoExpandDelay">
+      <number>1</number>
+     </property>
+     <property name="indentation">
+      <number>50</number>
+     </property>
+     <property name="rootIsDecorated">
+      <bool>true</bool>
+     </property>
+     <property name="itemsExpandable">
+      <bool>true</bool>
+     </property>
+     <property name="animated">
+      <bool>true</bool>
+     </property>
+     <property name="allColumnsShowFocus">
+      <bool>true</bool>
+     </property>
+     <property name="wordWrap">
+      <bool>false</bool>
+     </property>
+     <property name="expandsOnDoubleClick">
+      <bool>true</bool>
+     </property>
+     <attribute name="headerVisible">
+      <bool>false</bool>
+     </attribute>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>RegExpTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>reg_exp/regextextedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

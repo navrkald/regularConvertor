@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/reg_exp">
+        <file>reg_exp/pictures/branch-closed.png</file>
+        <file>reg_exp/pictures/branch-end.png</file>
+        <file>reg_exp/pictures/branch-more.png</file>
+        <file>reg_exp/pictures/branch-open.png</file>
+        <file>reg_exp/pictures/vline.png</file>
+    </qresource>
+    <qresource prefix="/new/prefix1"/>
+</RCC>

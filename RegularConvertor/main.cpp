@@ -88,13 +88,20 @@ int main(int argc, char *argv[])
     B.rules.insert(ComputationalRules("8","8","e"));
     B.rules.insert(ComputationalRules("8","4","f"));
 
-    //FiniteAutomata C = FiniteAutomata::concatenate(A,B);
+    FiniteAutomata C = FiniteAutomata::concatenate(A,B);
     //FiniteAutomata C = A +B;
     //FiniteAutomata C = FiniteAutomata::iteration(A);
 
     RegExp re("((abcd)*+5+6)*");
     RegExpToFA re_to_fa(re);
     re_to_fa.computeSolution();
+
+    FiniteAutomata correct_FA;
+    correct_FA.alphabet = QSet<QString>() << "a" << "b" << "c" <<"d"<<"5"<<"6";
+
+    //if (re_to_fa.re.rootNode->correct_FA == correct_FA)
+
+
 
     RegExpParser parser;
     parser.parse("(ab)*");

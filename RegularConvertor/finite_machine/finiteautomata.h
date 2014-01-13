@@ -9,7 +9,7 @@ class FiniteAutomata //: public QObject
 {
 //    Q_OBJECT
 public:
-    explicit FiniteAutomata(QObject *parent = 0);
+    explicit FiniteAutomata();
     FiniteAutomata(QString symbol);
     void init(QString symbol);
     int nextId;
@@ -51,6 +51,6 @@ public:
 };
 
 FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2);
-
+bool operator==(const FiniteAutomata FA1, const FiniteAutomata FA2);
 
 #endif // FINITEAUTOMATA_H

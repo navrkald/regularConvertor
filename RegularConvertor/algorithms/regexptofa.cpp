@@ -1,6 +1,7 @@
 #include "regexptofa.h"
 #include <QtGlobal>
 
+
 RegExpToFA::RegExpToFA(RegExp _re)
 {
     this->re  = _re;

@@ -7,7 +7,8 @@ FA_widget::FA_widget(QWidget *parent) :
     ui(new Ui::FA_widget)
 {
     ui->setupUi(this);
-    FA = new FiniteAutomata(this);
+
+    FA = new FiniteAutomata();
 
     scene = new DiagramScene(FA, this);
     ui->graphicsView->setScene(scene);

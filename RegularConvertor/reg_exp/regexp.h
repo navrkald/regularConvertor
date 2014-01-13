@@ -3,16 +3,16 @@
 
 #include <QObject>
 #include <QString>
-#include "reg_exp/regexpparser.h"
-#include "reg_exp/charpos.h"
-#include "reg_exp/regexpnode.h"
+#include "regexpparser.h"
+#include "charpos.h"
+#include "regexpnode.h"
 
 class RegExp
 {
 public:
     explicit RegExp();
     explicit RegExp(QString _regexp, QObject *parent = 0);
-    bool parse(QString _strToVal);
+    bool init(QString _strToVal);
     QList<CharPos> addConcOperator(QString _reqExp);
     RegExpParser parser;
     RegExpNode* rootNode;
@@ -32,7 +32,7 @@ private:
 //    static void movePos(int lenth);
     static bool isAlphabetChar(QString symbol);
     static QString precedenceTable[7][7];
-    void init();
+    void clean();
 
 };
 #endif // REGEXP_H

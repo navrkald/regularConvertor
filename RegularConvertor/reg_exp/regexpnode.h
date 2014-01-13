@@ -4,7 +4,7 @@
 #include <QList>
 #include <QString>
 #include "charpos.h"
-#include "finite_machine/finiteautomata.h"
+#include "../finite_machine/finiteautomata.h"
 
 #define CONCATENATION "."
 #define ALTERNATION "+"

@@ -42,7 +42,7 @@ QSize RegExpTextEdit::sizeHint() const
 void RegExpTextEdit::validateText()
 {
     QString text = this->toPlainText();
-    if(re->parse(text))
+    if(re->init(text))
     {
         this->setStyleSheet("#" + this->objectName() + "{background: white;}");
         emit regExpChanged();

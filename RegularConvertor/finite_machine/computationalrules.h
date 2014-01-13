@@ -4,7 +4,6 @@
 //#include <QObject>
 #include <QRegExp>
 #include <QDebug>
-
 #define EPSILON "ε"
 
 class ComputationalRules// : public QObject
@@ -15,7 +14,8 @@ public:
     ComputationalRules(QString _from, QString _to, QString _symbol);
     ComputationalRules(QString rule);
     ComputationalRules(const ComputationalRules& object);//Toto je kopirovaci konstruktor
-    QString toString() {return from + " " + symbol + "-> " + to;}
+    QString toString() const{return from + " " + symbol + "-> " + to;}
+
 
     QString getFrom(){return from;}
     QString getTo(){return from;}
@@ -44,5 +44,11 @@ private:
 //public slots:
     
 };
+
+bool operator<(const ComputationalRules& r1, const ComputationalRules& r2);
+QDebug operator<<(QDebug dbg, const ComputationalRules& rule);
+bool lessThan(const ComputationalRules& r1, const ComputationalRules& r2);
+
+
 uint qHash(const ComputationalRules& rule);
 #endif // COMPUTATIONALRULES_H

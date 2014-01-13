@@ -1,6 +1,6 @@
 #include "finiteautomata.h"
 
-FiniteAutomata::FiniteAutomata(QObject *parent) //:
+FiniteAutomata::FiniteAutomata() //:
     //QObject(parent)
 {
     nextId = 0;
@@ -209,7 +209,7 @@ bool FiniteAutomata::addRule(ComputationalRules rule)
 {
     if(rules.contains(rule))
     {
-        qDebug()<<"Mnozina pravidel uz obsahuje "<<rule.from<<" " <<rule.symbol<<"->"<<rule.to;
+        //qDebug()<<"Mnozina pravidel uz obsahuje "<<rule.from<<" " <<rule.symbol<<"->"<<rule.to;
         return false;
     }
     rules.insert(rule);
@@ -250,15 +250,28 @@ FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2)
 {
     FiniteAutomata FA;
 
+    //prejmenovani stavu
+    FiniteAutomata FA2_uniq_states = FA2;
+    QSet <QString> same_states = FA1.states & FA2.states; //prunik názvů stavů
+    if(same_states.size() != 0)
+    {
+        foreach (QString str, same_states)
+        {
+            FA2_uniq_states.renameState(str,str + "'");
+        }
+    }
+
     //stavy
-    FA.states = FA1.states + FA2.states;
+    FA.states = FA1.states + FA2_uniq_states.states;
     QString newStartState = FA.createUniqueName();
     FA.states.insert(newStartState);
     QString newEndState = FA.createUniqueName();
     FA.states.insert(newEndState);
 
+
+
     // abeceda
-    FA.alphabet = FA1.alphabet + FA2.alphabet;
+    FA.alphabet = FA1.alphabet + FA2_uniq_states.alphabet;
 
     //koncove stavy
     FA.finalStates.insert(newEndState);
@@ -267,18 +280,39 @@ FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2)
     FA.startState = newStartState;
 
     //pravidla
-    FA.rules = FA1.rules + FA2.rules;
+    FA.rules = FA1.rules + FA2_uniq_states.rules;
     FA.addRule(ComputationalRules(newStartState,FA1.startState,EPSILON));
-    FA.addRule(ComputationalRules(newStartState,FA2.startState,EPSILON));
+    FA.addRule(ComputationalRules(newStartState,FA2_uniq_states.startState,EPSILON));
     foreach(QString end_state ,FA1.finalStates)
     {
         FA.addRule(ComputationalRules(end_state, newEndState, EPSILON));
     }
-    foreach(QString end_state, FA2.finalStates)
+    foreach(QString end_state, FA2_uniq_states.finalStates)
     {
         FA.addRule(ComputationalRules(end_state, newEndState, EPSILON));
     }
 
     return FA;
 
+}
+
+
+bool operator ==(const FiniteAutomata FA1, const FiniteAutomata FA2)
+{
+    if (FA1.states != FA2.states)
+        return false;
+
+    if (FA1.alphabet != FA2.alphabet)
+        return false;
+
+    if (FA1.startState != FA2.startState)
+        return false;
+
+    if (FA1.finalStates != FA2.finalStates)
+        return false;
+
+    if (FA1.rules != FA2.rules)
+        return false;
+
+    return true;
 }

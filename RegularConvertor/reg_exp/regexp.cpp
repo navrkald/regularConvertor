@@ -17,10 +17,10 @@ RegExp::RegExp()
 RegExp::RegExp(QString _regexp,QObject *parent)
 {
     regexp = _regexp;
-    parse(regexp);
+    init(regexp);
 }
 
-bool RegExp::parse(QString _strToVal)
+bool RegExp::init(QString _strToVal)
 {
     //init();
     regexp = _strToVal;
@@ -119,7 +119,7 @@ bool RegExp::isAlphabetChar(QString symbol)
     return symbol != "(" && symbol != ")" && symbol != "+" && symbol != "*";
 }
 
-void RegExp::init()
+void RegExp::clean()
 {
     delete rootNode;
     rootNode = 0;

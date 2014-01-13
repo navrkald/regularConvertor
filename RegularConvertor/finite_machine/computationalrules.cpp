@@ -32,6 +32,28 @@ ComputationalRules::ComputationalRules(const ComputationalRules& object)
     this->symbol = object.symbol;
 }
 
+
+
+bool lessThan(const ComputationalRules& r1, const ComputationalRules& r2)
+{
+    QString s1 = r1.toString();
+    QString s2 = r2.toString();
+    bool return_val = s1 < s2;
+    return  return_val;
+}
+
+bool operator<(const ComputationalRules& r1, const ComputationalRules& r2)
+{
+    return lessThan(r1,r2);
+}
+
+QDebug operator<<(QDebug dbg, const ComputationalRules& rule)
+{
+
+    dbg.nospace() << rule.toString()+'\n';
+    return dbg.maybeSpace();
+}
+
 uint qHash(const ComputationalRules &rule)
 {
     //TODO vylepsit tento hash

@@ -12,9 +12,11 @@ build-RegularConvertor-Desktop-Debug/
 build-RegularConvertor-Desktop-Release/
 RegularConvertor-build-desktop-Qt_4_8_5__4_8_5__Debug/
 RegularConvertor-build-desktop-Qt_4_8_5__4_8_5__Release/
+/build-RegularConvertorUnitTests-Desktop_Qt_5_0_2_GCC_64bit-Debug/
 
 # User build settings #
 #######################
 /RegularConvertor/RegularConvertor.pro.user*
+/RegularConvertorUnitTests/RegularConvertorUnitTests.pro.user*
 flatt/
 .project

@@ -2,10 +2,10 @@
 #define ALGORITHM_H
 #include <QVector>
 #include <QString>
-class algorithm
+class Algorithm
 {
 public:
-    algorithm();
+    Algorithm();
     QVector <QString> steps;
     struct steps
     {

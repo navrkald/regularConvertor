@@ -5,15 +5,16 @@
 RegExpToFA::RegExpToFA(RegExp _re)
 {
     this->re  = _re;
+    postOrder(re.rootNode);
 }
 
 void RegExpToFA::computeSolution()
 {
-    QList<RegExpNode*> availableNodes;
-    while((availableNodes = getAvailableNodes()).count() != 0)
+    while(nodesToProcede.count() != 0)
     {
-       RegExpNode* processedNode = chooseNode();
-       processedNode->processed = true;
+       RegExpNode* processedNode = nodesToProcede.first();//chooseRandomNode();
+       nodesToProcede.pop_front();
+
        if(processedNode->isLeaf())
        {
            processedNode->correct_FA.init(processedNode->str);
@@ -45,12 +46,24 @@ void RegExpToFA::computeSolution()
 
 
 
-RegExpNode* RegExpToFA::chooseNode()
+RegExpNode* RegExpToFA::chooseRandomNode()
 {
    QList<RegExpNode*> availableNodes = getAvailableNodes();
    int count = availableNodes.count();
    int random = qrand () % count;
    return availableNodes.at(random);
+}
+
+void RegExpToFA::postOrder(RegExpNode* node)
+{
+    //if (node->children.count() != 0)
+    //{
+        foreach(RegExpNode* node1,node->children)
+        {
+            postOrder(node1);
+        }
+    //}
+    nodesToProcede.append(node);
 }
 
 QList<RegExpNode*> RegExpToFA::getAvailableNodes()
@@ -65,6 +78,8 @@ QList<RegExpNode*> RegExpToFA::getAvailableNodes()
 
         if( !node->processed && node->childrenProcessed() )
         {
+            //availableNodes.append(node);
+            node->processed = true;
             availableNodes.append(node);
         }
         else

@@ -24,7 +24,9 @@ SOURCES += maintest.cpp\
     ../RegularConvertor/reg_exp/regexpnode.cpp \
     ../RegularConvertor/reg_exp/parserstack.cpp \
     ../RegularConvertor/reg_exp/charpos.cpp \
-    ../RegularConvertor/algorithms/algorithm.cpp
+    ../RegularConvertor/algorithms/algorithm.cpp \
+    algorithms/removeepsilon_test.cpp \
+    ../RegularConvertor/algorithms/removeepsilon.cpp
 
 
 HEADERS  += \
@@ -40,7 +42,9 @@ HEADERS  += \
     ../RegularConvertor/reg_exp/regexpnode.h \
     ../RegularConvertor/reg_exp/parserstack.h \
     ../RegularConvertor/reg_exp/charpos.h \
-    ../RegularConvertor/algorithms/algorithm.h
+    ../RegularConvertor/algorithms/algorithm.h \
+    algorithms/removeepsilon_test.h \
+    ../RegularConvertor/algorithms/removeepsilon.h
 
 FORMS    +=
 

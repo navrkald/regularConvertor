@@ -282,7 +282,7 @@ QPoint DiagramScene::randGeneratePos()
 
 void DiagramScene::addNode(QString node_name)
 {
-    StateNode* newNode = new StateNode(this, FA, node_name);
+    StateNode* newNode = new StateNode(this, this->FA, node_name);
     this->addItem(newNode);
     int least_num_colide_items = std::numeric_limits<int>::max();
     QPoint best_point;

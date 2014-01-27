@@ -92,7 +92,8 @@ int main(int argc, char *argv[])
     //FiniteAutomata C = A +B;
     //FiniteAutomata C = FiniteAutomata::iteration(A);
 
-    RegExp re("((abcd)*+5+6)*");
+    RegExp re("((ab)*+c)*");
+    //RegExp re("((abcd)*+5+6)*");
     RegExpToFA re_to_fa(re);
     re_to_fa.computeSolution();
 

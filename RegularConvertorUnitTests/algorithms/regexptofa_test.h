@@ -2,7 +2,9 @@
 #define REGEXPTOFA_TEST_H
 
 #include <QObject>
-#include "../../RegularConvertor/algorithms/algorithm.h"
+#include <QtTest/QtTest>
+//#include "../../RegularConvertor/algorithms/algorithm.h"
+#include "../../RegularConvertor/algorithms/regexptofa.h"
 #include "../../RegularConvertor/reg_exp/regexp.h"
 
 class RegExpToFA_test : public QObject

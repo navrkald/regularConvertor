@@ -1,5 +1,5 @@
 #include "algorithm.h"
 
-algorithm::algorithm()
+Algorithm::Algorithm()
 {
 }

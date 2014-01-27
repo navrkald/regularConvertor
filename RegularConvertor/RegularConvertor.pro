@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     reg_exp/charpos.cpp \
     reg_exp/regexptreemodel.cpp \
     reg_exp/regextextedit.cpp \
-    reg_exp/regexpwidget.cpp
+    reg_exp/regexpwidget.cpp \
+    algorithms/removeepsilon.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -56,7 +57,8 @@ HEADERS  += mainwindow.h \
     reg_exp/regexpnode.h \
     reg_exp/regexptreemodel.h \
     reg_exp/regextextedit.h \
-    reg_exp/regexpwidget.h
+    reg_exp/regexpwidget.h \
+    algorithms/removeepsilon.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \

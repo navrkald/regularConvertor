@@ -44,9 +44,13 @@ public:
     void removeSymbol(QString symbol);
     //TODO parametry
     bool addRule(ComputationalRules newrule);
+    bool addRule(QString from, QString to, QString symbol);
     void removeRule(ComputationalRules rule);
     bool changeSymbolInRule(ComputationalRules rule, QString symbol);
     bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
+    QSet <QString> epsilonCloser(QString state);
+    QSet <QString> epsilonNeighbours(QString state);
+    QSet <ComputationalRules> nonEpsilonRulesOf(QString state);
 
 };
 

@@ -1,21 +1,21 @@
 #include <QtTest/QtTest>
 #include "finite_machine/finiteautomata_test.h"
+#include "algorithms/regexptofa_test.h"
+#include "algorithms/removeepsilon_test.h"
 
 int main()
 
 {
 
-  FiniteAutomata_test FA;
-
-  QTest::qExec(&FA);
-
+  FiniteAutomata_test test1;
+  QTest::qExec(&test1);
 
 
-  //SquareTest sq;
+  RegExpToFA_test test2;
+  QTest::qExec(&test2);
 
-  //QTest::qExec(&sq);
-
-
+  RemoveEpsilon_test test3;
+  QTest::qExec(&test3);
 
   return 0;
 

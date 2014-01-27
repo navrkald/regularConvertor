@@ -4,14 +4,17 @@
 #include "reg_exp/regexp.h"
 #include "finite_machine/finiteautomata.h"
 
-class RegExpToFA : public algorithm
+class RegExpToFA : public Algorithm
 {
 public:
     RegExpToFA(RegExp _re);
     void computeSolution();
     QList <RegExpNode*> getAvailableNodes();
-    RegExpNode* chooseNode();
+    RegExpNode* chooseRandomNode();
     RegExp re;
+private:
+    void postOrder(RegExpNode* node);
+    QList<RegExpNode*> nodesToProcede;
 };
 
 #endif // REGEXPTOFA_H

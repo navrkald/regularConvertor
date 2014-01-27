@@ -1,5 +1,8 @@
 #include "finiteautomata.h"
 
+//#define NEW_NUM_NAME
+#define NEW_COMMA_NAME
+
 FiniteAutomata::FiniteAutomata() //:
     //QObject(parent)
 {
@@ -16,11 +19,13 @@ FiniteAutomata::FiniteAutomata(QString symbol)
 void FiniteAutomata::init(QString symbol)
 {
     nextId = 0;
-    QString newStartState =  this->createUniqueName();
-    QString newEndState = this->createUniqueName();
+
     //stavy
+    QString newStartState =  this->createUniqueName();
     this->addState(newStartState);
+    QString newEndState = this->createUniqueName();
     this->addState(newEndState);
+
     //symbol
     if(symbol != EPSILON)
     {
@@ -31,7 +36,7 @@ void FiniteAutomata::init(QString symbol)
     //startovni stav
     this->startState = newStartState;
     //koncovy stav
-    this->addFinalState(newStartState);
+    this->addFinalState(newEndState);
 }
 
 QString FiniteAutomata::createUniqueName()
@@ -47,7 +52,10 @@ FiniteAutomata FiniteAutomata::concatenate(FiniteAutomata FA1, FiniteAutomata FA
 {
     FiniteAutomata FA;
 
+    //stavy
     FiniteAutomata FA2_uniq_states = FA2;
+
+    FA.states = FA1.states + FA2.states;
 
     //prejmenovani stavu
     QSet <QString> same_states = FA1.states & FA2.states; //prunik názvů stavů
@@ -55,15 +63,29 @@ FiniteAutomata FiniteAutomata::concatenate(FiniteAutomata FA1, FiniteAutomata FA
     {
         foreach (QString str, same_states)
         {
-            FA2_uniq_states.renameState(str,str + "'");
+
+#ifdef NEW_NUM_NAME
+            QString uniqName = FA.createUniqueName();
+#endif
+
+#ifdef NEW_COMMA_NAME
+            QString uniqName = str;
+            do
+            {
+                uniqName += "'";
+            }
+            while(!FA.isStateUnique(uniqName));
+#endif
+
+            FA2_uniq_states.renameState(str,uniqName);
+            FA.addState(uniqName);
         }
     }
 
-    //stavy
-    FA.states = FA1.states + FA2.states + FA2_uniq_states.states;  //sjednocení názvů stavů stavů
+
 
     // abeceda
-    FA.alphabet = FA1.alphabet + FA2_uniq_states.alphabet;
+    FA.alphabet = FA1.alphabet + FA2.alphabet;
 
     //koncove stavy
     FA.finalStates = FA2_uniq_states.finalStates;
@@ -216,6 +238,12 @@ bool FiniteAutomata::addRule(ComputationalRules rule)
     return true;
 }
 
+bool FiniteAutomata::addRule(QString from, QString to, QString symbol)
+{
+    ComputationalRules newRule(from,to,symbol);
+    return addRule(newRule);
+}
+
 void FiniteAutomata::removeRule(ComputationalRules rule)
 {
     rules.remove(rule);
@@ -245,10 +273,66 @@ bool FiniteAutomata::changeRule(ComputationalRules oldrule, ComputationalRules n
     }
 }
 
+QSet<QString> FiniteAutomata::epsilonCloser(QString state)
+{
+    //empty set
+    QSet<QString> Q_act;
+    if (!this->states.contains(state))
+    {
+        return Q_act;
+    }
+
+    //search epsilon closer
+    Q_act.insert(state);
+    QSet<QString> Q_prew;
+    do
+    {
+        Q_prew = Q_act;
+        foreach (QString state1, Q_act)
+            Q_act += epsilonNeighbours(state1);
+    }while(Q_act != Q_prew);
+    return Q_act;
+}
+
+QSet<QString> FiniteAutomata::epsilonNeighbours(QString state)
+{
+    QSet<QString> epsilon_neighbours;
+    if (!this->states.contains(state))
+    {
+        return epsilon_neighbours;
+    }
+    else
+    {
+        foreach(ComputationalRules rule,this->rules)
+        {
+            if(rule.from == state && rule.symbol == EPSILON)
+                epsilon_neighbours.insert(rule.to);
+        }
+        return epsilon_neighbours;
+    }
+
+}
+
+QSet<ComputationalRules> FiniteAutomata::nonEpsilonRulesOf(QString state)
+{
+    QSet<ComputationalRules> non_epsilon_rules;
+    foreach(ComputationalRules rule, this->rules)
+    {
+        if(rule.from == state && rule.symbol != EPSILON)
+        {
+            non_epsilon_rules.insert(rule);
+        }
+    }
+    return non_epsilon_rules;
+}
+
 
 FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2)
 {
     FiniteAutomata FA;
+
+    //stavy
+    FA.states = FA1.states + FA2.states;
 
     //prejmenovani stavu
     FiniteAutomata FA2_uniq_states = FA2;
@@ -257,12 +341,25 @@ FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2)
     {
         foreach (QString str, same_states)
         {
-            FA2_uniq_states.renameState(str,str + "'");
+#ifdef NEW_NUM_NAME
+            QString uniqName = FA.createUniqueName();
+#endif
+
+#ifdef NEW_COMMA_NAME
+            QString uniqName = str;
+            do
+            {
+                uniqName += "'";
+            }
+            while(!FA.isStateUnique(uniqName));
+#endif
+
+            FA2_uniq_states.renameState(str,uniqName);
+            FA.addState(uniqName);
         }
     }
 
-    //stavy
-    FA.states = FA1.states + FA2_uniq_states.states;
+
     QString newStartState = FA.createUniqueName();
     FA.states.insert(newStartState);
     QString newEndState = FA.createUniqueName();

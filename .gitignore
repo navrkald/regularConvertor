@@ -13,6 +13,8 @@ build-RegularConvertor-Desktop-Release/
 RegularConvertor-build-desktop-Qt_4_8_5__4_8_5__Debug/
 RegularConvertor-build-desktop-Qt_4_8_5__4_8_5__Release/
 /build-RegularConvertorUnitTests-Desktop_Qt_5_0_2_GCC_64bit-Debug/
+/build-RegularConvertor-Desktop_qt52-Debug/
+/build-RegularConvertorUnitTests-Desktop_qt52-Debug/
 
 # User build settings #
 #######################

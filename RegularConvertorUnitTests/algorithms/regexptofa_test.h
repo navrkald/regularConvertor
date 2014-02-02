@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QtTest/QtTest>
-//#include "../../RegularConvertor/algorithms/algorithm.h"
 #include "../../RegularConvertor/algorithms/regexptofa.h"
 #include "../../RegularConvertor/reg_exp/regexp.h"
 

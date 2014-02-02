@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     reg_exp/regexptreemodel.cpp \
     reg_exp/regextextedit.cpp \
     reg_exp/regexpwidget.cpp \
-    algorithms/removeepsilon.cpp
+    algorithms/removeepsilon.cpp \
+    algorithms/fatodfa.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -58,7 +59,8 @@ HEADERS  += mainwindow.h \
     reg_exp/regexptreemodel.h \
     reg_exp/regextextedit.h \
     reg_exp/regexpwidget.h \
-    algorithms/removeepsilon.h
+    algorithms/removeepsilon.h \
+    algorithms/fatodfa.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \

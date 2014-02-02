@@ -12,7 +12,7 @@ TARGET = maintest
 TEMPLATE = app
 INCLUDEPATH += ../RegularConvertor
 
-SOURCES += maintest.cpp\
+SOURCES +=\
     finite_machine/finiteautomata_test.cpp\
     \
     ../RegularConvertor/finite_machine/finiteautomata.cpp\
@@ -26,7 +26,10 @@ SOURCES += maintest.cpp\
     ../RegularConvertor/reg_exp/charpos.cpp \
     ../RegularConvertor/algorithms/algorithm.cpp \
     algorithms/removeepsilon_test.cpp \
-    ../RegularConvertor/algorithms/removeepsilon.cpp
+    ../RegularConvertor/algorithms/removeepsilon.cpp \
+    ../RegularConvertor/algorithms/fatodfa.cpp \
+    main_test.cpp \
+    algorithms/fatodfa_test.cpp
 
 
 HEADERS  += \
@@ -44,7 +47,9 @@ HEADERS  += \
     ../RegularConvertor/reg_exp/charpos.h \
     ../RegularConvertor/algorithms/algorithm.h \
     algorithms/removeepsilon_test.h \
-    ../RegularConvertor/algorithms/removeepsilon.h
+    ../RegularConvertor/algorithms/removeepsilon.h \
+    ../RegularConvertor/algorithms/fatodfa.h \
+    algorithms/fatodfa_test.h
 
 FORMS    +=
 

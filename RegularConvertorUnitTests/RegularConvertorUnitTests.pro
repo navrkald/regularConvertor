@@ -29,7 +29,10 @@ SOURCES +=\
     ../RegularConvertor/algorithms/removeepsilon.cpp \
     ../RegularConvertor/algorithms/fatodfa.cpp \
     main_test.cpp \
-    algorithms/fatodfa_test.cpp
+    algorithms/fatodfa_test.cpp \
+    ../RegularConvertor/set/set_of_sets.cpp \
+    ../RegularConvertor/algorithms/dfatominfa.cpp \
+    algorithms/dfatominfa_test.cpp
 
 
 HEADERS  += \
@@ -49,7 +52,10 @@ HEADERS  += \
     algorithms/removeepsilon_test.h \
     ../RegularConvertor/algorithms/removeepsilon.h \
     ../RegularConvertor/algorithms/fatodfa.h \
-    algorithms/fatodfa_test.h
+    algorithms/fatodfa_test.h \
+    ../RegularConvertor/set/set_of_sets.h \
+    ../RegularConvertor/algorithms/dfatominfa.h \
+    algorithms/dfatominfa_test.h
 
 FORMS    +=
 

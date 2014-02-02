@@ -82,6 +82,34 @@ void FiniteAutomata_test::initTestCase()
     epsilon_FA.rules.insert(ComputationalRules("5","4",EPSILON));
     epsilon_FA.rules.insert(ComputationalRules("6","7",EPSILON));
 
+
+    unreachabe_states_FA.alphabet << "a" << "b";
+    unreachabe_states_FA.states << "s" << "q1" << "q2" << "f";
+    unreachabe_states_FA.startState = "s";
+    unreachabe_states_FA.finalStates << "f" << "q2";
+    unreachabe_states_FA.addRule("s","q1","a");
+    unreachabe_states_FA.addRule("q2","q1","a");
+    unreachabe_states_FA.addRule("q2","s","b");
+    unreachabe_states_FA.addRule("q1","f","b");
+
+
+   nonterminating_states_FA.alphabet << "a" << "b";
+   nonterminating_states_FA.states << "s" << "q1" << "q2" << "q3" << "f";
+   nonterminating_states_FA.startState = "s";
+   nonterminating_states_FA.finalStates << "f" << "q2";
+   nonterminating_states_FA.addRule("s","q1","a");
+   nonterminating_states_FA.addRule("q1","q2","a");
+   nonterminating_states_FA.addRule("q1","q3","b");
+   nonterminating_states_FA.addRule("q1","f","b");
+
+   not_makeWellDefined_FA.alphabet << "a" << "b" << "c";
+   not_makeWellDefined_FA.states << "s" << "f";
+   not_makeWellDefined_FA.startState = "s";
+   not_makeWellDefined_FA.finalStates << "f";
+   not_makeWellDefined_FA.addRule("s", "s", "a");
+   not_makeWellDefined_FA.addRule("s", "f", "b");
+   not_makeWellDefined_FA.addRule("f", "f", "c");
+
     //
     // Check variables initialise
     //
@@ -196,6 +224,34 @@ void FiniteAutomata_test::initTestCase()
     epsilonCloser_2_check << "2" << "0" << "3" << "5" << "7" << "4" << "0''";
     epsilonCloser_6_check << "6" << "4" << "7" << "2" << "0" << "0''" << "3" << "5";
     epsilonCloser_3_check << "3" << "5" << "7" << "4" << "2" << "0" << "0''";
+
+
+    unreachabe_states_check_FA.alphabet << "a" << "b";
+    unreachabe_states_check_FA.states << "s" << "q1" << "f";
+    unreachabe_states_check_FA.startState = "s";
+    unreachabe_states_check_FA.finalStates << "f";
+    unreachabe_states_check_FA.addRule("s","q1","a");
+    unreachabe_states_check_FA.addRule("q1","f","b");
+
+
+    nonterminating_states_check_FA.alphabet << "a" << "b";
+    nonterminating_states_check_FA.states << "s" << "q1" << "q2" << "f";
+    nonterminating_states_check_FA.startState = "s";
+    nonterminating_states_check_FA.finalStates << "f" << "q2";
+    nonterminating_states_check_FA.addRule("s","q1","a");
+    nonterminating_states_check_FA.addRule("q1","f","b");
+    nonterminating_states_check_FA.addRule("q1","q2","a");
+
+    makeWellDefined_check_FA.alphabet << "a" << "b" << "c";
+    makeWellDefined_check_FA.states << "s" << "f" << "0";
+    makeWellDefined_check_FA.startState = "s";
+    makeWellDefined_check_FA.finalStates << "f";
+    makeWellDefined_check_FA.addRule("s", "s", "a");
+    makeWellDefined_check_FA.addRule("s", "f", "b");
+    makeWellDefined_check_FA.addRule("s", "0", "c");
+    makeWellDefined_check_FA.addRule("f", "f", "c");
+    makeWellDefined_check_FA.addRule("f", "0", "b");
+    makeWellDefined_check_FA.addRule("f", "0", "a");
 }
 
 void FiniteAutomata_test::concatenate_test()
@@ -232,6 +288,24 @@ void FiniteAutomata_test::epsilonCloser_test()
 
     QSet <QString> result3 = epsilon_FA.epsilonCloser("3");
     QCOMPARE(result3, epsilonCloser_3_check);
+}
+
+void FiniteAutomata_test::removeUnreachableStates_test()
+{
+    FiniteAutomata result = unreachabe_states_FA.removeUnreachableStates(unreachabe_states_FA);
+    QCOMPARE(unreachabe_states_check_FA, result);
+}
+
+void FiniteAutomata_test::removeNonTerminatingStates_test()
+{
+    FiniteAutomata result = nonterminating_states_FA.removeNonTerminatingStates(nonterminating_states_FA);
+    QCOMPARE(nonterminating_states_check_FA, result);
+}
+
+void FiniteAutomata_test::makeWellDefined_test()
+{
+    FiniteAutomata result = not_makeWellDefined_FA.makeWellDefined(not_makeWellDefined_FA);
+    QCOMPARE(makeWellDefined_check_FA, result);
 }
 
 void FiniteAutomata_test::cleanupTestCase()

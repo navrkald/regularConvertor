@@ -3,12 +3,13 @@
 
 #include "finite_machine/finiteautomata.h"
 #include <QtAlgorithms>
+#include "set/set_of_sets.h"
 class FaToDFA
 {
 public:
     FaToDFA(FiniteAutomata _FA);
     FiniteAutomata getDFA();
-    QString qsetToQstring(QSet<QString> set);
+
 private:
     FiniteAutomata FA;
 };

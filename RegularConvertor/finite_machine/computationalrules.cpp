@@ -59,3 +59,25 @@ uint qHash(const ComputationalRules &rule)
     //TODO vylepsit tento hash
     return 1;
 }
+
+
+QSet<QString> getFroms(QList<ComputationalRules> list)
+{
+    QSet<QString> froms;
+    foreach(ComputationalRules rule, list)
+    {
+        froms.insert(rule.from);
+    }
+    return froms;
+}
+
+
+QSet<QString> getTos(QList<ComputationalRules> list)
+{
+    QSet<QString> tos;
+    foreach(ComputationalRules rule, list)
+    {
+        tos.insert(rule.to);
+    }
+    return tos;
+}

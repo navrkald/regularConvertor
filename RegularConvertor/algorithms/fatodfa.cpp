@@ -5,34 +5,6 @@ FaToDFA::FaToDFA(FiniteAutomata _FA) : FA(_FA)
     ;
 }
 
-uint qHash(const QSet<QString>) {
-  uint seed = 0;
-
-//  for(auto x : c) {
-//    seed ^= qHash(x) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-//  }
-
-  return seed;
-}
-
-QString FaToDFA::qsetToQstring(QSet<QString> set)
-{
-    QList <QString> list = set.toList();
-    qSort(list);
-    //reverse list
-    //for(int k = 0; k < (list.size()/2); k++) list.swap(k,list.size()-(1+k));
-
-    QString string = "{";
-    foreach(QString s,list)
-    {
-        string+= s + ", ";
-    }
-    string.truncate(string.length() - 2); //remove last ", "
-    string+="}";
-    return string;
-}
-
-
 FiniteAutomata FaToDFA::getDFA()
 {
     FiniteAutomata FAd;

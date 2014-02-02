@@ -47,6 +47,178 @@ QString FiniteAutomata::createUniqueName()
     return QString::number(nextId);
 }
 
+QList<ComputationalRules> FiniteAutomata::findRule_Symbol(QString symbol)
+{
+    QList <ComputationalRules> rules;
+    foreach (ComputationalRules rule, this->rules)
+    {
+        if(rule.symbol == symbol)
+            rules.append(rule);
+    }
+    return rules;
+}
+
+QList<ComputationalRules> FiniteAutomata::findRule_FromSymbol(QString from, QString symbol)
+{
+    QList <ComputationalRules> rules;
+    foreach (ComputationalRules rule, this->rules)
+    {
+        if(rule.from == from && rule.symbol == symbol)
+            rules.append(rule);
+    }
+    return rules;
+}
+
+QList<ComputationalRules> FiniteAutomata::findRule_FromSymbol(QSet<QString> from, QString symbol)
+{
+    QList <ComputationalRules> rules;
+    foreach (ComputationalRules rule, this->rules)
+    {
+        foreach(QString f,from)
+        {
+            if(rule.from == f && rule.symbol == symbol)
+                rules.append(rule);
+        }
+    }
+    return rules;
+}
+
+QList<ComputationalRules> FiniteAutomata::findRule_From(QString from)
+{
+    QList <ComputationalRules> rules;
+    foreach (ComputationalRules rule, this->rules)
+    {
+        if(rule.from == from)
+            rules.append(rule);
+    }
+    return rules;
+}
+
+QList<QString> FiniteAutomata::findState_from(QString from)
+{
+    QList<QString> neighbours;
+    foreach(ComputationalRules rule, this->rules)
+    {
+        if (rule.from == from)
+            neighbours.append(rule.to);
+    }
+    return neighbours;
+}
+
+QList<QString> FiniteAutomata::findState_to(QString to)
+{
+    QList<QString> neighbours;
+    foreach(ComputationalRules rule, this->rules)
+    {
+        if (rule.to == to)
+            neighbours.append(rule.from);
+    }
+    return neighbours;
+}
+
+QList<QString> FiniteAutomata::getReachableStates()
+{
+    QString act_state;
+    QList <QString> availableStates;
+    QList <QString> visitedStates;
+    availableStates.append(this->startState);
+    do
+    {
+        act_state = availableStates.first();
+        availableStates.pop_front();
+        visitedStates.append(act_state);
+
+        QList <QString> neighbours = findState_from(act_state);
+        foreach (QString neighbour, neighbours)
+        {
+            if(!visitedStates.contains(neighbour))
+               availableStates.append(neighbour);
+        }
+    }while (!availableStates.empty());
+    return visitedStates;
+}
+
+QList<QString> FiniteAutomata::getReverseReachableStates()
+{
+    QString act_state;
+    QList <QString> availableStates;
+    QList <QString> visitedStates;
+    availableStates.append(this->finalStates.toList());
+    do
+    {
+        act_state = availableStates.first();
+        availableStates.pop_front();
+        visitedStates.append(act_state);
+
+        QList <QString> neighbours = findState_to(act_state);
+        foreach (QString neighbour, neighbours)
+        {
+            if(!visitedStates.contains(neighbour))
+               availableStates.append(neighbour);
+        }
+    }while (!availableStates.empty());
+    return visitedStates;
+}
+
+void FiniteAutomata::removeUnreachableStates()
+{
+    *this = this->removeUnreachableStates(*this);
+}
+
+void FiniteAutomata::removeNonTerminatingStates()
+{
+    *this = this->removeNonTerminatingStates(*this);
+}
+
+FiniteAutomata FiniteAutomata::makeWellDefined(FiniteAutomata FA)
+{
+    FiniteAutomata wellDefinedFA = FA;
+    wellDefinedFA.removeUnreachableStates();
+    wellDefinedFA.removeNonTerminatingStates();
+    QString uniqName = wellDefinedFA.createUniqueName();
+    foreach (QString state, wellDefinedFA.states)
+    {
+        foreach (QString symbol, wellDefinedFA.alphabet)
+        {
+             QList <ComputationalRules> rules = findRule_From(state);
+             bool searched = false;
+             foreach(ComputationalRules rule, rules)
+             {
+                 if(rule.symbol == symbol)
+                     searched = true;
+             }
+             if(!searched)
+             {
+                 wellDefinedFA.addState(uniqName);
+                 wellDefinedFA.addRule(state,uniqName,symbol);
+             }
+        }
+    }
+    return wellDefinedFA;
+}
+
+void FiniteAutomata::makeWellDefined()
+{
+    *this = this->makeWellDefined(*this);
+}
+
+FiniteAutomata FiniteAutomata::removeUnreachableStates(FiniteAutomata FA)
+{
+    FiniteAutomata clean_FA = FA;
+    QSet<QString> reachableStates = FA.getReachableStates().toSet();
+    QSet<QString> unReachableStates = FA.states - reachableStates;
+    clean_FA.removeStates(unReachableStates);
+    return clean_FA;
+}
+
+FiniteAutomata FiniteAutomata::removeNonTerminatingStates(FiniteAutomata FA)
+{
+    FiniteAutomata clean_FA = FA;
+    QSet <QString> terminating_states = FA.getReverseReachableStates().toSet();
+    QSet <QString> non_terminating_states = FA.states - terminating_states;
+    clean_FA.removeStates(non_terminating_states);
+    return clean_FA;
+}
 
 FiniteAutomata FiniteAutomata::concatenate(FiniteAutomata FA1, FiniteAutomata FA2)
 {
@@ -164,7 +336,22 @@ bool FiniteAutomata::addState(QString stateName)
 
 bool FiniteAutomata::removeState(QString stateName)
 {
-    return states.remove(stateName);
+    bool retval = this->states.remove(stateName);
+    removeFinalState(stateName);
+    foreach(ComputationalRules rule,this->rules)
+    {
+        if (rule.from == stateName || rule.to == stateName)
+            removeRule(rule);
+    }
+    return retval;
+}
+
+void FiniteAutomata::removeStates(QSet<QString> states)
+{
+    foreach (QString state, states)
+    {
+        removeState(state);
+    }
 }
 
 bool FiniteAutomata::renameState(QString oldStateName, QString newStateName)

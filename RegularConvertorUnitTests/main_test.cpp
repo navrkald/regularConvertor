@@ -3,7 +3,7 @@
 #include "algorithms/regexptofa_test.h"
 #include "algorithms/removeepsilon_test.h"
 #include "algorithms/fatodfa_test.h"
-
+#include "algorithms/dfatominfa_test.h"
 int main()
 
 {
@@ -20,6 +20,9 @@ int main()
 
   FaToDFA_test test4;
   QTest::qExec(&test4);
+
+  DFAtoMinFA_test test5;
+  QTest::qExec(&test5);
 
   return 0;
 

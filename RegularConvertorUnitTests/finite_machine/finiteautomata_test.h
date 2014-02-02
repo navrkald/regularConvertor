@@ -16,6 +16,11 @@ private:
     FiniteAutomata B;
     FiniteAutomata simpleFA;
     FiniteAutomata epsilon_FA;
+    FiniteAutomata unreachabe_states_FA;
+
+    FiniteAutomata nonterminating_states_FA;
+    FiniteAutomata nonterminating_states_check_FA;
+    FiniteAutomata not_makeWellDefined_FA;
 
     //Check variables
     FiniteAutomata concatenate_check;
@@ -25,7 +30,8 @@ private:
     QSet <QString> epsilonCloser_6_check;
     QSet <QString> epsilonCloser_2_check;
     QSet <QString> epsilonCloser_3_check;
-
+    FiniteAutomata unreachabe_states_check_FA;
+    FiniteAutomata makeWellDefined_check_FA;
 private slots:
     void initTestCase();
     void concatenate_test();
@@ -33,6 +39,9 @@ private slots:
     void simple_iterate_test();
     void iterate_test();
     void epsilonCloser_test();
+    void removeUnreachableStates_test();
+    void removeNonTerminatingStates_test();
+    void makeWellDefined_test();
     void cleanupTestCase();
 };
 

@@ -10,8 +10,8 @@ class FaToDFA_test : public QObject
     Q_OBJECT
 public:
     explicit FaToDFA_test(QObject *parent = 0);
-    FiniteAutomata FA;
-    FiniteAutomata DFA_check;
+    FiniteAutomata toDFA_FA1;
+    FiniteAutomata toDFA_FA1_check;
 
 private slots:
     void initTestCase();

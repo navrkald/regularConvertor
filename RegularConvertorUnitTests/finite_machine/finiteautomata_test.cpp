@@ -82,6 +82,33 @@ void FiniteAutomata_test::initTestCase()
     epsilon_FA.rules.insert(ComputationalRules("5","4",EPSILON));
     epsilon_FA.rules.insert(ComputationalRules("6","7",EPSILON));
 
+    remove_epsilon_FA1.states << "s" << "q1" << "q2" << "f";
+    remove_epsilon_FA1.alphabet << "a" << "b" << "c";
+    remove_epsilon_FA1.startState = "s";
+    remove_epsilon_FA1.finalStates << "s" << "q1" << "q2" << "f";
+    remove_epsilon_FA1.addRule("s","s","a");
+    remove_epsilon_FA1.addRule("s","q1",EPSILON);
+    remove_epsilon_FA1.addRule("q1","q1","b");
+    remove_epsilon_FA1.addRule("q1","f","b");
+    remove_epsilon_FA1.addRule("s","q2",EPSILON);
+    remove_epsilon_FA1.addRule("q2","q2","c");
+    remove_epsilon_FA1.addRule("q2","f","c");
+    remove_epsilon_FA1.addRule("f","f","a");
+    //
+    remove_epsilon_FA1_check.states << "s" << "q1" << "q2" << "f";
+    remove_epsilon_FA1_check.alphabet << "a" << "b" << "c";
+    remove_epsilon_FA1_check.startState = "s";
+    remove_epsilon_FA1_check.finalStates << "s" << "q1" << "q2" << "f";
+    remove_epsilon_FA1_check.addRule("s","s","a");
+    remove_epsilon_FA1_check.addRule("q1","q1","b");
+    remove_epsilon_FA1_check.addRule("f","f","a");
+    remove_epsilon_FA1_check.addRule("q2","q2","c");
+    remove_epsilon_FA1_check.addRule("s","q1","b");
+    remove_epsilon_FA1_check.addRule("q1","f","b");
+    remove_epsilon_FA1_check.addRule("s","f","b");
+    remove_epsilon_FA1_check.addRule("s","f","c");
+    remove_epsilon_FA1_check.addRule("s","q2","c");
+    remove_epsilon_FA1_check.addRule("q2","f","c");
 
     unreachabe_states_FA.alphabet << "a" << "b";
     unreachabe_states_FA.states << "s" << "q1" << "q2" << "f";
@@ -225,6 +252,33 @@ void FiniteAutomata_test::initTestCase()
     epsilonCloser_6_check << "6" << "4" << "7" << "2" << "0" << "0''" << "3" << "5";
     epsilonCloser_3_check << "3" << "5" << "7" << "4" << "2" << "0" << "0''";
 
+    toDFA_FA1.alphabet << "a" << "b" << "c";
+    toDFA_FA1.startState = "s";
+    toDFA_FA1.states << "s" << "q1" << "q2" << "f";
+    toDFA_FA1.finalStates << "f";
+    toDFA_FA1.addRule("s","s","a");
+    toDFA_FA1.addRule("f","f","a");
+    toDFA_FA1.addRule("s","q1","b");
+    toDFA_FA1.addRule("q1","q1","b");
+    toDFA_FA1.addRule("s","f","b");
+    toDFA_FA1.addRule("q1","f","b");
+    toDFA_FA1.addRule("s","f","c");
+    toDFA_FA1.addRule("s","q2","c");
+    toDFA_FA1.addRule("q2","q2","c");
+    toDFA_FA1.addRule("q2","f","c");
+
+    toDFA_FA1_check.alphabet << "a" << "b" << "c";
+    toDFA_FA1_check.startState = "{s}";
+    toDFA_FA1_check.states << "{s}" << "{f, q1}" << "{f, q2}" <<"{f}";
+    toDFA_FA1_check.finalStates << "{f, q2}" << "{f, q1}" << "{f}";
+    toDFA_FA1_check.addRule("{s}","{s}","a");
+    toDFA_FA1_check.addRule("{s}", "{f, q1}", "b");
+    toDFA_FA1_check.addRule("{s}", "{f, q2}", "c");
+    toDFA_FA1_check.addRule("{f, q1}" ,"{f, q1}", "b");
+    toDFA_FA1_check.addRule("{f, q1}" ,"{f}", "a");
+    toDFA_FA1_check.addRule("{f, q2}" ,"{f, q2}", "c");
+    toDFA_FA1_check.addRule("{f, q2}" ,"{f}", "a");
+    toDFA_FA1_check.addRule("{f}" ,"{f}", "a");
 
     unreachabe_states_check_FA.alphabet << "a" << "b";
     unreachabe_states_check_FA.states << "s" << "q1" << "f";
@@ -252,6 +306,41 @@ void FiniteAutomata_test::initTestCase()
     makeWellDefined_check_FA.addRule("f", "f", "c");
     makeWellDefined_check_FA.addRule("f", "0", "b");
     makeWellDefined_check_FA.addRule("f", "0", "a");
+
+    toMinFA_FA1.alphabet << "a" << "b";
+    toMinFA_FA1.states << "s" << "q1" << "q2" << "q3" << "q4" << "f";
+    toMinFA_FA1.startState = "s";
+    toMinFA_FA1.finalStates << "f" << "s";
+    toMinFA_FA1.addRule("q1","q1","a");
+    toMinFA_FA1.addRule("q2","q2","a");
+    toMinFA_FA1.addRule("s","f","a");
+    toMinFA_FA1.addRule("f","s","a");
+    toMinFA_FA1.addRule("q3","q4","a");
+    toMinFA_FA1.addRule("q4","q3","a");
+    toMinFA_FA1.addRule("q1","s","b");
+    toMinFA_FA1.addRule("q3","q1","b");
+    toMinFA_FA1.addRule("s","q3","b");
+    toMinFA_FA1.addRule("f","q4","b");
+    toMinFA_FA1.addRule("q2","f","b");
+    toMinFA_FA1.addRule("q4","q2","b");
+
+    toMinFA_FA1_check.alphabet << "a" << "b";
+    toMinFA_FA1_check.states << "{f, s}" << "{q1, q2}" << "{q3, q4}";
+    toMinFA_FA1_check.startState = "{f, s}";
+    toMinFA_FA1_check.finalStates << "{f, s}";
+    toMinFA_FA1_check.addRule("{f, s}", "{f, s}", "a");
+    toMinFA_FA1_check.addRule("{q1, q2}", "{q1, q2}", "a");
+    toMinFA_FA1_check.addRule("{q3, q4}", "{q3, q4}", "a");
+    toMinFA_FA1_check.addRule("{q1, q2}", "{f, s}", "b");
+    toMinFA_FA1_check.addRule("{f, s}", "{q3, q4}", "b");
+    toMinFA_FA1_check.addRule("{q3, q4}", "{q1, q2}", "b");
+
+    normalize_FA1.alphabet << "a" << "b";
+    normalize_FA1.states << "q0" <<"q1" << "q2" << "q3" << "q4";
+    normalize_FA1.startState = "q0";
+    normalize_FA1.finalStates << "q2";
+
+    normalize_FA1_check;
 }
 
 void FiniteAutomata_test::concatenate_test()
@@ -290,6 +379,19 @@ void FiniteAutomata_test::epsilonCloser_test()
     QCOMPARE(result3, epsilonCloser_3_check);
 }
 
+void FiniteAutomata_test::remove_epsilon_FA1_test()
+{
+    //TODO vymyslet priklad kde nebudou na konci po prevodu stejne koncove stavy
+    FiniteAutomata result = remove_epsilon_FA1.removeEpsilon(remove_epsilon_FA1);
+    QCOMPARE(remove_epsilon_FA1_check, result);
+}
+
+void FiniteAutomata_test::toDFA_test()
+{
+    FiniteAutomata result = toDFA_FA1.toDFA(toDFA_FA1);;
+    QCOMPARE(toDFA_FA1_check, result);
+}
+
 void FiniteAutomata_test::removeUnreachableStates_test()
 {
     FiniteAutomata result = unreachabe_states_FA.removeUnreachableStates(unreachabe_states_FA);
@@ -306,6 +408,17 @@ void FiniteAutomata_test::makeWellDefined_test()
 {
     FiniteAutomata result = not_makeWellDefined_FA.makeWellDefined(not_makeWellDefined_FA);
     QCOMPARE(makeWellDefined_check_FA, result);
+}
+
+void FiniteAutomata_test::toMinFA_test()
+{
+    FiniteAutomata result = toMinFA_FA1.toMinFA(toMinFA_FA1);
+    QCOMPARE (result, toMinFA_FA1_check);
+}
+
+void FiniteAutomata_test::normalize()
+{
+
 }
 
 void FiniteAutomata_test::cleanupTestCase()

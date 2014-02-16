@@ -13,7 +13,7 @@ public:
 
 private:
     bool canDivide(QString symbol, QSet< QSet <QString> > Qm, QSet<QString> X, QSet <QString> &X1, QSet <QString> &X2);
-    void doFision(QSet<QSet<QString> > &Qm, QSet<QString> X, QSet<QString> X1, QSet<QString> X2);
+    //void doFision(QSet<QSet<QString> > &Qm, QSet<QString> X, QSet<QString> X1, QSet<QString> X2);
 };
 
 #endif // DFATOMINFA_H

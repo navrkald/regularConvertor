@@ -54,13 +54,6 @@ bool DFAtoMinFA::canDivide(QString symbol, QSet< QSet <QString> > Qm, QSet<QStri
         return true;
 }
 
-void DFAtoMinFA::doFision(QSet<QSet<QString> > &Qm, QSet<QString> X, QSet<QString> X1, QSet<QString> X2)
-{
-    Qm.remove(X);
-    Qm.insert(X1);
-    Qm.insert(X2);
-}
-
 FiniteAutomata DFAtoMinFA::convert()
 {
     this->FA.makeWellDefined();
@@ -78,7 +71,12 @@ FiniteAutomata DFAtoMinFA::convert()
                 QSet <QString> X1;
                 QSet <QString> X2;
                 if((divided = canDivide(symbol, Qm, X, X1, X2)) == true)
-                    doFision(Qm, X, X1, X2);
+                {// Do fision
+                    Qm.remove(X);
+                    Qm.insert(X1);
+                    Qm.insert(X2);
+                }
+
             }
         }
     }while(divided);

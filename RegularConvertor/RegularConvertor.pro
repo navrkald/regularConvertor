@@ -4,13 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       += core gui widgets opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = RegularConvertor
 TEMPLATE = app
-
+LIBS += -lGL
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     algorithms/removeepsilon.cpp \
     algorithms/fatodfa.cpp \
     algorithms/dfatominfa.cpp \
-    set/set_of_sets.cpp
+    set/set_of_sets.cpp \
+    algorithms/htmldelegate.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -64,7 +65,8 @@ HEADERS  += mainwindow.h \
     algorithms/removeepsilon.h \
     algorithms/fatodfa.h \
     algorithms/dfatominfa.h \
-    set/set_of_sets.h
+    set/set_of_sets.h \
+    algorithms/htmldelegate.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \

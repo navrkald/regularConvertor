@@ -16,11 +16,27 @@ private:
     FiniteAutomata B;
     FiniteAutomata simpleFA;
     FiniteAutomata epsilon_FA;
+
+    FiniteAutomata remove_epsilon_FA1;
+    FiniteAutomata remove_epsilon_FA1_check;
+
+    FiniteAutomata toDFA_FA1;
+    FiniteAutomata toDFA_FA1_check;
+
     FiniteAutomata unreachabe_states_FA;
+    FiniteAutomata unreachabe_states_check_FA;
 
     FiniteAutomata nonterminating_states_FA;
     FiniteAutomata nonterminating_states_check_FA;
+
     FiniteAutomata not_makeWellDefined_FA;
+    FiniteAutomata makeWellDefined_check_FA;
+
+    FiniteAutomata toMinFA_FA1;
+    FiniteAutomata toMinFA_FA1_check;
+
+    FiniteAutomata normalize_FA1;
+    FiniteAutomata normalize_FA1_check;
 
     //Check variables
     FiniteAutomata concatenate_check;
@@ -30,8 +46,8 @@ private:
     QSet <QString> epsilonCloser_6_check;
     QSet <QString> epsilonCloser_2_check;
     QSet <QString> epsilonCloser_3_check;
-    FiniteAutomata unreachabe_states_check_FA;
-    FiniteAutomata makeWellDefined_check_FA;
+
+
 private slots:
     void initTestCase();
     void concatenate_test();
@@ -39,9 +55,13 @@ private slots:
     void simple_iterate_test();
     void iterate_test();
     void epsilonCloser_test();
+    void remove_epsilon_FA1_test();
+    void toDFA_test();
     void removeUnreachableStates_test();
     void removeNonTerminatingStates_test();
     void makeWellDefined_test();
+    void toMinFA_test();
+    void normalize();
     void cleanupTestCase();
 };
 

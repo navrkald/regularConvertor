@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtCore>
 #include "computationalrules.h"
+#include "set/set_of_sets.h"
 
 class FiniteAutomata //: public QObject
 {
@@ -30,7 +31,13 @@ public:
     void removeNonTerminatingStates();
     FiniteAutomata makeWellDefined(FiniteAutomata FA);
     void makeWellDefined();
-
+    FiniteAutomata removeEpsilon(FiniteAutomata FA);
+    void removeEpsilon();
+    FiniteAutomata toDFA(FiniteAutomata FA);
+    void toDFA();
+    FiniteAutomata toMinFA(FiniteAutomata FA);
+    void toMinFA();
+    FiniteAutomata normalize(FiniteAutomata FA);
 
 public:
     QSet <QString>  states;
@@ -66,6 +73,11 @@ public:
     QSet <QString> epsilonCloser(QString state);
     QSet <QString> epsilonNeighbours(QString state);
     QSet <ComputationalRules> nonEpsilonRulesOf(QString state);
+    QString normalize_chooseSmallestNonprocessed(QList <QString> renamed, QList <QString> processed);
+
+
+private:
+    bool canDivide(FiniteAutomata FA,QString symbol, QSet< QSet <QString> > Qm, QSet<QString> X, QSet <QString> &X1, QSet <QString> &X2);
 
 
 };

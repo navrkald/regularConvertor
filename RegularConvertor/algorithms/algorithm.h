@@ -6,6 +6,7 @@ class Algorithm
 {
 public:
     Algorithm();
+    //TODO add bool if brakepoint is set for some step
     QVector <QString> steps;
     struct steps
     {

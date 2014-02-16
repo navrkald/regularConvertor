@@ -202,6 +202,196 @@ void FiniteAutomata::makeWellDefined()
     *this = this->makeWellDefined(*this);
 }
 
+FiniteAutomata FiniteAutomata::removeEpsilon(FiniteAutomata FA)
+{
+    FiniteAutomata FA_not_epsilon;
+    FA_not_epsilon.states = FA.states;
+    FA_not_epsilon.alphabet = FA.alphabet;
+    FA_not_epsilon.startState = FA.startState;
+
+    //Rules
+    foreach(QString state,FA.states)
+    {
+        QSet <QString> epsilon_closer = FA.epsilonCloser(state);
+        foreach(QString state1,epsilon_closer)
+        {
+            QSet <ComputationalRules> rules = FA.nonEpsilonRulesOf(state1);
+            foreach(ComputationalRules rule,rules)
+            {
+                ComputationalRules newRule = rule;
+                newRule.from = state;
+                FA_not_epsilon.addRule(newRule);
+            }
+        }
+    }
+
+    //Final states
+    foreach(QString state,FA.states)
+    {
+        QSet <QString> epsilon_closer = FA.epsilonCloser(state);
+        foreach(QString state1, epsilon_closer)
+        {
+            if(FA.finalStates.contains(state1))
+            {
+                FA_not_epsilon.addFinalState(state);
+            }
+        }
+    }
+    return FA_not_epsilon;
+}
+
+void FiniteAutomata::removeEpsilon()
+{
+    *this = this->removeEpsilon(*this);
+}
+
+FiniteAutomata FiniteAutomata::toDFA(FiniteAutomata FA)
+{
+    FiniteAutomata FAd;
+    FAd.alphabet = FA.alphabet;                                 //FAd alphabet
+
+    QSet< QSet<QString> > new_states;
+    QSet<QString> act_state;
+
+    FAd.startState = "{" + FA.startState + "}";                 //FAd start state
+    QSet<QString> tmp_set; tmp_set.insert(FA.startState);
+    new_states.insert(tmp_set);
+    do
+    {
+
+        act_state=*(new_states.begin());
+        QString from = qsetToQstring(act_state);
+        new_states.remove(act_state);
+        FAd.states.insert(from);                                //insert new state to FAd
+        foreach (QString a, FA.alphabet)
+        {
+            QSet<QString> discovered_state;
+            foreach(ComputationalRules rule,FA.rules)
+            {
+                if(act_state.contains(rule.from)  && rule.symbol == a)
+                {
+                    discovered_state.insert(rule.to);
+                }
+            }
+
+
+            QString to = qsetToQstring(discovered_state);
+            if (!discovered_state.empty())
+            {
+
+
+                FAd.rules.insert(ComputationalRules(from,to,a));    //FAd insert rules
+                if(!FAd.states.contains(to))
+                    new_states.insert(discovered_state);
+                //FAd.states.insert(to);
+            }
+        }
+        //new finite states
+        if(!act_state.intersect(FA.finalStates).empty())
+        {
+            FAd.finalStates.insert(from);                           //insert final states to FAd
+        }
+    }while (!new_states.empty());
+
+    return FAd;
+}
+
+void FiniteAutomata::toDFA()
+{
+    *this = this->toDFA(*this);
+}
+
+FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
+{
+    FA.makeWellDefined();
+
+    QSet< QSet <QString> > Qm;
+    Qm.insert(FA.finalStates);
+    Qm.insert(FA.states - FA.finalStates);
+    bool divided = false;
+    do
+    {
+        foreach(QSet<QString> X, Qm)
+        {
+            foreach(QString symbol,FA.alphabet)
+            {
+                QSet <QString> X1;
+                QSet <QString> X2;
+                if((divided = canDivide(FA, symbol, Qm, X, X1, X2)) == true)
+                {// Do fision
+                    Qm.remove(X);
+                    Qm.insert(X1);
+                    Qm.insert(X2);
+                }
+
+            }
+        }
+    }while(divided);
+
+    //Lets create new minFA
+    FiniteAutomata minFA;
+    minFA.alphabet = FA.alphabet;
+    minFA.states = setOfSubsetsToSet(Qm);
+    QSet<QString> gg =  *findInSubsets(Qm, FA.startState).begin();
+    minFA.startState = qsetToQstring(gg);
+    minFA.finalStates = setOfSubsetsToSet(findInSubsets(Qm, FA.finalStates));
+    //Add new rules
+    foreach(QSet <QString> from_set,Qm)
+    {
+        foreach(QString symbol, FA.alphabet)
+        {
+            QList <ComputationalRules> rules =  FA.findRule_FromSymbol(from_set,symbol);
+            minFA.addRule(qsetToQstring(getFroms(rules)), qsetToQstring(getTos(rules)),symbol);
+        }
+    }
+
+    return minFA;
+}
+
+void FiniteAutomata::toMinFA()
+{
+    *this = this->toMinFA(*this);
+}
+
+FiniteAutomata FiniteAutomata::normalize(FiniteAutomata FA)
+{
+    //viz http://iris.uhk.cz/tein/teorie/normalizace.html
+    FiniteAutomata minFa;
+    FiniteAutomata normalizedFA = FA;
+
+    QList<QString> sorted_alphabet = FA.alphabet.toList();
+    qSort(sorted_alphabet);
+    //renaming states for sure that
+    //intersect new naming and old names will be empty set
+    foreach(QString state, FA.states)
+    {
+        normalizedFA.renameState(state,state+"'");
+    }
+
+    QList <QString> renamed_nodes;
+    QList <QString> processed_nodes;
+    int counter = 0;
+    normalizedFA.renameState(FA.startState,QString::number(counter));
+    counter++;
+    renamed_nodes.append(FA.startState);
+    do
+    {
+        QString q = normalize_chooseSmallestNonprocessed(renamed_nodes,processed_nodes);
+        foreach(QString symbol,sorted_alphabet)
+        {
+            ComputationalRules rule = findRule_FromSymbol(q,symbol).first();
+            if (! renamed_nodes.contains(rule.to))
+            {
+                normalizedFA.renameState(rule.to,QString::number(counter));
+                counter++;
+                renamed_nodes.append(rule.to);
+            }
+        }
+        processed_nodes.append(q);
+    }while(processed_nodes == renamed_nodes);
+    return normalizedFA;
+}
+
 FiniteAutomata FiniteAutomata::removeUnreachableStates(FiniteAutomata FA)
 {
     FiniteAutomata clean_FA = FA;
@@ -511,6 +701,71 @@ QSet<ComputationalRules> FiniteAutomata::nonEpsilonRulesOf(QString state)
         }
     }
     return non_epsilon_rules;
+}
+
+QString FiniteAutomata::normalize_chooseSmallestNonprocessed(QList <QString> renamed, QList <QString> processed)
+{
+    QString smallest;
+    qSort(renamed);
+    foreach(QString q ,renamed)
+    {
+        if(processed.contains(q))
+        {
+            smallest = q;
+            break;
+        }
+    }
+    return smallest;
+}
+
+//helper function for method toMinFA()
+bool FiniteAutomata::canDivide(FiniteAutomata FA ,QString symbol, QSet<QSet<QString> > Qm, QSet<QString> X, QSet<QString> &X1, QSet<QString> &X2)
+{
+    QSet <QString> Q1, Q2;
+    QList<ComputationalRules> rules;
+
+    //add all rules with from = X and witch symbol
+    foreach(QString from,X)
+    {
+        rules.append(FA.findRule_FromSymbol(from,symbol));
+    }
+
+    //come throw all rules
+    foreach (ComputationalRules rule,rules)
+    {
+        if(!X1.empty())
+        {
+            if (Q1 == *findInSubsets(Qm,rule.to).begin())
+            {
+                X1.insert(rule.from);
+            }
+            else if (Q2.empty())
+            {
+                Q2 = *findInSubsets(Qm,rule.to).begin();
+                X2.insert(rule.from);
+            }
+            else if (Q2 == *findInSubsets(Qm,rule.to).begin())
+            {
+                X2.insert(rule.from);
+            }
+            else
+            {
+                qDebug() << "Fatal error when minimalise FA!";
+                qDebug() << "Error occured in function fission()!";
+                exit(EXIT_FAILURE);
+            }
+        }
+        else //for first create new Q1
+        {
+            Q1 = *findInSubsets(Qm,rule.to).begin();
+            X1.insert(rule.from);
+        }
+    }
+
+    if (X2.empty())
+        return false;
+    else
+        return true;
 }
 
 

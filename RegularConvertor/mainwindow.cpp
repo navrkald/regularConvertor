@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <iostream>
+#include "algorithms/htmldelegate.h"
+
+
+
 //#include "finite_machine/finiteautomata.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -27,13 +31,37 @@ MainWindow::MainWindow(QWidget *parent) :
     //FA2_widget = new FA_widget(this);
     this->regExpWidget = new RegExpWidget(this);
 
+    QSplitter * splitter1 = new QSplitter(Qt::Vertical,this);
+    QSplitter * splitter2 = new QSplitter(Qt::Horizontal,this);
+    //splitter2->addWidget(splitter1);
+    QListView* listView = new QListView();
+    //splitter2->addWidget(listView);
+
     QGridLayout* layout  = dynamic_cast<QGridLayout*> (ui->centralWidget->layout());
     if(layout != NULL)
     {
-        layout->addWidget(FA1_widget,0,0);
-        layout->addWidget(regExpWidget,1,0);
+        splitter1->addWidget(FA1_widget);
+        splitter1->addWidget(regExpWidget);
+        //layout->addWidget(splitter1,0,0);
+        splitter2->addWidget(splitter1);
+        layout->addWidget(splitter2,0,0);
+        splitter2->addWidget(listView);
+        //layout->addWidget(FA1_widget,0,0);
+        //layout->addWidget(regExpWidget,1,0);
     }
 
+    QStandardItemModel * model = new QStandardItemModel();
+    QModelIndex index;
+    model->insertRows(0,4,QModelIndex());
+    for(int i = 0; i < 4; i++)
+    {
+
+        index = model->index(i,0,QModelIndex());
+        model->setData(index,"<span>blah-blah <b>some text</b> other blah</span>");
+    }
+    HTMLDelegate* delegate = new HTMLDelegate();
+    listView->setModel(model);
+    listView->setItemDelegate(delegate);
     statusBarTimeout = 5000; //5 second
 
 

@@ -12,8 +12,8 @@ public:
     explicit RemoveEpsilon_test(QObject *parent = 0);
 
 private:
-    FiniteAutomata FA1;
-    FiniteAutomata FA1_check;
+    FiniteAutomata remove_epsilon_FA1;
+    FiniteAutomata remove_epsilon_FA1_check;
 
 private slots:
     void initTestCase();

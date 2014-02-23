@@ -10,7 +10,14 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = RegularConvertor
 TEMPLATE = app
-LIBS += -lGL
+
+unix {
+     LIBS += -lGL
+}
+
+win32 {
+    LIBS += -lopengl32
+}
 
 SOURCES += main.cpp\
         mainwindow.cpp \

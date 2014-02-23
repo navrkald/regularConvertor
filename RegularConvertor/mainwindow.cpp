@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QSplitter * splitter1 = new QSplitter(Qt::Vertical,this);
     QSplitter * splitter2 = new QSplitter(Qt::Horizontal,this);
     //splitter2->addWidget(splitter1);
-    QListView* listView = new QListView();
+    QListView* listView = new QListView(this);
     //splitter2->addWidget(listView);
 
     QGridLayout* layout  = dynamic_cast<QGridLayout*> (ui->centralWidget->layout());
@@ -50,18 +50,19 @@ MainWindow::MainWindow(QWidget *parent) :
         //layout->addWidget(regExpWidget,1,0);
     }
 
-    QStandardItemModel * model = new QStandardItemModel();
-    QModelIndex index;
-    model->insertRows(0,4,QModelIndex());
-    for(int i = 0; i < 4; i++)
-    {
-
-        index = model->index(i,0,QModelIndex());
-        model->setData(index,"<span>blah-blah <b>some text</b> other blah</span>");
-    }
+    QStandardItemModel * model = new QStandardItemModel(4,1);
     HTMLDelegate* delegate = new HTMLDelegate();
     listView->setModel(model);
     listView->setItemDelegate(delegate);
+    model->insertRows(4,4,QModelIndex());
+    for(int i = 0; i < 4; i++)
+    {
+
+        QModelIndex index = model->index(i,0,QModelIndex());
+        model->setData(index,"a<sup>2</sup><sub style='position: relative; left: -.5em;'>i</sub?",Qt::DisplayRole);
+        model->setData(index, Qt::Checked, Qt::CheckStateRole);
+
+    }
     statusBarTimeout = 5000; //5 second
 
 

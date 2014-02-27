@@ -4,64 +4,94 @@
 
 HTMLDelegate::HTMLDelegate()
 {
+
 }
 
 void HTMLDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option, const QModelIndex &index) const
 {
-    QStyleOptionViewItemV4 optionV4 = option;
-    initStyleOption(&optionV4, index);
+//    QStyleOptionViewItemV4 optionV4 = option;
+//    //initStyleOption(&optionV4, index);
 
-    QStyle *style = optionV4.widget? optionV4.widget->style() : QApplication::style();
+//    QStyle *style = optionV4.widget? optionV4.widget->style() : QApplication::style();
 
-    QTextDocument doc;
-    doc.setHtml(optionV4.text);
+//    QTextDocument doc;
+//    doc.setHtml(optionV4.text);
 
-    /// Painting item without text
-    optionV4.text = QString();
-    style->drawControl(QStyle::CE_ItemViewItem, &optionV4, painter);
+//    /// Painting item without text
+//    optionV4.text = QString();
+//    style->drawControl(QStyle::CE_ItemViewItem, &optionV4, painter);
 
-    QAbstractTextDocumentLayout::PaintContext ctx;
+//    QAbstractTextDocumentLayout::PaintContext ctx;
 
-    // Highlighting text if item is selected
-    if (optionV4.state & QStyle::State_Selected)
-        ctx.palette.setColor(QPalette::Text, optionV4.palette.color(QPalette::Active, QPalette::HighlightedText));
+//    // Highlighting text if item is selected
+//    if (optionV4.state & QStyle::State_Selected)
+//        ctx.palette.setColor(QPalette::Text, optionV4.palette.color(QPalette::Active, QPalette::HighlightedText));
 
-    QRect textRect = style->subElementRect(QStyle::SE_ItemViewItemText, &optionV4);
-    QRect checkboxRect = style->subElementRect(QStyle::SE_ItemViewItemCheckIndicator,&optionV4);
-    if(index.model()->data(index, Qt::CheckStateRole).toBool())
-    {
-        QPen pen;
-        pen.setColor(Qt::red);
-        painter->setPen(pen);
-        painter->drawEllipse(checkboxRect);
-    }
-    else
-    {
-        QPen pen;
-        pen.setColor(Qt::black);
-        painter->setPen(pen);
-        painter->drawEllipse(checkboxRect);
-    }
+//    QRect textRect     = style->subElementRect(QStyle::SE_ItemViewItemText, &optionV4);
+//    QRect checkboxRect = style->subElementRect(QStyle::SE_ItemViewItemCheckIndicator,&optionV4);
+//    Qt::CheckState check_state = static_cast<Qt::CheckState> (index.model()->data(index, Qt::CheckStateRole).toInt());
+//    //drawCheck (painter, option, checkboxRect, check_state);
+//    if(index.model()->data(index, Qt::CheckStateRole).toBool())
+//    {
+//        QPen pen;
+//        pen.setColor(Qt::red);
+//        QBrush brush;
+//        brush.setColor(Qt::red);
+//        painter->setPen(Qt::red);
+//        //painter->setBrush(brush);
+//        painter->setBrush(Qt::red);
+//        //painter->drawEllipse(checkboxRect);
+//    }
+//    else
+//    {
+//        QPen pen;
+//        pen.setColor(Qt::black);
+//        painter->setPen(Qt::black);
+//        QBrush brush;
+//        brush.setColor(Qt::red);
+//        painter->setBrush(Qt::black);
+//        //painter->drawEllipse(checkboxRect);
+//    }
+//    painter->save();
+//    painter->translate(textRect.topLeft());
+//    painter->setClipRect(textRect.translated(-textRect.topLeft()));
+//    doc.documentLayout()->draw(painter, ctx);
+//    painter->restore();
+    QRect text_rect = option.rect;
+    int left = text_rect.left();
+    text_rect.setLeft(left + text_rect.height());
+    QTextDocument document;
+    document.setDocumentMargin(2);
+    document.setHtml(index.model()->data(index, Qt::EditRole).toString());
+    painter->translate(text_rect.topLeft());
+    document.drawContents(painter);
+    painter->translate(-text_rect.topLeft());
 
-    painter->save();
-    painter->translate(textRect.topLeft());
-    painter->setClipRect(textRect.translated(-textRect.topLeft()));
-    doc.documentLayout()->draw(painter, ctx);
-    painter->restore();
+    QRect checkBoxRect = option.rect;
+    checkBoxRect.setRight(checkBoxRect.height());
+    drawCheck (painter, option, checkBoxRect, static_cast<Qt::CheckState> (index.model()->data(index, Qt::CheckStateRole).toInt()) );
 }
 
 QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {
-    QStyleOptionViewItemV4 optionV4 = option;
-    initStyleOption(&optionV4, index);
+//    QStyleOptionViewItemV4 optionV4 = option;
+//    initStyleOption(&optionV4, index);
 
+//    QTextDocument doc;
+//    doc.setHtml(optionV4.text);
+//    doc.setTextWidth(optionV4.rect.width());
+//    QRect checkboxRect     = option.widget->style()->subElementRect(QStyle::SE_ItemViewItemCheckIndicator, &optionV4);
+//    int height = doc.size().height() > checkboxRect.height() ?  doc.size().height() : checkboxRect.height();
+//    return QSize(doc.idealWidth()+checkboxRect.width(), height);
     QTextDocument doc;
-    doc.setHtml(optionV4.text);
-    doc.setTextWidth(optionV4.rect.width());
-    return QSize(doc.idealWidth(), doc.size().height());
+    doc.setHtml(index.model()->data(index, Qt::EditRole).toString());
+    doc.setTextWidth(option.rect.width());
+    QRect checkboxRect     = option.widget->style()->subElementRect(QStyle::SE_ItemViewItemCheckIndicator, &option);
+    //int height = doc.size().height() > checkboxRect.height() ?  doc.size().height() : checkboxRect.height();
+    return QSize(doc.idealWidth()+doc.size().height(), doc.size().height());
 }
 
-bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) const
+bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
     if ((event->type() == QEvent::MouseButtonRelease) || (event->type() == QEvent::MouseButtonDblClick))
     {
@@ -87,3 +117,38 @@ bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const Q
     bool checked = index.model()->data(index, Qt::CheckStateRole).toBool();
     return model->setData(index, !checked, Qt::CheckStateRole);
 }
+
+void HTMLDelegate::drawCheck ( QPainter * painter, const QStyleOptionViewItem & option, const QRect & rect, Qt::CheckState state ) const
+{
+
+
+    int margin = rect.width() / 5;
+
+    QRect myRect = rect;
+    myRect.setBottom(myRect.bottom() - margin);
+    myRect.setTop(myRect.top() + margin);
+    myRect.setLeft(myRect.left() + margin);
+    myRect.setRight(myRect.right() - margin);
+//    myRect.setWidth(2);
+//    myRect.setHeight(2);
+    if (state == Qt::Unchecked)
+    {
+        painter->setPen(Qt::white);
+        painter->setBrush(Qt::white);
+        painter->drawEllipse(myRect);
+    }
+    else
+    {
+        painter->setPen(Qt::red);
+        painter->setBrush(Qt::red);
+        painter->drawEllipse(myRect);
+    }
+}
+
+//void HTMLDelegate::drawCheck ( QPainter *painter, const QStyleOptionViewItem &option, const QRect &rect,      Qt::CheckState state ) const
+//{
+//    const int textMargin = QApplication::style()->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+
+//    QRect checkRect = QStyle::alignedRect(option.direction, Qt::AlignCenter, rect.size(), QRect(option.rect.x() + textMargin, option.rect.y(),option.rect.width() - (textMargin * 2), option.rect.height()));
+//    QItemDelegate::drawCheck(painter, option, checkRect, state);
+//}

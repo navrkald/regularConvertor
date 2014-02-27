@@ -45,7 +45,8 @@ SOURCES += main.cpp\
     algorithms/fatodfa.cpp \
     algorithms/dfatominfa.cpp \
     set/set_of_sets.cpp \
-    algorithms/htmldelegate.cpp
+    algorithms/htmldelegate.cpp \
+    algorithms/algorithmview.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -73,7 +74,8 @@ HEADERS  += mainwindow.h \
     algorithms/fatodfa.h \
     algorithms/dfatominfa.h \
     set/set_of_sets.h \
-    algorithms/htmldelegate.h
+    algorithms/htmldelegate.h \
+    algorithms/algorithmview.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \

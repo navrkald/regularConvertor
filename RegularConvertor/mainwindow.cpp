@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <iostream>
 #include "algorithms/htmldelegate.h"
-
+#include "algorithms/algorithmview.h"
 
 
 //#include "finite_machine/finiteautomata.h"
@@ -34,7 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QSplitter * splitter1 = new QSplitter(Qt::Vertical,this);
     QSplitter * splitter2 = new QSplitter(Qt::Horizontal,this);
     //splitter2->addWidget(splitter1);
-    QListView* listView = new QListView(this);
+    AlgorithmView* listView = new AlgorithmView(this);
+    listView->setMouseTracking(true);
     //splitter2->addWidget(listView);
 
     QGridLayout* layout  = dynamic_cast<QGridLayout*> (ui->centralWidget->layout());
@@ -50,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
         //layout->addWidget(regExpWidget,1,0);
     }
 
-    QStandardItemModel * model = new QStandardItemModel(4,1);
+    QStandardItemModel * model = new QStandardItemModel(10,1);
     HTMLDelegate* delegate = new HTMLDelegate();
     listView->setModel(model);
     listView->setItemDelegate(delegate);
@@ -60,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
         QModelIndex index = model->index(i,0,QModelIndex());
         model->setData(index,"a<sup>2</sup><sub style='position: relative; left: -.5em;'>i</sub?",Qt::DisplayRole);
-        model->setData(index, Qt::Checked, Qt::CheckStateRole);
+        model->setData(index, Qt::Unchecked, Qt::CheckStateRole);
 
     }
     statusBarTimeout = 5000; //5 second
@@ -94,3 +95,5 @@ void MainWindow::myStatusbarShowMessage(QString message)
 {
     this->ui->statusBar->showMessage(message,statusBarTimeout);
 }
+
+

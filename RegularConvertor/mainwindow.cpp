@@ -27,58 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->graphicsView1->show();
     //ui->graphicsView2->show();
 
-    FA1_widget = new FA_widget(this);
-    //FA2_widget = new FA_widget(this);
-    this->regExpWidget = new RegExpWidget(this);
-
-    QSplitter * splitter1 = new QSplitter(Qt::Vertical,this);
-    QSplitter * splitter2 = new QSplitter(Qt::Horizontal,this);
-    //splitter2->addWidget(splitter1);
-    AlgorithmView* listView = new AlgorithmView(this);
-    listView->setMouseTracking(true);
-    //splitter2->addWidget(listView);
-
-    QGridLayout* layout  = dynamic_cast<QGridLayout*> (ui->centralWidget->layout());
-    if(layout != NULL)
-    {
-        splitter1->addWidget(FA1_widget);
-        splitter1->addWidget(regExpWidget);
-        //layout->addWidget(splitter1,0,0);
-        splitter2->addWidget(splitter1);
-        layout->addWidget(splitter2,0,0);
-        splitter2->addWidget(listView);
-        //layout->addWidget(FA1_widget,0,0);
-        //layout->addWidget(regExpWidget,1,0);
-    }
-
-    QStandardItemModel * model = new QStandardItemModel(10,1);
-    HTMLDelegate* delegate = new HTMLDelegate();
-    listView->setModel(model);
-    listView->setItemDelegate(delegate);
-    model->insertRows(4,4,QModelIndex());
-    for(int i = 0; i < 4; i++)
-    {
-
-        QModelIndex index = model->index(i,0,QModelIndex());
-        model->setData(index,"a<sup>2</sup><sub style='position: relative; left: -.5em;'>i</sub?",Qt::DisplayRole);
-        model->setData(index, Qt::Unchecked, Qt::CheckStateRole);
-
-    }
-    statusBarTimeout = 5000; //5 second
-
-
-
-    deleteShortCut = new QShortcut(QKeySequence::Delete, this);
-    connect( deleteShortCut, SIGNAL(activated()), FA1_widget->scene, SLOT(deleteSelected()));
-    //connect( deleteShortCut, SIGNAL(activated()), FA2_widget->scene, SLOT(deleteSelected()));
-    connect( deleteShortCut, SIGNAL(activated()), this, SLOT(testing_slot()));
-
-    connect(FA1_widget,SIGNAL(errorMessageSignal(QString)),this, SLOT(myStatusbarShowMessage(QString)));
-    connect(FA1_widget->scene,SIGNAL(sendErrorMessage(QString)),this,SLOT(myStatusbarShowMessage(QString)));
-    //connect( scene1, SIGNAL(deleteSelected()), this, SLOT(deleteItem()));
-
-    //connect(ui->AddNodeBut,SIGNAL(clicked()), scene,SLOT(setMode(DiagramScene::AddNode)));
-
+    connect(ui->action_RE_to_FA,SIGNAL(triggered()),this,SLOT(prepareREtoFA()));
 }
 
 MainWindow::~MainWindow()
@@ -94,6 +43,68 @@ void MainWindow::testing_slot()
 void MainWindow::myStatusbarShowMessage(QString message)
 {
     this->ui->statusBar->showMessage(message,statusBarTimeout);
+}
+
+void MainWindow::prepareREtoFA()
+{
+    //* layout  = dynamic_cast<QGridLayout*> (ui->centralWidget->layout());
+
+    QSplitter* h_spitter1 = new QSplitter(Qt::Horizontal,ui->centralWidget);
+    QSplitter* v_spitter1 = new QSplitter(Qt::Vertical,this);
+
+    RegExpWidget* reg_exp_widget = new RegExpWidget(ui->centralWidget);
+    AlgorithmView* algorithm_RE_to_FA = new AlgorithmView(ui->centralWidget);
+
+    h_spitter1->addWidget(reg_exp_widget);
+    h_spitter1->addWidget(algorithm_RE_to_FA);
+
+    reg_exp_widget->show();
+    algorithm_RE_to_FA->show();
+//    h_spitter1->addWidget();
+
+//    FA1_widget = new FA_widget(this);
+//    this->regExpWidget = new RegExpWidget(this);
+
+//    QSplitter * splitter1 = new QSplitter(Qt::Vertical,this);
+//    QSplitter * splitter2 = new QSplitter(Qt::Horizontal,this);
+//    AlgorithmView* listView = new AlgorithmView(this);
+//    listView->setMouseTracking(true);
+
+//    QGridLayout* layout  = dynamic_cast<QGridLayout*> (ui->centralWidget->layout());
+//    if(layout != NULL)
+//    {
+//        splitter1->addWidget(FA1_widget);
+//        splitter1->addWidget(regExpWidget);
+
+//        splitter2->addWidget(splitter1);
+//        layout->addWidget(splitter2,0,0);
+//        splitter2->addWidget(listView);
+
+//    }
+
+//    QStandardItemModel * model = new QStandardItemModel(10,1);
+//    HTMLDelegate* delegate = new HTMLDelegate();
+//    listView->setModel(model);
+//    listView->setItemDelegate(delegate);
+//    model->insertRows(4,4,QModelIndex());
+//    for(int i = 0; i < 4; i++)
+//    {
+
+//        QModelIndex index = model->index(i,0,QModelIndex());
+//        model->setData(index,"a<sup>2</sup><sub style='position: relative; left: -.5em;'>i</sub?",Qt::DisplayRole);
+//        model->setData(index, Qt::Unchecked, Qt::CheckStateRole);
+
+//    }
+//    statusBarTimeout = 5000; //5 second
+
+//    deleteShortCut = new QShortcut(QKeySequence::Delete, this);
+//    connect( deleteShortCut, SIGNAL(activated()), FA1_widget->scene, SLOT(deleteSelected()));
+
+//    connect( deleteShortCut, SIGNAL(activated()), this, SLOT(testing_slot()));
+
+//    connect(FA1_widget,SIGNAL(errorMessageSignal(QString)),this, SLOT(myStatusbarShowMessage(QString)));
+//    connect(FA1_widget->scene,SIGNAL(sendErrorMessage(QString)),this,SLOT(myStatusbarShowMessage(QString)));
+
 }
 
 

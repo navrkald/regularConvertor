@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Regular Convertor</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -32,9 +32,35 @@
      <x>0</x>
      <y>0</y>
      <width>816</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuSoubor">
+    <property name="title">
+     <string>Soubor</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuV_b_r_m_du">
+    <property name="title">
+     <string>Výběr módu</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuP_klady">
+    <property name="title">
+     <string>Příklady</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuV_b_r_konverze">
+    <property name="title">
+     <string>Výběr konverze</string>
+    </property>
+    <addaction name="action_RE_to_FA"/>
+    <addaction name="actionKA_KA_bez_epsilon_p_echod"/>
+   </widget>
+   <addaction name="menuSoubor"/>
+   <addaction name="menuV_b_r_m_du"/>
+   <addaction name="menuV_b_r_konverze"/>
+   <addaction name="menuP_klady"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -45,6 +71,19 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="action_RE_to_FA">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Regulární výraz (RV) -&gt; Konečný automat (KA)</string>
+   </property>
+  </action>
+  <action name="actionKA_KA_bez_epsilon_p_echod">
+   <property name="text">
+    <string>KA -&gt; KA bez epsilon přechodů</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

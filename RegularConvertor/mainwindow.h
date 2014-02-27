@@ -25,6 +25,7 @@ public slots:
     void testing_slot();
 private slots:
     void myStatusbarShowMessage(QString message);
+    void prepareREtoFA();
 private:
     Ui::MainWindow *ui;
     DiagramScene *scene1;

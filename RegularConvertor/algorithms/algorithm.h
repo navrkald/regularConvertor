@@ -2,18 +2,19 @@
 #define ALGORITHM_H
 #include <QVector>
 #include <QString>
-class Algorithm
+#include <qstandarditemmodel.h>
+class Algorithm : public QStandardItemModel
 {
 public:
     Algorithm();
     //TODO add bool if brakepoint is set for some step
-    QVector <QString> steps;
-    struct steps
-    {
-        QString formal_text;
-        QString informal_text;
-        int pos;
-    };
+    QVector <QString> instructions;
+//    struct steps
+//    {
+//        QString formal_text;
+//        QString informal_text;
+//        int pos;
+//    };
 };
 
 #endif // ALGORITHM_H

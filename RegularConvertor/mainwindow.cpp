@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->graphicsView1->show();
     //ui->graphicsView2->show();
 
+    statusBarTimeout = 5000; //5 second
     connect(ui->action_RE_to_FA,SIGNAL(triggered()),this,SLOT(prepareREtoFA()));
 }
 
@@ -49,38 +50,96 @@ void MainWindow::prepareREtoFA()
 {
     //* layout  = dynamic_cast<QGridLayout*> (ui->centralWidget->layout());
 
-    QSplitter* h_spitter1 = new QSplitter(Qt::Horizontal,ui->centralWidget);
+    QSplitter* h_spitter1 = new QSplitter(Qt::Horizontal,this);
+    QSplitter* h_spitter2 = new QSplitter(Qt::Horizontal,this);
+    //QSplitter* h_spitter3 = new QSplitter(Qt::Horizontal,this);
     QSplitter* v_spitter1 = new QSplitter(Qt::Vertical,this);
 
-    RegExpWidget* reg_exp_widget = new RegExpWidget(ui->centralWidget);
+    //basic components
+    FA_widget* fa_widget_left = new FA_widget();
+    FA_widget* fa_widget_center = new FA_widget();
+    FA_widget* fa_widget_right = new FA_widget();
+    RegExpWidget* reg_exp_widget = new RegExpWidget(this);
+
+    //regular expression
+    QWidget* reg_exp_container = new QWidget();
+    QVBoxLayout* reg_exp_vlayout = new QVBoxLayout;
+    QLabel* reg_exp_label = new QLabel("Regulární výraz",this);
+    reg_exp_label->setAlignment(Qt::AlignCenter);
+    reg_exp_vlayout->addWidget(reg_exp_label);
+    reg_exp_vlayout->addWidget(reg_exp_widget);
+    reg_exp_container->setLayout(reg_exp_vlayout);
+
+    //algorithm
+    QWidget* algorithm_container = new QWidget();
+    QVBoxLayout* algorithm_vlayout = new QVBoxLayout;
+    QLabel* algorithm_label = new QLabel("Algoritmus RV na FA",this);
+    algorithm_label->setAlignment(Qt::AlignCenter);
     AlgorithmView* algorithm_RE_to_FA = new AlgorithmView(ui->centralWidget);
+    algorithm_vlayout->addWidget(algorithm_label);
+    algorithm_vlayout->addWidget(algorithm_RE_to_FA);
+    algorithm_container->setLayout(algorithm_vlayout);
+    RegExpToFA* reg_exp_algorithm = new RegExpToFA(reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right);
+    HTMLDelegate* delegate = new HTMLDelegate();
+    algorithm_RE_to_FA->setModel(reg_exp_algorithm);
+    algorithm_RE_to_FA->setItemDelegate(delegate);
 
-    h_spitter1->addWidget(reg_exp_widget);
-    h_spitter1->addWidget(algorithm_RE_to_FA);
+    //left FA
+    QWidget* left_fa_container = new QWidget();
+    QVBoxLayout* FA_left_vlayout = new QVBoxLayout;
+    QLabel* FA_left_label = new QLabel("levý syn",this);
+    FA_left_label->setAlignment(Qt::AlignCenter);
+    FA_left_vlayout->addWidget(FA_left_label);
+    FA_left_vlayout->addWidget(fa_widget_left);
+    left_fa_container->setLayout(FA_left_vlayout);
 
-    reg_exp_widget->show();
-    algorithm_RE_to_FA->show();
-//    h_spitter1->addWidget();
+    //center FA
+    QWidget* center_fa_container = new QWidget();
+    QVBoxLayout* FA_center_vlayout = new QVBoxLayout;
+    QLabel* FA_center_label = new QLabel("vybraný uzel",this);
+    FA_center_label->setAlignment(Qt::AlignCenter);
+    FA_center_vlayout->addWidget(FA_center_label);
+    FA_center_vlayout->addWidget(fa_widget_center);
+    center_fa_container->setLayout(FA_center_vlayout);
 
-//    FA1_widget = new FA_widget(this);
-//    this->regExpWidget = new RegExpWidget(this);
+    //right FA
+    QWidget* right_fa_container = new QWidget();
+    QVBoxLayout* FA_right_vlayout = new QVBoxLayout;
+    QLabel* FA_right_label = new QLabel("pravý syn",this);
+    FA_right_label->setAlignment(Qt::AlignCenter);
+    FA_right_vlayout->addWidget(FA_right_label);
+    FA_right_vlayout->addWidget(fa_widget_right);
+    right_fa_container->setLayout(FA_right_vlayout);
 
-//    QSplitter * splitter1 = new QSplitter(Qt::Vertical,this);
-//    QSplitter * splitter2 = new QSplitter(Qt::Horizontal,this);
+
+    //top container
+    QWidget* up_container = new QWidget();
+    QHBoxLayout* horizontal_layout1 = new QHBoxLayout;
+    up_container->setLayout(horizontal_layout1);
+    up_container->layout()->addWidget(h_spitter1);
+    h_spitter1->addWidget(reg_exp_container);
+    h_spitter1->addWidget(algorithm_container);
+
+    //down container
+    QWidget* down_container = new QWidget();
+    h_spitter2->addWidget(left_fa_container);
+    h_spitter2->addWidget(center_fa_container);
+    h_spitter2->addWidget(right_fa_container);
+    QHBoxLayout* horizontal_layout2 = new QHBoxLayout;
+    down_container->setLayout(horizontal_layout2);
+    down_container->layout()->addWidget(h_spitter2);
+
+    //vertical splitter
+    v_spitter1->addWidget(up_container);
+    v_spitter1->addWidget(down_container);
+    ui->centralWidget->layout()->addWidget(v_spitter1);
+
+
+
+
 //    AlgorithmView* listView = new AlgorithmView(this);
 //    listView->setMouseTracking(true);
 
-//    QGridLayout* layout  = dynamic_cast<QGridLayout*> (ui->centralWidget->layout());
-//    if(layout != NULL)
-//    {
-//        splitter1->addWidget(FA1_widget);
-//        splitter1->addWidget(regExpWidget);
-
-//        splitter2->addWidget(splitter1);
-//        layout->addWidget(splitter2,0,0);
-//        splitter2->addWidget(listView);
-
-//    }
 
 //    QStandardItemModel * model = new QStandardItemModel(10,1);
 //    HTMLDelegate* delegate = new HTMLDelegate();
@@ -95,12 +154,11 @@ void MainWindow::prepareREtoFA()
 //        model->setData(index, Qt::Unchecked, Qt::CheckStateRole);
 
 //    }
-//    statusBarTimeout = 5000; //5 second
+//
 
 //    deleteShortCut = new QShortcut(QKeySequence::Delete, this);
 //    connect( deleteShortCut, SIGNAL(activated()), FA1_widget->scene, SLOT(deleteSelected()));
 
-//    connect( deleteShortCut, SIGNAL(activated()), this, SLOT(testing_slot()));
 
 //    connect(FA1_widget,SIGNAL(errorMessageSignal(QString)),this, SLOT(myStatusbarShowMessage(QString)));
 //    connect(FA1_widget->scene,SIGNAL(sendErrorMessage(QString)),this,SLOT(myStatusbarShowMessage(QString)));

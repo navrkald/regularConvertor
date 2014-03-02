@@ -6,6 +6,26 @@ RegExpToFA::RegExpToFA(RegExp _re)
 {
     this->re  = _re;
     postOrder(re.rootNode);
+
+}
+
+RegExpToFA::RegExpToFA(RegExpWidget *re_widget, FA_widget* left_fa_widget, FA_widget* center_fa_widget, FA_widget* right_fa_widget)
+{
+    this->setRowCount(10);
+    this->setColumnCount(1);
+    instructions.resize(100);
+    //instructions[0] = "\"Zevnitř\" RV <i>r</i> opakovaně \n použít následující  pravidla ke konstrukci konečného automatu <i>M</i>:";
+    //instructions[1] = "Pro RV ∅ vytvoř KA <i>M<sub>∅</sub></i>";
+
+    foreach(QString instruction, instructions)
+    for(int i = 0; i < instructions.count();i++)
+    {
+        QModelIndex index = this->index(i,0,QModelIndex());
+        setData(index,instructions[i],Qt::EditRole);
+    }
+
+
+
 }
 
 void RegExpToFA::computeSolution()

@@ -9,6 +9,8 @@
 #include "finite_machine/fa_widget.h"
 #include "reg_exp/regextextedit.h"
 #include "reg_exp/regexpwidget.h"
+#include "algorithms/regexptofa.h"
+
 namespace Ui {
 class MainWindow;
 }

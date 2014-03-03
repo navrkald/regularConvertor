@@ -5,6 +5,7 @@ RegExpNode::RegExpNode(CharPos& _symbol) : processed(false)
     this->symbol = _symbol;
     this->str = _symbol.charter;
     parent = 0;
+    this->state = UNKNOWN;
 }
 
 RegExpNode::~RegExpNode()

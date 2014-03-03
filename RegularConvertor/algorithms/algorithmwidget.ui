@@ -6,15 +6,65 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>487</width>
-    <height>359</height>
+    <width>941</width>
+    <height>653</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout_2">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QToolButton" name="toolButton_2">
+       <property name="text">
+        <string>prew</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButton_4">
+       <property name="text">
+        <string>stop</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButton">
+       <property name="text">
+        <string>play</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinBox"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButton_3">
+       <property name="text">
+        <string>next</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
     <widget class="QTabWidget" name="Formal">
      <property name="currentIndex">
       <number>0</number>
@@ -23,9 +73,24 @@
       <attribute name="title">
        <string>formal</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_2">
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item row="0" column="0">
-        <widget class="QTextEdit" name="textEdit"/>
+        <widget class="AlgorithmView" name="treeView"/>
        </item>
       </layout>
      </widget>
@@ -34,6 +99,21 @@
        <string>informal</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item row="0" column="0">
         <widget class="QTextEdit" name="textEdit_2"/>
        </item>
@@ -43,6 +123,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>AlgorithmView</class>
+   <extends>QTreeView</extends>
+   <header location="global">algorithmview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

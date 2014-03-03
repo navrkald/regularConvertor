@@ -19,7 +19,8 @@ public:
     ~RegExpNode();
     bool childrenProcessed();
     bool isLeaf();
-
+    enum states {CORRECT,WRONG,UNKNOWN};
+    states state;
     FiniteAutomata user_FA;
     FiniteAutomata correct_FA;
     bool processed;

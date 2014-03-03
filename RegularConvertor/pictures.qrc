@@ -5,6 +5,16 @@
         <file>reg_exp/pictures/branch-more.png</file>
         <file>reg_exp/pictures/branch-open.png</file>
         <file>reg_exp/pictures/vline.png</file>
+        <file>reg_exp/pictures/wrong.png</file>
+        <file>reg_exp/pictures/warning.png</file>
+        <file>reg_exp/pictures/ok.png</file>
     </qresource>
-    <qresource prefix="/new/prefix1"/>
+    <qresource prefix="/algorithms">
+        <file>algorithms/pictures/alternate_fa.png</file>
+        <file>algorithms/pictures/concatenate_fa.png</file>
+        <file>algorithms/pictures/empty_fa.png</file>
+        <file>algorithms/pictures/epsilon_fa.png</file>
+        <file>algorithms/pictures/iterate_fa.png</file>
+        <file>algorithms/pictures/one_symbol_fa.png</file>
+    </qresource>
 </RCC>

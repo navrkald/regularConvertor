@@ -12,3 +12,8 @@ AlgorithmWidget::~AlgorithmWidget()
 {
     delete ui;
 }
+
+AlgorithmView *AlgorithmWidget::getAlgorithmView()
+{
+    return ui->treeView;
+}

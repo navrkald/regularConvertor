@@ -1,10 +1,14 @@
 #include "htmldelegate.h"
 #include <QAbstractTextDocumentLayout>
 #include <QApplication>
+#include <qdebug.h>
+
+#define DEFAUL_FONT 9
+#define DEFAUL_FONT_FAMILY "Sans Serif"
 
 HTMLDelegate::HTMLDelegate()
 {
-
+    myFont = QFont(DEFAUL_FONT_FAMILY, DEFAUL_FONT);
 }
 
 void HTMLDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option, const QModelIndex &index) const
@@ -57,19 +61,47 @@ void HTMLDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option,
 //    painter->setClipRect(textRect.translated(-textRect.topLeft()));
 //    doc.documentLayout()->draw(painter, ctx);
 //    painter->restore();
-    QRect text_rect = option.rect;
-    int left = text_rect.left();
-    text_rect.setLeft(left + text_rect.height());
-    QTextDocument document;
-    document.setDocumentMargin(2);
-    document.setHtml(index.model()->data(index, Qt::EditRole).toString());
-    painter->translate(text_rect.topLeft());
-    document.drawContents(painter);
-    painter->translate(-text_rect.topLeft());
+    QString text = index.model()->data(index, Qt::EditRole).toString();
+    if(text != "")
+    {
+        painter->save();
+        QRect text_rect = option.rect;
+        int left = text_rect.left();
+        text_rect.setLeft(left + text_rect.height());
+        QTextDocument document;
+        document.setDefaultFont(myFont);
+        qDebug() << "Point size" << document.defaultFont().pointSizeF();
+        qDebug() << "Doc height" << document.size().width();
+        document.setDocumentMargin(2);
+        document.setHtml(text);
+        //text_rect.translate();
+        painter->translate(text_rect.topLeft());
+        document.drawContents(painter);
+        painter->translate(-text_rect.topLeft());
 
-    QRect checkBoxRect = option.rect;
-    checkBoxRect.setRight(checkBoxRect.height());
-    drawCheck (painter, option, checkBoxRect, static_cast<Qt::CheckState> (index.model()->data(index, Qt::CheckStateRole).toInt()) );
+        QRect checkBoxRect = option.rect;
+        checkBoxRect.setRight(checkBoxRect.height());
+
+        drawCheck (painter, option, checkBoxRect, static_cast<Qt::CheckState> (index.model()->data(index, Qt::CheckStateRole).toInt()) );
+
+        //painter->drawPixmap(text_rect.topLeft(),icon.pixmap());
+
+
+        //QIcon icon = index.model()->data(index, Qt::DecorationRole).value<QIcon>();
+        QIcon icon = QIcon(":/algorithms/algorithms/pictures/empty_fa.png");
+        //QSize iconsize = icon.actualSize();
+        QSize iconsize = option.decorationSize;
+
+        //painter->translate(text_rect.topRight());
+        //painter->translate(text_rect.topLeft());
+        painter->drawPixmap(text_rect.width()+text_rect.height(), 0.0, icon.pixmap(iconsize.width(), iconsize.height()));
+        painter->drawPixmap(0.0, 0.0, icon.pixmap(iconsize.width(), iconsize.height()));
+        painter->translate(-text_rect.topLeft());
+        //painter->translate(-text_rect.topRight());
+
+
+        painter->restore();
+    }
 }
 
 QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
@@ -85,8 +117,8 @@ QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModel
 //    return QSize(doc.idealWidth()+checkboxRect.width(), height);
     QTextDocument doc;
     doc.setHtml(index.model()->data(index, Qt::EditRole).toString());
-    doc.setTextWidth(option.rect.width());
-    QRect checkboxRect     = option.widget->style()->subElementRect(QStyle::SE_ItemViewItemCheckIndicator, &option);
+    //doc.setTextWidth(option.rect.width());
+    //QRect checkboxRect     = option.widget->style()->subElementRect(QStyle::SE_ItemViewItemCheckIndicator, &option);
     //int height = doc.size().height() > checkboxRect.height() ?  doc.size().height() : checkboxRect.height();
     return QSize(doc.idealWidth()+doc.size().height(), doc.size().height());
 }

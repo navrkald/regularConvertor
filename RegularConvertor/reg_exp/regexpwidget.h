@@ -23,6 +23,7 @@ private:
     RegExpTreeModel* treeModel;
 private slots:
     void modelChanged();
+    void on_pushButton_clicked();
 };
 
 #endif // REGEXPWIDGET_H

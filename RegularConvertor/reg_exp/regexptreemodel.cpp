@@ -83,8 +83,34 @@ QVariant RegExpTreeModel::data(const QModelIndex &index, int role) const
     if (!node)
         return QVariant();
 
+    if (role == Qt::DecorationRole)
+    {
+        QIcon icon;
+        switch( node->state )
+        {
+            case RegExpNode::CORRECT:
+                icon.addFile(":/reg_exp/reg_exp/pictures/ok.png");
+                break;
+            case RegExpNode::WRONG:
+                icon.addFile(":/reg_exp/reg_exp/pictures/wrong.png");
+                break;
+        case RegExpNode::UNKNOWN:
+            icon.addFile(":/reg_exp/reg_exp/pictures/warning.png");
+            break;
+        //case default:
+
+
+        }
+        return icon;
+
+//        retObj.setValue( QIcon(iconfile));
+//    retObj.setValue(Item->objectName());
+    }
+
+
     if (role == Qt::DisplayRole)
         return node->symbol.charter;;
+
 
     if((role == Qt::FontRole))
     {

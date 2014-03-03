@@ -9,6 +9,7 @@ public:
     Algorithm();
     //TODO add bool if brakepoint is set for some step
     QVector <QString> instructions;
+    enum modes {CHECK_MODE, PLAY_MODE, STEP_MODE};
 //    struct steps
 //    {
 //        QString formal_text;

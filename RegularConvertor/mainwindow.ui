@@ -44,6 +44,9 @@
     <property name="title">
      <string>Výběr módu</string>
     </property>
+    <addaction name="action_check_mode"/>
+    <addaction name="action_play_mode"/>
+    <addaction name="action_step_mode"/>
    </widget>
    <widget class="QMenu" name="menuP_klady">
     <property name="title">
@@ -82,6 +85,21 @@
   <action name="actionKA_KA_bez_epsilon_p_echod">
    <property name="text">
     <string>KA -&gt; KA bez epsilon přechodů</string>
+   </property>
+  </action>
+  <action name="action_check_mode">
+   <property name="text">
+    <string>Samostatná práce</string>
+   </property>
+  </action>
+  <action name="action_play_mode">
+   <property name="text">
+    <string>Krokovat</string>
+   </property>
+  </action>
+  <action name="action_step_mode">
+   <property name="text">
+    <string>Režim kontroly</string>
    </property>
   </action>
  </widget>

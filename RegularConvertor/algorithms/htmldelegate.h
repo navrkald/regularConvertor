@@ -11,6 +11,7 @@ class HTMLDelegate : public QItemDelegate
 {
 public:
     HTMLDelegate();
+    QFont myFont;
 
 protected:
     void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;

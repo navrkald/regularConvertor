@@ -1,6 +1,7 @@
 #include "regexptofa.h"
 #include <QtGlobal>
 
+#define EMPTY_FA 1
 
 RegExpToFA::RegExpToFA(RegExp _re)
 {
@@ -9,19 +10,23 @@ RegExpToFA::RegExpToFA(RegExp _re)
 
 }
 
-RegExpToFA::RegExpToFA(RegExpWidget *re_widget, FA_widget* left_fa_widget, FA_widget* center_fa_widget, FA_widget* right_fa_widget)
+RegExpToFA::RegExpToFA(modes mode, RegExpWidget *re_widget, FA_widget* left_fa_widget, FA_widget* center_fa_widget, FA_widget* right_fa_widget)
 {
     this->setRowCount(10);
     this->setColumnCount(1);
     instructions.resize(100);
-    //instructions[0] = "\"Zevnitř\" RV <i>r</i> opakovaně \n použít následující  pravidla ke konstrukci konečného automatu <i>M</i>:";
-    //instructions[1] = "Pro RV ∅ vytvoř KA <i>M<sub>∅</sub></i>";
+    instructions[0] = "\"Zevnitř\" RV <i>r</i> opakovaně použít následující pravidla ke konstrukci konečného automatu <i>M</i>:";
+    instructions[1] = "Pro RV ∅ vytvoř KA <i>M<sub>∅</sub></i>";
+    QIcon empty_fa_icon = QIcon(":/algorithms/algorithms/pictures/empty_fa.png");
 
-    foreach(QString instruction, instructions)
     for(int i = 0; i < instructions.count();i++)
     {
         QModelIndex index = this->index(i,0,QModelIndex());
         setData(index,instructions[i],Qt::EditRole);
+        if(i == EMPTY_FA)
+        {
+            setData(index,empty_fa_icon,Qt::DecorationRole);
+        }
     }
 
 

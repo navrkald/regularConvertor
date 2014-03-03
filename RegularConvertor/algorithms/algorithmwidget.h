@@ -2,6 +2,7 @@
 #define ALGORITHMWIDGET_H
 
 #include <QWidget>
+#include "algorithmview.h"
 
 namespace Ui {
 class AlgorithmWidget;
@@ -14,7 +15,8 @@ class AlgorithmWidget : public QWidget
 public:
     explicit AlgorithmWidget(QWidget *parent = 0);
     ~AlgorithmWidget();
-    
+    AlgorithmView* getAlgorithmView();
+
 private:
     Ui::AlgorithmWidget *ui;
 };

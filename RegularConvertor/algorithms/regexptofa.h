@@ -11,7 +11,7 @@ class RegExpToFA : public Algorithm
 {
 public:
     RegExpToFA(RegExp _re);
-    RegExpToFA(RegExpWidget* re_widget, FA_widget* left_fa_widget, FA_widget* center_fa_widget, FA_widget* right_fa_widget);
+    RegExpToFA(modes mode, RegExpWidget* re_widget, FA_widget* left_fa_widget, FA_widget* center_fa_widget, FA_widget* right_fa_widget);
     void computeSolution();
     QList <RegExpNode*> getAvailableNodes();
     RegExpNode* chooseRandomNode();

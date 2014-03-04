@@ -65,38 +65,61 @@ void HTMLDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option,
     if(text != "")
     {
         painter->save();
+        painter->setRenderHint(QPainter::Antialiasing, true);
+        painter->setRenderHint(QPainter::TextAntialiasing, true);
+
+        //
+        //Checkbox
+        //
+        QRect checkBoxRect = option.rect;
+        checkBoxRect.setRight(checkBoxRect.height());
+        drawCheck (painter, option, checkBoxRect, static_cast<Qt::CheckState> (index.model()->data(index, Qt::CheckStateRole).toInt()) );
+
+        //painter->save();
+
         QRect text_rect = option.rect;
-        int left = text_rect.left();
-        text_rect.setLeft(left + text_rect.height());
+        text_rect.setLeft(text_rect.left() + text_rect.height());
+
+        //
+        //Drawing text:
+        //
         QTextDocument document;
         document.setDefaultFont(myFont);
         qDebug() << "Point size" << document.defaultFont().pointSizeF();
         qDebug() << "Doc height" << document.size().width();
-        document.setDocumentMargin(2);
         document.setHtml(text);
-        //text_rect.translate();
         painter->translate(text_rect.topLeft());
         document.drawContents(painter);
-        painter->translate(-text_rect.topLeft());
+        //painter->translate(-text_rect.topLeft());
 
-        QRect checkBoxRect = option.rect;
-        checkBoxRect.setRight(checkBoxRect.height());
-
-        drawCheck (painter, option, checkBoxRect, static_cast<Qt::CheckState> (index.model()->data(index, Qt::CheckStateRole).toInt()) );
-
-        //painter->drawPixmap(text_rect.topLeft(),icon.pixmap());
+        //painter->restore();
 
 
+
+
+        //painter->save();
+        //painter->drawPixmap(QPoint(0,0),icon.pixmap());
+
+        //
+        //Picture
+        //
+        //painter->translate(text_rect.topLeft()+QPoint(document.size().width(),0));
+        painter->translate(document.size().width(),0);
         //QIcon icon = index.model()->data(index, Qt::DecorationRole).value<QIcon>();
         QIcon icon = QIcon(":/algorithms/algorithms/pictures/empty_fa.png");
-        //QSize iconsize = icon.actualSize();
-        QSize iconsize = option.decorationSize;
+        QList<QSize> sizes = icon.availableSizes();
+        QSize iconsize = sizes.first();
 
         //painter->translate(text_rect.topRight());
         //painter->translate(text_rect.topLeft());
-        painter->drawPixmap(text_rect.width()+text_rect.height(), 0.0, icon.pixmap(iconsize.width(), iconsize.height()));
-        painter->drawPixmap(0.0, 0.0, icon.pixmap(iconsize.width(), iconsize.height()));
-        painter->translate(-text_rect.topLeft());
+
+
+        //painter->drawPixmap(text_rect.width()+text_rect.height(), 0.0, icon.pixmap(iconsize.width(), iconsize.height()));
+
+
+        painter->drawPixmap(0.0, 0.0, icon.pixmap(iconsize));
+
+        //painter->translate(-text_rect.topLeft());
         //painter->translate(-text_rect.topRight());
 
 
@@ -120,7 +143,12 @@ QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModel
     //doc.setTextWidth(option.rect.width());
     //QRect checkboxRect     = option.widget->style()->subElementRect(QStyle::SE_ItemViewItemCheckIndicator, &option);
     //int height = doc.size().height() > checkboxRect.height() ?  doc.size().height() : checkboxRect.height();
-    return QSize(doc.idealWidth()+doc.size().height(), doc.size().height());
+
+    QIcon icon = QIcon(":/algorithms/algorithms/pictures/empty_fa.png");
+    QList<QSize> sizes = icon.availableSizes();
+    QSize iconsize = sizes.first();
+
+    return QSize(doc.idealWidth()+doc.size().height()+iconsize.width()+10, doc.size().height()+10);
 }
 
 bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)

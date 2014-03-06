@@ -71,10 +71,12 @@ void HTMLDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option,
         //
         //Checkbox
         //
+        painter->save();
         QRect checkBoxRect = option.rect;
-        checkBoxRect.setRight(checkBoxRect.height());
-        drawCheck (painter, option, checkBoxRect, static_cast<Qt::CheckState> (index.model()->data(index, Qt::CheckStateRole).toInt()) );
-
+        //checkBoxRect.setRight(myFont.pointSize());
+        checkBoxRect.setRight(checkBoxRect.left()+option.rect.height());
+        //drawBrakepoint (painter, option, checkBoxRect, static_cast<bool>(index.model()->data(index, Algorithm::Brakepoint_Role).toBool()));
+        painter->restore();
         //painter->save();
 
         QRect text_rect = option.rect;
@@ -85,8 +87,8 @@ void HTMLDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option,
         //
         QTextDocument document;
         document.setDefaultFont(myFont);
-        qDebug() << "Point size" << document.defaultFont().pointSizeF();
-        qDebug() << "Doc height" << document.size().width();
+        //qDebug() << "Point size" << document.defaultFont().pointSizeF();
+        //qDebug() << "Doc height" << document.size().width();
         document.setHtml(text);
         painter->translate(text_rect.topLeft());
         document.drawContents(painter);
@@ -148,7 +150,10 @@ QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModel
     QList<QSize> sizes = icon.availableSizes();
     QSize iconsize = sizes.first();
 
-    return QSize(doc.idealWidth()+doc.size().height()+iconsize.width()+10, doc.size().height()+10);
+    //int margin = 2*QStyle::PM_FocusFrameHMargin;
+    int margin = 0;
+    return QSize(doc.idealWidth()+doc.size().height()+iconsize.width()+10+margin, doc.size().height()+10+margin);
+
 }
 
 bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
@@ -174,41 +179,24 @@ bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const Q
       return false;
     }
 
-    bool checked = index.model()->data(index, Qt::CheckStateRole).toBool();
-    return model->setData(index, !checked, Qt::CheckStateRole);
+    bool checked = index.model()->data(index, Algorithm::Brakepoint_Role).toBool();
+    return model->setData(index, !checked, Algorithm::Brakepoint_Role);
 }
 
-void HTMLDelegate::drawCheck ( QPainter * painter, const QStyleOptionViewItem & option, const QRect & rect, Qt::CheckState state ) const
+void HTMLDelegate::drawBrakepoint ( QPainter * painter, const QStyleOptionViewItem & option, const QRect & rect, bool selected ) const
 {
-
-
-    int margin = rect.width() / 5;
-
     QRect myRect = rect;
-    myRect.setBottom(myRect.bottom() - margin);
-    myRect.setTop(myRect.top() + margin);
-    myRect.setLeft(myRect.left() + margin);
-    myRect.setRight(myRect.right() - margin);
-//    myRect.setWidth(2);
-//    myRect.setHeight(2);
-    if (state == Qt::Unchecked)
+    //qDebug()<< "myRect: " <<myRect.width() <<"," << myRect.height();
+    if (!selected)
     {
-        painter->setPen(Qt::white);
-        painter->setBrush(Qt::white);
-        painter->drawEllipse(myRect);
+        painter->setPen(Qt::lightGray);
+        painter->setBrush(Qt::lightGray);
+        painter->drawEllipse(myRect.center(),myFont.pointSize(),myFont.pointSize());
     }
     else
     {
         painter->setPen(Qt::red);
         painter->setBrush(Qt::red);
-        painter->drawEllipse(myRect);
+        painter->drawEllipse(myRect.center(),myFont.pointSize(),myFont.pointSize());
     }
 }
-
-//void HTMLDelegate::drawCheck ( QPainter *painter, const QStyleOptionViewItem &option, const QRect &rect,      Qt::CheckState state ) const
-//{
-//    const int textMargin = QApplication::style()->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-
-//    QRect checkRect = QStyle::alignedRect(option.direction, Qt::AlignCenter, rect.size(), QRect(option.rect.x() + textMargin, option.rect.y(),option.rect.width() - (textMargin * 2), option.rect.height()));
-//    QItemDelegate::drawCheck(painter, option, checkRect, state);
-//}

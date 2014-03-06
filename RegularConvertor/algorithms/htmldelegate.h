@@ -6,6 +6,7 @@
 //#include <QWidget>
 #include <QPainter>
 #include <QTextDocument>
+#include "algorithms/algorithm.h"
 
 class HTMLDelegate : public QItemDelegate
 {
@@ -17,7 +18,8 @@ protected:
     void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
     QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
     virtual bool editorEvent(QEvent *event,QAbstractItemModel *model,const QStyleOptionViewItem &option, const QModelIndex &index);
-    //virtual void drawCheck ( QPainter *painter, const QStyleOptionViewItem &option, const QRect & rect, Qt::CheckState state ) const;
-    virtual void drawCheck ( QPainter *painter, const QStyleOptionViewItem &option, const QRect &,      Qt::CheckState state ) const;
+
+private:
+    void drawBrakepoint ( QPainter *painter, const QStyleOptionViewItem &option, const QRect &, bool selected ) const;
 };
-#endif // HTMLDELEGATE_H
+#endif // HTMLDELEGATE_Hselectedselected

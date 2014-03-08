@@ -71,7 +71,7 @@ void MainWindow::prepareREtoFA()
     QWidget* reg_exp_container = new QWidget();
     QVBoxLayout* reg_exp_vlayout = new QVBoxLayout;
     reg_exp_vlayout->setMargin(0);
-    QLabel* reg_exp_label = new QLabel("Regulární výraz",this);
+    QLabel* reg_exp_label = new QLabel("<b>Regulární výraz</b>",this);
     reg_exp_label->setAlignment(Qt::AlignCenter);
     reg_exp_vlayout->addWidget(reg_exp_label);
     reg_exp_vlayout->addWidget(reg_exp_widget);
@@ -81,7 +81,7 @@ void MainWindow::prepareREtoFA()
     QWidget* algorithm_container = new QWidget();
     QVBoxLayout* algorithm_vlayout = new QVBoxLayout;
     algorithm_vlayout->setMargin(0);
-    QLabel* algorithm_label = new QLabel("Algoritmus RV na FA",this);
+    QLabel* algorithm_label = new QLabel("<b>Algoritmus RV na FA</b>",this);
     algorithm_label->setAlignment(Qt::AlignCenter);
     AlgorithmWidget* alhgorithm_widget = new AlgorithmWidget();
     //AlgorithmView* algorithm_RE_to_FA = new AlgorithmView(ui->centralWidget);
@@ -99,7 +99,7 @@ void MainWindow::prepareREtoFA()
     QWidget* left_fa_container = new QWidget();
     QVBoxLayout* FA_left_vlayout = new QVBoxLayout;
     FA_left_vlayout->setMargin(0);
-    QLabel* FA_left_label = new QLabel("levý syn",this);
+    QLabel* FA_left_label = new QLabel("<b>levý syn</b>",this);
     FA_left_label->setAlignment(Qt::AlignCenter);
     FA_left_vlayout->addWidget(FA_left_label);
     FA_left_vlayout->addWidget(fa_widget_left);
@@ -109,7 +109,7 @@ void MainWindow::prepareREtoFA()
     QWidget* center_fa_container = new QWidget();
     QVBoxLayout* FA_center_vlayout = new QVBoxLayout;
     FA_center_vlayout->setMargin(0);
-    QLabel* FA_center_label = new QLabel("vybraný uzel",this);
+    QLabel* FA_center_label = new QLabel("<b>vybraný uzel</b>",this);
     FA_center_label->setAlignment(Qt::AlignCenter);
     FA_center_vlayout->addWidget(FA_center_label);
     FA_center_vlayout->addWidget(fa_widget_center);
@@ -119,7 +119,7 @@ void MainWindow::prepareREtoFA()
     QWidget* right_fa_container = new QWidget();
     QVBoxLayout* FA_right_vlayout = new QVBoxLayout;
     FA_right_vlayout->setMargin(0);
-    QLabel* FA_right_label = new QLabel("pravý syn",this);
+    QLabel* FA_right_label = new QLabel("<b>pravý syn</b>",this);
     FA_right_label->setAlignment(Qt::AlignCenter);
     FA_right_vlayout->addWidget(FA_right_label);
     FA_right_vlayout->addWidget(fa_widget_right);

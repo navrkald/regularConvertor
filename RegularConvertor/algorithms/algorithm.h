@@ -14,6 +14,7 @@ public:
 
     static const int HasBrakepoint_Role = Qt::UserRole;
     static const int Brakepoint_Role = Qt::UserRole +1 ;
+
     //    struct steps
 //    {
 //        QString formal_text;

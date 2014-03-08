@@ -11,14 +11,24 @@ class RegExpToFA : public Algorithm
 {
 public:
     RegExpToFA(RegExp _re);
-    RegExpToFA(modes mode, RegExpWidget* re_widget, FA_widget* left_fa_widget, FA_widget* center_fa_widget, FA_widget* right_fa_widget);
+    RegExpToFA(modes _mode, RegExpWidget* _re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget);
     void computeSolution();
     QList <RegExpNode*> getAvailableNodes();
-    RegExpNode* chooseRandomNode();
     RegExp re;
+public slots:
+    void setRE(RegExp _re);
+
 private:
-    void postOrder(RegExpNode* node);
+    modes mode;
+    RegExpWidget* re_widget;
+    FA_widget* left_fa_widget;
+    FA_widget* center_fa_widget;
+    FA_widget* right_fa_widget;
+
     QList<RegExpNode*> nodesToProcede;
+    RegExpNode* chooseRandomNode();
+    void postOrder(RegExpNode* node);
+
 };
 
 #endif // REGEXPTOFA_H

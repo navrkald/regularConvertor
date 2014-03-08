@@ -10,6 +10,12 @@
     <height>653</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
     <width>0</width>
@@ -99,8 +105,8 @@
         <widget class="AlgorithmView" name="treeView">
          <property name="minimumSize">
           <size>
-           <width>200</width>
-           <height>200</height>
+           <width>400</width>
+           <height>400</height>
           </size>
          </property>
         </widget>

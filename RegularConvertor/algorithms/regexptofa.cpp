@@ -1,36 +1,88 @@
 #include "regexptofa.h"
 #include <QtGlobal>
 
+#define INDENT "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
+
+#define HEADER 0
 #define EMPTY_FA 1
+#define EPSILON_FA 2
+#define ONE_SYMBOL_FA 3
+#define COMPOSED_FA 4
+#define CONCATENATE_FA 5
+#define ALTERNATE_FA 6
+#define ITERATE_FA 7
+
 
 RegExpToFA::RegExpToFA(RegExp _re)
 {
-    this->re  = _re;
-    postOrder(re.rootNode);
-
+    setRE(_re);
 }
 
-RegExpToFA::RegExpToFA(modes mode, RegExpWidget *re_widget, FA_widget* left_fa_widget, FA_widget* center_fa_widget, FA_widget* right_fa_widget)
+RegExpToFA::RegExpToFA(modes _mode, RegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget)
+    : mode(_mode), re_widget(_re_widget), left_fa_widget(_left_fa_widget), center_fa_widget(_center_fa_widget), right_fa_widget(_right_fa_widget)
 {
-    this->setRowCount(2);
-    this->setColumnCount(1);
-    instructions.resize(100);
-    instructions[0] = "\"Zevnitř\" RV <i>r</i> opakovaně použít následující pravidla ke konstrukci konečného automatu <i>M</i>:";
-    instructions[EMPTY_FA] = "Pro RV ∅ vytvoř KA <i>M<sub>∅</sub></i>";
+
+    instructions.resize(ITERATE_FA+1);
+    instructions[HEADER] = "<b>\"Zevnitř\" RV <i>r</i> opakovaně použít následující pravidla <br> ke konstrukci konečného automatu <i>M</i>:</b>";
+    instructions[EMPTY_FA] = "Pro RV ∅ vytvoř KA <b><i>M<sub>∅</sub></i>:</b> ";
+    instructions[EPSILON_FA] = QString("Pro RV %1 vytvoř FA <b><i>M<sub> %1 </sub></i>: </b>").arg(EPSILON);
+    instructions[ONE_SYMBOL_FA] = "Pro RV <b>a</b> ∈ Σ vytvoř KA <b>M<sub>a</sub>: </b>";
+    instructions[COMPOSED_FA] ="<b>Nechť</b> pro RV <b><i>r</i></b> a <b><i>t</i></b> již existují po řadě KA <b><i>M<sub>r</sub></i></b> a <b><i>M<sub>t</sub></i></b> <!--<br>--><b>Potom:</b>";
+    instructions[CONCATENATE_FA] = INDENT "Pro RV <b>r.t</b> vytvoř KA <b><i>M<sub>r.t</sub></i>: </b>";
+    instructions[ALTERNATE_FA] = INDENT "Pro RV <b>r+t</b> vytvoř KA <b><i>M<sub>r+t<sub></i>: </b>";
+    instructions[ITERATE_FA] = INDENT "Pro RV <b>r*</b> vytvoř KA <b><i>M<sub>r*</sub></i>: </b>";
+
     QIcon empty_fa_icon = QIcon(":/algorithms/algorithms/pictures/empty_fa.png");
+    QIcon epsilon_fa_icon = QIcon(":/algorithms/algorithms/pictures/epsilon_fa.png");
+    QIcon one_symbol_fa_icon = QIcon(":/algorithms/algorithms/pictures/one_symbol_fa.png");
+    QIcon concatenate_fa_icon = QIcon(":/algorithms/algorithms/pictures/concatenate_fa.png");
+    QIcon alternate_fa_icon = QIcon(":/algorithms/algorithms/pictures/alternate_fa.png");
+    QIcon iterate_fa_icon = QIcon(":/algorithms/algorithms/pictures/iterate_fa.png");
+
+    this->setColumnCount(1);
+    this->setRowCount(instructions.count());
 
     for(int i = 0; i < instructions.count();i++)
     {
         QModelIndex index = this->index(i,0,QModelIndex());
         setData(index,instructions[i],Qt::EditRole);
-        if(i == EMPTY_FA)
+        setData(index,true,Algorithm::HasBrakepoint_Role);
+        switch(i)
         {
-            setData(index,empty_fa_icon,Qt::DecorationRole);
+            case HEADER:
+                setData(index,false,Algorithm::HasBrakepoint_Role);
+                break;
+            case EMPTY_FA:
+                setData(index,empty_fa_icon,Qt::DecorationRole);
+                break;
+            case EPSILON_FA:
+                setData(index,epsilon_fa_icon,Qt::DecorationRole);
+                break;
+
+            case ONE_SYMBOL_FA:
+                 setData(index,one_symbol_fa_icon,Qt::DecorationRole);
+            break;
+            case CONCATENATE_FA:
+                setData(index,concatenate_fa_icon,Qt::DecorationRole);
+            case ALTERNATE_FA:
+                setData(index,alternate_fa_icon,Qt::DecorationRole);
+                break;
+            case ITERATE_FA:
+                setData(index,iterate_fa_icon,Qt::DecorationRole);
+                break;
         }
     }
 
+    connect(this->re_widget,SIGNAL(newRegExp(RegExp)),this,SLOT(setRE(RegExp)));
+}
 
 
+
+void RegExpToFA::setRE(RegExp _re)
+{
+    this->re  = _re;
+    postOrder(re.rootNode);
+    computeSolution();
 }
 
 void RegExpToFA::computeSolution()
@@ -65,8 +117,7 @@ void RegExpToFA::computeSolution()
                }
            }
        }
-    } //while
-
+    }
 }
 
 
@@ -81,13 +132,11 @@ RegExpNode* RegExpToFA::chooseRandomNode()
 
 void RegExpToFA::postOrder(RegExpNode* node)
 {
-    //if (node->children.count() != 0)
-    //{
-        foreach(RegExpNode* node1,node->children)
-        {
-            postOrder(node1);
-        }
-    //}
+
+    foreach(RegExpNode* node1,node->children)
+    {
+        postOrder(node1);
+    }
     nodesToProcede.append(node);
 }
 
@@ -103,7 +152,6 @@ QList<RegExpNode*> RegExpToFA::getAvailableNodes()
 
         if( !node->processed && node->childrenProcessed() )
         {
-            //availableNodes.append(node);
             node->processed = true;
             availableNodes.append(node);
         }

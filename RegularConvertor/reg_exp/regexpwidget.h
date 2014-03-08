@@ -21,6 +21,9 @@ public:
 private:
     Ui::RegExpWidget *ui;
     RegExpTreeModel* treeModel;
+signals:
+    void newRegExp(RegExp re);
+
 private slots:
     void modelChanged();
     void on_pushButton_clicked();

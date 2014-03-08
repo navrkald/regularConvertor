@@ -103,10 +103,10 @@ QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModel
     //total width
     int total_width = brakepoint_size.width() + doc_size.width() + icon_size.width();
 
-    qDebug() << "------------------------";
-    qDebug() << "total_height" <<total_height;
-    qDebug() << "icon_size.height()" <<icon_size.height();
-    qDebug() << "option.rect.height()." << option.rect.height();
+//    qDebug() << "------------------------";
+//    qDebug() << "total_height" <<total_height;
+//    qDebug() << "icon_size.height()" <<icon_size.height();
+//    qDebug() << "option.rect.height()." << option.rect.height();
 
     return QSize(total_width,total_height);
 }

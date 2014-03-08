@@ -11,8 +11,7 @@ RegExpWidget::RegExpWidget(QWidget *parent) :
     this->treeModel = new RegExpTreeModel(this);
     this->ui->treeView->setModel(treeModel);
     modelChanged();
-    connect(ui->regExpTextEdit, SIGNAL(regExpChanged()),this ,SLOT(modelChanged()));
-    connect(ui->regExpTextEdit, SIGNAL(regExpChanged()),this ,SIGNAL(newRegExp(*re)));
+    connect(ui->regExpTextEdit, SIGNAL(regExpChanged()), this ,SLOT(modelChanged()));
 }
 
 RegExpWidget::~RegExpWidget()
@@ -22,6 +21,7 @@ RegExpWidget::~RegExpWidget()
 
 void RegExpWidget::modelChanged()
 {
+    emit newRegExp(*re);
     treeModel->setRootNode(re->rootNode);
     ui->treeView->expandAll();
 }

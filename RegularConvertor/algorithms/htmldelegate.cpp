@@ -2,11 +2,12 @@
 #include <QAbstractTextDocumentLayout>
 #include <QApplication>
 #include <qdebug.h>
+#include <QObject>
 
 #define DEFAUL_FONT 9
 #define DEFAUL_FONT_FAMILY "Sans Serif"
 
-HTMLDelegate::HTMLDelegate()
+HTMLDelegate::HTMLDelegate(QObject *parent) : QItemDelegate(parent)
 {
     myFont = QFont(DEFAUL_FONT_FAMILY, DEFAUL_FONT);
 }
@@ -183,7 +184,7 @@ bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const Q
     return model->setData(index, !checked, Algorithm::Brakepoint_Role);
 }
 
-void HTMLDelegate::drawBrakepoint ( QPainter * painter, const QStyleOptionViewItem & option, const QRect & rect, bool selected ) const
+void HTMLDelegate::drawBrakepoint ( QPainter * painter, const QStyleOptionViewItem & option, const QRect & rect, bool selected )
 {
     QRect myRect = rect;
     //qDebug()<< "myRect: " <<myRect.width() <<"," << myRect.height();

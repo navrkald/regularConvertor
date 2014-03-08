@@ -10,16 +10,20 @@
 
 class HTMLDelegate : public QItemDelegate
 {
+
+    Q_OBJECT
+
 public:
-    HTMLDelegate();
+    explicit HTMLDelegate(QObject *parent = 0);
     QFont myFont;
+    void drawBrakepoint ( QPainter * painter, const QStyleOptionViewItem & option, const QRect & rect, bool selected );
 
 protected:
     void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
     QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
     virtual bool editorEvent(QEvent *event,QAbstractItemModel *model,const QStyleOptionViewItem &option, const QModelIndex &index);
 
-private:
-    void drawBrakepoint ( QPainter *painter, const QStyleOptionViewItem &option, const QRect &, bool selected ) const;
+
+
 };
 #endif // HTMLDELEGATE_Hselectedselected

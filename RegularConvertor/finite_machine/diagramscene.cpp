@@ -146,12 +146,12 @@ void DiagramScene::removeNodes(QSet<QString> nodes)
     foreach(QString nodeName,nodes)
     {
         StateNode* node = getNodeByName(nodeName);
+        removeItem(node);
         if(node == startingState)
         {
             startingState = NULL;
             FA->startState = "";
         }
-        removeItem(node);
         foreach(Arrow* arrowToRemove,node->arrows)
             removeItem(arrowToRemove);
         delete node;
@@ -162,6 +162,7 @@ void DiagramScene::deleteSelected()
 {
     QList<QGraphicsItem*> items = this->selectedItems();
 
+
     //first delete edges
     foreach(QGraphicsItem* item,items)
     {
@@ -169,12 +170,14 @@ void DiagramScene::deleteSelected()
         if (arrow)
         {
             removeItem(arrow);
-            //items.removeOne(arrow);
+            items.removeOne(arrow);
             foreach(QString symbol,arrow->symbols)
                 FA->removeRule(ComputationalRules(arrow->startItem()->getName(),arrow->endItem()->getName(),symbol));
             delete arrow;
         }
     }
+
+
 
     //then delete nodes
     foreach(QGraphicsItem* item,items)
@@ -182,12 +185,12 @@ void DiagramScene::deleteSelected()
         StateNode* node = dynamic_cast<StateNode*>(item);
         if (node)
         {
+            removeItem(node);
             if(node == startingState)
             {
-                startingState = NULL;
+                this->startingState = NULL;
                 FA->startState = "";
             }
-            removeItem(node);
             foreach(Arrow* arrowToRemove,node->arrows)
                 removeItem(arrowToRemove);
             delete node;
@@ -267,6 +270,14 @@ void DiagramScene::removeEdges(QSet<ComputationalRules> rules)
         {//remove arrow
             delete arrow;
         }
+    }
+}
+
+void DiagramScene::selectAll()
+{
+    foreach(QGraphicsItem* item,this->items())
+    {
+        item->setSelected(true);
     }
 }
 
@@ -350,6 +361,18 @@ Arrow* DiagramScene::getArrow(StateNode *from, StateNode* to)
          }
     }
     return NULL;
+}
+
+void DiagramScene::setFA(FiniteAutomata* _FA)
+{
+    this->selectAll();
+    this->deleteSelected();
+
+    this->FA = _FA;
+    addNodes(FA->states);
+    setStartNode(FA->startState);
+    addEdges(FA->rules);
+    addEndingNodes(FA->finalStates);
 }
 
 

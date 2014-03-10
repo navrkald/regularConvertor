@@ -46,12 +46,15 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
     void delete_items();
+    void clean();
 
 public slots:
+    void setFA(FiniteAutomata* FA);
     void updateStates();
     void testingSlot(QString msg);
 
 signals:
+    void FA_changed(FiniteAutomata* FA);
     void addNodes(QSet <QString> nodes);
     void removeNodes(QSet <QString> nodes);
     void addSymbols(QSet <QString> symbols);

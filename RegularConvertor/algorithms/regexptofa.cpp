@@ -142,6 +142,50 @@ void RegExpToFA::nextStep()
         RegExpNode* processedNode = nodesToProcede.first();
         nodesToProcede.pop_front();
 
+        if(processedNode->isLeaf())
+        {
+            processedNode->user_FA.init(processedNode->str);
+        }
+        else
+        {
+            if(processedNode->str == ITERATION)
+            {
+                 RegExpNode* son = processedNode->children.at(0);
+                 processedNode->user_FA =  FiniteAutomata::iteration(son->user_FA);
+            }
+            else
+            {
+                RegExpNode* leftSon = processedNode->children.at(0);
+                RegExpNode* rightSon = processedNode->children.at(1);
+                if (processedNode->str == ALTERNATION)
+                {
+                     processedNode->user_FA = leftSon->user_FA + rightSon->user_FA;
+                }
+                else if (processedNode->str == CONCATENATION)
+                {
+                     processedNode->user_FA = FiniteAutomata::concatenate(leftSon->user_FA, rightSon->user_FA);
+                }
+            }
+        }
+        QList<RegExpNode*> children = processedNode->children;
+        qDebug() << "Pocet synu: " << children.count();
+        if(children.count() > 0)
+        {
+            left_fa_widget->setFA(&(children.at(0)->user_FA));
+        }
+        else
+        {
+            left_fa_widget->setFA(new FiniteAutomata());
+        }
+        if(children.count() > 1)
+        {
+            right_fa_widget->setFA(&(children.at(1)->user_FA));
+        }
+        else
+        {
+            right_fa_widget->setFA(new FiniteAutomata());
+        }
+        center_fa_widget->setFA(&(processedNode->user_FA));
 
         //set and update node icon
         processedNode->state = RegExpNode::CORRECT;
@@ -149,9 +193,6 @@ void RegExpToFA::nextStep()
         re_widget->treeModel->dataChanged(index,index,QVector<int>(Qt::DecorationRole));
         re_widget->deselectAll();
         re_widget->treeView->selectionModel()->select(index,QItemSelectionModel::Select);
-
-        RegExpNode * return_node = static_cast<RegExpNode *>(index.internalPointer());
-        qDebug() << "|||||||||||||" << return_node->str << "||||||||||||||||||";
     }
     else
     {

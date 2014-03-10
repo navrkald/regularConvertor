@@ -32,6 +32,7 @@ public:
 
 
 public slots:
+    void setFA(FiniteAutomata* FA);
     void setMode(Mode mode);
     void changeSelected();
     void deleteSelected();
@@ -42,6 +43,7 @@ public slots:
     void removeEndingNodes(QSet <QString> nodes);
     void addEdges(QSet <ComputationalRules> rules);
     void removeEdges(QSet <ComputationalRules> rules);
+    void selectAll();
 
 private:
     bool clicked;

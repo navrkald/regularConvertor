@@ -85,7 +85,6 @@ private:
     QPen   nodePen;
     bool selected;
     bool pressed;
-    //bool startingState;
     bool endingState;
 
 };

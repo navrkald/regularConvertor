@@ -15,6 +15,7 @@ FA_widget::FA_widget(QWidget *parent) :
     ui->graphicsView->show();
     deleteShortCut=new QShortcut(QKeySequence::Delete, this);
 
+    //buttons
     MoveNodeBut = new QPushButton("move");
     AddNodeBut = new QPushButton("+");
     AddArrowBut = new QPushButton("arrow");
@@ -34,14 +35,9 @@ FA_widget::FA_widget(QWidget *parent) :
     AddArrowBut->setMaximumWidth(AddArrowBut->fontMetrics().boundingRect(AddArrowBut->text()).width()+15);
     DeleteNodeBut->setMaximumWidth(DeleteNodeBut->fontMetrics().boundingRect(DeleteNodeBut->text()).width()+15);
 
-    //completer part
-    //statesStringListModel = new QStringListModel();
-    //endingStatesCompleter = new QCompleter(statesStringListModel, this);
-    QStringList l;
-    l << "ahoj" << "svete";
-    endingStatesCompleter = new MultiSelectCompleter(l, this);
 
-    //endingStatesCompleter->setCompletionPrefix(",");
+    endingStatesCompleter = new MultiSelectCompleter(this);
+
     ui->endingStatesLineEdit->setCompleter(endingStatesCompleter); //to autocomplete ending states
 
     connect( deleteShortCut, SIGNAL(activated()), scene, SLOT(deleteSelected()));
@@ -67,6 +63,9 @@ FA_widget::FA_widget(QWidget *parent) :
     connect(this,SIGNAL(addEdges(QSet<ComputationalRules>)),this->scene,SLOT(addEdges(QSet<ComputationalRules>)));
     connect(this,SIGNAL(removeEdges(QSet<ComputationalRules>)),this->scene,SLOT(removeEdges(QSet<ComputationalRules>)));
 
+
+    //set FA also to scene
+    connect(this,SIGNAL(FA_changed(FiniteAutomata*)),this->scene,SLOT(setFA(FiniteAutomata*)));
 
     //this code displayes edit buttons in front of graphicsView
     QVBoxLayout* vlayout = new QVBoxLayout(ui->graphicsView);
@@ -389,7 +388,23 @@ void FA_widget::on_tabWidget_currentChanged(int index)
 
 void FA_widget::delete_items()
 {
-    this->scene->selectedItems();
     this->scene->deleteSelected();
-    //this->ui->
+}
+
+void FA_widget::clean()
+{
+    ui->alphabetLineEdit->setText("");
+    ui->statesLineEdit->setText("");
+    ui->endingStatesLineEdit->setText("");
+    ui->rulesListWidget->clear();
+    ui->startStateComboBox->clear();
+}
+
+
+
+void FA_widget::setFA(FiniteAutomata* FA)
+{
+    clean();
+    this->FA = FA;
+    emit FA_changed(FA);
 }

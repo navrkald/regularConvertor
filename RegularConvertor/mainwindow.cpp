@@ -88,7 +88,7 @@ void MainWindow::prepareREtoFA()
     algorithm_vlayout->addWidget(algorithm_label);
     algorithm_vlayout->addWidget(alhgorithm_widget);
     algorithm_container->setLayout(algorithm_vlayout);
-    RegExpToFA* reg_exp_algorithm = new RegExpToFA(mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right);
+    RegExpToFA* reg_exp_algorithm = new RegExpToFA(alhgorithm_widget, mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right);
     HTMLDelegate* delegate = new HTMLDelegate();
     alhgorithm_widget->getAlgorithmView()->setModel(reg_exp_algorithm);
     alhgorithm_widget->getAlgorithmView()->setItemDelegate(delegate);

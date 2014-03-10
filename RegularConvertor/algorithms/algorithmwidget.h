@@ -16,6 +16,14 @@ public:
     explicit AlgorithmWidget(QWidget *parent = 0);
     ~AlgorithmWidget();
     AlgorithmView* getAlgorithmView();
+signals:
+    void nextPressed();
+    void prewPressed();
+    void playPressed(int mil_sec);
+    void stopPressed();
+
+public slots:
+    void emitPlay();
 
 private:
     Ui::AlgorithmWidget *ui;

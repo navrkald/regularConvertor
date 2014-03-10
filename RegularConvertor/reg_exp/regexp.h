@@ -7,6 +7,8 @@
 #include "charpos.h"
 #include "regexpnode.h"
 
+#define EMPTY_SET
+
 class RegExp
 {
 public:
@@ -16,9 +18,9 @@ public:
     QList<CharPos> addConcOperator(QString _reqExp);
     RegExpParser parser;
     RegExpNode* rootNode;
-
-private:
     QString regexp;
+private:
+
 
     //functions to validate reqexp
 //    static QString strToVal;

@@ -13,13 +13,13 @@
 #define ITERATE_FA 7
 
 
-RegExpToFA::RegExpToFA(RegExp _re)
+RegExpToFA::RegExpToFA(RegExp* _re)
 {
     setRE(_re);
 }
 
-RegExpToFA::RegExpToFA(modes _mode, RegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget)
-    : mode(_mode), re_widget(_re_widget), left_fa_widget(_left_fa_widget), center_fa_widget(_center_fa_widget), right_fa_widget(_right_fa_widget)
+RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget)
+    : algorithm_widget(_algorithm_widget), mode(_mode), re_widget(_re_widget), left_fa_widget(_left_fa_widget), center_fa_widget(_center_fa_widget), right_fa_widget(_right_fa_widget)
 {
 
     instructions.resize(ITERATE_FA+1);
@@ -73,16 +73,26 @@ RegExpToFA::RegExpToFA(modes _mode, RegExpWidget *_re_widget, FA_widget* _left_f
         }
     }
 
-    connect(this->re_widget,SIGNAL(newRegExp(RegExp)),this,SLOT(setRE(RegExp)));
+    timer = new QTimer();
+    connect(timer,SIGNAL(timeout()),this,SLOT(nextStep()));
+
+    connect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE(RegExp*))); //get RegExp when changed
+    connect(this->algorithm_widget,SIGNAL(playPressed(int)),this,SLOT(runAlgorithm(int)));
+    connect(this->algorithm_widget,SIGNAL(stopPressed()),this,SLOT(stop()));
+    connect(this->algorithm_widget,SIGNAL(prewPressed()),this,SLOT(prewStep()));
+    connect(this->algorithm_widget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
+
 }
 
 
 
-void RegExpToFA::setRE(RegExp _re)
+void RegExpToFA::setRE(RegExp* _re)
 {
+    nodesToProcede.clear();
     this->re  = _re;
-    postOrder(re.rootNode);
-    computeSolution();
+    //qDebug() << re->regexp;
+    postOrder(re->rootNode);
+    //computeSolution();
 }
 
 void RegExpToFA::computeSolution()
@@ -120,6 +130,48 @@ void RegExpToFA::computeSolution()
     }
 }
 
+void RegExpToFA::runAlgorithm(int mil_sec)
+{
+    timer->start(mil_sec);
+}
+
+void RegExpToFA::nextStep()
+{
+    if(!nodesToProcede.empty())
+    {
+        RegExpNode* processedNode = nodesToProcede.first();
+        nodesToProcede.pop_front();
+
+
+        //set and update node icon
+        processedNode->state = RegExpNode::CORRECT;
+        QModelIndex index = re_widget->treeModel->indexFromNode(processedNode);
+        re_widget->treeModel->dataChanged(index,index,QVector<int>(Qt::DecorationRole));
+        re_widget->deselectAll();
+        re_widget->treeView->selectionModel()->select(index,QItemSelectionModel::Select);
+
+        RegExpNode * return_node = static_cast<RegExpNode *>(index.internalPointer());
+        qDebug() << "|||||||||||||" << return_node->str << "||||||||||||||||||";
+    }
+    else
+    {
+        //qDebug() << "Nodes to precesed empty!";
+    }
+
+
+    //re_widget->selectionModel;
+}
+
+void RegExpToFA::prewStep()
+{
+
+}
+
+void RegExpToFA::stop()
+{
+    timer->stop();
+}
+
 
 
 RegExpNode* RegExpToFA::chooseRandomNode()
@@ -137,14 +189,23 @@ void RegExpToFA::postOrder(RegExpNode* node)
     {
         postOrder(node1);
     }
+    //qDebug()<<"->" << node->str << "<-";
+    if(node->str == "")
+    {
+        qDebug()<<"ERROR!!!!!";
+    }
     nodesToProcede.append(node);
+    foreach(RegExpNode* n,nodesToProcede)
+    {
+        qDebug()<< n->str;
+    }
 }
 
 QList<RegExpNode*> RegExpToFA::getAvailableNodes()
 {
     QList<RegExpNode*> availableNodes;
     QList<RegExpNode*> nodes_to_visit;
-    nodes_to_visit.append(re.rootNode);
+    nodes_to_visit.append(re->rootNode);
     while(!nodes_to_visit.empty())
     {
         RegExpNode* node = nodes_to_visit.first();

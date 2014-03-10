@@ -21,6 +21,7 @@ public:
     bool isLeaf();
     enum states {CORRECT,WRONG,UNKNOWN};
     states state;
+    bool selected;
     FiniteAutomata user_FA;
     FiniteAutomata correct_FA;
     bool processed;

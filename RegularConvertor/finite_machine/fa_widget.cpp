@@ -10,7 +10,7 @@ FA_widget::FA_widget(QWidget *parent) :
 
     FA = new FiniteAutomata();
 
-    scene = new DiagramScene(FA, this);
+    scene = new DiagramScene(FA, ui->graphicsView);
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
     deleteShortCut=new QShortcut(QKeySequence::Delete, this);
@@ -50,13 +50,15 @@ FA_widget::FA_widget(QWidget *parent) :
     connect(this->MoveNodeBut,SIGNAL(clicked()), this, SLOT(MoveNodeBut_clicked()));
     connect(this->AddNodeBut,SIGNAL(clicked()),this, SLOT(AddNodeBut_clicked()));
     connect(this->AddArrowBut, SIGNAL(clicked()),this, SLOT(AddArrowBut_clicked()));
-    connect(this->DeleteNodeBut, SIGNAL(clicked()), scene, SLOT(deleteSelected()));
+    connect(this->DeleteNodeBut, SIGNAL(clicked()), this, SLOT(delete_items()));
 
-    //
+
+    //notify changes in formal view
     connect(this->ui->statesLineEdit,SIGNAL(editingFinished()),this,SLOT(statesEdited()));
     connect(this->ui->endingStatesLineEdit,SIGNAL(editingFinished()),this,SLOT(endingStatesEdited()));
     connect(this->ui->alphabetLineEdit,SIGNAL(editingFinished()),this,SLOT(alphaberEdited()));
 
+    //add items to scene
     connect(this,SIGNAL(addNodes(QSet<QString>)),this->scene,SLOT(addNodes(QSet<QString>)));
     connect(this,SIGNAL(removeNodes(QSet<QString>)),this->scene,SLOT(removeNodes(QSet<QString>)));
     connect(this,SIGNAL(setStartNode(QString)),this->scene,SLOT(setStartNode(QString)));
@@ -148,12 +150,6 @@ void FA_widget::AddArrowBut_clicked()
 {
 
     scene->setMode(DiagramScene::AddArrow);
-}
-
-void FA_widget::DeleteNodeBut_clicked(){
-    //scene->setMode(DiagramScene::DeleteNode);
-    //delete selected items
-    //TODO: at se vymazi v mazaci metode sceny
 }
 
 void FA_widget::statesEdited()
@@ -389,4 +385,11 @@ void FA_widget::on_tabWidget_currentChanged(int index)
         ui->endingStatesLineEdit->setText(endingStates.join(", "));
 
     }
+}
+
+void FA_widget::delete_items()
+{
+    this->scene->selectedItems();
+    this->scene->deleteSelected();
+    //this->ui->
 }

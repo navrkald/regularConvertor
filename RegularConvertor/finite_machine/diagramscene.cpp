@@ -169,7 +169,7 @@ void DiagramScene::deleteSelected()
         if (arrow)
         {
             removeItem(arrow);
-            items.removeOne(arrow);
+            //items.removeOne(arrow);
             foreach(QString symbol,arrow->symbols)
                 FA->removeRule(ComputationalRules(arrow->startItem()->getName(),arrow->endItem()->getName(),symbol));
             delete arrow;
@@ -272,16 +272,27 @@ void DiagramScene::removeEdges(QSet<ComputationalRules> rules)
 
 QPoint DiagramScene::randGeneratePos()
 {
+    QGraphicsView* view = dynamic_cast<QGraphicsView*> (this->parent());
+
+    QRect viewport_rect(0, 0, view->viewport()->width(), view->viewport()->height());
+    QRectF visible_scene_rect = view->mapToScene(viewport_rect).boundingRect();
+
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
-    int low = 50;
-    int high = 450;
-    return QPoint(qrand() % ((high + 1) - low) + low,qrand() % ((high + 1) - low) + low);
+
+    int x_low = visible_scene_rect.x() + NODE_RADIUS;
+    int y_low = visible_scene_rect.y() + NODE_RADIUS;
+
+    int x_high = visible_scene_rect.x() + visible_scene_rect.width() - NODE_RADIUS;
+    int y_higt = visible_scene_rect.y() + visible_scene_rect.height() - NODE_RADIUS;
+    return QPoint(qrand() % ((x_high + 1) - x_low) + x_low, qrand() % ((y_higt + 1) - y_low) + y_low);
 
 }
 
+//add node to qgraphic scene
 void DiagramScene::addNode(QString node_name)
 {
+
     StateNode* newNode = new StateNode(this, this->FA, node_name);
     this->addItem(newNode);
     int least_num_colide_items = std::numeric_limits<int>::max();

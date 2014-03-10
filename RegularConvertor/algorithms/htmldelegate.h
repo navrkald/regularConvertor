@@ -16,7 +16,7 @@ class HTMLDelegate : public QItemDelegate
 public:
     explicit HTMLDelegate(QObject *parent = 0);
     QFont myFont;
-    int my_margin = 2;
+    int my_margin;
     void drawBrakepoint ( QPainter * painter, const QStyleOptionViewItem & option, const QRect & rect, bool selected )const;
 
 protected:

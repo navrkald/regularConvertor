@@ -15,18 +15,29 @@ public:
 
     void setRootNode(RegExpNode *node);
 
+    //vrati index ktery mam row colum a rodice
     QModelIndex index(int row, int column,
                       const QModelIndex &parent) const;
+    //vrati rodice zadaneho indexu
     QModelIndex parent(const QModelIndex &child) const;
 
+    //vrati pocet radku od rodice
     int rowCount(const QModelIndex &parent) const;
+    //vrati pocet sloupcu od rodice
     int columnCount(const QModelIndex &parent) const;
+    //vrati data indexu se specifickou rolý (text a ikonu)
     QVariant data(const QModelIndex &index, int role) const;
+
+    //nedela nic
     QVariant headerData(int section, Qt::Orientation orientation,
                         CharPos charter) const;
 
-private:
+    //vrati
+    QModelIndex indexFromNode(RegExpNode *node) const;
+    //vrati data na indexu
     RegExpNode *nodeFromIndex(const QModelIndex &index) const;
+private:
+
 
     RegExpNode *rootNode;
 };

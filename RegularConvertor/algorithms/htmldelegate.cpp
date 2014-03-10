@@ -10,6 +10,7 @@
 HTMLDelegate::HTMLDelegate(QObject *parent) : QItemDelegate(parent)
 {
     myFont = QFont(DEFAUL_FONT_FAMILY, DEFAUL_FONT);
+    my_margin = 2;
 }
 
 void HTMLDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option, const QModelIndex &index) const

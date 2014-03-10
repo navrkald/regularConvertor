@@ -6,6 +6,7 @@
 
 class Algorithm : public QStandardItemModel
 {
+    Q_OBJECT
 public:
     Algorithm();
     //TODO add bool if brakepoint is set for some step

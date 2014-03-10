@@ -6,6 +6,10 @@ AlgorithmWidget::AlgorithmWidget(QWidget *parent) :
     ui(new Ui::AlgorithmWidget)
 {
     ui->setupUi(this);
+    connect(this->ui->nextButton,SIGNAL(clicked()),this,SIGNAL(nextPressed()));
+    connect(this->ui->prewButton,SIGNAL(clicked()),this,SIGNAL(prewPressed()));
+    connect(this->ui->playButton,SIGNAL(clicked()),this,SLOT(emitPlay()));
+    connect(this->ui->stopButton,SIGNAL(clicked()),this,SIGNAL(stopPressed()));
 }
 
 AlgorithmWidget::~AlgorithmWidget()
@@ -16,4 +20,9 @@ AlgorithmWidget::~AlgorithmWidget()
 AlgorithmView *AlgorithmWidget::getAlgorithmView()
 {
     return ui->treeView;
+}
+
+void AlgorithmWidget::emitPlay()
+{
+    emit playPressed(this->ui->spinBox->value());
 }

@@ -33,7 +33,7 @@ private slots:
 
     void AddArrowBut_clicked();
 
-    void DeleteNodeBut_clicked();
+    //void DeleteNodeBut_clicked();
 
     //sloty na editaci formalniho popisu KA
     void statesEdited();
@@ -45,6 +45,7 @@ private slots:
     void on_rulesListWidget_itemDoubleClicked(QListWidgetItem *item);
 
     void on_tabWidget_currentChanged(int index);
+    void delete_items();
 
 public slots:
     void updateStates();

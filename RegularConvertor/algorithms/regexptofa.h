@@ -5,20 +5,37 @@
 #include "finite_machine/finiteautomata.h"
 #include "finite_machine/fa_widget.h"
 #include "reg_exp/regexpwidget.h"
-
+#include "algorithms/algorithmwidget.h"
+#include <stdlib.h>
+#include <time.h>
+#include <QtTest/QTest>
 
 class RegExpToFA : public Algorithm
 {
+    Q_OBJECT
+
 public:
-    RegExpToFA(RegExp _re);
-    RegExpToFA(modes _mode, RegExpWidget* _re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget);
+    RegExpToFA(RegExp* _re);
+    RegExpToFA(AlgorithmWidget* _algorithm_widget,modes _mode, RegExpWidget* _re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget);
     void computeSolution();
+
+    bool continue_running;
+
     QList <RegExpNode*> getAvailableNodes();
-    RegExp re;
+    RegExp* re;
+
 public slots:
-    void setRE(RegExp _re);
+    void setRE(RegExp* _re);
+
+    void runAlgorithm(int mil_sec);
+    void nextStep();
+    void prewStep();
+    void stop();
 
 private:
+    QTimer *timer;
+
+    AlgorithmWidget* algorithm_widget;
     modes mode;
     RegExpWidget* re_widget;
     FA_widget* left_fa_widget;

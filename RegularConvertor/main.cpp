@@ -4,6 +4,7 @@
 #include "reg_exp/regexp.h"
 #include "reg_exp/regexpparser.h"
 #include "algorithms/regexptofa.h"
+#include "finite_machine/arrow.h"
 
 #include "finite_machine/finiteautomata.h"
 int main(int argc, char *argv[])
@@ -13,6 +14,9 @@ int main(int argc, char *argv[])
 
 
     QApplication a(argc, argv);
+
+    //Arrow a;
+    //a.EllipseLineIntersection(QRectF(),QPointF(153,217),QPointF(263,161))
 
 //    Graphviz* graph = new Graphviz("GraphName",qApp->font(),50);
 

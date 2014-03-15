@@ -150,7 +150,7 @@ QWidget *)
 
 
 
-        centerLine.setLength ( centerLine.length ()  - myEndItem->getRadius());
+        //centerLine.setLength ( centerLine.length ()  - myEndItem->getRadius());
 
         QPointF endPoint = centerLine.p2();
         QPointF startPoint = centerLine.p1();
@@ -295,7 +295,6 @@ QPointF Arrow::getEndItemPos() const
     {
         //QRectF rect = QRectF(endItem()->elipseBoundingRect().topLeft(), endItem()->pos());
         return EllipseLineIntersection(endItem()->sceneBoundingRect(), startItem()->sceneBoundingRect().center(), endItem()->sceneBoundingRect().center());
-
     }
 }
 
@@ -558,8 +557,8 @@ t=-------------------
 
 */
 
-   qreal a = elipse.width();
-   qreal b = elipse.height();
+   qreal a = elipse.width()/2.0;
+   qreal b = elipse.height()/2.0;
    qreal m = elipse.center().x();
    qreal n = elipse.center().y();
    qreal x1 = p1.x();
@@ -567,9 +566,9 @@ t=-------------------
    qreal x2 = p2.x();
    qreal y2 = p2.y();
 
-   qreal A = b*b*(x2-x1)*(x2-x1) + a*a*(y2-y1)*(y2-y1);
-   qreal B = +2*b*b*((x2-x1)*x1-(x2-x1)*m) + 2*a*a*((y2-y1)*y1 - (y2-y1)*n);
-   qreal C = (x1*x1-2*x1*m+m*m)*b*b + (y2*y2-2*y1*n+n*n)*a*a - a*a*b*b;
+   qreal A = ( x2 - x1 ) * ( x2 - x1 ) * b*b + ( y2 - y1 ) * ( y2 - y1 ) * a*a;
+   qreal B = ( 2*x1 * ( x2 - x1 ) -2 * ( x2 - x1 ) *m) * b*b + ( 2* y1 * ( y2 - y1 ) -2 * (y2-y1) * n ) * a*a;
+   qreal C = b*b * ( x1*x1 + m*m -2*x1*m ) + a*a * (y1*y1 + n*n - 2*y1*n) - a*a*b*b;
    qreal D = B*B - 4*A*C;
 
    if(D < 0)
@@ -578,23 +577,37 @@ t=-------------------
        exit(-1);
    }
 
-   qreal t1 = (-B + qSqrt(D))/2*A;
+   qreal t1 = (-B + qSqrt(D))/(2*A);
    QPoint intersect1 = QPoint(x1+(x2-x1)*t1,y1+(y2-y1)*t1);
-   qreal t2 = (-B - qSqrt(D))/2*A;
+   qreal t2 = (-B - qSqrt(D))/(2*A);
    QPoint intersect2 = QPoint(x1+(x2-x1)*t2,y1+(y2-y1)*t2);
-
+   qDebug() <<"p1: " << p1;
+   qDebug() <<"p2: " << p2;
+   qDebug() << "Intersect: " <<intersect1;
    if((t1 >=0 && t1 <= 1 ) || (t2 >= 0 && t2 <= 1) )
    {
         if((t1 >=0 && t1 <= 1 ) && (t2 >= 0 && t2 <= 1))
             return (t1 < t2) ? intersect1 : intersect2;
         else if(t1 >=0 && t1 <= 1)
+        {
+            qDebug() <<"t1: " << t1;
+            qDebug() <<"t2: " << t2;
+            qDebug() << "Intersect: " <<intersect1;
             return intersect1;
+        }
         else
+        {
+            qDebug() <<"t1: " << t1;
+            qDebug() <<"t2: "<< t2;
+            qDebug() <<"Intersect: " << intersect2;
             return intersect2;
+        }
+
    }
    else
    {
        qDebug() << "Fatal eroor: No intersect, returning point [0,0]";
+       qDebug() << "Max qreal: " << std::numeric_limits<qreal>::max();
        qDebug() << t1;
        qDebug() << t2;
        qDebug() << intersect1;

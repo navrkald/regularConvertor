@@ -26,6 +26,7 @@ public:
 
 public slots:
     void setRE(RegExp* _re);
+    void selectRegExp(QModelIndex index);
 
     void runAlgorithm(int mil_sec);
     void nextStep();

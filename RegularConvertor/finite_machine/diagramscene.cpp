@@ -368,6 +368,7 @@ void DiagramScene::setFA(FiniteAutomata* _FA)
     this->selectAll();
     this->deleteSelected();
 
+    delete this->FA;
     this->FA = _FA;
     addNodes(FA->states);
     setStartNode(FA->startState);

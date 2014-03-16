@@ -81,7 +81,8 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
     connect(this->algorithm_widget,SIGNAL(stopPressed()),this,SLOT(stop()));
     connect(this->algorithm_widget,SIGNAL(prewPressed()),this,SLOT(prewStep()));
     connect(this->algorithm_widget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
-
+    connect(this->re_widget,SIGNAL(itemClicked(QModelIndex)),this,SLOT(selectRegExp(QModelIndex)));
+    connect(this->center_fa_widget,SIGNAL(FA_changed(FiniteAutomata*))
 }
 
 
@@ -93,6 +94,30 @@ void RegExpToFA::setRE(RegExp* _re)
     //qDebug() << re->regexp;
     postOrder(re->rootNode);
     //computeSolution();
+}
+
+void RegExpToFA::selectRegExp(QModelIndex index)
+{
+    RegExpNode* node = re_widget->treeModel->nodeFromIndex(index);
+
+    QList<RegExpNode*> children = node->children;
+    if(children.count() > 0)
+    {
+        left_fa_widget->setFA(new FiniteAutomata(children.at(0)->user_FA));
+    }
+    else
+    {
+        left_fa_widget->setFA(new FiniteAutomata());
+    }
+    if(children.count() > 1)
+    {
+        right_fa_widget->setFA(new FiniteAutomata(children.at(1)->user_FA));
+    }
+    else
+    {
+        right_fa_widget->setFA(new FiniteAutomata());
+    }
+    center_fa_widget->setFA(new FiniteAutomata(node->user_FA));
 }
 
 void RegExpToFA::computeSolution()
@@ -171,7 +196,7 @@ void RegExpToFA::nextStep()
         qDebug() << "Pocet synu: " << children.count();
         if(children.count() > 0)
         {
-            left_fa_widget->setFA(&(children.at(0)->user_FA));
+            left_fa_widget->setFA(new FiniteAutomata(children.at(0)->user_FA));
         }
         else
         {
@@ -179,13 +204,13 @@ void RegExpToFA::nextStep()
         }
         if(children.count() > 1)
         {
-            right_fa_widget->setFA(&(children.at(1)->user_FA));
+            right_fa_widget->setFA(new FiniteAutomata(children.at(1)->user_FA));
         }
         else
         {
             right_fa_widget->setFA(new FiniteAutomata());
         }
-        center_fa_widget->setFA(&(processedNode->user_FA));
+        center_fa_widget->setFA(new FiniteAutomata(processedNode->user_FA));
 
         //set and update node icon
         processedNode->state = RegExpNode::CORRECT;
@@ -197,6 +222,7 @@ void RegExpToFA::nextStep()
     else
     {
         //qDebug() << "Nodes to precesed empty!";
+        timer->stop();
     }
 
 

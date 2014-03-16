@@ -29,6 +29,7 @@ public:
     void deselectAll();
 signals:
     void newRegExp(RegExp* re);
+    void itemClicked(QModelIndex index);
 
 public slots:
     void modelChanged();

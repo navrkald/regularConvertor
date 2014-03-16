@@ -16,6 +16,16 @@ FiniteAutomata::FiniteAutomata(QString symbol)
     init(symbol);
 }
 
+FiniteAutomata::FiniteAutomata(const FiniteAutomata& _FA)
+{
+    this->nextId = _FA.nextId;
+    states = _FA.states;
+    alphabet = _FA.alphabet;
+    rules = _FA.rules;
+    startState = _FA.startState;
+    finalStates = _FA.finalStates;
+}
+
 void FiniteAutomata::init(QString symbol)
 {
     nextId = 0;

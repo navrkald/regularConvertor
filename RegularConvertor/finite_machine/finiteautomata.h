@@ -12,6 +12,7 @@ class FiniteAutomata //: public QObject
 public:
     explicit FiniteAutomata();
     FiniteAutomata(QString symbol);
+    FiniteAutomata(const FiniteAutomata& _FA);
     void init(QString symbol);
     int nextId;
     bool isStateUnique(QString state);

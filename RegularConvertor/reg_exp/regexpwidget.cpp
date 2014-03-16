@@ -13,7 +13,7 @@ RegExpWidget::RegExpWidget(QWidget *parent) :
     modelChanged();
     selectionModel = ui->treeView->selectionModel();
     connect(ui->regExpTextEdit, SIGNAL(regExpChanged()), this ,SLOT(modelChanged()));
-
+    connect(ui->treeView,SIGNAL(clicked(QModelIndex)),this,SIGNAL(itemClicked(QModelIndex)));
     treeView = ui->treeView;
 }
 

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets opengl testlib
+QT       += core gui widgets opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -12,7 +12,8 @@ TARGET = RegularConvertor
 TEMPLATE = app
 
 unix {
-     LIBS += -lGL
+    LIBS += -lGL
+    QT += testlib
 }
 
 win32 {

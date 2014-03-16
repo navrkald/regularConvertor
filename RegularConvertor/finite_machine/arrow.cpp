@@ -218,7 +218,7 @@ QWidget *)
      else
      {
          QRectF text_rect = recalculateTextSpace();
-         qDebug() << getStartItemPos() << getEndItemPos();
+//         qDebug() << getStartItemPos() << getEndItemPos();
          QLineF centerLine(getStartItemPos(), getEndItemPos());
 
          QPointF center_point =  centerLine.pointAt(0.5);
@@ -581,25 +581,16 @@ t=-------------------
    QPoint intersect1 = QPoint(x1+(x2-x1)*t1,y1+(y2-y1)*t1);
    qreal t2 = (-B - qSqrt(D))/(2*A);
    QPoint intersect2 = QPoint(x1+(x2-x1)*t2,y1+(y2-y1)*t2);
-   qDebug() <<"p1: " << p1;
-   qDebug() <<"p2: " << p2;
-   qDebug() << "Intersect: " <<intersect1;
    if((t1 >=0 && t1 <= 1 ) || (t2 >= 0 && t2 <= 1) )
    {
         if((t1 >=0 && t1 <= 1 ) && (t2 >= 0 && t2 <= 1))
             return (t1 < t2) ? intersect1 : intersect2;
         else if(t1 >=0 && t1 <= 1)
         {
-            qDebug() <<"t1: " << t1;
-            qDebug() <<"t2: " << t2;
-            qDebug() << "Intersect: " <<intersect1;
             return intersect1;
         }
         else
         {
-            qDebug() <<"t1: " << t1;
-            qDebug() <<"t2: "<< t2;
-            qDebug() <<"Intersect: " << intersect2;
             return intersect2;
         }
 
@@ -607,14 +598,7 @@ t=-------------------
    else
    {
        qDebug() << "Fatal eroor: No intersect, returning point [0,0]";
-       qDebug() << "Max qreal: " << std::numeric_limits<qreal>::max();
-       qDebug() << t1;
-       qDebug() << t2;
-       qDebug() << intersect1;
-       qDebug() << intersect2;
-       qDebug() << p1;
-       qDebug() << p2;
-       return p1;
+       return QPoint();
    }
 
 }

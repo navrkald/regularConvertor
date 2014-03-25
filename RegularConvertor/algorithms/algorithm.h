@@ -12,7 +12,7 @@ public:
     //TODO add bool if brakepoint is set for some step
     QVector <QString> instructions;
     QVector <bool> breakpoints;
-    enum modes {CHECK_MODE, PLAY_MODE, STEP_MODE};
+    enum modes {NONE, CHECK_MODE, PLAY_MODE, STEP_MODE};
 
     static const int HasBreakpoint_Role = Qt::UserRole;
     static const int Breakpoint_Role = Qt::UserRole +1 ;

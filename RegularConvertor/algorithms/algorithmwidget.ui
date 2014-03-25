@@ -98,7 +98,7 @@
        <item>
         <widget class="QToolButton" name="showButton">
          <property name="text">
-          <string>Show correct solution</string>
+          <string>Show solution</string>
          </property>
         </widget>
        </item>

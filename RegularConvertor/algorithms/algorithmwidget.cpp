@@ -7,7 +7,7 @@ AlgorithmWidget::AlgorithmWidget(Algorithm::modes _mode, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    showSolution = false;
+    showSolution = true;
 
     connect(this->ui->nextButton,SIGNAL(clicked()),this,SIGNAL(nextPressed()));
     connect(this->ui->prewButton,SIGNAL(clicked()),this,SIGNAL(prewPressed()));
@@ -93,12 +93,12 @@ void AlgorithmWidget::on_showButton_clicked()
     showSolution=!showSolution;
     if(showSolution)
     {
-        ui->showButton->setText("Show solution.");
+        ui->showButton->setText("Show solution");
         emit showCorrectSolutionPressed();
     }
     else
     {
-        ui->showButton->setText("Back.");
+        ui->showButton->setText("Back");
         emit showUserSolutionPressed();
     }
 }

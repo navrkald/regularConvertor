@@ -31,7 +31,8 @@ public:
     Mode getMode();
     StateNode* startingState;
     Arrow* getArrow(StateNode* from, StateNode* to);
-
+    //clean scene but not delete or change FA
+    void clean();
 
 public slots:
     void setFA(FiniteAutomata* FA);

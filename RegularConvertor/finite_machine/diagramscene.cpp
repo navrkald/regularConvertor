@@ -191,11 +191,11 @@ void DiagramScene::deleteSelected()
         StateNode* node = dynamic_cast<StateNode*>(item);
         if (node)
         {
+            FA->removeState(node->getName());
             removeItem(node);
             if(node == startingState)
             {
                 this->startingState = NULL;
-                FA->startState = "";
             }
             foreach(Arrow* arrowToRemove,node->arrows)
                 removeItem(arrowToRemove);
@@ -211,6 +211,7 @@ void DiagramScene::deleteSelected()
 void DiagramScene::setStartNode(QString nodeName)
 {
     StateNode* node = getNodeByName(nodeName);
+    startingState = node;
     if(node != NULL)
         node->setStartinState();
 }
@@ -372,12 +373,51 @@ Arrow* DiagramScene::getArrow(StateNode *from, StateNode* to)
     return NULL;
 }
 
+void DiagramScene::clean()
+{
+
+    QList<QGraphicsItem*> items = this->items();
+
+
+    //first delete edges
+    foreach(QGraphicsItem* item,items)
+    {
+        Arrow* arrow = dynamic_cast<Arrow*>(item);
+        if (arrow)
+        {
+            removeItem(arrow);
+            items.removeOne(arrow);
+            delete arrow;
+        }
+    }
+
+
+
+    //then delete nodes
+    foreach(QGraphicsItem* item,items)
+    {
+        StateNode* node = dynamic_cast<StateNode*>(item);
+        if (node)
+        {
+            removeItem(node);
+            foreach(Arrow* arrowToRemove,node->arrows)
+                removeItem(arrowToRemove);
+            delete node;
+            //FA->removeState(node->)
+        }
+        else
+            qDebug() << "Chyba v diagramscene.cpp, ktera by nikdy nemela nastat!";
+    }
+    emit FA_changed(FA);
+
+}
+
 void DiagramScene::setFA(FiniteAutomata* _FA)
 {
-    this->selectAll();
-    this->deleteSelected();
+//    this->selectAll();
+//    this->deleteSelected();
 
-    delete this->FA;
+    clean();
     this->FA = _FA;
     addNodes(FA->states);
     setStartNode(FA->startState);

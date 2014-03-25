@@ -15,6 +15,7 @@
 
 RegExpToFA::RegExpToFA(RegExp* _re) : Algorithm()
 {
+    mode = NONE;
     setRE(_re);
 }
 
@@ -120,8 +121,7 @@ void RegExpToFA::setRE(RegExp* _re)
     {
         computeSolution();
         postOrder(re->rootNode);
-    }
-
+    }   
 }
 
 void RegExpToFA::selectRegExp(QModelIndex index)
@@ -131,7 +131,7 @@ void RegExpToFA::selectRegExp(QModelIndex index)
     QList<RegExpNode*> children = node->children;
     if(children.count() > 0)
     {
-        left_fa_widget->setFA(new FiniteAutomata(children.at(0)->user_FA));
+        left_fa_widget->setFA(&children.at(0)->user_FA);
     }
     else
     {
@@ -139,7 +139,7 @@ void RegExpToFA::selectRegExp(QModelIndex index)
     }
     if(children.count() > 1)
     {
-        right_fa_widget->setFA(new FiniteAutomata(children.at(1)->user_FA));
+        right_fa_widget->setFA(&children.at(1)->user_FA);
     }
     else
     {
@@ -152,7 +152,7 @@ void RegExpToFA::selectRegExp(QModelIndex index)
     }
     else
     {
-        center_fa_widget->setFA(new FiniteAutomata(node->user_FA));
+        center_fa_widget->setFA(&node->user_FA);
     }
 
 
@@ -329,7 +329,7 @@ void RegExpToFA::checkSolution()
     QList<RegExpNode*> nodes_to_check(nodesToProcede);
     while(!nodes_to_check.empty())
     {
-        RegExpNode* node = nodesToProcede.first();
+        RegExpNode* node = nodes_to_check.first();
         nodes_to_check.pop_front();
         if(FiniteAutomata::areEquivalent(node->correct_FA, node->user_FA))
         {

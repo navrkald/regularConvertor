@@ -579,6 +579,10 @@ bool FiniteAutomata::removeState(QString stateName)
 {
     bool retval = this->states.remove(stateName);
     removeFinalState(stateName);
+    if(this->startState == stateName)
+    {
+        this->startState = "";
+    }
     foreach(ComputationalRules rule,this->rules)
     {
         if (rule.from == stateName || rule.to == stateName)

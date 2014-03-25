@@ -199,10 +199,12 @@ QWidget *)
         foreach(QString symbol,deletedSymbols)
         {
             FA->removeRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
+            FA->removeSymbol(symbol);
         }
         foreach(QString symbol,newSymbols)
         {
             FA->addRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
+            FA->addSymbol(symbol);
         }
         //Setup this
         this->symbols  = editedSymbols;

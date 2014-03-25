@@ -9,6 +9,7 @@ class RemoveEpsilon : public Algorithm
 public:
     RemoveEpsilon(FiniteAutomata _FA);
     FiniteAutomata removeEpsilon();
+    void initInstructions();
 private:
     FiniteAutomata FA;
 

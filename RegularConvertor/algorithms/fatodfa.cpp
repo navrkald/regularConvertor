@@ -56,3 +56,8 @@ FiniteAutomata FaToDFA::getDFA()
     return FAd;
 }
 
+void FaToDFA::initInstructions()
+{
+
+}
+

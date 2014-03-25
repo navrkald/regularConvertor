@@ -51,10 +51,10 @@ private slots:
 public slots:
     void setFA(FiniteAutomata* FA);
     void updateStates();
-    void testingSlot(QString msg);
 
 signals:
     void FA_changed(FiniteAutomata* FA);
+    void setFA_signal(FiniteAutomata* FA);
     void addNodes(QSet <QString> nodes);
     void removeNodes(QSet <QString> nodes);
     void addSymbols(QSet <QString> symbols);

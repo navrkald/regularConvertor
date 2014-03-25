@@ -32,7 +32,20 @@ SOURCES +=\
     algorithms/fatodfa_test.cpp \
     ../RegularConvertor/set/set_of_sets.cpp \
     ../RegularConvertor/algorithms/dfatominfa.cpp \
-    algorithms/dfatominfa_test.cpp
+    algorithms/dfatominfa_test.cpp \
+    ../RegularConvertor/reg_exp/regexptreemodel.cpp \
+    ../RegularConvertor/finite_machine/fa_widget.cpp \
+    ../RegularConvertor/reg_exp/regexpwidget.cpp \
+    ../RegularConvertor/finite_machine/arrow.cpp \
+    ../RegularConvertor/finite_machine/diagramscene.cpp \
+    ../RegularConvertor/finite_machine/editruledialog.cpp \
+    ../RegularConvertor/finite_machine/multiselectcompleter.cpp \
+    ../RegularConvertor/finite_machine/statenode.cpp \
+    ../RegularConvertor/finite_machine/symbolsinputdialog.cpp \
+    ../RegularConvertor/algorithms/algorithmview.cpp \
+    ../RegularConvertor/algorithms/algorithmwidget.cpp \
+    ../RegularConvertor/algorithms/htmldelegate.cpp \
+    ../RegularConvertor/reg_exp/regextextedit.cpp
 
 
 HEADERS  += \
@@ -55,9 +68,27 @@ HEADERS  += \
     algorithms/fatodfa_test.h \
     ../RegularConvertor/set/set_of_sets.h \
     ../RegularConvertor/algorithms/dfatominfa.h \
-    algorithms/dfatominfa_test.h
+    algorithms/dfatominfa_test.h \
+    ../RegularConvertor/reg_exp/regexptreemodel.h \
+    ../RegularConvertor/finite_machine/fa_widget.h \
+    ../RegularConvertor/reg_exp/regexpwidget.h \
+    ../RegularConvertor/finite_machine/arrow.h \
+    ../RegularConvertor/finite_machine/diagramscene.h \
+    ../RegularConvertor/finite_machine/editruledialog.h \
+    ../RegularConvertor/finite_machine/multiselectcompleter.h \
+    ../RegularConvertor/finite_machine/statenode.h \
+    ../RegularConvertor/finite_machine/symbolsinputdialog.h \
+    ../RegularConvertor/algorithms/algorithmview.h \
+    ../RegularConvertor/algorithms/algorithmwidget.h \
+    ../RegularConvertor/algorithms/htmldelegate.h \
+    ../RegularConvertor/reg_exp/regextextedit.h
 
-FORMS    +=
+FORMS    += \
+    ../RegularConvertor/finite_machine/fa_widget.ui \
+    ../RegularConvertor/reg_exp/regexpwidget.ui \
+    ../RegularConvertor/finite_machine/editruledialog.ui \
+    ../RegularConvertor/finite_machine/symbolsinputdialog.ui \
+    ../RegularConvertor/algorithms/algorithmwidget.ui
 
 CONFIG += static
 

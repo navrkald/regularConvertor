@@ -29,18 +29,29 @@ void HTMLDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option,
         painter->setRenderHint(QPainter::Antialiasing, true);
         painter->setRenderHint(QPainter::TextAntialiasing, true);
 
+        //
+        //DrawBackround
+        //
+        QVariant variant;
+        if((variant = index.model()->data(index, Qt::BackgroundRole)).isValid())
+        {
+            QBrush brush = variant.value<QBrush>();
+            painter->fillRect(option.rect,brush);
+            //painter->setBrush(brush);
+        }
+
         QRect text_rect = option.rect;
 
         //
         //Brakepoint
         //
         QRect checkBoxRect = QRect(option.rect.left(),option.rect.top(),0,0);
-        if ((index.model()->data(index, Algorithm::HasBrakepoint_Role).toBool()))
+        if ((index.model()->data(index, Algorithm::HasBreakpoint_Role).toBool()))
         {
 
                 checkBoxRect = option.rect;
                 checkBoxRect.setRight((checkBoxRect.left() + 2*myFont.pointSize()));
-                drawBrakepoint (painter, option, checkBoxRect, static_cast<bool>(index.model()->data(index, Algorithm::Brakepoint_Role).toBool()));
+                drawBrakepoint (painter, option, checkBoxRect, static_cast<bool>(index.model()->data(index, Algorithm::Breakpoint_Role).toBool()));
                 text_rect.setLeft(text_rect.left() + checkBoxRect.width());
 
         }
@@ -89,7 +100,7 @@ QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModel
 
     //brakepoin size
     QSize brakepoint_size(0,0);
-    if ((index.model()->data(index, Algorithm::HasBrakepoint_Role).toBool()))
+    if ((index.model()->data(index, Algorithm::HasBreakpoint_Role).toBool()))
     {
         brakepoint_size = QSize(myFont.pointSize()+2*my_margin,myFont.pointSize()+2*my_margin);
     }
@@ -135,8 +146,20 @@ bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const Q
       return false;
     }
 
-    bool checked = index.model()->data(index, Algorithm::Brakepoint_Role).toBool();
-    return model->setData(index, !checked, Algorithm::Brakepoint_Role);
+    bool checked = index.model()->data(index, Algorithm::Breakpoint_Role).toBool();
+    bool ret_val = model->setData(index, !checked, Algorithm::Breakpoint_Role);
+    emit dataChanged(index);
+    return ret_val;
+}
+
+void HTMLDelegate::changeActInstruction(int _actInstruction)
+{
+
+}
+
+void HTMLDelegate::clearBackround()
+{
+
 }
 
 void HTMLDelegate::drawBrakepoint ( QPainter * painter, const QStyleOptionViewItem & option, const QRect & rect, bool selected ) const
@@ -145,6 +168,10 @@ void HTMLDelegate::drawBrakepoint ( QPainter * painter, const QStyleOptionViewIt
     //qDebug()<< "myRect: " <<myRect.width() <<"," << myRect.height();
     //myRect.setRight((myRect.left() + 2*myFont.pointSize()));
     //painter->drawRect(myRect);
+
+    painter->setBrush( QBrush(Qt::yellow));
+    painter->setBackground(QBrush(Qt::yellow));
+
     if (!selected)
     {
         painter->setPen(Qt::lightGray);

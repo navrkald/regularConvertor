@@ -36,11 +36,18 @@ void RegExpWidget::deselectAll()
     }
 }
 
+void RegExpWidget::setRegExp(RegExp *_re)
+{
+    ui->regExpTextEdit->setRegExp(_re);
+    re = _re;
+}
+
 void RegExpWidget::modelChanged()
 {
-    emit newRegExp(re);
+
     treeModel->setRootNode(re->rootNode);
     ui->treeView->expandAll();
+    emit newRegExp(re);
 }
 
 void RegExpWidget::on_pushButton_clicked()

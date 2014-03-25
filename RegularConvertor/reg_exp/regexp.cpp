@@ -20,6 +20,12 @@ RegExp::RegExp(QString _regexp,QObject *parent)
     init(regexp);
 }
 
+RegExp::RegExp(const RegExp &_regexp)
+{
+    this->rootNode = new RegExpNode(_regexp.rootNode);
+    regexp = _regexp.regexp;
+}
+
 bool RegExp::init(QString _strToVal)
 {
     //init();

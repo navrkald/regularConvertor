@@ -42,14 +42,16 @@
  #include "arrow.h"
  #include <math.h>
 #include <iostream>
+
  const qreal Pi = 3.14;
 
  Arrow::Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA, QStringList symbols,
-          QGraphicsItem *parent, QGraphicsScene *scene)
+          QGraphicsItem *parent, QGraphicsScene* _scene)
      : QGraphicsLineItem(parent)
  {
      this->symbols = symbols;
      this->displayText = this->symbols.join(", ");
+     scene = _scene;
      FA = _FA;
      myStartItem = startItem;
      myEndItem = endItem;
@@ -187,7 +189,7 @@ QWidget *)
 
  void Arrow::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
  {
-     SymbolsInputDialog inputDialog(symbols.join(", "));
+    SymbolsInputDialog inputDialog(symbols.join(", "));
     if(QDialog::Accepted == inputDialog.exec())
     {
         //Setup FA
@@ -202,7 +204,6 @@ QWidget *)
         {
             FA->addRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
         }
-
         //Setup this
         this->symbols  = editedSymbols;
         this->displayText = this->symbols.join(", ");

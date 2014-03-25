@@ -14,6 +14,8 @@ class RegExp
 public:
     explicit RegExp();
     explicit RegExp(QString _regexp, QObject *parent = 0);
+    explicit RegExp(const RegExp& _regexp);
+
     bool init(QString _strToVal);
     QList<CharPos> addConcOperator(QString _reqExp);
     RegExpParser parser;

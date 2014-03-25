@@ -7,7 +7,7 @@ RegExpToFA_test::RegExpToFA_test(QObject *parent) :
 
 void RegExpToFA_test::initTestCase()
 {
-    re.init("((ab)*+c)*");
+    re = new RegExp("((ab)*+c)*");
 }
 
 
@@ -38,7 +38,7 @@ void RegExpToFA_test::computeSolution_test()
 
     RegExpToFA algorithm(re);
     algorithm.computeSolution();
-    FiniteAutomata result = algorithm.re.rootNode->correct_FA;
+    FiniteAutomata result = algorithm.re->rootNode->correct_FA;
 
     QCOMPARE(C, result);
 }

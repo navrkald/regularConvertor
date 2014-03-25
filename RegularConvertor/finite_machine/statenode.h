@@ -58,6 +58,7 @@ protected:
 signals:
     void deleteItem();
     void sendErrorMessage(QString message);
+    void FA_changed(FiniteAutomata* FA);
 //    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 public slots:
     void setStartinState();

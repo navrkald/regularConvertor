@@ -13,24 +13,21 @@
 #define ITERATE_FA 7
 
 
-RegExpToFA::RegExpToFA(RegExp* _re)
+RegExpToFA::RegExpToFA(RegExp* _re) : Algorithm()
 {
     setRE(_re);
 }
 
 RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget)
-    : algorithm_widget(_algorithm_widget), mode(_mode), re_widget(_re_widget), left_fa_widget(_left_fa_widget), center_fa_widget(_center_fa_widget), right_fa_widget(_right_fa_widget)
+    : Algorithm(), algorithm_widget(_algorithm_widget), mode(_mode), re_widget(_re_widget), left_fa_widget(_left_fa_widget), center_fa_widget(_center_fa_widget), right_fa_widget(_right_fa_widget)
 {
 
-    instructions.resize(ITERATE_FA+1);
-    instructions[HEADER] = "<b>\"Zevnitř\" RV <i>r</i> opakovaně použít následující pravidla <br> ke konstrukci konečného automatu <i>M</i>:</b>";
-    instructions[EMPTY_FA] = "Pro RV ∅ vytvoř KA <b><i>M<sub>∅</sub></i>:</b> ";
-    instructions[EPSILON_FA] = QString("Pro RV %1 vytvoř FA <b><i>M<sub> %1 </sub></i>: </b>").arg(EPSILON);
-    instructions[ONE_SYMBOL_FA] = "Pro RV <b>a</b> ∈ Σ vytvoř KA <b>M<sub>a</sub>: </b>";
-    instructions[COMPOSED_FA] ="<b>Nechť</b> pro RV <b><i>r</i></b> a <b><i>t</i></b> již existují po řadě KA <b><i>M<sub>r</sub></i></b> a <b><i>M<sub>t</sub></i></b> <!--<br>--><b>Potom:</b>";
-    instructions[CONCATENATE_FA] = INDENT "Pro RV <b>r.t</b> vytvoř KA <b><i>M<sub>r.t</sub></i>: </b>";
-    instructions[ALTERNATE_FA] = INDENT "Pro RV <b>r+t</b> vytvoř KA <b><i>M<sub>r+t<sub></i>: </b>";
-    instructions[ITERATE_FA] = INDENT "Pro RV <b>r*</b> vytvoř KA <b><i>M<sub>r*</sub></i>: </b>";
+
+    setRE(_re_widget->re);
+    instruction_count = ITERATE_FA+1;
+
+    initInstructions();
+    initBreakpoints(instruction_count);
 
     QIcon empty_fa_icon = QIcon(":/algorithms/algorithms/pictures/empty_fa.png");
     QIcon epsilon_fa_icon = QIcon(":/algorithms/algorithms/pictures/epsilon_fa.png");
@@ -46,11 +43,13 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
     {
         QModelIndex index = this->index(i,0,QModelIndex());
         setData(index,instructions[i],Qt::EditRole);
-        setData(index,true,Algorithm::HasBrakepoint_Role);
+        setData(index,true,Algorithm::HasBreakpoint_Role);
+        setData(index,false,Algorithm::Breakpoint_Role);
         switch(i)
         {
             case HEADER:
-                setData(index,false,Algorithm::HasBrakepoint_Role);
+            case COMPOSED_FA:
+                setData(index,false,Algorithm::HasBreakpoint_Role);
                 break;
             case EMPTY_FA:
                 setData(index,empty_fa_icon,Qt::DecorationRole);
@@ -73,16 +72,34 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
         }
     }
 
-    timer = new QTimer();
-    connect(timer,SIGNAL(timeout()),this,SLOT(nextStep()));
 
-    connect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE(RegExp*))); //get RegExp when changed
+
+    play_timer = new QTimer();
+    check_step_timer = new QTimer();
+    setMode(mode);
+    //
+    // Connect timers.
+    //
+    connect(play_timer, SIGNAL(timeout()), this, SLOT(nextStep()));
+    connect(check_step_timer, SIGNAL(timeout()), this, SLOT(checkSolution()));
+
+
+    //
+    // Connect algorithm buttons.
+    //
     connect(this->algorithm_widget,SIGNAL(playPressed(int)),this,SLOT(runAlgorithm(int)));
     connect(this->algorithm_widget,SIGNAL(stopPressed()),this,SLOT(stop()));
     connect(this->algorithm_widget,SIGNAL(prewPressed()),this,SLOT(prewStep()));
     connect(this->algorithm_widget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
+    connect(this->algorithm_widget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
+    connect(this->algorithm_widget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
+    connect(this->algorithm_widget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
+
+    //
+    // Connect regexp widget
+    //
+    connect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE(RegExp*))); //get RegExp when changed
     connect(this->re_widget,SIGNAL(itemClicked(QModelIndex)),this,SLOT(selectRegExp(QModelIndex)));
-    connect(this->center_fa_widget,SIGNAL(FA_changed(FiniteAutomata*))
 }
 
 
@@ -91,9 +108,20 @@ void RegExpToFA::setRE(RegExp* _re)
 {
     nodesToProcede.clear();
     this->re  = _re;
-    //qDebug() << re->regexp;
     postOrder(re->rootNode);
-    //computeSolution();
+
+    if(mode == PLAY_MODE)
+    {
+        hystory.clear();
+        num = 0;
+        saveStep();
+    }
+    else if(mode == CHECK_MODE || mode == STEP_MODE)
+    {
+        computeSolution();
+        postOrder(re->rootNode);
+    }
+
 }
 
 void RegExpToFA::selectRegExp(QModelIndex index)
@@ -117,7 +145,27 @@ void RegExpToFA::selectRegExp(QModelIndex index)
     {
         right_fa_widget->setFA(new FiniteAutomata());
     }
-    center_fa_widget->setFA(new FiniteAutomata(node->user_FA));
+
+    if(mode == CHECK_MODE)
+    {
+        center_fa_widget->setFA(&node->user_FA);
+    }
+    else
+    {
+        center_fa_widget->setFA(new FiniteAutomata(node->user_FA));
+    }
+
+
+
+}
+
+void RegExpToFA::saveStep()
+{
+    steps s;
+    s.re = new RegExp(*re);
+    s.num = ++num;
+    hystory.append(s);
+    actPos = hystory.count() - 1;
 }
 
 void RegExpToFA::computeSolution()
@@ -157,19 +205,29 @@ void RegExpToFA::computeSolution()
 
 void RegExpToFA::runAlgorithm(int mil_sec)
 {
-    timer->start(mil_sec);
+    play_timer->start(mil_sec);
 }
 
 void RegExpToFA::nextStep()
 {
     if(!nodesToProcede.empty())
     {
+        prewInstruction = actInstruction;
+
         RegExpNode* processedNode = nodesToProcede.first();
         nodesToProcede.pop_front();
 
         if(processedNode->isLeaf())
         {
             processedNode->user_FA.init(processedNode->str);
+            if(processedNode->str == EPSILON)
+            {
+                actInstruction = EPSILON_FA;
+            }
+            else
+            {
+                actInstruction = ONE_SYMBOL_FA;
+            }
         }
         else
         {
@@ -177,6 +235,8 @@ void RegExpToFA::nextStep()
             {
                  RegExpNode* son = processedNode->children.at(0);
                  processedNode->user_FA =  FiniteAutomata::iteration(son->user_FA);
+
+                 actInstruction = ITERATE_FA;
             }
             else
             {
@@ -184,11 +244,15 @@ void RegExpToFA::nextStep()
                 RegExpNode* rightSon = processedNode->children.at(1);
                 if (processedNode->str == ALTERNATION)
                 {
-                     processedNode->user_FA = leftSon->user_FA + rightSon->user_FA;
+                    processedNode->user_FA = leftSon->user_FA + rightSon->user_FA;
+
+                    actInstruction = ALTERNATE_FA;
                 }
                 else if (processedNode->str == CONCATENATION)
                 {
                      processedNode->user_FA = FiniteAutomata::concatenate(leftSon->user_FA, rightSon->user_FA);
+
+                     actInstruction = CONCATENATE_FA;
                 }
             }
         }
@@ -212,31 +276,106 @@ void RegExpToFA::nextStep()
         }
         center_fa_widget->setFA(new FiniteAutomata(processedNode->user_FA));
 
+        if(breakpoints[actInstruction])
+            play_timer->stop();
+
+        setActInstruction();
+
         //set and update node icon
         processedNode->state = RegExpNode::CORRECT;
+        processedNode->processed = true;
         QModelIndex index = re_widget->treeModel->indexFromNode(processedNode);
         re_widget->treeModel->dataChanged(index,index,QVector<int>(Qt::DecorationRole));
         re_widget->deselectAll();
         re_widget->treeView->selectionModel()->select(index,QItemSelectionModel::Select);
+
+        removeFuture();
+        saveStep();
     }
     else
     {
-        //qDebug() << "Nodes to precesed empty!";
-        timer->stop();
+        play_timer->stop();
     }
-
-
-    //re_widget->selectionModel;
 }
 
 void RegExpToFA::prewStep()
 {
+    if (actPos > 0)
+    {
+        actPos--;
+        num = hystory.at(actPos).num;
 
+        //temp disconnect to DO NOT CALL RegExpToFA::setRE(RegExp* _re)
+        disconnect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE(RegExp*)));
+        setNewRegExp(hystory.at(actPos).re);
+        connect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE(RegExp*))); //get RegExp when changed
+    }
 }
+
+
 
 void RegExpToFA::stop()
 {
-    timer->stop();
+    play_timer->stop();
+}
+
+void RegExpToFA::getData(QModelIndex _index)
+{
+    breakpoints[_index.row()] = data(_index, Algorithm::Breakpoint_Role).toBool();
+}
+
+void RegExpToFA::checkSolution()
+{
+    QList<RegExpNode*> nodes_to_check(nodesToProcede);
+    while(!nodes_to_check.empty())
+    {
+        RegExpNode* node = nodesToProcede.first();
+        nodes_to_check.pop_front();
+        if(FiniteAutomata::areEquivalent(node->correct_FA, node->user_FA))
+        {
+            node->state = RegExpNode::CORRECT;
+        }
+        else
+        {
+            node->state = RegExpNode::WRONG;
+        }
+        QModelIndex index = re_widget->treeModel->indexFromNode(node);
+        re_widget->treeModel->dataChanged(index,index,QVector<int>(Qt::DecorationRole));
+    }
+}
+
+void RegExpToFA::showCorrectSolution()
+{
+
+}
+
+void RegExpToFA::showUserSolution()
+{
+
+}
+
+void RegExpToFA::setMode(modes _mode)
+{
+    mode = _mode;
+    clearActInstruction();
+    setNewRegExp(new RegExp());
+    if(mode==STEP_MODE)
+    {
+        check_step_timer->start(CHECK_STEP_TIMEOUT);
+    }
+    else
+    {
+        check_step_timer->stop();
+    }
+
+}
+
+void RegExpToFA::removeFuture()
+{
+    for(int i = actPos+1;i < hystory.count();i++)
+    {
+        hystory.removeAt(i);
+    }
 }
 
 
@@ -256,17 +395,19 @@ void RegExpToFA::postOrder(RegExpNode* node)
     {
         postOrder(node1);
     }
-    //qDebug()<<"->" << node->str << "<-";
     if(node->str == "")
     {
         qDebug()<<"ERROR!!!!!";
     }
-    nodesToProcede.append(node);
-    foreach(RegExpNode* n,nodesToProcede)
-    {
-        qDebug()<< n->str;
-    }
+    if(! node->processed)
+        nodesToProcede.append(node);
+//    foreach(RegExpNode* n,nodesToProcede)
+//    {
+//        qDebug()<< n->str;
+//    }
 }
+
+
 
 QList<RegExpNode*> RegExpToFA::getAvailableNodes()
 {
@@ -289,4 +430,34 @@ QList<RegExpNode*> RegExpToFA::getAvailableNodes()
         }
     }
     return availableNodes;
+}
+
+void RegExpToFA::setNewRegExp(RegExp* _re)
+{
+    left_fa_widget->setFA(new FiniteAutomata());
+    right_fa_widget->setFA(new FiniteAutomata());
+    center_fa_widget->setFA(new FiniteAutomata());
+
+
+
+    re_widget->setRegExp(_re);
+    re_widget->modelChanged();
+
+    nodesToProcede.clear();
+    this->re  = _re;
+    postOrder(re->rootNode);
+}
+
+void RegExpToFA::initInstructions()
+{
+
+    instructions.resize(instruction_count);
+    instructions[HEADER] = "<b>\"Zevnitř\" RV <i>r</i> opakovaně použít následující pravidla <br> ke konstrukci konečného automatu <i>M</i>:</b>";
+    instructions[EMPTY_FA] = "Pro RV ∅ vytvoř KA <b><i>M<sub>∅</sub></i>:</b> ";
+    instructions[EPSILON_FA] = QString("Pro RV %1 vytvoř FA <b><i>M<sub> %1 </sub></i>: </b>").arg(EPSILON);
+    instructions[ONE_SYMBOL_FA] = "Pro RV <b>a</b> ∈ Σ vytvoř KA <b>M<sub>a</sub>: </b>";
+    instructions[COMPOSED_FA] ="<b>Nechť</b> pro RV <b><i>r</i></b> a <b><i>t</i></b> již existují po řadě KA <b><i>M<sub>r</sub></i></b> a <b><i>M<sub>t</sub></i></b> <!--<br>--><b>Potom:</b>";
+    instructions[CONCATENATE_FA] = INDENT "Pro RV <b>r.t</b> vytvoř KA <b><i>M<sub>r.t</sub></i>: </b>";
+    instructions[ALTERNATE_FA] = INDENT "Pro RV <b>r+t</b> vytvoř KA <b><i>M<sub>r+t<sub></i>: </b>";
+    instructions[ITERATE_FA] = INDENT "Pro RV <b>r*</b> vytvoř KA <b><i>M<sub>r*</sub></i>: </b>";
 }

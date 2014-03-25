@@ -32,8 +32,25 @@ MainWindow::MainWindow(QWidget *parent) :
     statusBarTimeout = 5000; //5 second
     setWindowTitle(MY_WINDOW_TITLE);
     connect(ui->action_RE_to_FA,SIGNAL(triggered()),this,SLOT(prepareREtoFA()));
-    ui->action_RE_to_FA->triggered(true);
-    ui->action_play_mode->triggered(true);
+
+    //ui->action_RE_to_FA->triggered(true);
+    //ui->action_play_mode->triggered(true);
+
+    QActionGroup* modesGroup = new QActionGroup(this);
+    modesGroup->addAction(ui->action_check_mode);
+    modesGroup->addAction(ui->action_play_mode);
+    modesGroup->addAction(ui->action_step_mode);
+
+    QActionGroup* conversionGroup = new QActionGroup(this);
+    conversionGroup->addAction(ui->action_RE_to_FA);
+    conversionGroup->addAction(ui->actionKA_KA_bez_epsilon_p_echod);
+
+    activeConversion = none;
+    mode = Algorithm::PLAY_MODE;
+
+    alhgorithm_widget = new AlgorithmWidget(mode,this);
+    alhgorithm_widget->hide();
+    connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
 }
 
 MainWindow::~MainWindow()
@@ -53,6 +70,12 @@ void MainWindow::myStatusbarShowMessage(QString message)
 
 void MainWindow::prepareREtoFA()
 {
+    if(activeConversion == RE_to_FA)
+        return;
+
+    activeConversion = RE_to_FA;
+    ui->textBrowser->hide();
+
     setWindowTitle(MY_WINDOW_TITLE + tr(" - Převod regulárního výrazu na konečný automat"));
     //* layout  = dynamic_cast<QGridLayout*> (ui->centralWidget->layout());
     ui->centralWidget->layout()->setMargin(0);
@@ -83,7 +106,8 @@ void MainWindow::prepareREtoFA()
     algorithm_vlayout->setMargin(0);
     QLabel* algorithm_label = new QLabel("<b>Algoritmus RV na FA</b>",this);
     algorithm_label->setAlignment(Qt::AlignCenter);
-    AlgorithmWidget* alhgorithm_widget = new AlgorithmWidget();
+    //alhgorithm_widget = new AlgorithmWidget(mode);
+    alhgorithm_widget->show();
     //AlgorithmView* algorithm_RE_to_FA = new AlgorithmView(ui->centralWidget);
     algorithm_vlayout->addWidget(algorithm_label);
     algorithm_vlayout->addWidget(alhgorithm_widget);
@@ -92,6 +116,7 @@ void MainWindow::prepareREtoFA()
     HTMLDelegate* delegate = new HTMLDelegate();
     alhgorithm_widget->getAlgorithmView()->setModel(reg_exp_algorithm);
     alhgorithm_widget->getAlgorithmView()->setItemDelegate(delegate);
+    connect(delegate,SIGNAL(dataChanged(QModelIndex)),reg_exp_algorithm,SLOT(getData(QModelIndex)));
     //alhgorithm_widget->setModel(reg_exp_algorithm);
     //algorithm_RE_to_FA->tree algorithm_RE_to_FA->setItemDelegate(delegate);
 
@@ -151,7 +176,7 @@ void MainWindow::prepareREtoFA()
     v_spitter1->addWidget(down_container);
     ui->centralWidget->layout()->addWidget(v_spitter1);
 
-
+    connect(this,SIGNAL(modeChanged(Algorithm::modes)),reg_exp_algorithm,SLOT(setMode(Algorithm::modes)));
 
 
 //    AlgorithmView* listView = new AlgorithmView(this);
@@ -187,14 +212,17 @@ void MainWindow::prepareREtoFA()
 void MainWindow::on_action_check_mode_triggered()
 {
     mode = Algorithm::CHECK_MODE;
+    emit modeChanged(mode);
 }
 
 void MainWindow::on_action_play_mode_triggered()
 {
     mode = Algorithm::PLAY_MODE;
+    emit modeChanged(mode);
 }
 
 void MainWindow::on_action_step_mode_triggered()
 {
     mode = Algorithm::STEP_MODE;
+    emit modeChanged(mode);
 }

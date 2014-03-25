@@ -13,7 +13,7 @@ public:
     explicit RegExpToFA_test(QObject *parent = 0);
     
 private:
-    RegExp re;
+    RegExp *re;
     
 private slots:
     void initTestCase();

@@ -18,6 +18,10 @@ RegExpTextEdit::RegExpTextEdit(QWidget *parent) : QTextEdit(parent)
 void RegExpTextEdit::setRegExp(RegExp *_re)
 {
     re = _re;
+
+    disconnect(this,SIGNAL(textChanged()),this,SLOT(validateText()));
+    setText(re->regexp);
+    connect(this,SIGNAL(textChanged()),this,SLOT(validateText()));
 }
 
 void RegExpTextEdit::keyPressEvent(QKeyEvent *event)

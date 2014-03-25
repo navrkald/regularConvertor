@@ -65,7 +65,7 @@ FA_widget::FA_widget(QWidget *parent) :
 
 
     //set FA also to scene
-    connect(this,SIGNAL(FA_changed(FiniteAutomata*)),this->scene,SLOT(setFA(FiniteAutomata*)));
+    connect(this,SIGNAL(setFA_signal(FiniteAutomata*)),this->scene,SLOT(setFA(FiniteAutomata*)));
 
     //this code displayes edit buttons in front of graphicsView
     QVBoxLayout* vlayout = new QVBoxLayout(ui->graphicsView);
@@ -94,7 +94,7 @@ FA_widget::FA_widget(QWidget *parent) :
 
     setupValidators();
 
-    connect(this,SIGNAL(errorMessageSignal(QString)),this,SLOT(testingSlot(QString)));
+    //connect(this,SIGNAL(errorMessageSignal(QString)),this,SLOT(testingSlot(QString)));
 }
 
 void FA_widget::setupValidators()
@@ -158,6 +158,7 @@ void FA_widget::statesEdited()
     {
         emit removeNodes(FA->states);
         FA->states.clear();
+        emit FA_changed(FA);
         return;
     }
 
@@ -168,10 +169,17 @@ void FA_widget::statesEdited()
     QSet <QString> statesToAdd = setOfStatesLineEdit - FA->states;
     FA->states =setOfStatesLineEdit;
     if(!statesToDel.empty())
+    {
+        emit FA_changed(FA);
         emit removeNodes(statesToDel);
+    }
     if(!statesToAdd.empty())
+    {
         emit addNodes(statesToAdd);
+        emit FA_changed(FA);
+    }
     updateStates();
+    emit FA_changed(FA);
 }
 
 void FA_widget::endingStatesEdited()
@@ -188,6 +196,8 @@ void FA_widget::endingStatesEdited()
         emit removeEndingNodes(endingStatesToDel);
     if(!endingStatesToAdd.empty())
         emit addEndingNodes(endingStatesToAdd);
+
+    emit FA_changed(FA);
 }
 
 void FA_widget::alphaberEdited()
@@ -205,6 +215,7 @@ void FA_widget::alphaberEdited()
     if(!symbolsToAdd.empty())
         emit addSymbols(symbolsToAdd);
 
+    emit FA_changed(FA);
     //TODO! osetrit kdyz se vyskytuji symboly abecedy v prechodech
 }
 
@@ -235,12 +246,7 @@ void FA_widget::updateStates()
     //TODO! osetrit kdyz se smaze uzel ktery se vyskytuje v prechodech
 }
 
-void FA_widget::testingSlot(QString msg)
-{
-    qDebug() << "Toto je testing slot FA_widget";
-}
-
-
+//zmena startovniho stavu ve formalnim popisu
 void FA_widget::on_startStateComboBox_activated(const QString &arg1)
 {
     statesEdited(); //zavolame explicitne protoze "strati fokus, tak aby to fungovalo"
@@ -249,11 +255,12 @@ void FA_widget::on_startStateComboBox_activated(const QString &arg1)
         FA->startState = QString(arg1);
         emit setStartNode(arg1);
     }
+    emit FA_changed(FA);
 }
 
 //DOTO kdyz jsou prazdne uzly tak vyhodit pri pokusu pridavat prechody error message
 
-
+//pridani noveho pravidla ve dormalnim popisu FA
 void FA_widget::on_addRuleToolButton_clicked()
 {
     //updatovani stavu a abecedy (zavolame explicitne protoze "nestrati fokus, tak aby to fungovalo")
@@ -266,6 +273,7 @@ void FA_widget::on_addRuleToolButton_clicked()
         errorMessage.showMessage(message);
         errorMessage.exec();
         emit errorMessageSignal(message);
+        emit FA_changed(FA);
         return;
     }
 
@@ -293,11 +301,13 @@ void FA_widget::on_addRuleToolButton_clicked()
             ;//TODO vypsat warning
         }
     }
+    emit FA_changed(FA);
 }
 
 //TODO vypisovat warningy na statusbar
 //TODO dodelat errorove messages pomoci privatniho obektu errorMessage
 
+//odstranění pravidla z formalniho popisu FA
 void FA_widget::on_removeRuleToolButton_clicked()
 {
     //updatovani stavu a abecedy (zavolame explicitne protoze "nestrati fokus, tak aby to fungovalo")
@@ -315,9 +325,11 @@ void FA_widget::on_removeRuleToolButton_clicked()
     }
     emit removeEdges(rules_to_del);
     qDeleteAll(ui->rulesListWidget->selectedItems());
+    emit FA_changed(FA);
 
 }
 
+//editace pravidel ve formalnim popisu FA
 void FA_widget::on_rulesListWidget_itemDoubleClicked(QListWidgetItem *item)
 {
     //updatovani stavu a abecedy (zavolame explicitne protoze "nestrati fokus, tak aby to fungovalo")
@@ -360,8 +372,10 @@ void FA_widget::on_rulesListWidget_itemDoubleClicked(QListWidgetItem *item)
             ;//TODO item se nezmenil
         }
     }
+    emit FA_changed(FA);
 }
 
+//preklopi se formalni popis do grafu
 void FA_widget::on_tabWidget_currentChanged(int index)
 {
     if(index == 1)
@@ -384,13 +398,17 @@ void FA_widget::on_tabWidget_currentChanged(int index)
         ui->endingStatesLineEdit->setText(endingStates.join(", "));
 
     }
+    emit FA_changed(FA);
 }
 
+//vymaze selected items
 void FA_widget::delete_items()
 {
     this->scene->deleteSelected();
+    emit FA_changed(FA);
 }
 
+//vymaze formalni popis FA
 void FA_widget::clean()
 {
     ui->alphabetLineEdit->setText("");
@@ -398,13 +416,15 @@ void FA_widget::clean()
     ui->endingStatesLineEdit->setText("");
     ui->rulesListWidget->clear();
     ui->startStateComboBox->clear();
+    emit FA_changed(FA);
 }
 
 
-
+//nastavý nový automat
 void FA_widget::setFA(FiniteAutomata* FA)
 {
     clean();
     this->FA = FA;
+    emit setFA_signal(FA);
     emit FA_changed(FA);
 }

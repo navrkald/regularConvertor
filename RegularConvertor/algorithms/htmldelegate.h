@@ -10,7 +10,6 @@
 
 class HTMLDelegate : public QItemDelegate
 {
-
     Q_OBJECT
 
 public:
@@ -23,8 +22,11 @@ protected:
     void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
     QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
     virtual bool editorEvent(QEvent *event,QAbstractItemModel *model,const QStyleOptionViewItem &option, const QModelIndex &index);
-
-
-
+signals:
+    void dataChanged(QModelIndex _index);
+public slots:
+    void changeActInstruction(int _actInstruction);
+private:
+    void clearBackround();
 };
 #endif // HTMLDELEGATE_Hselectedselected

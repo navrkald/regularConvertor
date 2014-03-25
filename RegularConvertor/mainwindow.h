@@ -25,15 +25,18 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QShortcut* deleteShortCut;
+    enum Conversions {none, RE_to_FA};
+    AlgorithmWidget* alhgorithm_widget;
+
 public slots:
     void testing_slot();
+signals:
+    void modeChanged(Algorithm::modes mode);
 private slots:
     void myStatusbarShowMessage(QString message);
     void prepareREtoFA();
     void on_action_check_mode_triggered();
-
     void on_action_play_mode_triggered();
-
     void on_action_step_mode_triggered();
 
 private:
@@ -49,6 +52,7 @@ private:
     RegExpWidget* regExpWidget;
     //enum modes {CHECK_MODE, PLAY_MODE, STEP_MODE};
     Algorithm::modes mode;
+    Conversions activeConversion;
     //void deleteSelected(QGraphicsScene *scene);
 
 //    QToolButton *sceneBut;

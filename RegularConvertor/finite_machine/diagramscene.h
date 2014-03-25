@@ -7,17 +7,19 @@
 #include <QGraphicsScene>
 #include <QtCore>
 #include <QtGui>
-#include "arrow.h"
+
 #include "finiteautomata.h"
 #include "statenode.h"
 class StateNode;
 class Arrow;
 class DiagramScene : public QGraphicsScene
 {
-    Q_OBJECT
+   Q_OBJECT
 signals:
     //void deleteSelected();
+    void FA_changed(FiniteAutomata* FA);
     void sendErrorMessage(QString message);
+
 public:
     DiagramScene(FiniteAutomata* _FA, QWidget *parent);
     //~DiagramScene();

@@ -27,6 +27,8 @@ public:
     QTreeView* treeView;
     void updateView();
     void deselectAll();
+    void setRegExp(RegExp* _re);
+
 signals:
     void newRegExp(RegExp* re);
     void itemClicked(QModelIndex index);

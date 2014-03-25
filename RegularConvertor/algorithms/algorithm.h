@@ -11,11 +11,26 @@ public:
     Algorithm();
     //TODO add bool if brakepoint is set for some step
     QVector <QString> instructions;
+    QVector <bool> breakpoints;
     enum modes {CHECK_MODE, PLAY_MODE, STEP_MODE};
 
-    static const int HasBrakepoint_Role = Qt::UserRole;
-    static const int Brakepoint_Role = Qt::UserRole +1 ;
+    static const int HasBreakpoint_Role = Qt::UserRole;
+    static const int Breakpoint_Role = Qt::UserRole +1 ;
 
+    virtual void initInstructions() = 0;
+    void initBreakpoints(int _num);
+
+
+    QColor actInstructionBackroundColor;
+    QColor normalInstructionBackroundColor;
+
+    int instruction_count;
+    int actInstruction;
+    int prewInstruction;
+    int setActInstruction();
+    int clearActInstruction();
+//signals:
+//    instructionChanged(int _instruction);
     //    struct steps
 //    {
 //        QString formal_text;

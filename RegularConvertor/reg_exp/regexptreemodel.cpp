@@ -20,6 +20,7 @@ void RegExpTreeModel::setRootNode(RegExpNode *node)
     delete rootNode;
     CharPos emptyCharter("",-1,false);
     RegExpNode* emptyNode = new RegExpNode(emptyCharter);
+    //RegExpNode* copy_node = new RegExpNode(node);
     if(node != 0)
     {
         emptyNode->children.append(node);
@@ -46,14 +47,16 @@ QModelIndex RegExpTreeModel::parent(const QModelIndex &child) const
     RegExpNode *node = nodeFromIndex(child);
     if (!node)
         return QModelIndex();
+
     RegExpNode *parentNode = node->parent;
     if (!parentNode)
         return QModelIndex();
-    RegExpNode *grandparentNode = parentNode->parent;
-    if (!grandparentNode)
-        return QModelIndex();
 
-    int row = grandparentNode->children.indexOf(parentNode);
+//    RegExpNode *grandparentNode = parentNode->parent;
+//    if (!grandparentNode)
+//        return createIndex(2, 0, parentNode);
+
+    int row = parentNode->children.indexOf(node);
     return createIndex(row, 0, parentNode);
 }
 

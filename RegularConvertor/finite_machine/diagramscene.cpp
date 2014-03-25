@@ -4,6 +4,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QTime>
 #include <limits>
+#include "finite_machine/arrow.h"
 
 DiagramScene::DiagramScene(FiniteAutomata* _FA, QWidget *parent = 0) : QGraphicsScene(parent)
 {
@@ -39,6 +40,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
              newNode->setPos(mouseEvent->scenePos());
              if(newNode->getName() == "0" && startingState == NULL)
                  newNode->setStartinState();
+             emit FA_changed(FA);
              break;
         case AddArrow:
              //TODO predelat caru na sipku
@@ -46,6 +48,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                                          mouseEvent->scenePos()));
              actLine->setPen(QPen(Qt::black, 2));
              addItem(actLine);
+             emit FA_changed(FA);
              break;
         case MoveNode:
              break;
@@ -107,8 +110,10 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                  Arrow *arrow = new Arrow(startItem, endItem, FA, symbols);
                  foreach(QString symbol,symbols)
                  {
-                    FA->addSymbol(symbol);
+                    if(symbol != EPSILON)
+                        FA->addSymbol(symbol);
                     FA->addRule(ComputationalRules(startItem->getName(),endItem->getName(),symbol));
+                    emit FA_changed(FA);
                  }
                  startItem->addArrow(arrow);
                  endItem->addArrow(arrow);
@@ -156,6 +161,7 @@ void DiagramScene::removeNodes(QSet<QString> nodes)
             removeItem(arrowToRemove);
         delete node;
     }
+    emit FA_changed(FA);
 }
 
 void DiagramScene::deleteSelected()
@@ -198,6 +204,7 @@ void DiagramScene::deleteSelected()
         else
             qDebug() << "Chyba v diagramscene.cpp, ktera by nikdy nemela nastat!";
     }
+    emit FA_changed(FA);
 
 }
 
@@ -255,6 +262,7 @@ void DiagramScene::addEdges(QSet<ComputationalRules> rules)
             arrow->updatePosition();
         }
     }
+    emit FA_changed(FA);
 }
 
 void DiagramScene::removeEdges(QSet<ComputationalRules> rules)
@@ -325,6 +333,7 @@ void DiagramScene::addNode(QString node_name)
         }
     }
     newNode->setPos(best_point);
+    emit FA_changed(FA);
 }
 
 
@@ -374,6 +383,7 @@ void DiagramScene::setFA(FiniteAutomata* _FA)
     setStartNode(FA->startState);
     addEdges(FA->rules);
     addEndingNodes(FA->finalStates);
+    emit FA_changed(FA);
 }
 
 

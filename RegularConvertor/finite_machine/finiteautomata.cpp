@@ -220,10 +220,13 @@ void FiniteAutomata::makeWellDefined()
 
 FiniteAutomata FiniteAutomata::removeEpsilon(FiniteAutomata FA)
 {
-    FiniteAutomata FA_not_epsilon;
-    FA_not_epsilon.states = FA.states;
-    FA_not_epsilon.alphabet = FA.alphabet;
-    FA_not_epsilon.startState = FA.startState;
+    if(!FA.hasEpsilon())
+        return FA;
+
+    FiniteAutomata FA_not_epsilon = FA;
+//    FA_not_epsilon.states = FA.states;
+//    FA_not_epsilon.alphabet = FA.alphabet;
+//    FA_not_epsilon.startState = FA.startState;
 
     //Rules
     foreach(QString state,FA.states)
@@ -263,6 +266,12 @@ void FiniteAutomata::removeEpsilon()
 
 FiniteAutomata FiniteAutomata::toDFA(FiniteAutomata FA)
 {
+    if(FA.startState == "")
+    {
+        qDebug() << "WARNING: FA has no start state!";
+        return FA;
+    }
+
     FiniteAutomata FAd;
     FAd.alphabet = FA.alphabet;                                 //FAd alphabet
 
@@ -274,7 +283,6 @@ FiniteAutomata FiniteAutomata::toDFA(FiniteAutomata FA)
     new_states.insert(tmp_set);
     do
     {
-
         act_state=*(new_states.begin());
         QString from = qsetToQstring(act_state);
         new_states.remove(act_state);
@@ -294,8 +302,6 @@ FiniteAutomata FiniteAutomata::toDFA(FiniteAutomata FA)
             QString to = qsetToQstring(discovered_state);
             if (!discovered_state.empty())
             {
-
-
                 FAd.rules.insert(ComputationalRules(from,to,a));    //FAd insert rules
                 if(!FAd.states.contains(to))
                     new_states.insert(discovered_state);
@@ -319,6 +325,17 @@ void FiniteAutomata::toDFA()
 
 FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
 {
+    if(FA.startState == "")
+    {
+        qDebug() << "WARNING: FA has not start state!";
+        return FA;
+    }
+    if(FA.finalStates.empty())
+    {
+        qDebug() << "WARNING: FA has not any final states!";
+        return FA;
+    }
+
     FA.makeWellDefined();
 
     QSet< QSet <QString> > Qm;
@@ -373,6 +390,12 @@ void FiniteAutomata::toMinFA()
 
 FiniteAutomata FiniteAutomata::normalize(FiniteAutomata FA)
 {
+    if(FA.startState == "")
+    {
+        qDebug() << "Warning: FA has not start state!";
+        return FA;
+    }
+
     //inspirated by http://iris.uhk.cz/tein/teorie/normalizace.html
     //Check if is minimal FA FiniteAutomata minFa;
     FiniteAutomata normalizedFA = FA;
@@ -703,6 +726,18 @@ bool FiniteAutomata::changeRule(ComputationalRules oldrule, ComputationalRules n
         rules.insert(newrule);
         return true;
     }
+}
+
+bool FiniteAutomata::hasEpsilon()
+{
+    foreach(ComputationalRules rule,rules)
+    {
+        if(rule.symbol == EPSILON)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 QSet<QString> FiniteAutomata::epsilonCloser(QString state)

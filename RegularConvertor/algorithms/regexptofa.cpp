@@ -335,6 +335,10 @@ void RegExpToFA::checkSolution()
         {
             node->state = RegExpNode::CORRECT;
         }
+        else if(FiniteAutomata::areEquivalent(FiniteAutomata(), node->user_FA))
+        {
+            node->state = RegExpNode::UNKNOWN;
+        }
         else
         {
             node->state = RegExpNode::WRONG;

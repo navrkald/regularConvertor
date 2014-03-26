@@ -81,6 +81,7 @@ public:
     bool changeSymbolInRule(ComputationalRules rule, QString symbol);
     bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
 
+    bool hasEpsilon();
     QSet <QString> epsilonCloser(QString state);
     QSet <QString> epsilonNeighbours(QString state);
     QSet <ComputationalRules> nonEpsilonRulesOf(QString state);

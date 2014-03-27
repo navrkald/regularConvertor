@@ -14,10 +14,12 @@ public:
     
 private:
     RegExp *re;
+    RegExp *re1;
     
 private slots:
     void initTestCase();
     void computeSolution_test();
+    void computeSolution_test1();
     void cleanupTestCase();
 };
 

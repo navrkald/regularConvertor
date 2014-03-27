@@ -266,6 +266,11 @@ void FiniteAutomata::removeEpsilon()
 
 FiniteAutomata FiniteAutomata::toDFA(FiniteAutomata FA)
 {
+    if(FA.hasEpsilon())
+    {
+        FA.removeEpsilon();
+    }
+
     if(FA.startState == "")
     {
         qDebug() << "WARNING: FA has no start state!";
@@ -340,7 +345,8 @@ FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
 
     QSet< QSet <QString> > Qm;
     Qm.insert(FA.finalStates);
-    Qm.insert(FA.states - FA.finalStates);
+    if(FA.states != FA.finalStates)
+            Qm.insert(FA.states - FA.finalStates);
     bool divided = false;
     do
     {
@@ -376,7 +382,14 @@ FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
         foreach(QString symbol, FA.alphabet)
         {
             QList <ComputationalRules> rules =  FA.findRule_FromSymbol(from_set,symbol);
-            minFA.addRule(qsetToQstring(getFroms(rules)), qsetToQstring(getTos(rules)),symbol);
+            QSet < QSet<QString> > froms = findInSubsets(Qm,getFroms(rules));
+            QSet < QSet<QString> > tos = findInSubsets(Qm,getTos(rules));
+            if(froms.count() != 1 || tos.count() != 1)
+            {
+                qDebug() << "Fatal Eroor: Fatal error in FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)";
+                exit(-1);
+            }
+            minFA.addRule(qsetToQstring(*(froms.begin())), qsetToQstring(*(tos.begin())),symbol);
         }
     }
 

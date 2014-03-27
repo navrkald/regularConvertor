@@ -72,7 +72,17 @@ p, li { white-space: pre-wrap; }
      <property name="title">
       <string>RegExp -&gt; FA</string>
      </property>
+     <addaction name="separator"/>
+     <addaction name="RE_FA_example0"/>
      <addaction name="RE_FA_example1"/>
+     <addaction name="RE_FA_example2"/>
+     <addaction name="RE_FA_example3"/>
+     <addaction name="RE_FA_example4"/>
+     <addaction name="RE_FA_example5"/>
+     <addaction name="RE_FA_example6"/>
+     <addaction name="RE_FA_example7"/>
+     <addaction name="RE_FA_example8"/>
+     <addaction name="RE_FA_example9"/>
     </widget>
     <addaction name="examples_RegExp_FA"/>
    </widget>
@@ -137,9 +147,54 @@ p, li { white-space: pre-wrap; }
     <string>Režim kontroly</string>
    </property>
   </action>
+  <action name="RE_FA_example8">
+   <property name="text">
+    <string>RE &quot;((ab)*+c)*&quot; na KA</string>
+   </property>
+  </action>
   <action name="RE_FA_example1">
    <property name="text">
-    <string>Regulární výraz &quot;((ab)*+c)*&quot; na KA</string>
+    <string>RE &quot;ε&quot;</string>
+   </property>
+  </action>
+  <action name="RE_FA_example2">
+   <property name="text">
+    <string>RE &quot;a&quot;</string>
+   </property>
+  </action>
+  <action name="RE_FA_example3">
+   <property name="text">
+    <string>RE &quot;ab&quot;</string>
+   </property>
+  </action>
+  <action name="RE_FA_example5">
+   <property name="text">
+    <string>RE &quot;a+b&quot;</string>
+   </property>
+  </action>
+  <action name="RE_FA_example4">
+   <property name="text">
+    <string>RE &quot;a*&quot;</string>
+   </property>
+  </action>
+  <action name="RE_FA_example6">
+   <property name="text">
+    <string>RE &quot;a+b*&quot;</string>
+   </property>
+  </action>
+  <action name="RE_FA_example7">
+   <property name="text">
+    <string>RE &quot;(a+b)*&quot;</string>
+   </property>
+  </action>
+  <action name="RE_FA_example9">
+   <property name="text">
+    <string>RE &quot;(a+b)*(a+c)*&quot;</string>
+   </property>
+  </action>
+  <action name="RE_FA_example0">
+   <property name="text">
+    <string>RE Ø</string>
    </property>
   </action>
  </widget>

@@ -17,7 +17,7 @@ class RegExpToFA : public Algorithm
     Q_OBJECT
 
 public:
-    RegExpToFA(RegExp* _re);
+    RegExpToFA(RegExp* _re, modes _mode = NONE);
     RegExpToFA(AlgorithmWidget* _algorithm_widget,modes _mode, RegExpWidget* _re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re = new RegExp());
     void computeSolution();
 
@@ -51,7 +51,7 @@ public slots:
     void checkSolution();
     void showCorrectSolution();
     void showUserSolution();
-
+    void setExample(RegExp* _re);
 
 private:
     QTimer *play_timer;

@@ -13,9 +13,9 @@
 #define ITERATE_FA 7
 
 
-RegExpToFA::RegExpToFA(RegExp* _re) : Algorithm()
+RegExpToFA::RegExpToFA(RegExp* _re, modes _mode) : Algorithm()
 {
-    mode = NONE;
+    setMode(_mode);
     setRE(_re);
 }
 
@@ -24,7 +24,7 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
 {
     //setRE(_re);
 
-
+    re = 0;
     instruction_count = ITERATE_FA+1;
 
     initInstructions();
@@ -109,63 +109,54 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
 void RegExpToFA::setMode(modes _mode, RegExp* _re)
 {
     mode = _mode;
+    nodesToProcede.clear();
     if(mode==STEP_MODE)
     {
         check_step_timer->start(CHECK_STEP_TIMEOUT);
+    }
+    else if(mode == NONE)
+    {
+        ;
     }
     else
     {
         check_step_timer->stop();
     }
 
+    if(re != 0)
+    {
+        hystory.clear();
+        num = 0;
+        clearActInstruction();
+        //checking modes
+        if(mode == PLAY_MODE)
+        {
+            saveStep();
+            postOrder(re->rootNode);
+        }
+        else if(mode == CHECK_MODE || mode == STEP_MODE)
+        {
+            computeSolution();
+        }
+    }
+
 }
-
-//void RegExpToFA::setRE_old(RegExp* _re)
-//{
-//    nodesToProcede.clear();
-//    this->re  = _re;
-//    postOrder(re->rootNode);
-
-//    if(mode == PLAY_MODE)
-//    {
-//        hystory.clear();
-//        num = 0;
-//        saveStep();
-//    }
-//    else if(mode == CHECK_MODE || mode == STEP_MODE)
-//    {
-//        computeSolution();
-//        postOrder(re->rootNode);
-//    }
-//}
-
-//void RegExpToFA::setNewRegExp(RegExp* _re)
-//{
-//    left_fa_widget->setFA(new FiniteAutomata());
-//    right_fa_widget->setFA(new FiniteAutomata());
-//    center_fa_widget->setFA(new FiniteAutomata());
-
-
-//    re_widget->setRegExp(_re);
-//    re_widget->modelChanged();
-
-//    nodesToProcede.clear();
-//    this->re  = _re;
-//    postOrder(re->rootNode);
-//}
 
 void RegExpToFA::setRE(RegExp *_re)
 {
+
     //clean automatas and act instruction in algorithm view
-    left_fa_widget->setFA(new FiniteAutomata());
-    right_fa_widget->setFA(new FiniteAutomata());
-    center_fa_widget->setFA(new FiniteAutomata());
+    if(mode != NONE)
+    {
+        left_fa_widget->setFA(new FiniteAutomata());
+        right_fa_widget->setFA(new FiniteAutomata());
+        center_fa_widget->setFA(new FiniteAutomata());
+    }
     clearActInstruction();
 
     //set RE in algorithm
-    nodesToProcede.clear();
     this->re  = _re;
-    postOrder(re->rootNode);
+
 
     //checking modes
     if(mode == PLAY_MODE)
@@ -173,8 +164,8 @@ void RegExpToFA::setRE(RegExp *_re)
         hystory.clear();
         num = 0;
         saveStep();
+        postOrder(re->rootNode);
     }
-
     else if(mode == CHECK_MODE || mode == STEP_MODE)
     {
         computeSolution();
@@ -230,36 +221,48 @@ void RegExpToFA::saveStep()
 
 void RegExpToFA::computeSolution()
 {
-    while(nodesToProcede.count() != 0)
+    nodesToProcede.clear();
+    postOrder(re->rootNode);
+    if(nodesToProcede.count() == 1 && nodesToProcede.first()->str == EMPTYSET)
     {
-       RegExpNode* processedNode = nodesToProcede.first();//chooseRandomNode();
-       nodesToProcede.pop_front();
+        RegExpNode* processedNode = nodesToProcede.first();
+        processedNode->correct_FA = FiniteAutomata();
+        processedNode->correct_FA.states << "0";
+        processedNode->correct_FA.startState = "0";
+    }
+    else
+    {
+        while(nodesToProcede.count() != 0)
+        {
+           RegExpNode* processedNode = nodesToProcede.first();//chooseRandomNode();
+           nodesToProcede.pop_front();
 
-       if(processedNode->isLeaf())
-       {
-           processedNode->correct_FA.init(processedNode->str);
-       }
-       else
-       {
-           if(processedNode->str == ITERATION)
+           if(processedNode->isLeaf())
            {
-                RegExpNode* son = processedNode->children.at(0);
-                processedNode->correct_FA =  FiniteAutomata::iteration(son->correct_FA);
+               processedNode->correct_FA.init(processedNode->str);
            }
            else
            {
-               RegExpNode* leftSon = processedNode->children.at(0);
-               RegExpNode* rightSon = processedNode->children.at(1);
-               if (processedNode->str == ALTERNATION)
+               if(processedNode->str == ITERATION)
                {
-                    processedNode->correct_FA = leftSon->correct_FA + rightSon->correct_FA;
+                    RegExpNode* son = processedNode->children.at(0);
+                    processedNode->correct_FA =  FiniteAutomata::iteration(son->correct_FA);
                }
-               else if (processedNode->str == CONCATENATION)
+               else
                {
-                    processedNode->correct_FA = FiniteAutomata::concatenate(leftSon->correct_FA, rightSon->correct_FA);
+                   RegExpNode* leftSon = processedNode->children.at(0);
+                   RegExpNode* rightSon = processedNode->children.at(1);
+                   if (processedNode->str == ALTERNATION)
+                   {
+                        processedNode->correct_FA = leftSon->correct_FA + rightSon->correct_FA;
+                   }
+                   else if (processedNode->str == CONCATENATION)
+                   {
+                        processedNode->correct_FA = FiniteAutomata::concatenate(leftSon->correct_FA, rightSon->correct_FA);
+                   }
                }
            }
-       }
+        }
     }
 }
 
@@ -274,19 +277,30 @@ void RegExpToFA::nextStep()
     {
         prewInstruction = actInstruction;
 
+
         RegExpNode* processedNode = nodesToProcede.first();
         nodesToProcede.pop_front();
 
         if(processedNode->isLeaf())
         {
-            processedNode->user_FA.init(processedNode->str);
-            if(processedNode->str == EPSILON)
+            if(hystory.count() == 1 && nodesToProcede.empty() && processedNode->str == EMPTYSET)
             {
-                actInstruction = EPSILON_FA;
+                processedNode->user_FA = FiniteAutomata();
+                processedNode->user_FA.states << "0";
+                processedNode->user_FA.startState = "0";
+                actInstruction = EMPTY_FA;
             }
             else
             {
-                actInstruction = ONE_SYMBOL_FA;
+                processedNode->user_FA.init(processedNode->str);
+                if(processedNode->str == EPSILON)
+                {
+                    actInstruction = EPSILON_FA;
+                }
+                else
+                {
+                    actInstruction = ONE_SYMBOL_FA;
+                }
             }
         }
         else
@@ -386,6 +400,8 @@ void RegExpToFA::getData(QModelIndex _index)
 
 void RegExpToFA::checkSolution()
 {
+    nodesToProcede.clear();
+    postOrder(re->rootNode);
     QList<RegExpNode*> nodes_to_check(nodesToProcede);
     while(!nodes_to_check.empty())
     {
@@ -394,6 +410,7 @@ void RegExpToFA::checkSolution()
         if(FiniteAutomata::areEquivalent(node->correct_FA, node->user_FA))
         {
             node->state = RegExpNode::CORRECT;
+            qDebug() << node->user_FA.states;
         }
         else if(FiniteAutomata::areEquivalent(FiniteAutomata(), node->user_FA))
         {
@@ -416,6 +433,13 @@ void RegExpToFA::showCorrectSolution()
 void RegExpToFA::showUserSolution()
 {
 
+}
+
+void RegExpToFA::setExample(RegExp *_re)
+{
+    re_widget->setRegExp(_re);
+    re_widget->modelChanged();
+    setMode(CHECK_MODE);
 }
 
 
@@ -449,7 +473,7 @@ void RegExpToFA::postOrder(RegExpNode* node)
     {
         qDebug()<<"ERROR!!!!!";
     }
-    if(! node->processed)
+    //if(! node->processed)
         nodesToProcede.append(node);
 //    foreach(RegExpNode* n,nodesToProcede)
 //    {

@@ -10,7 +10,7 @@
 
 RegExp::RegExp()
 {
-    CharPos emptyString ("ε",0,true);
+    CharPos emptyString (EMPTYSET,0,true);
     rootNode = new RegExpNode(emptyString);
 }
 
@@ -33,7 +33,7 @@ bool RegExp::init(QString _strToVal)
     regexp.replace(" ", "");
     if(regexp=="")
     {
-        CharPos emptyString ("ε",0,true);
+        CharPos emptyString (EMPTYSET,0,true);
         rootNode = new RegExpNode(emptyString);
         return true;
     }

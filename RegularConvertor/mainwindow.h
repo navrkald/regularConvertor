@@ -27,6 +27,7 @@ public:
     QShortcut* deleteShortCut;
     enum Conversions {none, RE_to_FA};
     AlgorithmWidget* alhgorithm_widget;
+    RegExpToFA* reg_exp_algorithm;
 
 public slots:
     void testing_slot();
@@ -39,7 +40,27 @@ private slots:
     void on_action_play_mode_triggered();
     void on_action_step_mode_triggered();
 
+    void setRE_FA_example(RegExp* _re);
+
     void on_RE_FA_example1_triggered();
+
+    void on_RE_FA_example0_triggered();
+
+    void on_RE_FA_example2_triggered();
+
+    void on_RE_FA_example3_triggered();
+
+    void on_RE_FA_example4_triggered();
+
+    void on_RE_FA_example5_triggered();
+
+    void on_RE_FA_example6_triggered();
+
+    void on_RE_FA_example7_triggered();
+
+    void on_RE_FA_example8_triggered();
+
+    void on_RE_FA_example9_triggered();
 
 private:
     Ui::MainWindow *ui;

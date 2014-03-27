@@ -5,6 +5,7 @@
 #include <QRegExp>
 #include <QDebug>
 #define EPSILON "ε"
+#define EMPTYSET "Ø"
 
 class ComputationalRules// : public QObject
 {

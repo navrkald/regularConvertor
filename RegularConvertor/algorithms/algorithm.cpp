@@ -21,6 +21,7 @@ int Algorithm::setActInstruction()
     setData(index,QBrush(actInstructionBackroundColor),Qt::BackgroundRole);
 }
 
+//Clear act instruction from algorithm view
 int Algorithm::clearActInstruction()
 {
     for(int i = 0; i<instruction_count; i++)

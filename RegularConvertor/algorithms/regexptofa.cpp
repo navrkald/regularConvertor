@@ -19,12 +19,12 @@ RegExpToFA::RegExpToFA(RegExp* _re) : Algorithm()
     setRE(_re);
 }
 
-RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget)
+RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re)
     : Algorithm(), algorithm_widget(_algorithm_widget), mode(_mode), re_widget(_re_widget), left_fa_widget(_left_fa_widget), center_fa_widget(_center_fa_widget), right_fa_widget(_right_fa_widget)
 {
+    //setRE(_re);
 
 
-    setRE(_re_widget->re);
     instruction_count = ITERATE_FA+1;
 
     initInstructions();
@@ -77,7 +77,7 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
 
     play_timer = new QTimer();
     check_step_timer = new QTimer();
-    setMode(mode);
+    setMode(mode, re);
     //
     // Connect timers.
     //
@@ -101,32 +101,92 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
     //
     connect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE(RegExp*))); //get RegExp when changed
     connect(this->re_widget,SIGNAL(itemClicked(QModelIndex)),this,SLOT(selectRegExp(QModelIndex)));
+
+    re_widget->setRegExp(_re);
+    re_widget->modelChanged();
 }
 
-
-
-void RegExpToFA::setRE(RegExp* _re)
+void RegExpToFA::setMode(modes _mode, RegExp* _re)
 {
+    mode = _mode;
+    if(mode==STEP_MODE)
+    {
+        check_step_timer->start(CHECK_STEP_TIMEOUT);
+    }
+    else
+    {
+        check_step_timer->stop();
+    }
+
+}
+
+//void RegExpToFA::setRE_old(RegExp* _re)
+//{
+//    nodesToProcede.clear();
+//    this->re  = _re;
+//    postOrder(re->rootNode);
+
+//    if(mode == PLAY_MODE)
+//    {
+//        hystory.clear();
+//        num = 0;
+//        saveStep();
+//    }
+//    else if(mode == CHECK_MODE || mode == STEP_MODE)
+//    {
+//        computeSolution();
+//        postOrder(re->rootNode);
+//    }
+//}
+
+//void RegExpToFA::setNewRegExp(RegExp* _re)
+//{
+//    left_fa_widget->setFA(new FiniteAutomata());
+//    right_fa_widget->setFA(new FiniteAutomata());
+//    center_fa_widget->setFA(new FiniteAutomata());
+
+
+//    re_widget->setRegExp(_re);
+//    re_widget->modelChanged();
+
+//    nodesToProcede.clear();
+//    this->re  = _re;
+//    postOrder(re->rootNode);
+//}
+
+void RegExpToFA::setRE(RegExp *_re)
+{
+    //clean automatas and act instruction in algorithm view
+    left_fa_widget->setFA(new FiniteAutomata());
+    right_fa_widget->setFA(new FiniteAutomata());
+    center_fa_widget->setFA(new FiniteAutomata());
+    clearActInstruction();
+
+    //set RE in algorithm
     nodesToProcede.clear();
     this->re  = _re;
     postOrder(re->rootNode);
 
+    //checking modes
     if(mode == PLAY_MODE)
     {
         hystory.clear();
         num = 0;
         saveStep();
     }
+
     else if(mode == CHECK_MODE || mode == STEP_MODE)
     {
         computeSolution();
         postOrder(re->rootNode);
-    }   
+    }
 }
 
 void RegExpToFA::selectRegExp(QModelIndex index)
 {
+
     RegExpNode* node = re_widget->treeModel->nodeFromIndex(index);
+    qDebug() << "Selected node: " << node->str << " row: " <<index.row() << " column: " <<index.column();
 
     QList<RegExpNode*> children = node->children;
     if(children.count() > 0)
@@ -306,9 +366,9 @@ void RegExpToFA::prewStep()
         num = hystory.at(actPos).num;
 
         //temp disconnect to DO NOT CALL RegExpToFA::setRE(RegExp* _re)
-        disconnect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE(RegExp*)));
-        setNewRegExp(hystory.at(actPos).re);
-        connect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE(RegExp*))); //get RegExp when changed
+        //disconnect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE_old(RegExp*)));
+        setRE(hystory.at(actPos).re);
+        //connect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE_old(RegExp*))); //get RegExp when changed
     }
 }
 
@@ -358,21 +418,7 @@ void RegExpToFA::showUserSolution()
 
 }
 
-void RegExpToFA::setMode(modes _mode)
-{
-    mode = _mode;
-    clearActInstruction();
-    setNewRegExp(new RegExp());
-    if(mode==STEP_MODE)
-    {
-        check_step_timer->start(CHECK_STEP_TIMEOUT);
-    }
-    else
-    {
-        check_step_timer->stop();
-    }
 
-}
 
 void RegExpToFA::removeFuture()
 {
@@ -436,21 +482,7 @@ QList<RegExpNode*> RegExpToFA::getAvailableNodes()
     return availableNodes;
 }
 
-void RegExpToFA::setNewRegExp(RegExp* _re)
-{
-    left_fa_widget->setFA(new FiniteAutomata());
-    right_fa_widget->setFA(new FiniteAutomata());
-    center_fa_widget->setFA(new FiniteAutomata());
 
-
-
-    re_widget->setRegExp(_re);
-    re_widget->modelChanged();
-
-    nodesToProcede.clear();
-    this->re  = _re;
-    postOrder(re->rootNode);
-}
 
 void RegExpToFA::initInstructions()
 {

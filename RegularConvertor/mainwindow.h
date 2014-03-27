@@ -34,10 +34,12 @@ signals:
     void modeChanged(Algorithm::modes mode);
 private slots:
     void myStatusbarShowMessage(QString message);
-    void prepareREtoFA();
+    void prepareREtoFA(RegExp* _re = new RegExp());
     void on_action_check_mode_triggered();
     void on_action_play_mode_triggered();
     void on_action_step_mode_triggered();
+
+    void on_RE_FA_example1_triggered();
 
 private:
     Ui::MainWindow *ui;

@@ -68,7 +68,7 @@ void MainWindow::myStatusbarShowMessage(QString message)
     this->ui->statusBar->showMessage(message,statusBarTimeout);
 }
 
-void MainWindow::prepareREtoFA()
+void MainWindow::prepareREtoFA(RegExp* _re)
 {
     if(activeConversion == RE_to_FA)
         return;
@@ -89,6 +89,9 @@ void MainWindow::prepareREtoFA()
     FA_widget* fa_widget_center = new FA_widget();
     FA_widget* fa_widget_right = new FA_widget();
     RegExpWidget* reg_exp_widget = new RegExpWidget(this);
+
+    //initialize
+    //reg_exp_widget->setRegExp(_re);
 
     //regular expression
     QWidget* reg_exp_container = new QWidget();
@@ -112,7 +115,7 @@ void MainWindow::prepareREtoFA()
     algorithm_vlayout->addWidget(algorithm_label);
     algorithm_vlayout->addWidget(alhgorithm_widget);
     algorithm_container->setLayout(algorithm_vlayout);
-    RegExpToFA* reg_exp_algorithm = new RegExpToFA(alhgorithm_widget, mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right);
+    RegExpToFA* reg_exp_algorithm = new RegExpToFA(alhgorithm_widget, mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right, _re);
     HTMLDelegate* delegate = new HTMLDelegate();
     alhgorithm_widget->getAlgorithmView()->setModel(reg_exp_algorithm);
     alhgorithm_widget->getAlgorithmView()->setItemDelegate(delegate);
@@ -225,4 +228,10 @@ void MainWindow::on_action_step_mode_triggered()
 {
     mode = Algorithm::STEP_MODE;
     emit modeChanged(mode);
+}
+
+void MainWindow::on_RE_FA_example1_triggered()
+{
+    on_action_check_mode_triggered();
+    prepareREtoFA(new RegExp("((ab)*+c)*"));
 }

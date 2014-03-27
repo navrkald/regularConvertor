@@ -18,7 +18,7 @@ class RegExpToFA : public Algorithm
 
 public:
     RegExpToFA(RegExp* _re);
-    RegExpToFA(AlgorithmWidget* _algorithm_widget,modes _mode, RegExpWidget* _re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget);
+    RegExpToFA(AlgorithmWidget* _algorithm_widget,modes _mode, RegExpWidget* _re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re = new RegExp());
     void computeSolution();
 
     bool continue_running;
@@ -33,11 +33,13 @@ public:
 
     QList<steps> hystory;
     int actPos;
-    void setNewRegExp(RegExp* re);
+
     void initInstructions();
+//    void setNewRegExp(RegExp* re);
 
 public slots:
-    void setMode(Algorithm::modes _mode);
+    void setMode(Algorithm::modes _mode, RegExp* _re = new RegExp());
+//    void setRE_old(RegExp* _re);
     void setRE(RegExp* _re);
     void selectRegExp(QModelIndex index);
     void saveStep();

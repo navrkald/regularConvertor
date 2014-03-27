@@ -68,6 +68,13 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Příklady</string>
     </property>
+    <widget class="QMenu" name="examples_RegExp_FA">
+     <property name="title">
+      <string>RegExp -&gt; FA</string>
+     </property>
+     <addaction name="RE_FA_example1"/>
+    </widget>
+    <addaction name="examples_RegExp_FA"/>
    </widget>
    <widget class="QMenu" name="menuV_b_r_konverze">
     <property name="title">
@@ -128,6 +135,11 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Režim kontroly</string>
+   </property>
+  </action>
+  <action name="RE_FA_example1">
+   <property name="text">
+    <string>Regulární výraz &quot;((ab)*+c)*&quot; na KA</string>
    </property>
   </action>
  </widget>

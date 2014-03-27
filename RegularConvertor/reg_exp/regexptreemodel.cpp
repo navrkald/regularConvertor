@@ -63,8 +63,15 @@ QModelIndex RegExpTreeModel::parent(const QModelIndex &child) const
 int RegExpTreeModel::rowCount(const QModelIndex &parent) const
 {
     //if (parent.column() > 0)
-    //    return 0;
+    //    return 0
+    qDebug() << parent.column();
+    qDebug() << parent.row();
     RegExpNode *parentNode = nodeFromIndex(parent);
+    RegExpNode* node = static_cast<RegExpNode*>(parent.internalPointer());
+    if(node !=0)
+    {
+        qDebug() << node->str;
+    }
     if (!parentNode)
         return 0;
     return parentNode->children.count();
@@ -134,8 +141,11 @@ RegExpNode* RegExpTreeModel::nodeFromIndex(const QModelIndex &index) const
     if (index.isValid())
     {
         RegExpNode * return_node = static_cast<RegExpNode *>(index.internalPointer());
-        return return_node;
-    } else {
+        if(return_node)
+            return return_node;
+    }
+    else
+    {
         return rootNode;
     }
 }
@@ -160,10 +170,13 @@ QModelIndex RegExpTreeModel::indexFromNode(RegExpNode *node) const//   int row, 
 
         if(processedNode != node )
         {
-            for(int row = 0; row < rowCount(rootIndex); row++)
+            for(int row = 0; row < processedNode->children.count(); row++)
             {
-                int column = 0;
-                indexesToProcese.append(index(row,column,processedIndex));
+                    QModelIndex i = index(row,0,processedIndex);
+                    indexesToProcese.append(i);
+                    //qDebug() << "Node:  " << processedNode->str;
+                    //qDebug() << "row:   " << row;
+                    //qDebug() << "column:" << column;
             }
         }
         else

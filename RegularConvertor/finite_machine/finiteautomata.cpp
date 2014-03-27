@@ -223,10 +223,10 @@ FiniteAutomata FiniteAutomata::removeEpsilon(FiniteAutomata FA)
     if(!FA.hasEpsilon())
         return FA;
 
-    FiniteAutomata FA_not_epsilon = FA;
-//    FA_not_epsilon.states = FA.states;
-//    FA_not_epsilon.alphabet = FA.alphabet;
-//    FA_not_epsilon.startState = FA.startState;
+    FiniteAutomata FA_not_epsilon;
+    FA_not_epsilon.states = FA.states;
+    FA_not_epsilon.alphabet = FA.alphabet;
+    FA_not_epsilon.startState = FA.startState;
 
     //Rules
     foreach(QString state,FA.states)

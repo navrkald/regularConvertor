@@ -35,7 +35,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Pokračujte prosím &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;výběrem módu a konverze&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Pokračujte prosím &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;výběrem módu a konverze&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; nebo &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;výběrem příkladu&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </item>
@@ -149,7 +149,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="RE_FA_example8">
    <property name="text">
-    <string>RE &quot;((ab)*+c)*&quot; na KA</string>
+    <string>RE &quot;((ab)*+c)*&quot;</string>
    </property>
   </action>
   <action name="RE_FA_example1">

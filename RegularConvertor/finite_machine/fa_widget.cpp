@@ -16,11 +16,15 @@ FA_widget::FA_widget(QWidget *parent) :
     deleteShortCut=new QShortcut(QKeySequence::Delete, this);
 
     //buttons
-    MoveNodeBut = new QPushButton("move");
-    AddNodeBut = new QPushButton("+");
-    AddArrowBut = new QPushButton("arrow");
-    DeleteNodeBut = new QPushButton("del");
+    MoveNodeBut = new QToolButton();
+    AddNodeBut = new QToolButton();
+    AddArrowBut = new QToolButton();
+    DeleteNodeBut = new QToolButton();
 
+    MoveNodeBut->setIcon(QIcon(":/finite_machine/finite_machine/pictures/cursor.png"));
+    AddNodeBut->setIcon(QIcon(":/finite_machine/finite_machine/pictures/add_node.png"));
+    AddArrowBut->setIcon(QIcon(":/finite_machine/finite_machine/pictures/add_arrow.png"));
+    DeleteNodeBut->setIcon(QIcon(":/finite_machine/finite_machine/pictures/delete.png"));
     //set then checkable
     MoveNodeBut->setCheckable(true);
     AddNodeBut->setCheckable(true);
@@ -30,10 +34,10 @@ FA_widget::FA_widget(QWidget *parent) :
     AddNodeBut->setChecked(true);
 
     //adjust size of button according text in
-    MoveNodeBut->setMaximumWidth(MoveNodeBut->fontMetrics().boundingRect(MoveNodeBut->text()).width()+15);
-    AddNodeBut->setMaximumWidth(AddNodeBut->fontMetrics().boundingRect(AddNodeBut->text()).width()+15);
-    AddArrowBut->setMaximumWidth(AddArrowBut->fontMetrics().boundingRect(AddArrowBut->text()).width()+15);
-    DeleteNodeBut->setMaximumWidth(DeleteNodeBut->fontMetrics().boundingRect(DeleteNodeBut->text()).width()+15);
+//    MoveNodeBut->setMaximumWidth(MoveNodeBut->fontMetrics().boundingRect(MoveNodeBut->text()).width()+15);
+//    AddNodeBut->setMaximumWidth(AddNodeBut->fontMetrics().boundingRect(AddNodeBut->text()).width()+15);
+//    AddArrowBut->setMaximumWidth(AddArrowBut->fontMetrics().boundingRect(AddArrowBut->text()).width()+15);
+//    DeleteNodeBut->setMaximumWidth(DeleteNodeBut->fontMetrics().boundingRect(DeleteNodeBut->text()).width()+15);
 
 
     endingStatesCompleter = new MultiSelectCompleter(this);

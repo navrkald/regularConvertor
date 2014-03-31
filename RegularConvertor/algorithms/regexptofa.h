@@ -28,11 +28,13 @@ public:
     typedef struct step
     {
         int num;
+        int actInstruction;
         RegExp* re;
     } steps;
 
-    QList<steps> hystory;
+    QList<steps> history;
     int actPos;
+
 
     void initInstructions();
 //    void setNewRegExp(RegExp* re);

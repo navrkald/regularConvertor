@@ -17,7 +17,7 @@ RegExpTreeModel::~RegExpTreeModel()
 void RegExpTreeModel::setRootNode(RegExpNode *node)
 {
     beginResetModel();
-    delete rootNode;
+    //delete rootNode;
     CharPos emptyCharter("",-1,false);
     RegExpNode* emptyNode = new RegExpNode(emptyCharter);
     //RegExpNode* copy_node = new RegExpNode(node);
@@ -62,16 +62,7 @@ QModelIndex RegExpTreeModel::parent(const QModelIndex &child) const
 
 int RegExpTreeModel::rowCount(const QModelIndex &parent) const
 {
-    //if (parent.column() > 0)
-    //    return 0
-    qDebug() << parent.column();
-    qDebug() << parent.row();
     RegExpNode *parentNode = nodeFromIndex(parent);
-    RegExpNode* node = static_cast<RegExpNode*>(parent.internalPointer());
-    if(node !=0)
-    {
-        qDebug() << node->str;
-    }
     if (!parentNode)
         return 0;
     return parentNode->children.count();
@@ -159,7 +150,7 @@ QModelIndex RegExpTreeModel::indexFromNode(RegExpNode *node) const//   int row, 
     //rowCount(rootIndex);
     //columnCount(rootIndex);
 
-    qDebug() << "Seacherd node" << node->str;
+    //qDebug() << "Seacherd node" << node->str;
 
     while(!indexesToProcese.empty())
     {
@@ -181,11 +172,11 @@ QModelIndex RegExpTreeModel::indexFromNode(RegExpNode *node) const//   int row, 
         }
         else
         {
-            qDebug() << "Processed node" << processedNode->str;
+            //qDebug() << "Processed node" << processedNode->str;
             return processedIndex;
         }
     }
     //not fount so return empty index
-    qDebug() << "NOT FIND!!!!!";
+    qDebug() << "ERROR: NOT FIND!!!!!";
     return QModelIndex();
 }

@@ -59,11 +59,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::testing_slot()
-{
-    qDebug() <<"Testing slot launched!";
-}
-
 void MainWindow::myStatusbarShowMessage(QString message)
 {
     this->ui->statusBar->showMessage(message,statusBarTimeout);

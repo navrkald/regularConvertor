@@ -97,6 +97,9 @@
        </item>
        <item>
         <widget class="QToolButton" name="showButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Show solution</string>
          </property>
@@ -121,6 +124,9 @@
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QToolButton" name="prew_stepButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>prew step</string>
          </property>
@@ -128,6 +134,9 @@
        </item>
        <item>
         <widget class="QToolButton" name="next_stepButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>next step</string>
          </property>

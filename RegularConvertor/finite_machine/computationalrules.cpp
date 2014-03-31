@@ -21,7 +21,7 @@ ComputationalRules::ComputationalRules(QString rule)
         from = ruleRegExp.cap(1);
         symbol = ruleRegExp.cap(2);
         to = ruleRegExp.cap(3);
-        qDebug() << "From= " <<from << "\nSymbol= " << symbol << "\nto= " <<to;
+        //qDebug() << "From= " <<from << "\nSymbol= " << symbol << "\nto= " <<to;
     }
 }
 

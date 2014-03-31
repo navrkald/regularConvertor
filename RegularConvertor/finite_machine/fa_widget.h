@@ -69,10 +69,10 @@ signals:
 private:
     //properties
     Ui::FA_widget *ui;
-    QPushButton* MoveNodeBut;
-    QPushButton* AddNodeBut;
-    QPushButton* AddArrowBut;
-    QPushButton* DeleteNodeBut;
+    QToolButton* MoveNodeBut;
+    QToolButton* AddNodeBut;
+    QToolButton* AddArrowBut;
+    QToolButton* DeleteNodeBut;
     //validators for qlineedits
     QValidator *statesValidator;
     QValidator *alphabetValidator;

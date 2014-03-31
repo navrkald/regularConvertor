@@ -375,7 +375,8 @@ Arrow* DiagramScene::getArrow(StateNode *from, StateNode* to)
 
 void DiagramScene::clean()
 {
-
+    actLine=0;
+    startingState=0;
     QList<QGraphicsItem*> items = this->items();
 
 
@@ -414,10 +415,11 @@ void DiagramScene::clean()
 
 void DiagramScene::setFA(FiniteAutomata* _FA)
 {
-//    this->selectAll();
-//    this->deleteSelected();
-
     clean();
+    QList<QGraphicsItem*> items = this->items();
+    clear();
+    clearFocus();
+    clearSelection();
     this->FA = _FA;
     addNodes(FA->states);
     setStartNode(FA->startState);

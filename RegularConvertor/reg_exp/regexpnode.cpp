@@ -93,6 +93,24 @@ bool RegExpNode::childrenProcessed()
     return true;
 }
 
+bool RegExpNode::clearProcessed()
+{
+    clearProcessed(this);
+}
+
+void RegExpNode::clearProcessed(RegExpNode *node)
+{
+        foreach(RegExpNode* node1,node->children)
+        {
+            clearProcessed(node1);
+        }
+        if(node->str == "")
+        {
+            qDebug()<<"ERROR!!!!!";
+        }
+        node->processed = false;
+}
+
 bool RegExpNode::isLeaf()
 {
     if(this->children.empty())

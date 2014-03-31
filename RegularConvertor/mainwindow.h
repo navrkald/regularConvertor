@@ -29,8 +29,6 @@ public:
     AlgorithmWidget* alhgorithm_widget;
     RegExpToFA* reg_exp_algorithm;
 
-public slots:
-    void testing_slot();
 signals:
     void modeChanged(Algorithm::modes mode);
 private slots:

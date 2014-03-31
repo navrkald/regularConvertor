@@ -44,7 +44,6 @@ void RegExpWidget::setRegExp(RegExp *_re)
 
 void RegExpWidget::modelChanged()
 {
-
     treeModel->setRootNode(re->rootNode);
     ui->treeView->expandAll();
     emit newRegExp(re);

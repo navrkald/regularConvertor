@@ -23,7 +23,7 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
     : Algorithm(), algorithm_widget(_algorithm_widget), mode(_mode), re_widget(_re_widget), left_fa_widget(_left_fa_widget), center_fa_widget(_center_fa_widget), right_fa_widget(_right_fa_widget)
 {
     //setRE(_re);
-
+    actInstruction = HEADER;
     re = 0;
     instruction_count = ITERATE_FA+1;
 
@@ -125,17 +125,23 @@ void RegExpToFA::setMode(modes _mode, RegExp* _re)
 
     if(re != 0)
     {
-        hystory.clear();
+        history.clear();
         num = 0;
         clearActInstruction();
         //checking modes
         if(mode == PLAY_MODE)
         {
+            //this clears regexp tree, this by the way indirectly calls void RegExpToFA::setRE(RegExp *_re)
+            re_widget->setRegExp(new RegExp(re->regexp));
+            re_widget->modelChanged();
+
             saveStep();
+            nodesToProcede.clear();
             postOrder(re->rootNode);
         }
         else if(mode == CHECK_MODE || mode == STEP_MODE)
         {
+            this->re->rootNode->clearProcessed();
             computeSolution();
         }
     }
@@ -144,6 +150,9 @@ void RegExpToFA::setMode(modes _mode, RegExp* _re)
 
 void RegExpToFA::setRE(RegExp *_re)
 {
+    RegExp *prew_re = re;
+    //Has impact to computeSolution() and nextStep()
+    nodesToProcede.clear();
 
     //clean automatas and act instruction in algorithm view
     if(mode != NONE)
@@ -151,8 +160,13 @@ void RegExpToFA::setRE(RegExp *_re)
         left_fa_widget->setFA(new FiniteAutomata());
         right_fa_widget->setFA(new FiniteAutomata());
         center_fa_widget->setFA(new FiniteAutomata());
+
+        QModelIndex top_intex = re_widget->treeModel->index(0,0,QModelIndex());
+        //ui->treeView->selectionCommand(top_intex,new QEvent(QEvent::MouseButtonPress));
+        re_widget->treeView->selectionModel()->select(top_intex,QItemSelectionModel::Select);
+        emit re_widget->treeView->clicked(top_intex);
     }
-    clearActInstruction();
+
 
     //set RE in algorithm
     this->re  = _re;
@@ -161,9 +175,18 @@ void RegExpToFA::setRE(RegExp *_re)
     //checking modes
     if(mode == PLAY_MODE)
     {
-        hystory.clear();
-        num = 0;
-        saveStep();
+        //unselect instruction from algorithm window
+        clearActInstruction();
+
+        //this is not prew step so we have to save it in history
+        if(history.empty() || re->regexp !=  history.last().re->regexp)
+        {
+            actPos = 0;
+            actInstruction = HEADER; //init start instruction because new regExp may appeare when pres step mode was in run
+            history.clear();
+            saveStep();
+        }
+        //aby se naplnily nodestoprocese po tom co jsme se vrátili v hystorii
         postOrder(re->rootNode);
     }
     else if(mode == CHECK_MODE || mode == STEP_MODE)
@@ -177,8 +200,6 @@ void RegExpToFA::selectRegExp(QModelIndex index)
 {
 
     RegExpNode* node = re_widget->treeModel->nodeFromIndex(index);
-    qDebug() << "Selected node: " << node->str << " row: " <<index.row() << " column: " <<index.column();
-
     QList<RegExpNode*> children = node->children;
     if(children.count() > 0)
     {
@@ -196,32 +217,29 @@ void RegExpToFA::selectRegExp(QModelIndex index)
     {
         right_fa_widget->setFA(new FiniteAutomata());
     }
-
-    if(mode == CHECK_MODE)
-    {
         center_fa_widget->setFA(&node->user_FA);
-    }
-    else
-    {
-        center_fa_widget->setFA(&node->user_FA);
-    }
 
-
-
+    re_widget->treeModel->dataChanged(index,index,QVector<int>(Qt::DecorationRole));
+    re_widget->deselectAll();
+    re_widget->treeView->selectionModel()->select(index,QItemSelectionModel::Select);
 }
 
 void RegExpToFA::saveStep()
 {
+    if(re->rootNode->str == "")
+        qDebug() << "Fatal Error: in funcion void RegExpToFA::saveStep()";
     steps s;
     s.re = new RegExp(*re);
     s.num = ++num;
-    hystory.append(s);
-    actPos = hystory.count() - 1;
+    s.actInstruction = actInstruction;
+    history.append(s);
+    actPos = history.count() - 1;
 }
 
 void RegExpToFA::computeSolution()
 {
     nodesToProcede.clear();
+    re->rootNode->clearProcessed();
     postOrder(re->rootNode);
     if(nodesToProcede.count() == 1 && nodesToProcede.first()->str == EMPTYSET)
     {
@@ -273,6 +291,7 @@ void RegExpToFA::runAlgorithm(int mil_sec)
 
 void RegExpToFA::nextStep()
 {
+    //re->rootNode->clearProcessed();
     if(!nodesToProcede.empty())
     {
         prewInstruction = actInstruction;
@@ -283,7 +302,7 @@ void RegExpToFA::nextStep()
 
         if(processedNode->isLeaf())
         {
-            if(hystory.count() == 1 && nodesToProcede.empty() && processedNode->str == EMPTYSET)
+            if(history.count() == 1 && nodesToProcede.empty() && processedNode->str == EMPTYSET)
             {
                 processedNode->user_FA = FiniteAutomata();
                 processedNode->user_FA.states << "0";
@@ -330,25 +349,25 @@ void RegExpToFA::nextStep()
                 }
             }
         }
-        QList<RegExpNode*> children = processedNode->children;
-        qDebug() << "Pocet synu: " << children.count();
-        if(children.count() > 0)
-        {
-            left_fa_widget->setFA(new FiniteAutomata(children.at(0)->user_FA));
-        }
-        else
-        {
-            left_fa_widget->setFA(new FiniteAutomata());
-        }
-        if(children.count() > 1)
-        {
-            right_fa_widget->setFA(new FiniteAutomata(children.at(1)->user_FA));
-        }
-        else
-        {
-            right_fa_widget->setFA(new FiniteAutomata());
-        }
-        center_fa_widget->setFA(new FiniteAutomata(processedNode->user_FA));
+//        QList<RegExpNode*> children = processedNode->children;
+//        qDebug() << "Pocet synu: " << children.count();
+//        if(children.count() > 0)
+//        {
+//            left_fa_widget->setFA(new FiniteAutomata(children.at(0)->user_FA));
+//        }
+//        else
+//        {
+//            left_fa_widget->setFA(new FiniteAutomata());
+//        }
+//        if(children.count() > 1)
+//        {
+//            right_fa_widget->setFA(new FiniteAutomata(children.at(1)->user_FA));
+//        }
+//        else
+//        {
+//            right_fa_widget->setFA(new FiniteAutomata());
+//        }
+//        center_fa_widget->setFA(new FiniteAutomata(processedNode->user_FA));
 
         if(breakpoints[actInstruction])
             play_timer->stop();
@@ -359,9 +378,7 @@ void RegExpToFA::nextStep()
         processedNode->state = RegExpNode::CORRECT;
         processedNode->processed = true;
         QModelIndex index = re_widget->treeModel->indexFromNode(processedNode);
-        re_widget->treeModel->dataChanged(index,index,QVector<int>(Qt::DecorationRole));
-        re_widget->deselectAll();
-        re_widget->treeView->selectionModel()->select(index,QItemSelectionModel::Select);
+        selectRegExp(index);
 
         removeFuture();
         saveStep();
@@ -377,15 +394,24 @@ void RegExpToFA::prewStep()
     if (actPos > 0)
     {
         actPos--;
-        num = hystory.at(actPos).num;
+        num = history.at(actPos).num;
+        actInstruction = history.at(actPos).actInstruction;
+        RegExp* tmp_re = history.at(actPos).re;
+        re_widget->setRegExp(new RegExp(*tmp_re));
 
-        //temp disconnect to DO NOT CALL RegExpToFA::setRE(RegExp* _re)
-        //disconnect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE_old(RegExp*)));
-        setRE(hystory.at(actPos).re);
-        //connect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE_old(RegExp*))); //get RegExp when changed
+        re_widget->modelChanged();
+        setActInstruction();
     }
 }
 
+void RegExpToFA::removeFuture()
+{
+    int count  = history.count();
+    for(int i = actPos+1; i < count; i++)
+    {
+        history.removeLast();
+    }
+}
 
 
 void RegExpToFA::stop()
@@ -410,7 +436,6 @@ void RegExpToFA::checkSolution()
         if(FiniteAutomata::areEquivalent(node->correct_FA, node->user_FA))
         {
             node->state = RegExpNode::CORRECT;
-            qDebug() << node->user_FA.states;
         }
         else if(FiniteAutomata::areEquivalent(FiniteAutomata(), node->user_FA))
         {
@@ -444,15 +469,6 @@ void RegExpToFA::setExample(RegExp *_re)
 
 
 
-void RegExpToFA::removeFuture()
-{
-    for(int i = actPos+1;i < hystory.count();i++)
-    {
-        hystory.removeAt(i);
-    }
-}
-
-
 
 RegExpNode* RegExpToFA::chooseRandomNode()
 {
@@ -471,14 +487,11 @@ void RegExpToFA::postOrder(RegExpNode* node)
     }
     if(node->str == "")
     {
-        qDebug()<<"ERROR!!!!!";
+        qDebug()<<"ERROR:(this shoud not ever happen) in function void RegExpToFA::postOrder(RegExpNode* node)";
+        exit(-1);
     }
-    //if(! node->processed)
+    if(! node->processed) //because of restore point in hystori
         nodesToProcede.append(node);
-//    foreach(RegExpNode* n,nodesToProcede)
-//    {
-//        qDebug()<< n->str;
-//    }
 }
 
 

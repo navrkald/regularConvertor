@@ -22,6 +22,8 @@ public:
     RegExpNode* copySingleNode(const RegExpNode*& copy_node);
     ~RegExpNode();
     bool childrenProcessed();
+    bool clearProcessed();
+    static void clearProcessed(RegExpNode* node);
     bool isLeaf();
     enum states {CORRECT,WRONG,UNKNOWN};
     states state;

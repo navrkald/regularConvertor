@@ -46,9 +46,6 @@ void editRuleDialog::setTo(QString _to)
 
 QString editRuleDialog::getFrom()
 {
-    //QString from = ui->fromComboBox->itemData(1).toString();
-    //qDebug() <<"Returning index at: " <<ui->fromComboBox->currentIndex();
-    qDebug() <<"Returning from: "<<this->from;
     return this->from;
 }
 

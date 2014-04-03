@@ -306,6 +306,9 @@ void FiniteAutomata_test::initTestCase()
     makeWellDefined_check_FA.addRule("f", "f", "c");
     makeWellDefined_check_FA.addRule("f", "0", "b");
     makeWellDefined_check_FA.addRule("f", "0", "a");
+    makeWellDefined_check_FA.addRule("0", "0", "b");
+    makeWellDefined_check_FA.addRule("0", "0", "a");
+    makeWellDefined_check_FA.addRule("0", "0", "c");
 
     toMinFA_FA1.alphabet << "a" << "b";
     toMinFA_FA1.states << "s" << "q1" << "q2" << "q3" << "q4" << "f";
@@ -338,9 +341,31 @@ void FiniteAutomata_test::initTestCase()
     normalize_FA1.alphabet << "a" << "b";
     normalize_FA1.states << "q0" <<"q1" << "q2" << "q3" << "q4";
     normalize_FA1.startState = "q0";
-    normalize_FA1.finalStates << "q2";
+    normalize_FA1.finalStates << "q4";
+    normalize_FA1.rules << ComputationalRules("q0","q1","a");
+    normalize_FA1.rules << ComputationalRules("q0","q0","b");
+    normalize_FA1.rules << ComputationalRules("q1","q2","a");
+    normalize_FA1.rules << ComputationalRules("q2","q3","a");
+    normalize_FA1.rules << ComputationalRules("q3","q4","b");
+    normalize_FA1.rules << ComputationalRules("q4","q4","a");
 
-    normalize_FA1_check;
+    normalize_FA1_check.alphabet << "a" << "b";
+    normalize_FA1_check.states << "0" <<"1" << "2" << "3" << "4" << "5";
+    normalize_FA1_check.startState = "0";
+    normalize_FA1_check.finalStates << "5";
+    normalize_FA1_check.rules << ComputationalRules("0","1","a");
+    normalize_FA1_check.rules << ComputationalRules("0","0","b");
+    normalize_FA1_check.rules << ComputationalRules("1","2","a");
+    normalize_FA1_check.rules << ComputationalRules("1","3","b");
+    normalize_FA1_check.rules << ComputationalRules("2","4","a");
+    normalize_FA1_check.rules << ComputationalRules("2","3","b");
+    normalize_FA1_check.rules << ComputationalRules("3","3","a");
+    normalize_FA1_check.rules << ComputationalRules("3","3","b");
+    normalize_FA1_check.rules << ComputationalRules("4","3","a");
+    normalize_FA1_check.rules << ComputationalRules("4","5","b");
+    normalize_FA1_check.rules << ComputationalRules("5","5","a");
+    normalize_FA1_check.rules << ComputationalRules("5","3","b");
+
 }
 
 void FiniteAutomata_test::concatenate_test()
@@ -418,7 +443,12 @@ void FiniteAutomata_test::toMinFA_test()
 
 void FiniteAutomata_test::normalize()
 {
-
+    normalize_FA1.removeEpsilon();
+    normalize_FA1.toDFA();
+    normalize_FA1.toMinFA();
+    FiniteAutomata result = normalize_FA1.normalize(normalize_FA1);
+    result = result.normalize(result);
+    QCOMPARE (result, normalize_FA1_check);
 }
 
 void FiniteAutomata_test::cleanupTestCase()

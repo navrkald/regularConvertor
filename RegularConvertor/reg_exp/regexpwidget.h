@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "reg_exp/regexp.h"
 #include "reg_exp/regexptreemodel.h"
+#include <QTreeView>
 
 namespace Ui {
 class RegExpWidget;
@@ -17,14 +18,22 @@ public:
     explicit RegExpWidget(QWidget *parent = 0);
     ~RegExpWidget();
     RegExp* re;
-    
-private:
+     QItemSelectionModel *selectionModel;
+
+
+public:
     Ui::RegExpWidget *ui;
     RegExpTreeModel* treeModel;
-signals:
-    void newRegExp(RegExp re);
+    QTreeView* treeView;
+    void updateView();
+    void deselectAll();
+    void setRegExp(RegExp* _re);
 
-private slots:
+signals:
+    void newRegExp(RegExp* re);
+    void itemClicked(QModelIndex index);
+
+public slots:
     void modelChanged();
     void on_pushButton_clicked();
 };

@@ -19,8 +19,10 @@ StateNode::StateNode(DiagramScene* scene, FiniteAutomata* _FA)
     node_name = FA->createUniqueName();
 
     FA->addState(node_name);
+    emit FA_changed(FA);
     firstInit();
     connect(this,SIGNAL(sendErrorMessage(QString)),scene,SIGNAL(sendErrorMessage(QString)));
+
 }
 
 StateNode::StateNode(DiagramScene *scene, FiniteAutomata *_FA, QString uniqueName)
@@ -77,6 +79,7 @@ void StateNode::setStartinState()
     }
     myscene->startingState = this;
     FA->changeStartState(getName());
+    emit FA_changed(FA);
     update();
 }
 
@@ -90,6 +93,7 @@ void StateNode::setEndingState(bool _endingState)
 
     endingState = _endingState;
     update();
+    emit FA_changed(FA);
 }
 
 void StateNode::removeArrows()
@@ -207,6 +211,7 @@ void StateNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
             if(FA->renameState(this->node_name,text))
             {
                 changeName(text);
+                emit FA_changed(FA);
             }
             else
             {

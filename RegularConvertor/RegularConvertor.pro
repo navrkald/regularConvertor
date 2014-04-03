@@ -12,7 +12,8 @@ TARGET = RegularConvertor
 TEMPLATE = app
 
 unix {
-     LIBS += -lGL
+    LIBS += -lGL
+    QT += testlib
 }
 
 win32 {

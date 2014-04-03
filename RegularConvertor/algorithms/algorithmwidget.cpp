@@ -1,11 +1,20 @@
 #include "algorithmwidget.h"
 #include "ui_algorithmwidget.h"
 
-AlgorithmWidget::AlgorithmWidget(QWidget *parent) :
-    QWidget(parent),
+AlgorithmWidget::AlgorithmWidget(Algorithm::modes _mode, QWidget *parent) :
+    QWidget(parent), mode(_mode),
     ui(new Ui::AlgorithmWidget)
 {
     ui->setupUi(this);
+
+    showSolution = true;
+
+    connect(this->ui->nextButton,SIGNAL(clicked()),this,SIGNAL(nextPressed()));
+    connect(this->ui->prewButton,SIGNAL(clicked()),this,SIGNAL(prewPressed()));
+    connect(this->ui->playButton,SIGNAL(clicked()),this,SLOT(emitPlay()));
+    connect(this->ui->stopButton,SIGNAL(clicked()),this,SIGNAL(stopPressed()));
+    connect(this->ui->checkButton,SIGNAL(clicked()),this,SIGNAL(checkSolutionPressed()));
+    setWidgets(mode);
 }
 
 AlgorithmWidget::~AlgorithmWidget()
@@ -16,4 +25,80 @@ AlgorithmWidget::~AlgorithmWidget()
 AlgorithmView *AlgorithmWidget::getAlgorithmView()
 {
     return ui->treeView;
+}
+
+
+
+void AlgorithmWidget::hideWidgets(QList<QWidget *> widgets)
+{
+    foreach(QWidget* w,widgets)
+        w->hide();
+}
+
+void AlgorithmWidget::showWidgets(QList<QWidget *> widgets)
+{
+    foreach(QWidget* w,widgets)
+        w->show();
+}
+
+void AlgorithmWidget::setWidgets(Algorithm::modes mode)
+{
+    switch (mode) {
+    case Algorithm::CHECK_MODE:
+        showWidgets(QList<QWidget*>() << ui->checkButton <<  ui->showButton);
+        showSpacer(ui->checkSpacer);
+        hideWidgets(QList<QWidget*>()
+                    << ui->prewButton << ui->nextButton << ui->playButton << ui->stopButton << ui->spinBox << ui->delay_label
+                    << ui->prew_stepButton << ui->next_stepButton );
+        hideSpacer(ui->stepSpacer);
+        break;
+    case Algorithm::PLAY_MODE:
+        showWidgets(QList<QWidget*>() << ui->prewButton << ui->nextButton << ui->playButton << ui->stopButton << ui->spinBox << ui->delay_label);
+        hideWidgets(QList<QWidget*>()
+                    << ui->checkButton <<  ui->showButton
+                    << ui->prew_stepButton << ui->next_stepButton );
+        hideSpacer(ui->stepSpacer);
+        hideSpacer(ui->checkSpacer);
+        break;
+    case Algorithm::STEP_MODE:
+        showWidgets(QList<QWidget*>()<< ui->prew_stepButton << ui->next_stepButton);
+        hideWidgets(QList<QWidget*>()
+                    << ui->checkButton <<  ui->showButton
+                    << ui->prewButton << ui->nextButton << ui->playButton << ui->stopButton << ui->spinBox << ui->delay_label);
+        showSpacer(ui->stepSpacer);
+        hideSpacer(ui->checkSpacer);
+        break;
+    default:
+        break;
+    }
+}
+
+void AlgorithmWidget::hideSpacer(QSpacerItem *s)
+{
+   s->changeSize(0,0, QSizePolicy::Fixed, QSizePolicy::Fixed);
+}
+
+void AlgorithmWidget::showSpacer(QSpacerItem *s)
+{
+     s->changeSize(1,1, QSizePolicy::Expanding, QSizePolicy::Fixed);
+}
+
+void AlgorithmWidget::emitPlay()
+{
+    emit playPressed(this->ui->spinBox->value());
+}
+
+void AlgorithmWidget::on_showButton_clicked()
+{
+    showSolution=!showSolution;
+    if(showSolution)
+    {
+        ui->showButton->setText("Show solution");
+        emit showCorrectSolutionPressed();
+    }
+    else
+    {
+        ui->showButton->setText("Back");
+        emit showUserSolutionPressed();
+    }
 }

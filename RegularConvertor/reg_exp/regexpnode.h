@@ -16,11 +16,18 @@ class RegExpNode
 {
 public:
     RegExpNode(CharPos& _symbol);
+//    RegExpNode(RegExpNode*& reg_exp_node);
+    RegExpNode(RegExpNode* reg_exp_node);
+    void copyTreeInOrder(const RegExpNode* orgTree, RegExpNode* copyTree);
+    RegExpNode* copySingleNode(const RegExpNode*& copy_node);
     ~RegExpNode();
     bool childrenProcessed();
+    bool clearProcessed();
+    static void clearProcessed(RegExpNode* node);
     bool isLeaf();
     enum states {CORRECT,WRONG,UNKNOWN};
     states state;
+    bool selected;
     FiniteAutomata user_FA;
     FiniteAutomata correct_FA;
     bool processed;

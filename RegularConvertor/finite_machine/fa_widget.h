@@ -33,7 +33,7 @@ private slots:
 
     void AddArrowBut_clicked();
 
-    void DeleteNodeBut_clicked();
+    //void DeleteNodeBut_clicked();
 
     //sloty na editaci formalniho popisu KA
     void statesEdited();
@@ -45,12 +45,16 @@ private slots:
     void on_rulesListWidget_itemDoubleClicked(QListWidgetItem *item);
 
     void on_tabWidget_currentChanged(int index);
+    void delete_items();
+    void clean();
 
 public slots:
+    void setFA(FiniteAutomata* FA);
     void updateStates();
-    void testingSlot(QString msg);
 
 signals:
+    void FA_changed(FiniteAutomata* FA);
+    void setFA_signal(FiniteAutomata* FA);
     void addNodes(QSet <QString> nodes);
     void removeNodes(QSet <QString> nodes);
     void addSymbols(QSet <QString> symbols);
@@ -65,10 +69,10 @@ signals:
 private:
     //properties
     Ui::FA_widget *ui;
-    QPushButton* MoveNodeBut;
-    QPushButton* AddNodeBut;
-    QPushButton* AddArrowBut;
-    QPushButton* DeleteNodeBut;
+    QToolButton* MoveNodeBut;
+    QToolButton* AddNodeBut;
+    QToolButton* AddArrowBut;
+    QToolButton* DeleteNodeBut;
     //validators for qlineedits
     QValidator *statesValidator;
     QValidator *alphabetValidator;

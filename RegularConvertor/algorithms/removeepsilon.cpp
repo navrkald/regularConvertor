@@ -42,3 +42,8 @@ FiniteAutomata RemoveEpsilon::removeEpsilon()
     }
     return FA_not_epsilon;
 }
+
+void RemoveEpsilon::initInstructions()
+{
+
+}

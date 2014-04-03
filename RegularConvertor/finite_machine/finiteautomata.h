@@ -10,10 +10,17 @@ class FiniteAutomata //: public QObject
 {
 //    Q_OBJECT
 public:
+    //
+    //Constructors
+    //
     explicit FiniteAutomata();
     FiniteAutomata(QString symbol);
+    FiniteAutomata(const FiniteAutomata& _FA);
+
+
     void init(QString symbol);
-    int nextId;
+
+
     bool isStateUnique(QString state);
     QString createUniqueName();
     QList <ComputationalRules> findRule_Symbol(QString symbol);
@@ -39,20 +46,23 @@ public:
     void toMinFA();
     FiniteAutomata normalize(FiniteAutomata FA);
 
-public:
+    //
+    //Variables
+    //
     QSet <QString>  states;
     QSet <QString> alphabet;
     QSet <ComputationalRules> rules;
     QString startState;
     QSet <QString> finalStates;
-
+    int nextId;
     
     static FiniteAutomata concatenate(FiniteAutomata FA1, FiniteAutomata FA2);
     static FiniteAutomata iteration(FiniteAutomata FA1);
+    static bool areEquivalent(FiniteAutomata FA1, FiniteAutomata FA2);
 
-//signals:
-    
-//public slots:
+    /**
+     *  Basic Atomic operations
+    **/
     bool addState(QString stateName);
     //Nemuzu odstaranit stav pokud do nej vede sipka
     //Pokud ostranim stav, do ktereho vede sipka muzu ukazat uzivateli varovani
@@ -70,6 +80,8 @@ public:
     void removeRule(ComputationalRules rule);
     bool changeSymbolInRule(ComputationalRules rule, QString symbol);
     bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
+
+    bool hasEpsilon();
     QSet <QString> epsilonCloser(QString state);
     QSet <QString> epsilonNeighbours(QString state);
     QSet <ComputationalRules> nonEpsilonRulesOf(QString state);

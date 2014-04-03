@@ -25,16 +25,40 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QShortcut* deleteShortCut;
-public slots:
-    void testing_slot();
+    enum Conversions {none, RE_to_FA};
+    AlgorithmWidget* alhgorithm_widget;
+    RegExpToFA* reg_exp_algorithm;
+
+signals:
+    void modeChanged(Algorithm::modes mode);
 private slots:
     void myStatusbarShowMessage(QString message);
-    void prepareREtoFA();
+    void prepareREtoFA(RegExp* _re = new RegExp());
     void on_action_check_mode_triggered();
-
     void on_action_play_mode_triggered();
-
     void on_action_step_mode_triggered();
+
+    void setRE_FA_example(RegExp* _re);
+
+    void on_RE_FA_example1_triggered();
+
+    void on_RE_FA_example0_triggered();
+
+    void on_RE_FA_example2_triggered();
+
+    void on_RE_FA_example3_triggered();
+
+    void on_RE_FA_example4_triggered();
+
+    void on_RE_FA_example5_triggered();
+
+    void on_RE_FA_example6_triggered();
+
+    void on_RE_FA_example7_triggered();
+
+    void on_RE_FA_example8_triggered();
+
+    void on_RE_FA_example9_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -49,6 +73,7 @@ private:
     RegExpWidget* regExpWidget;
     //enum modes {CHECK_MODE, PLAY_MODE, STEP_MODE};
     Algorithm::modes mode;
+    Conversions activeConversion;
     //void deleteSelected(QGraphicsScene *scene);
 
 //    QToolButton *sceneBut;

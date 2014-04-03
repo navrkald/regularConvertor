@@ -42,14 +42,16 @@
  #include "arrow.h"
  #include <math.h>
 #include <iostream>
+
  const qreal Pi = 3.14;
 
  Arrow::Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA, QStringList symbols,
-          QGraphicsItem *parent, QGraphicsScene *scene)
+          QGraphicsItem *parent, QGraphicsScene* _scene)
      : QGraphicsLineItem(parent)
  {
      this->symbols = symbols;
      this->displayText = this->symbols.join(", ");
+     scene = _scene;
      FA = _FA;
      myStartItem = startItem;
      myEndItem = endItem;
@@ -121,7 +123,7 @@ void Arrow::updatePosition()
 {
     QLineF line(mapFromItem(myStartItem, 0, 0), mapFromItem(myEndItem, 0, 0));
     setLine(line);
-    std::cout<<"fce update position"<< std::endl;
+    //std::cout<<"fce update position"<< std::endl;
 }
 
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
@@ -150,7 +152,7 @@ QWidget *)
 
 
 
-        centerLine.setLength ( centerLine.length ()  - myEndItem->getRadius());
+        //centerLine.setLength ( centerLine.length ()  - myEndItem->getRadius());
 
         QPointF endPoint = centerLine.p2();
         QPointF startPoint = centerLine.p1();
@@ -187,7 +189,7 @@ QWidget *)
 
  void Arrow::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
  {
-     SymbolsInputDialog inputDialog(symbols.join(", "));
+    SymbolsInputDialog inputDialog(symbols.join(", "));
     if(QDialog::Accepted == inputDialog.exec())
     {
         //Setup FA
@@ -197,12 +199,13 @@ QWidget *)
         foreach(QString symbol,deletedSymbols)
         {
             FA->removeRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
+            FA->removeSymbol(symbol);
         }
         foreach(QString symbol,newSymbols)
         {
             FA->addRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
+            FA->addSymbol(symbol);
         }
-
         //Setup this
         this->symbols  = editedSymbols;
         this->displayText = this->symbols.join(", ");
@@ -218,6 +221,7 @@ QWidget *)
      else
      {
          QRectF text_rect = recalculateTextSpace();
+//         qDebug() << getStartItemPos() << getEndItemPos();
          QLineF centerLine(getStartItemPos(), getEndItemPos());
 
          QPointF center_point =  centerLine.pointAt(0.5);
@@ -289,18 +293,11 @@ QPointF Arrow::getEndItemPos() const
     if(arrowHasSibling()) {
 
         return endItem()->pos() - perpendicularDifference(QLineF(startItem()->pos(),endItem()->pos()),LINES_DISTANCE);
-    } else {
-       // qDebug() << startItem()->elipseBoundingRect() << startItem()->pos() << endl;
-        QRectF rect = QRectF(endItem()->elipseBoundingRect().topLeft(), endItem()->pos());
-       // rect.setTopLeft(endItem()->pos());
-       // qDebug() << rect << endl;
-        qDebug() << findEllipseSegmentIntersections(rect, startItem()->pos(), endItem()->pos()) << endl;
-       // StateNode *itm = (StateNode *)endItem();
-       // QLineF l(startItem()->pos(), endItem()->pos());
-
-//intersectionPoint1(itm, &l);
-       // qDebug() <<  << startItem()->pos() << endItem()->pos() << findEllipseSegmentIntersections(rect, startItem()->pos(), endItem()->pos()) << endl;
-        return findEllipseSegmentIntersections(rect, startItem()->pos(), endItem()->pos());
+    }
+    else
+    {
+        //QRectF rect = QRectF(endItem()->elipseBoundingRect().topLeft(), endItem()->pos());
+        return EllipseLineIntersection(endItem()->sceneBoundingRect(), startItem()->sceneBoundingRect().center(), endItem()->sceneBoundingRect().center());
     }
 }
 
@@ -457,7 +454,7 @@ QPointF Arrow::findEllipseSegmentIntersections(QRectF rect, QPointF pt1, QPointF
 {
     // If the ellipse or line segment are empty, return no intersections.
     if (rect.width() == 0 || rect.height() == 0 || ((pt1.x() == pt2.x()) && (pt1.y() == pt2.y())))
-        return QPointF(-1,-1);
+        return QPointF(0,0);
 
     // Make sure the rectangle has non-negative width and height.
     if (rect.width() < 0)
@@ -473,7 +470,7 @@ QPointF Arrow::findEllipseSegmentIntersections(QRectF rect, QPointF pt1, QPointF
 
     // Translate so the ellipse is centered at the origin.
     qreal cx = rect.left() + rect.width() / 2.0;
-    qreal cy = rect.top() + rect.height() / 2.0;
+    qreal cy = rect.top() - rect.height() / 2.0;
     rect.setX(rect.x() - cx);
     rect.setY(rect.y() - cy);
     pt1.setX(pt1.x() - cx);
@@ -508,6 +505,11 @@ QPointF Arrow::findEllipseSegmentIntersections(QRectF rect, QPointF pt1, QPointF
         t_values.append((qreal)((-B + qSqrt(discriminant)) / 2 / A));
         t_values.append((qreal)((-B - qSqrt(discriminant)) / 2 / A));
     }
+    else
+    {
+        qDebug() << "Fatal error: Discriminant is negative!";
+        exit(-1);
+    }
 
     // Convert the t values into points.
     QList<QPointF> points;
@@ -527,4 +529,81 @@ QPointF Arrow::findEllipseSegmentIntersections(QRectF rect, QPointF pt1, QPointF
    // qDebug() << "pp: " << points << endl;
     return points.first();
 }
+QPointF Arrow::EllipseLineIntersection(QRectF elipse, QPointF p1, QPointF p2) const
+{
+/*
+
+//elipse
+
+M[m,n] --middle
+a - width
+b - height
+
+   (x-m)^2        (y+n)^2
+-------------- + --------- = 1
+    a^2             b^2
+
+//line
+
+X(t) = X1+(X2-X1)t
+Y(t) = Y2+(Y2-Y1)t
+    
+
+t^2(b^2(x2-x1)+a^2(y2-y1)) + t(-2b^2(x2-x1(x1-m)-2a^(y2-y1)(y1-n))) + ((x1-m)^2*b^2+(y1-n)^2*a^2+a^2b^2)
+    ^                          ^                                              ^
+    |                          |                                              |
+t^2*A                        t*B                                              C
+========================================================================================================
+   B^2+-sqrt(B^2-4AC)
+t=-------------------
+         2A
+
+*/
+
+   qreal a = elipse.width()/2.0;
+   qreal b = elipse.height()/2.0;
+   qreal m = elipse.center().x();
+   qreal n = elipse.center().y();
+   qreal x1 = p1.x();
+   qreal y1 = p1.y();
+   qreal x2 = p2.x();
+   qreal y2 = p2.y();
+
+   qreal A = ( x2 - x1 ) * ( x2 - x1 ) * b*b + ( y2 - y1 ) * ( y2 - y1 ) * a*a;
+   qreal B = ( 2*x1 * ( x2 - x1 ) -2 * ( x2 - x1 ) *m) * b*b + ( 2* y1 * ( y2 - y1 ) -2 * (y2-y1) * n ) * a*a;
+   qreal C = b*b * ( x1*x1 + m*m -2*x1*m ) + a*a * (y1*y1 + n*n - 2*y1*n) - a*a*b*b;
+   qreal D = B*B - 4*A*C;
+
+   if(D < 0)
+   {
+       qDebug() << "Fatal eroor: EllipseLineIntersection() NEGATIVE Diskriminant!";
+       exit(-1);
+   }
+
+   qreal t1 = (-B + qSqrt(D))/(2*A);
+   QPoint intersect1 = QPoint(x1+(x2-x1)*t1,y1+(y2-y1)*t1);
+   qreal t2 = (-B - qSqrt(D))/(2*A);
+   QPoint intersect2 = QPoint(x1+(x2-x1)*t2,y1+(y2-y1)*t2);
+   if((t1 >=0 && t1 <= 1 ) || (t2 >= 0 && t2 <= 1) )
+   {
+        if((t1 >=0 && t1 <= 1 ) && (t2 >= 0 && t2 <= 1))
+            return (t1 < t2) ? intersect1 : intersect2;
+        else if(t1 >=0 && t1 <= 1)
+        {
+            return intersect1;
+        }
+        else
+        {
+            return intersect2;
+        }
+
+   }
+   else
+   {
+       qDebug() << "Fatal eroor: No intersect, returning point [0,0]";
+       return QPoint();
+   }
+
+}
+
 

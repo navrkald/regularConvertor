@@ -57,10 +57,13 @@ class QRectF;
 class QGraphicsSceneMouseEvent;
 class QPainterPath;
 class StateNode;
+class DiagramScene;
 
 class Arrow : public QGraphicsLineItem
 {
+
 public:
+
     ~Arrow();
     enum { Type = UserType + 2 };
 
@@ -80,10 +83,13 @@ public:
     StateNode *myStartItem;
     StateNode *myEndItem;
     QStringList symbols;
+    QGraphicsScene *scene;
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             QWidget *widget = 0);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
 private:
      FiniteAutomata* FA;
 
@@ -105,7 +111,8 @@ private:
      QRectF recalculateTextSpace() const;
      QPointF findEllipseSegmentIntersections(QRectF rect, QPointF pt1, QPointF pt2, bool segment_only = false) const;
      QPointF intersectionPoint1(StateNode *circle, QLineF *line) const;
- };
+     QPointF EllipseLineIntersection(QRectF elipse, QPointF p1, QPointF p2) const;
+};
 
 #endif
 

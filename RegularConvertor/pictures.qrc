@@ -17,4 +17,10 @@
         <file>algorithms/pictures/iterate_fa.png</file>
         <file>algorithms/pictures/one_symbol_fa.png</file>
     </qresource>
+    <qresource prefix="/finite_machine">
+        <file>finite_machine/pictures/add_arrow.png</file>
+        <file>finite_machine/pictures/add_node.png</file>
+        <file>finite_machine/pictures/cursor.png</file>
+        <file>finite_machine/pictures/delete.png</file>
+    </qresource>
 </RCC>

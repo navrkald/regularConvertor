@@ -4,6 +4,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QTime>
 #include <limits>
+#include "finite_machine/arrow.h"
 
 DiagramScene::DiagramScene(FiniteAutomata* _FA, QWidget *parent = 0) : QGraphicsScene(parent)
 {
@@ -39,6 +40,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
              newNode->setPos(mouseEvent->scenePos());
              if(newNode->getName() == "0" && startingState == NULL)
                  newNode->setStartinState();
+             emit FA_changed(FA);
              break;
         case AddArrow:
              //TODO predelat caru na sipku
@@ -46,6 +48,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                                          mouseEvent->scenePos()));
              actLine->setPen(QPen(Qt::black, 2));
              addItem(actLine);
+             emit FA_changed(FA);
              break;
         case MoveNode:
              break;
@@ -107,8 +110,10 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                  Arrow *arrow = new Arrow(startItem, endItem, FA, symbols);
                  foreach(QString symbol,symbols)
                  {
-                    FA->addSymbol(symbol);
+                    if(symbol != EPSILON)
+                        FA->addSymbol(symbol);
                     FA->addRule(ComputationalRules(startItem->getName(),endItem->getName(),symbol));
+                    emit FA_changed(FA);
                  }
                  startItem->addArrow(arrow);
                  endItem->addArrow(arrow);
@@ -146,21 +151,23 @@ void DiagramScene::removeNodes(QSet<QString> nodes)
     foreach(QString nodeName,nodes)
     {
         StateNode* node = getNodeByName(nodeName);
+        removeItem(node);
         if(node == startingState)
         {
             startingState = NULL;
             FA->startState = "";
         }
-        removeItem(node);
         foreach(Arrow* arrowToRemove,node->arrows)
             removeItem(arrowToRemove);
         delete node;
     }
+    emit FA_changed(FA);
 }
 
 void DiagramScene::deleteSelected()
 {
     QList<QGraphicsItem*> items = this->selectedItems();
+
 
     //first delete edges
     foreach(QGraphicsItem* item,items)
@@ -176,18 +183,20 @@ void DiagramScene::deleteSelected()
         }
     }
 
+
+
     //then delete nodes
     foreach(QGraphicsItem* item,items)
     {
         StateNode* node = dynamic_cast<StateNode*>(item);
         if (node)
         {
+            FA->removeState(node->getName());
+            removeItem(node);
             if(node == startingState)
             {
-                startingState = NULL;
-                FA->startState = "";
+                this->startingState = NULL;
             }
-            removeItem(node);
             foreach(Arrow* arrowToRemove,node->arrows)
                 removeItem(arrowToRemove);
             delete node;
@@ -195,12 +204,14 @@ void DiagramScene::deleteSelected()
         else
             qDebug() << "Chyba v diagramscene.cpp, ktera by nikdy nemela nastat!";
     }
+    emit FA_changed(FA);
 
 }
 
 void DiagramScene::setStartNode(QString nodeName)
 {
     StateNode* node = getNodeByName(nodeName);
+    startingState = node;
     if(node != NULL)
         node->setStartinState();
 }
@@ -252,6 +263,7 @@ void DiagramScene::addEdges(QSet<ComputationalRules> rules)
             arrow->updatePosition();
         }
     }
+    emit FA_changed(FA);
 }
 
 void DiagramScene::removeEdges(QSet<ComputationalRules> rules)
@@ -270,18 +282,37 @@ void DiagramScene::removeEdges(QSet<ComputationalRules> rules)
     }
 }
 
+void DiagramScene::selectAll()
+{
+    foreach(QGraphicsItem* item,this->items())
+    {
+        item->setSelected(true);
+    }
+}
+
 QPoint DiagramScene::randGeneratePos()
 {
+    QGraphicsView* view = dynamic_cast<QGraphicsView*> (this->parent());
+
+    QRect viewport_rect(0, 0, view->viewport()->width(), view->viewport()->height());
+    QRectF visible_scene_rect = view->mapToScene(viewport_rect).boundingRect();
+
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
-    int low = 50;
-    int high = 450;
-    return QPoint(qrand() % ((high + 1) - low) + low,qrand() % ((high + 1) - low) + low);
+
+    int x_low = visible_scene_rect.x() + NODE_RADIUS;
+    int y_low = visible_scene_rect.y() + NODE_RADIUS;
+
+    int x_high = visible_scene_rect.x() + visible_scene_rect.width() - NODE_RADIUS;
+    int y_higt = visible_scene_rect.y() + visible_scene_rect.height() - NODE_RADIUS;
+    return QPoint(qrand() % ((x_high + 1) - x_low) + x_low, qrand() % ((y_higt + 1) - y_low) + y_low);
 
 }
 
+//add node to qgraphic scene
 void DiagramScene::addNode(QString node_name)
 {
+
     StateNode* newNode = new StateNode(this, this->FA, node_name);
     this->addItem(newNode);
     int least_num_colide_items = std::numeric_limits<int>::max();
@@ -303,6 +334,7 @@ void DiagramScene::addNode(QString node_name)
         }
     }
     newNode->setPos(best_point);
+    emit FA_changed(FA);
 }
 
 
@@ -339,6 +371,61 @@ Arrow* DiagramScene::getArrow(StateNode *from, StateNode* to)
          }
     }
     return NULL;
+}
+
+void DiagramScene::clean()
+{
+    actLine=0;
+    startingState=0;
+    QList<QGraphicsItem*> items = this->items();
+
+
+    //first delete edges
+    foreach(QGraphicsItem* item,items)
+    {
+        Arrow* arrow = dynamic_cast<Arrow*>(item);
+        if (arrow)
+        {
+            removeItem(arrow);
+            items.removeOne(arrow);
+            delete arrow;
+        }
+    }
+
+
+
+    //then delete nodes
+    foreach(QGraphicsItem* item,items)
+    {
+        StateNode* node = dynamic_cast<StateNode*>(item);
+        if (node)
+        {
+            removeItem(node);
+            foreach(Arrow* arrowToRemove,node->arrows)
+                removeItem(arrowToRemove);
+            delete node;
+            //FA->removeState(node->)
+        }
+        else
+            qDebug() << "Chyba v diagramscene.cpp, ktera by nikdy nemela nastat!";
+    }
+    emit FA_changed(FA);
+
+}
+
+void DiagramScene::setFA(FiniteAutomata* _FA)
+{
+    clean();
+    QList<QGraphicsItem*> items = this->items();
+    clear();
+    clearFocus();
+    clearSelection();
+    this->FA = _FA;
+    addNodes(FA->states);
+    setStartNode(FA->startState);
+    addEdges(FA->rules);
+    addEndingNodes(FA->finalStates);
+    emit FA_changed(FA);
 }
 
 

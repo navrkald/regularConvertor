@@ -7,17 +7,19 @@
 #include <QGraphicsScene>
 #include <QtCore>
 #include <QtGui>
-#include "arrow.h"
+
 #include "finiteautomata.h"
 #include "statenode.h"
 class StateNode;
 class Arrow;
 class DiagramScene : public QGraphicsScene
 {
-    Q_OBJECT
+   Q_OBJECT
 signals:
     //void deleteSelected();
+    void FA_changed(FiniteAutomata* FA);
     void sendErrorMessage(QString message);
+
 public:
     DiagramScene(FiniteAutomata* _FA, QWidget *parent);
     //~DiagramScene();
@@ -29,9 +31,11 @@ public:
     Mode getMode();
     StateNode* startingState;
     Arrow* getArrow(StateNode* from, StateNode* to);
-
+    //clean scene but not delete or change FA
+    void clean();
 
 public slots:
+    void setFA(FiniteAutomata* FA);
     void setMode(Mode mode);
     void changeSelected();
     void deleteSelected();
@@ -42,6 +46,7 @@ public slots:
     void removeEndingNodes(QSet <QString> nodes);
     void addEdges(QSet <ComputationalRules> rules);
     void removeEdges(QSet <ComputationalRules> rules);
+    void selectAll();
 
 private:
     bool clicked;

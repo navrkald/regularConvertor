@@ -10,7 +10,7 @@
 
 RegExp::RegExp()
 {
-    CharPos emptyString ("ε",0,true);
+    CharPos emptyString (EMPTYSET,0,true);
     rootNode = new RegExpNode(emptyString);
 }
 
@@ -20,6 +20,12 @@ RegExp::RegExp(QString _regexp,QObject *parent)
     init(regexp);
 }
 
+RegExp::RegExp(const RegExp &_regexp)
+{
+    this->rootNode = new RegExpNode(_regexp.rootNode);
+    regexp = _regexp.regexp;
+}
+
 bool RegExp::init(QString _strToVal)
 {
     //init();
@@ -27,7 +33,7 @@ bool RegExp::init(QString _strToVal)
     regexp.replace(" ", "");
     if(regexp=="")
     {
-        CharPos emptyString ("ε",0,true);
+        CharPos emptyString (EMPTYSET,0,true);
         rootNode = new RegExpNode(emptyString);
         return true;
     }

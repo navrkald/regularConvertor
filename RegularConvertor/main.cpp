@@ -4,6 +4,7 @@
 #include "reg_exp/regexp.h"
 #include "reg_exp/regexpparser.h"
 #include "algorithms/regexptofa.h"
+#include "finite_machine/arrow.h"
 
 #include "finite_machine/finiteautomata.h"
 int main(int argc, char *argv[])
@@ -13,6 +14,9 @@ int main(int argc, char *argv[])
 
 
     QApplication a(argc, argv);
+
+    //Arrow a;
+    //a.EllipseLineIntersection(QRectF(),QPointF(153,217),QPointF(263,161))
 
 //    Graphviz* graph = new Graphviz("GraphName",qApp->font(),50);
 
@@ -39,73 +43,73 @@ int main(int argc, char *argv[])
 //    {
 //        qDebug() << node.name << " "<< node.str_centerPos;
 //    }
-    FiniteAutomata A;
-    A.alphabet.insert("a");
-    A.alphabet.insert("b");
-    A.alphabet.insert("c");
-    A.alphabet.insert("d");
-    A.states.insert("1");
-    A.states.insert("2");
-    A.states.insert("3");
-    A.states.insert("4");
-    A.states.insert("5");
-    A.startState = "1";
-    A.finalStates.insert("3");
-    A.finalStates.insert("4");
-    A.finalStates.insert("5");
-    A.rules.insert(ComputationalRules("1","2","a"));
-    A.rules.insert(ComputationalRules("2","4","b"));
-    A.rules.insert(ComputationalRules("4","1","a"));
-    A.rules.insert(ComputationalRules("3","5","a"));
-    A.rules.insert(ComputationalRules("4","4","c"));
-    A.rules.insert(ComputationalRules("5","3","d"));
+//    FiniteAutomata A;
+//    A.alphabet.insert("a");
+//    A.alphabet.insert("b");
+//    A.alphabet.insert("c");
+//    A.alphabet.insert("d");
+//    A.states.insert("1");
+//    A.states.insert("2");
+//    A.states.insert("3");
+//    A.states.insert("4");
+//    A.states.insert("5");
+//    A.startState = "1";
+//    A.finalStates.insert("3");
+//    A.finalStates.insert("4");
+//    A.finalStates.insert("5");
+//    A.rules.insert(ComputationalRules("1","2","a"));
+//    A.rules.insert(ComputationalRules("2","4","b"));
+//    A.rules.insert(ComputationalRules("4","1","a"));
+//    A.rules.insert(ComputationalRules("3","5","a"));
+//    A.rules.insert(ComputationalRules("4","4","c"));
+//    A.rules.insert(ComputationalRules("5","3","d"));
 
 
-    FiniteAutomata B;
-    B.alphabet.insert("c");
-    B.alphabet.insert("d");
-    B.alphabet.insert("e");
-    B.alphabet.insert("f");
-    B.states.insert("4");
-    B.states.insert("5");
-    B.states.insert("6");
-    B.states.insert("7");
-    B.states.insert("8");
-    B.states.insert("9");
-    B.states.insert("10");
-    B.startState="4";
-    B.finalStates.insert("8");
-    B.finalStates.insert("9");
-    B.finalStates.insert("10");
-    B.rules.insert(ComputationalRules("4","6","c"));
-    B.rules.insert(ComputationalRules("6","5","d"));
-    B.rules.insert(ComputationalRules("5","9","e"));
-    B.rules.insert(ComputationalRules("4","4","e"));
-    B.rules.insert(ComputationalRules("9","7","f"));
-    B.rules.insert(ComputationalRules("7","10","c"));
-    B.rules.insert(ComputationalRules("10","4","d"));
-    B.rules.insert(ComputationalRules("10","8","d"));
-    B.rules.insert(ComputationalRules("8","8","e"));
-    B.rules.insert(ComputationalRules("8","4","f"));
+//    FiniteAutomata B;
+//    B.alphabet.insert("c");
+//    B.alphabet.insert("d");
+//    B.alphabet.insert("e");
+//    B.alphabet.insert("f");
+//    B.states.insert("4");
+//    B.states.insert("5");
+//    B.states.insert("6");
+//    B.states.insert("7");
+//    B.states.insert("8");
+//    B.states.insert("9");
+//    B.states.insert("10");
+//    B.startState="4";
+//    B.finalStates.insert("8");
+//    B.finalStates.insert("9");
+//    B.finalStates.insert("10");
+//    B.rules.insert(ComputationalRules("4","6","c"));
+//    B.rules.insert(ComputationalRules("6","5","d"));
+//    B.rules.insert(ComputationalRules("5","9","e"));
+//    B.rules.insert(ComputationalRules("4","4","e"));
+//    B.rules.insert(ComputationalRules("9","7","f"));
+//    B.rules.insert(ComputationalRules("7","10","c"));
+//    B.rules.insert(ComputationalRules("10","4","d"));
+//    B.rules.insert(ComputationalRules("10","8","d"));
+//    B.rules.insert(ComputationalRules("8","8","e"));
+//    B.rules.insert(ComputationalRules("8","4","f"));
 
-    FiniteAutomata C = FiniteAutomata::concatenate(A,B);
+//    FiniteAutomata C = FiniteAutomata::concatenate(A,B);
     //FiniteAutomata C = A +B;
     //FiniteAutomata C = FiniteAutomata::iteration(A);
 
-    RegExp re("((ab)*+c)*");
+//    RegExp* re = new RegExp("((ab)*+c)*");
     //RegExp re("((abcd)*+5+6)*");
-    RegExpToFA re_to_fa(re);
-    re_to_fa.computeSolution();
+//    RegExpToFA re_to_fa(re);
+//    re_to_fa.computeSolution();
 
-    FiniteAutomata correct_FA;
-    correct_FA.alphabet = QSet<QString>() << "a" << "b" << "c" <<"d"<<"5"<<"6";
+//    FiniteAutomata correct_FA;
+//    correct_FA.alphabet = QSet<QString>() << "a" << "b" << "c" <<"d"<<"5"<<"6";
 
     //if (re_to_fa.re.rootNode->correct_FA == correct_FA)
 
 
 
-    RegExpParser parser;
-    parser.parse("(ab)*");
+//    RegExpParser parser;
+//    parser.parse("(ab)*");
     MainWindow w;
     w.show();
     //RegExp::addConcOperator("ab((c)d)ef");

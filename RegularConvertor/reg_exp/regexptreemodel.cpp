@@ -6,11 +6,6 @@
 RegExpTreeModel::RegExpTreeModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
-//    CharPos charter = {"a",1,true};
-//    CharPos charter1 = {"a",1,true};
-//    rootNode = new RegExpNode(charter);
-//    RegExpNode* node = new RegExpNode(charter1);
-//    node->parent = rootNode;
     rootNode = 0;
 }
 
@@ -22,9 +17,10 @@ RegExpTreeModel::~RegExpTreeModel()
 void RegExpTreeModel::setRootNode(RegExpNode *node)
 {
     beginResetModel();
-    delete rootNode;
+    //delete rootNode;
     CharPos emptyCharter("",-1,false);
     RegExpNode* emptyNode = new RegExpNode(emptyCharter);
+    //RegExpNode* copy_node = new RegExpNode(node);
     if(node != 0)
     {
         emptyNode->children.append(node);
@@ -51,21 +47,21 @@ QModelIndex RegExpTreeModel::parent(const QModelIndex &child) const
     RegExpNode *node = nodeFromIndex(child);
     if (!node)
         return QModelIndex();
+
     RegExpNode *parentNode = node->parent;
     if (!parentNode)
         return QModelIndex();
-    RegExpNode *grandparentNode = parentNode->parent;
-    if (!grandparentNode)
-        return QModelIndex();
 
-    int row = grandparentNode->children.indexOf(parentNode);
+//    RegExpNode *grandparentNode = parentNode->parent;
+//    if (!grandparentNode)
+//        return createIndex(2, 0, parentNode);
+
+    int row = parentNode->children.indexOf(node);
     return createIndex(row, 0, parentNode);
 }
 
 int RegExpTreeModel::rowCount(const QModelIndex &parent) const
 {
-    //if (parent.column() > 0)
-    //    return 0;
     RegExpNode *parentNode = nodeFromIndex(parent);
     if (!parentNode)
         return 0;
@@ -94,17 +90,14 @@ QVariant RegExpTreeModel::data(const QModelIndex &index, int role) const
             case RegExpNode::WRONG:
                 icon.addFile(":/reg_exp/reg_exp/pictures/wrong.png");
                 break;
-        case RegExpNode::UNKNOWN:
-            icon.addFile(":/reg_exp/reg_exp/pictures/warning.png");
+            case RegExpNode::UNKNOWN:
+                icon.addFile(":/reg_exp/reg_exp/pictures/warning.png");
             break;
         //case default:
 
 
         }
         return icon;
-
-//        retObj.setValue( QIcon(iconfile));
-//    retObj.setValue(Item->objectName());
     }
 
 
@@ -118,35 +111,6 @@ QVariant RegExpTreeModel::data(const QModelIndex &index, int role) const
     }
     else
         return QVariant();
-
-//    if (index.column() == 0) {
-//        switch (node->type) {
-//        case Node::Root:
-//             return tr("Root");
-//        case Node::OrExpression:
-//            return tr("OR Expression");
-//        case Node::AndExpression:
-//            return tr("AND Expression");
-//        case Node::NotExpression:
-//            return tr("NOT Expression");
-//        case Node::Atom:
-//            return tr("Atom");
-//        case Node::Identifier:
-//            return tr("Identifier");
-//        case Node::Operator:
-//            return tr("Operator");
-//        case Node::Punctuator:
-//            return tr("Punctuator");
-//        default:
-//            return tr("Unknown");
-//        }
-//    } else if (index.column() == 1) {
-//        return node->str;
-//    }
-//    return QVariant();
-
-
-    //return tr("nic");
 }
 
 QVariant RegExpTreeModel::headerData(int section,
@@ -163,13 +127,56 @@ QVariant RegExpTreeModel::headerData(int section,
     return QVariant();
 }
 
-RegExpNode *RegExpTreeModel::nodeFromIndex(const QModelIndex &index) const
+RegExpNode* RegExpTreeModel::nodeFromIndex(const QModelIndex &index) const
 {
     if (index.isValid())
     {
         RegExpNode * return_node = static_cast<RegExpNode *>(index.internalPointer());
-        return return_node;
-    } else {
+        if(return_node)
+            return return_node;
+    }
+    else
+    {
         return rootNode;
     }
+}
+
+QModelIndex RegExpTreeModel::indexFromNode(RegExpNode *node) const//   int row, int column,                                const QModelIndex &parent) const
+{
+    QList <QModelIndex> indexesToProcese;
+    QModelIndex rootIndex = index(0,0,QModelIndex());
+    indexesToProcese.append(rootIndex);
+
+    //rowCount(rootIndex);
+    //columnCount(rootIndex);
+
+    //qDebug() << "Seacherd node" << node->str;
+
+    while(!indexesToProcese.empty())
+    {
+        QModelIndex processedIndex = indexesToProcese.first();
+        indexesToProcese.removeFirst();
+        RegExpNode *processedNode = nodeFromIndex(processedIndex);
+
+
+        if(processedNode != node )
+        {
+            for(int row = 0; row < processedNode->children.count(); row++)
+            {
+                    QModelIndex i = index(row,0,processedIndex);
+                    indexesToProcese.append(i);
+                    //qDebug() << "Node:  " << processedNode->str;
+                    //qDebug() << "row:   " << row;
+                    //qDebug() << "column:" << column;
+            }
+        }
+        else
+        {
+            //qDebug() << "Processed node" << processedNode->str;
+            return processedIndex;
+        }
+    }
+    //not fount so return empty index
+    qDebug() << "ERROR: NOT FIND!!!!!";
+    return QModelIndex();
 }

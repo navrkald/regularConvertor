@@ -91,7 +91,7 @@ p, li { white-space: pre-wrap; }
      <string>Výběr konverze</string>
     </property>
     <addaction name="action_RE_to_FA"/>
-    <addaction name="actionKA_KA_bez_epsilon_p_echod"/>
+    <addaction name="action_RemoveEpsilon"/>
    </widget>
    <addaction name="menuSoubor"/>
    <addaction name="menuV_b_r_m_du"/>
@@ -115,7 +115,7 @@ p, li { white-space: pre-wrap; }
     <string>Regulární výraz (RV) -&gt; Konečný automat (KA)</string>
    </property>
   </action>
-  <action name="actionKA_KA_bez_epsilon_p_echod">
+  <action name="action_RemoveEpsilon">
    <property name="checkable">
     <bool>true</bool>
    </property>

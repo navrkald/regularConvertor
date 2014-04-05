@@ -1,7 +1,7 @@
 #include "algorithm.h"
 
-Algorithm::Algorithm()
-    : actInstructionBackroundColor(Qt::yellow), normalInstructionBackroundColor(Qt::white)
+Algorithm::Algorithm(QObject* parent)
+    : QStandardItemModel(parent), actInstructionBackroundColor(Qt::yellow), normalInstructionBackroundColor(Qt::white)
 {
 }
 

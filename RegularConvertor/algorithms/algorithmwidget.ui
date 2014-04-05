@@ -33,7 +33,7 @@
        <item>
         <widget class="QToolButton" name="prewButton">
          <property name="text">
-          <string>prew</string>
+          <string>prev</string>
          </property>
         </widget>
        </item>

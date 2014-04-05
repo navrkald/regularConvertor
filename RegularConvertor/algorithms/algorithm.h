@@ -8,7 +8,7 @@ class Algorithm : public QStandardItemModel
 {
     Q_OBJECT
 public:
-    Algorithm();
+    Algorithm(QObject* parent = 0);
     //TODO add bool if brakepoint is set for some step
     QVector <QString> instructions;
     QVector <bool> breakpoints;

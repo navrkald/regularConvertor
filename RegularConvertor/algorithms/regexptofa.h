@@ -18,7 +18,7 @@ class RegExpToFA : public Algorithm
 
 public:
     RegExpToFA(RegExp* _re, modes _mode = NONE);
-    RegExpToFA(AlgorithmWidget* _algorithm_widget,modes _mode, RegExpWidget* _re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re = new RegExp());
+    RegExpToFA(AlgorithmWidget* _algorithm_widget,modes _mode, RegExpWidget* _re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re = new RegExp(), QObject* parrent = 0);
     void computeSolution();
 
     bool continue_running;

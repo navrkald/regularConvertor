@@ -25,7 +25,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QShortcut* deleteShortCut;
-    enum Conversions {none, RE_to_FA};
+    enum Conversions {none, RE_to_FA, REMOVE_EPSILON};
     AlgorithmWidget* alhgorithm_widget;
     RegExpToFA* reg_exp_algorithm;
 
@@ -34,6 +34,8 @@ signals:
 private slots:
     void myStatusbarShowMessage(QString message);
     void prepareREtoFA(RegExp* _re = new RegExp());
+    void prepareRemoveEpsilon();
+
     void on_action_check_mode_triggered();
     void on_action_play_mode_triggered();
     void on_action_step_mode_triggered();
@@ -62,6 +64,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QWidget* regExpToFA_widget;
+    QWidget* removeEpsilon_widget;
+
     DiagramScene *scene1;
     DiagramScene *scene2;
     QList<QGraphicsItem*> itemsToDelete;
@@ -76,7 +81,16 @@ private:
     Conversions activeConversion;
     //void deleteSelected(QGraphicsScene *scene);
 
-//    QToolButton *sceneBut;
+    //regExp to FA basic components
+    FA_widget* fa_widget_left;
+    FA_widget* fa_widget_center;
+    FA_widget* fa_widget_right;
+    RegExpWidget* reg_exp_widget;
+
+
+    void prepareREtoFA_GUI();
+    void prepareRemoveEpsilon_GUI();
+
 };
 
 #endif // MAINWINDOW_H

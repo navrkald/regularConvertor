@@ -30,3 +30,8 @@ int Algorithm::clearActInstruction()
         setData(index,QBrush(normalInstructionBackroundColor),Qt::BackgroundRole);
     }
 }
+
+void Algorithm::getData(QModelIndex _index)
+{
+    breakpoints[_index.row()] = data(_index, Algorithm::Breakpoint_Role).toBool();
+}

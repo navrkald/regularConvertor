@@ -4,6 +4,8 @@
 #include <QString>
 #include <qstandarditemmodel.h>
 
+#define INDENT "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
+
 class Algorithm : public QStandardItemModel
 {
     Q_OBJECT
@@ -29,6 +31,8 @@ public:
     int prewInstruction;
     int setActInstruction();
     int clearActInstruction();
+public slots:
+    void getData(QModelIndex _index);
 //signals:
 //    instructionChanged(int _instruction);
     //    struct steps

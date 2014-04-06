@@ -85,13 +85,13 @@ QVariant RegExpTreeModel::data(const QModelIndex &index, int role) const
         switch( node->state )
         {
             case RegExpNode::CORRECT:
-                icon.addFile(":/reg_exp/reg_exp/pictures/ok.png");
+                icon.addFile(":/algorithms/algorithms/pictures/ok.png");
                 break;
             case RegExpNode::WRONG:
-                icon.addFile(":/reg_exp/reg_exp/pictures/wrong.png");
+                icon.addFile(":/algorithms/algorithms/pictures/wrong.png");
                 break;
             case RegExpNode::UNKNOWN:
-                icon.addFile(":/reg_exp/reg_exp/pictures/warning.png");
+                icon.addFile(":/algorithms/algorithms/pictures/unknown.png");
             break;
         //case default:
 

@@ -5,9 +5,6 @@
         <file>reg_exp/pictures/branch-more.png</file>
         <file>reg_exp/pictures/branch-open.png</file>
         <file>reg_exp/pictures/vline.png</file>
-        <file>reg_exp/pictures/wrong.png</file>
-        <file>reg_exp/pictures/warning.png</file>
-        <file>reg_exp/pictures/ok.png</file>
     </qresource>
     <qresource prefix="/algorithms">
         <file>algorithms/pictures/alternate_fa.png</file>
@@ -16,6 +13,12 @@
         <file>algorithms/pictures/epsilon_fa.png</file>
         <file>algorithms/pictures/iterate_fa.png</file>
         <file>algorithms/pictures/one_symbol_fa.png</file>
+        <file>algorithms/pictures/remove_epsilon.png</file>
+        <file>algorithms/pictures/epsilon_closer.png</file>
+        <file>algorithms/pictures/wrong.png</file>
+        <file>algorithms/pictures/unknown.png</file>
+        <file>algorithms/pictures/warning.png</file>
+        <file>algorithms/pictures/ok.png</file>
     </qresource>
     <qresource prefix="/finite_machine">
         <file>finite_machine/pictures/add_arrow.png</file>

@@ -62,14 +62,14 @@ void MainWindow::prepareREtoFA(RegExp* _re)
         activeConversion = RE_to_FA;
 
         //basic components
-        regExpToFA_widget = new QWidget(this);
-        fa_widget_left = new FA_widget(regExpToFA_widget);
-        fa_widget_center = new FA_widget(regExpToFA_widget);
-        fa_widget_right = new FA_widget(regExpToFA_widget);
-        reg_exp_widget = new RegExpWidget(regExpToFA_widget);
-        alhgorithm_widget = new AlgorithmWidget(mode,regExpToFA_widget);
+        regExpToFA_central_widget = new QWidget(this);
+        fa_widget_left = new FA_widget(regExpToFA_central_widget);
+        fa_widget_center = new FA_widget(regExpToFA_central_widget);
+        fa_widget_right = new FA_widget(regExpToFA_central_widget);
+        reg_exp_widget = new RegExpWidget(regExpToFA_central_widget);
+        alhgorithm_widget = new AlgorithmWidget(mode,regExpToFA_central_widget);
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
-        reg_exp_algorithm = new RegExpToFA(alhgorithm_widget, mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right, _re, regExpToFA_widget);
+        reg_exp_algorithm = new RegExpToFA(alhgorithm_widget, mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right, _re, regExpToFA_central_widget);
         prepareREtoFA_GUI();
     }
     else
@@ -83,7 +83,7 @@ void MainWindow::prepareREtoFA_GUI()
     setWindowTitle(MY_WINDOW_TITLE + tr(" - Převod regulárního výrazu na konečný automat"));
 
     //set central widget
-    QWidget* w = regExpToFA_widget;
+    QWidget* w = regExpToFA_central_widget;
     this->setCentralWidget(w);
     QLayout* layout = new QGridLayout(w);
     w->setLayout(layout);
@@ -180,16 +180,22 @@ void MainWindow::prepareREtoFA_GUI()
 
 
 
-void MainWindow::prepareRemoveEpsilon()
+void MainWindow::prepareRemoveEpsilon(FiniteAutomata* FA)
 {
     if(activeConversion != REMOVE_EPSILON)
     {
         activeConversion = REMOVE_EPSILON;
 
         //basic components
-        removeEpsilon_widget = new QWidget(this);
-        alhgorithm_widget = new AlgorithmWidget(mode,removeEpsilon_widget);
+        removeEpsilon_central_widget = new QWidget(this);
+        alhgorithm_widget = new AlgorithmWidget(mode,removeEpsilon_central_widget);
+        fa_epsilon_widget = new FA_widget(removeEpsilon_central_widget);
+        fa_not_epsilon_widget = new FA_widget(removeEpsilon_central_widget);
+        remove_epsilon_variables_widget = new QTextEdit(removeEpsilon_central_widget);
+        remove_epsilon_variables_widget->setReadOnly(true);
+        epsilon_closer_list_widget = new QListWidget(removeEpsilon_central_widget);
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
+        remove_epsilon_algorithm = new RemoveEpsilon(FA, mode, alhgorithm_widget, fa_epsilon_widget, fa_not_epsilon_widget, remove_epsilon_variables_widget, removeEpsilon_central_widget);
         prepareRemoveEpsilon_GUI();
     }
     else
@@ -204,11 +210,99 @@ void MainWindow::prepareRemoveEpsilon_GUI()
 
 
     //set central widget
-    QWidget* w = removeEpsilon_widget;
+    QWidget* w = removeEpsilon_central_widget;
     this->setCentralWidget(w);
     QLayout* layout = new QGridLayout(w);
     w->setLayout(layout);
     w->layout()->setMargin(0);
+
+
+
+    //algorithm container
+    QWidget* algorithm_container = new QWidget(w);
+    QVBoxLayout* algorithm_vlayout = new QVBoxLayout(w);
+    algorithm_vlayout->setMargin(0);
+    QLabel* algorithm_label = new QLabel("<b>Algoritmus Odstranění epsilon pravidel</b>",w);
+    algorithm_label->setAlignment(Qt::AlignCenter);
+    alhgorithm_widget->show();
+    algorithm_vlayout->addWidget(algorithm_label);
+    algorithm_vlayout->addWidget(alhgorithm_widget);
+    algorithm_container->setLayout(algorithm_vlayout);
+    HTMLDelegate* delegate = new HTMLDelegate();
+    alhgorithm_widget->getAlgorithmView()->setModel(remove_epsilon_algorithm);
+    alhgorithm_widget->getAlgorithmView()->setItemDelegate(delegate);
+    connect(delegate,SIGNAL(dataChanged(QModelIndex)),reg_exp_algorithm,SLOT(getData(QModelIndex)));
+    connect(this,SIGNAL(modeChanged(Algorithm::modes)),reg_exp_algorithm,SLOT(setMode(Algorithm::modes)));
+
+    //input FA container
+    QWidget* fa_epsilon_container = new QWidget(w);
+    QVBoxLayout* fa_epsilon_vlayout = new QVBoxLayout(w);
+    fa_epsilon_vlayout->setMargin(0);
+    QLabel* fa_epsilon_label = new QLabel("<b>vstupní automat</b>",w);
+    fa_epsilon_label->setAlignment(Qt::AlignCenter);
+    fa_epsilon_vlayout->addWidget(fa_epsilon_label);
+    fa_epsilon_vlayout->addWidget(fa_epsilon_widget);
+    fa_epsilon_container->setLayout(fa_epsilon_vlayout);
+
+    //output FA container
+    QWidget* fa_not_epsilon_container = new QWidget(w);
+    QVBoxLayout* fa_not_epsilon_vlayout = new QVBoxLayout(w);
+    fa_not_epsilon_vlayout->setMargin(0);
+    QLabel* fa_not_epsilon_label = new QLabel("<b>výstupní automat</b>",w);
+    fa_not_epsilon_label->setAlignment(Qt::AlignCenter);
+    fa_not_epsilon_vlayout->addWidget(fa_not_epsilon_label);
+    fa_not_epsilon_vlayout->addWidget(fa_not_epsilon_widget);
+    fa_not_epsilon_container->setLayout(fa_not_epsilon_vlayout);
+
+    //variables container
+    QWidget* variables_container = new QWidget(w);
+    QVBoxLayout* variables_vlayout = new QVBoxLayout(w);
+//    fa_not_epsilon_vlayout->setMargin(0);
+    QLabel* variables_label = new QLabel("<b>Proměnné</b>",w);
+//    fa_not_epsilon_label->setAlignment(Qt::AlignCenter);
+    variables_vlayout->addWidget(variables_label);
+    variables_vlayout->addWidget(remove_epsilon_variables_widget);
+    variables_container->setLayout(variables_vlayout);
+
+
+    //top container
+    QWidget* up_container = new QWidget(w);
+    QHBoxLayout* horizontal_layout1 = new QHBoxLayout(w);
+    horizontal_layout1->setMargin(0);
+    up_container->setLayout(horizontal_layout1);
+    QSplitter* h_spitter1 = new QSplitter(Qt::Horizontal,w);
+    up_container->layout()->addWidget(h_spitter1);
+    h_spitter1->addWidget(fa_epsilon_container);
+    h_spitter1->addWidget(algorithm_container);
+
+    //down left container
+    QWidget* down_left_container = new QWidget(w);
+    QSplitter* v_spitter3 = new QSplitter(Qt::Vertical,w);
+    v_spitter3->addWidget(variables_container);
+    v_spitter3->addWidget(epsilon_closer_list_widget);
+    QHBoxLayout* horizontal_layout3 = new QHBoxLayout(w);
+    horizontal_layout3->setMargin(0);
+    horizontal_layout3->setSpacing(0);
+    down_left_container->setLayout(horizontal_layout3);
+    down_left_container->layout()->addWidget(v_spitter3);
+
+    //down container
+    QWidget* down_container = new QWidget(w);
+    QSplitter* h_spitter2 = new QSplitter(Qt::Horizontal,w);
+    h_spitter2->addWidget(fa_not_epsilon_container);
+    h_spitter2->addWidget(down_left_container);
+    QHBoxLayout* horizontal_layout2 = new QHBoxLayout(w);
+    horizontal_layout2->setMargin(0);
+    horizontal_layout2->setSpacing(0);
+    down_container->setLayout(horizontal_layout2);
+    down_container->layout()->addWidget(h_spitter2);
+
+    //vertical splitter
+    QSplitter* v_spitter1 = new QSplitter(Qt::Vertical,w);
+    v_spitter1->addWidget(up_container);
+    v_spitter1->addWidget(down_container);
+    w->layout()->addWidget(v_spitter1);
+
 
 }
 
@@ -244,6 +338,7 @@ void MainWindow::on_action_step_mode_triggered()
 void MainWindow::setRE_FA_example(RegExp *_re)
 {
     on_action_check_mode_triggered();
+    ui->action_RE_to_FA->setChecked(true);
     if(reg_exp_algorithm)
         reg_exp_algorithm->setExample(_re);
     else

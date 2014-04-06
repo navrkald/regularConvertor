@@ -12,6 +12,7 @@
 #include "algorithms/regexptofa.h"
 #include "algorithms/algorithmwidget.h"
 #include "algorithms/algorithm.h"
+#include "algorithms/removeepsilon.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,68 +28,76 @@ public:
     QShortcut* deleteShortCut;
     enum Conversions {none, RE_to_FA, REMOVE_EPSILON};
     AlgorithmWidget* alhgorithm_widget;
-    RegExpToFA* reg_exp_algorithm;
+
+
 
 signals:
     void modeChanged(Algorithm::modes mode);
 private slots:
     void myStatusbarShowMessage(QString message);
-    void prepareREtoFA(RegExp* _re = new RegExp());
-    void prepareRemoveEpsilon();
 
     void on_action_check_mode_triggered();
     void on_action_play_mode_triggered();
     void on_action_step_mode_triggered();
 
+    //
+    // RegExp to FA
+    //
+    void prepareREtoFA(RegExp* _re = new RegExp());
     void setRE_FA_example(RegExp* _re);
-
-    void on_RE_FA_example1_triggered();
-
     void on_RE_FA_example0_triggered();
-
+    void on_RE_FA_example1_triggered();
     void on_RE_FA_example2_triggered();
-
     void on_RE_FA_example3_triggered();
-
     void on_RE_FA_example4_triggered();
-
     void on_RE_FA_example5_triggered();
-
     void on_RE_FA_example6_triggered();
-
     void on_RE_FA_example7_triggered();
-
     void on_RE_FA_example8_triggered();
-
     void on_RE_FA_example9_triggered();
+
+    //
+    // Remove Epsilon
+    //
+    void prepareRemoveEpsilon(FiniteAutomata* FA = new FiniteAutomata());
 
 private:
     Ui::MainWindow *ui;
-    QWidget* regExpToFA_widget;
-    QWidget* removeEpsilon_widget;
 
-    DiagramScene *scene1;
-    DiagramScene *scene2;
+
+    //old thinks to delete
     QList<QGraphicsItem*> itemsToDelete;
-
-    FA_widget* FA1_widget;
-    FA_widget* FA2_widget;
-    //RegExpTextEdit* regExpWidget;
     int statusBarTimeout;
-    RegExpWidget* regExpWidget;
-    //enum modes {CHECK_MODE, PLAY_MODE, STEP_MODE};
-    Algorithm::modes mode;
-    Conversions activeConversion;
     //void deleteSelected(QGraphicsScene *scene);
 
-    //regExp to FA basic components
+    //
+    // General variables
+    //
+    Algorithm::modes mode;
+    Conversions activeConversion;
+
+
+    //
+    // regExp to FA
+    //
+    RegExpToFA* reg_exp_algorithm;
+    QWidget* regExpToFA_central_widget;
+    RegExpWidget* regExpWidget;
     FA_widget* fa_widget_left;
     FA_widget* fa_widget_center;
     FA_widget* fa_widget_right;
     RegExpWidget* reg_exp_widget;
-
-
     void prepareREtoFA_GUI();
+
+    //
+    // Remove epsilon
+    //
+    RemoveEpsilon* remove_epsilon_algorithm;
+    QWidget* removeEpsilon_central_widget;
+    QTextEdit* remove_epsilon_variables_widget;
+    QListWidget* epsilon_closer_list_widget;
+    FA_widget* fa_epsilon_widget;
+    FA_widget* fa_not_epsilon_widget;
     void prepareRemoveEpsilon_GUI();
 
 };

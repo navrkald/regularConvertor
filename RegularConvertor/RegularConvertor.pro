@@ -47,7 +47,8 @@ SOURCES += main.cpp\
     algorithms/dfatominfa.cpp \
     set/set_of_sets.cpp \
     algorithms/htmldelegate.cpp \
-    algorithms/algorithmview.cpp
+    algorithms/algorithmview.cpp \
+    algorithms/epsiloncloserwidget.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -76,7 +77,8 @@ HEADERS  += mainwindow.h \
     algorithms/dfatominfa.h \
     set/set_of_sets.h \
     algorithms/htmldelegate.h \
-    algorithms/algorithmview.h
+    algorithms/algorithmview.h \
+    algorithms/epsiloncloserwidget.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \

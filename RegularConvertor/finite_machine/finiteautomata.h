@@ -74,6 +74,7 @@ public:
     void removeFinalState(QString StateName);
     void addSymbol(QString symbol);
     void removeSymbol(QString symbol);
+    QList<QString> get_sorted_states();
     //TODO parametry
     bool addRule(ComputationalRules newrule);
     bool addRule(QString from, QString to, QString symbol);
@@ -83,6 +84,7 @@ public:
 
     bool hasEpsilon();
     QSet <QString> epsilonCloser(QString state);
+
     QSet <QString> epsilonNeighbours(QString state);
     QSet <ComputationalRules> nonEpsilonRulesOf(QString state);
     QString normalize_chooseSmallestNonprocessed(QList <QString> renamed, QList <QString> processed);

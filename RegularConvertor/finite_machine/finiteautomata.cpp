@@ -695,6 +695,13 @@ void FiniteAutomata::removeSymbol(QString symbol)
     alphabet.remove(symbol);
 }
 
+QList<QString> FiniteAutomata::get_sorted_states()
+{
+    QList<QString> states_list = states.toList();
+    qSort(states_list);
+    return states_list;
+}
+
 bool FiniteAutomata::addRule(ComputationalRules rule)
 {
     if(rules.contains(rule))

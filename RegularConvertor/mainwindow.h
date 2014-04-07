@@ -59,7 +59,7 @@ private slots:
     //
     // Remove Epsilon
     //
-    void prepareRemoveEpsilon(FiniteAutomata* FA = new FiniteAutomata());
+    void prepareRemoveEpsilon(FiniteAutomata FA = FiniteAutomata());
 
 private:
     Ui::MainWindow *ui;

@@ -42,7 +42,7 @@ void RemoveEpsilon_test::removeEpsilon_test()
 {
     //TODO vymyslet priklad kde nebudou na konci po prevodu stejne koncove stavy
     RemoveEpsilon rem(remove_epsilon_FA1);
-    FiniteAutomata result = rem.removeEpsilon();
+    FiniteAutomata result = rem.computeSolution();
     QCOMPARE(remove_epsilon_FA1_check, result);
 }
 

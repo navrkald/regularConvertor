@@ -49,7 +49,6 @@ public slots:
     void nextStep();
     void prewStep();
     void stop();
-    //void getData(QModelIndex _index);
     void checkSolution();
     void showCorrectSolution();
     void showUserSolution();

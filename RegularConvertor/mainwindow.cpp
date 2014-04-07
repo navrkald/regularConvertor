@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     reg_exp_algorithm = 0;
     activeConversion = none;
     mode = Algorithm::PLAY_MODE;
+    ui->action_play_mode->setChecked(true);
 
     alhgorithm_widget = new AlgorithmWidget(mode);
     alhgorithm_widget->hide();
@@ -180,7 +181,7 @@ void MainWindow::prepareREtoFA_GUI()
 
 
 
-void MainWindow::prepareRemoveEpsilon(FiniteAutomata* FA)
+void MainWindow::prepareRemoveEpsilon(FiniteAutomata FA)
 {
     if(activeConversion != REMOVE_EPSILON)
     {
@@ -195,7 +196,7 @@ void MainWindow::prepareRemoveEpsilon(FiniteAutomata* FA)
         remove_epsilon_variables_widget->setReadOnly(true);
         epsilon_closer_list_widget = new QListWidget(removeEpsilon_central_widget);
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
-        remove_epsilon_algorithm = new RemoveEpsilon(FA, mode, alhgorithm_widget, fa_epsilon_widget, fa_not_epsilon_widget, remove_epsilon_variables_widget, removeEpsilon_central_widget);
+        remove_epsilon_algorithm = new RemoveEpsilon(FA, mode, alhgorithm_widget, fa_epsilon_widget, fa_not_epsilon_widget, remove_epsilon_variables_widget, epsilon_closer_list_widget, removeEpsilon_central_widget);
         prepareRemoveEpsilon_GUI();
     }
     else
@@ -220,54 +221,56 @@ void MainWindow::prepareRemoveEpsilon_GUI()
 
     //algorithm container
     QWidget* algorithm_container = new QWidget(w);
-    QVBoxLayout* algorithm_vlayout = new QVBoxLayout(w);
+    QVBoxLayout* algorithm_vlayout = new QVBoxLayout(algorithm_container);
     algorithm_vlayout->setMargin(0);
     QLabel* algorithm_label = new QLabel("<b>Algoritmus Odstranění epsilon pravidel</b>",w);
     algorithm_label->setAlignment(Qt::AlignCenter);
     alhgorithm_widget->show();
     algorithm_vlayout->addWidget(algorithm_label);
     algorithm_vlayout->addWidget(alhgorithm_widget);
-    algorithm_container->setLayout(algorithm_vlayout);
     HTMLDelegate* delegate = new HTMLDelegate();
     alhgorithm_widget->getAlgorithmView()->setModel(remove_epsilon_algorithm);
     alhgorithm_widget->getAlgorithmView()->setItemDelegate(delegate);
-    connect(delegate,SIGNAL(dataChanged(QModelIndex)),reg_exp_algorithm,SLOT(getData(QModelIndex)));
-    connect(this,SIGNAL(modeChanged(Algorithm::modes)),reg_exp_algorithm,SLOT(setMode(Algorithm::modes)));
+    connect(delegate,SIGNAL(dataChanged(QModelIndex)),remove_epsilon_algorithm,SLOT(getData(QModelIndex)));
+    connect(this,SIGNAL(modeChanged(Algorithm::modes)),remove_epsilon_algorithm,SLOT(setMode(Algorithm::modes)));
 
     //input FA container
     QWidget* fa_epsilon_container = new QWidget(w);
-    QVBoxLayout* fa_epsilon_vlayout = new QVBoxLayout(w);
+    QVBoxLayout* fa_epsilon_vlayout = new QVBoxLayout(fa_epsilon_container);
     fa_epsilon_vlayout->setMargin(0);
     QLabel* fa_epsilon_label = new QLabel("<b>vstupní automat</b>",w);
     fa_epsilon_label->setAlignment(Qt::AlignCenter);
     fa_epsilon_vlayout->addWidget(fa_epsilon_label);
     fa_epsilon_vlayout->addWidget(fa_epsilon_widget);
-    fa_epsilon_container->setLayout(fa_epsilon_vlayout);
 
     //output FA container
     QWidget* fa_not_epsilon_container = new QWidget(w);
-    QVBoxLayout* fa_not_epsilon_vlayout = new QVBoxLayout(w);
+    QVBoxLayout* fa_not_epsilon_vlayout = new QVBoxLayout(fa_not_epsilon_container);
     fa_not_epsilon_vlayout->setMargin(0);
     QLabel* fa_not_epsilon_label = new QLabel("<b>výstupní automat</b>",w);
     fa_not_epsilon_label->setAlignment(Qt::AlignCenter);
     fa_not_epsilon_vlayout->addWidget(fa_not_epsilon_label);
     fa_not_epsilon_vlayout->addWidget(fa_not_epsilon_widget);
-    fa_not_epsilon_container->setLayout(fa_not_epsilon_vlayout);
 
     //variables container
     QWidget* variables_container = new QWidget(w);
-    QVBoxLayout* variables_vlayout = new QVBoxLayout(w);
+    QVBoxLayout* variables_vlayout = new QVBoxLayout(variables_container);
 //    fa_not_epsilon_vlayout->setMargin(0);
     QLabel* variables_label = new QLabel("<b>Proměnné</b>",w);
 //    fa_not_epsilon_label->setAlignment(Qt::AlignCenter);
     variables_vlayout->addWidget(variables_label);
     variables_vlayout->addWidget(remove_epsilon_variables_widget);
     variables_container->setLayout(variables_vlayout);
-
+    remove_epsilon_variables_widget->setMinimumSize(30,30);
+    remove_epsilon_variables_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    remove_epsilon_variables_widget->setText("asddsdsa");
+//    remove_epsilon_variables_widget->setBaseSize(0, 0);
+//    variables_container->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+//    variables_container->setMinimumSize(0,0);
 
     //top container
     QWidget* up_container = new QWidget(w);
-    QHBoxLayout* horizontal_layout1 = new QHBoxLayout(w);
+    QHBoxLayout* horizontal_layout1 = new QHBoxLayout(up_container);
     horizontal_layout1->setMargin(0);
     up_container->setLayout(horizontal_layout1);
     QSplitter* h_spitter1 = new QSplitter(Qt::Horizontal,w);
@@ -280,21 +283,21 @@ void MainWindow::prepareRemoveEpsilon_GUI()
     QSplitter* v_spitter3 = new QSplitter(Qt::Vertical,w);
     v_spitter3->addWidget(variables_container);
     v_spitter3->addWidget(epsilon_closer_list_widget);
-    QHBoxLayout* horizontal_layout3 = new QHBoxLayout(w);
+    QHBoxLayout* horizontal_layout3 = new QHBoxLayout(down_left_container);
     horizontal_layout3->setMargin(0);
     horizontal_layout3->setSpacing(0);
-    down_left_container->setLayout(horizontal_layout3);
     down_left_container->layout()->addWidget(v_spitter3);
+    epsilon_closer_list_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    down_left_container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     //down container
     QWidget* down_container = new QWidget(w);
     QSplitter* h_spitter2 = new QSplitter(Qt::Horizontal,w);
     h_spitter2->addWidget(fa_not_epsilon_container);
     h_spitter2->addWidget(down_left_container);
-    QHBoxLayout* horizontal_layout2 = new QHBoxLayout(w);
+    QHBoxLayout* horizontal_layout2 = new QHBoxLayout(down_container);
     horizontal_layout2->setMargin(0);
     horizontal_layout2->setSpacing(0);
-    down_container->setLayout(horizontal_layout2);
     down_container->layout()->addWidget(h_spitter2);
 
     //vertical splitter

@@ -131,10 +131,10 @@ void RegExpToFA::setMode(modes _mode, RegExp* _re)
         if(mode == PLAY_MODE)
         {
             //this clears regexp tree, this by the way indirectly calls void RegExpToFA::setRE(RegExp *_re)
+            //this will cause to call setRE and there saveStep() function is called
             re_widget->setRegExp(new RegExp(re->regexp));
             re_widget->modelChanged();
 
-            saveStep();
             nodesToProcede.clear();
             postOrder(re->rootNode);
         }

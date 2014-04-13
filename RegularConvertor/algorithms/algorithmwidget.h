@@ -25,6 +25,8 @@ public:
 
     void hideSpacer(QSpacerItem * s);
     void showSpacer(QSpacerItem * s);
+    void enableShowButton();
+    void disableShowButton();
 
     bool showSolution;
 
@@ -41,6 +43,11 @@ signals:
 public slots:
     void emitPlay();
     void setWidgets(Algorithm::modes mode);
+    void disableNext();
+    void enableNext();
+    void disablePrev();
+    void enablePrev();
+
 
 
 private slots:

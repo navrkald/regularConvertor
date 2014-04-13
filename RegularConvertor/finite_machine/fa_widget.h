@@ -25,15 +25,17 @@ public:
     FiniteAutomata* FA;
     QShortcut* deleteShortCut;
     QErrorMessage errorMessage;
+
+    static QStringList getSortedUniqueList(QString raw_text);
+    void setCorrectStatus();
+    void setWrongStatus();
+    void clearStatus();
+
 private slots:
     //sloty na tlacitka na editaci grafu
     void MoveNodeBut_clicked();
-
     void AddNodeBut_clicked();
-
     void AddArrowBut_clicked();
-
-    //void DeleteNodeBut_clicked();
 
     //sloty na editaci formalniho popisu KA
     void statesEdited();
@@ -50,11 +52,14 @@ private slots:
 
 public slots:
     void setFA(FiniteAutomata* FA);
-    void updateStates();
+    void updateStates(); // Update formal FA
+
+    void emitAddEdge(ComputationalRules rule);
+    void emitAddEndingNode(QString node);
 
 signals:
     void FA_changed(FiniteAutomata* FA);
-    void setFA_signal(FiniteAutomata* FA);
+    void setFA_signal(FiniteAutomata* FA); // update graphic FA
     void addNodes(QSet <QString> nodes);
     void removeNodes(QSet <QString> nodes);
     void addSymbols(QSet <QString> symbols);
@@ -69,6 +74,7 @@ signals:
 private:
     //properties
     Ui::FA_widget *ui;
+    QLabel* status_label;
     QToolButton* MoveNodeBut;
     QToolButton* AddNodeBut;
     QToolButton* AddArrowBut;
@@ -82,8 +88,6 @@ private:
     QStringListModel *statesStringListModel;//this is needed for QCompleter
     //methods
     void setupValidators();
-    QStringList getSortedUniqueList(QString raw_text);
-
 };
 
 #endif // FA_WIDGET_H

@@ -99,4 +99,10 @@ private:
 FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2);
 bool operator==(const FiniteAutomata FA1, const FiniteAutomata FA2);
 
+/**
+  * Overloading operator for debugging purposes
+  */
+QDebug operator<< (QDebug d, const FiniteAutomata &FA);
+
+
 #endif // FINITEAUTOMATA_H

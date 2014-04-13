@@ -73,6 +73,26 @@ void AlgorithmWidget::setWidgets(Algorithm::modes mode)
     }
 }
 
+void AlgorithmWidget::disableNext()
+{
+    ui->nextButton->setEnabled(false);
+}
+
+void AlgorithmWidget::enableNext()
+{
+    ui->nextButton->setEnabled(true);
+}
+
+void AlgorithmWidget::enablePrev()
+{
+    ui->prewButton->setEnabled(true);
+}
+
+void AlgorithmWidget::disablePrev()
+{
+    ui->prewButton->setEnabled(false);
+}
+
 void AlgorithmWidget::hideSpacer(QSpacerItem *s)
 {
    s->changeSize(0,0, QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -80,7 +100,17 @@ void AlgorithmWidget::hideSpacer(QSpacerItem *s)
 
 void AlgorithmWidget::showSpacer(QSpacerItem *s)
 {
-     s->changeSize(1,1, QSizePolicy::Expanding, QSizePolicy::Fixed);
+    s->changeSize(1,1, QSizePolicy::Expanding, QSizePolicy::Fixed);
+}
+
+void AlgorithmWidget::enableShowButton()
+{
+    ui->showButton->setEnabled(true);
+}
+
+void AlgorithmWidget::disableShowButton()
+{
+    ui->showButton->setEnabled(false);
 }
 
 void AlgorithmWidget::emitPlay()
@@ -94,11 +124,11 @@ void AlgorithmWidget::on_showButton_clicked()
     if(showSolution)
     {
         ui->showButton->setText("Show solution");
-        emit showCorrectSolutionPressed();
+        emit showUserSolutionPressed();
     }
     else
     {
         ui->showButton->setText("Back");
-        emit showUserSolutionPressed();
+        emit showCorrectSolutionPressed();
     }
 }

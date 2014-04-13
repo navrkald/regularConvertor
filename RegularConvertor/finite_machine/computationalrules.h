@@ -14,7 +14,8 @@ public:
     explicit ComputationalRules();
     ComputationalRules(QString _from, QString _to, QString _symbol);
     ComputationalRules(QString rule);
-    ComputationalRules(const ComputationalRules& object);//Toto je kopirovaci konstruktor
+    ComputationalRules(const ComputationalRules& _object);//Toto je kopirovaci konstruktor
+    ComputationalRules &operator=(const ComputationalRules& _rule);
     QString toString() const{return from + " " + symbol + "-> " + to;}
 
 
@@ -47,6 +48,7 @@ private:
 };
 
 bool operator<(const ComputationalRules& r1, const ComputationalRules& r2);
+
 QDebug operator<<(QDebug dbg, const ComputationalRules& rule);
 bool lessThan(const ComputationalRules& r1, const ComputationalRules& r2);
 QSet <QString> getFroms(QList <ComputationalRules> list);

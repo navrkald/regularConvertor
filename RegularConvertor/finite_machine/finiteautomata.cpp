@@ -721,7 +721,10 @@ bool FiniteAutomata::addRule(QString from, QString to, QString symbol)
 
 void FiniteAutomata::removeRule(ComputationalRules rule)
 {
+    QString symbol = rule.symbol;
     rules.remove(rule);
+    if(findRule_Symbol(symbol).count() == 0)
+        alphabet.remove(symbol);
 }
 
 bool FiniteAutomata::changeSymbolInRule(ComputationalRules rule, QString symbol)
@@ -975,4 +978,15 @@ bool operator ==(const FiniteAutomata FA1, const FiniteAutomata FA2)
         return false;
 
     return true;
+}
+
+QDebug operator<< (QDebug d, const FiniteAutomata &FA)
+{
+   d << "FA=(Q,S,R,s,F)";
+   d << "Q={" << FA.states <<"}";
+   d << "S={" << FA.alphabet << "}";
+   d << "R={" << FA.rules << "}";
+   d << "s= "<< FA.startState;
+   d << "F=" << FA.finalStates << "}";
+   return d;
 }

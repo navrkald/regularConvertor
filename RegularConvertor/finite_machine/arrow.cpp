@@ -46,7 +46,7 @@
  const qreal Pi = 3.14;
 
  Arrow::Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA, QStringList symbols,
-          QGraphicsItem *parent, QGraphicsScene* _scene)
+          QGraphicsItem *parent, DiagramScene* _scene)
      : QGraphicsLineItem(parent)
  {
      this->symbols = symbols;
@@ -59,6 +59,8 @@
      myColor = Qt::black;
      setPen(QPen(myColor, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
      debugCounter = 0;
+
+     connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
  }
 
  Arrow::~Arrow()
@@ -209,6 +211,7 @@ QWidget *)
         //Setup this
         this->symbols  = editedSymbols;
         this->displayText = this->symbols.join(", ");
+        emit FA_changed(FA);
     }
  }
 
@@ -600,7 +603,7 @@ t=-------------------
    }
    else
    {
-       qDebug() << "Fatal eroor: No intersect, returning point [0,0]";
+       //qDebug() << "Fatal eroor: No intersect, returning point [0,0]\n" << "t1=" << t1 << " t2= " <<t2;
        return QPoint();
    }
 

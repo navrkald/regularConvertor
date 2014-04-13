@@ -22,6 +22,7 @@ StateNode::StateNode(DiagramScene* scene, FiniteAutomata* _FA)
     emit FA_changed(FA);
     firstInit();
     connect(this,SIGNAL(sendErrorMessage(QString)),scene,SIGNAL(sendErrorMessage(QString)));
+    connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
 
 }
 

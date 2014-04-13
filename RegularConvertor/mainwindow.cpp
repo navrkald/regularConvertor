@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+    this->setAttribute(Qt::WA_AlwaysShowToolTips,true);
+    //this->ui->actionSimple_example_1->
 
     statusBarTimeout = 5000; //5 second
     setWindowTitle(MY_WINDOW_TITLE);
@@ -30,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     conversionGroup->addAction(ui->action_RemoveEpsilon);
 
     reg_exp_algorithm = 0;
+    remove_epsilon_algorithm = 0;
     activeConversion = none;
     mode = Algorithm::PLAY_MODE;
     ui->action_play_mode->setChecked(true);
@@ -192,8 +195,10 @@ void MainWindow::prepareRemoveEpsilon(FiniteAutomata FA)
         alhgorithm_widget = new AlgorithmWidget(mode,removeEpsilon_central_widget);
         fa_epsilon_widget = new FA_widget(removeEpsilon_central_widget);
         fa_not_epsilon_widget = new FA_widget(removeEpsilon_central_widget);
-        remove_epsilon_variables_widget = new QTextEdit(removeEpsilon_central_widget);
-        remove_epsilon_variables_widget->setReadOnly(true);
+        remove_epsilon_variables_widget = new QLabel(removeEpsilon_central_widget);
+        remove_epsilon_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
+        //remove_epsilon_variables_widget->ba
+        //remove_epsilon_variables_widget->setReadOnly(true);
         epsilon_closer_list_widget = new QListWidget(removeEpsilon_central_widget);
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
         remove_epsilon_algorithm = new RemoveEpsilon(FA, mode, alhgorithm_widget, fa_epsilon_widget, fa_not_epsilon_widget, remove_epsilon_variables_widget, epsilon_closer_list_widget, removeEpsilon_central_widget);
@@ -204,6 +209,8 @@ void MainWindow::prepareRemoveEpsilon(FiniteAutomata FA)
         ;
     }
 }
+
+
 
 void MainWindow::prepareRemoveEpsilon_GUI()
 {
@@ -261,11 +268,21 @@ void MainWindow::prepareRemoveEpsilon_GUI()
     variables_vlayout->addWidget(variables_label);
     variables_vlayout->addWidget(remove_epsilon_variables_widget);
     variables_container->setLayout(variables_vlayout);
-    remove_epsilon_variables_widget->setMinimumSize(30,30);
-    remove_epsilon_variables_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-    remove_epsilon_variables_widget->setText("asddsdsa");
-//    remove_epsilon_variables_widget->setBaseSize(0, 0);
-//    variables_container->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    //remove_epsilon_variables_widget->setMinimumSize(30,30);
+    //remove_epsilon_variables_widget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+
+    qDebug() << "remove_epsilon_variables_widget->minimumHeight();" << remove_epsilon_variables_widget->minimumHeight();
+    qDebug() << "remove_epsilon_variables_widget->maximumHeight()" << remove_epsilon_variables_widget->maximumHeight();
+    qDebug() << "remove_epsilon_variables_widget->height()" << remove_epsilon_variables_widget->height();
+    qDebug() << "remove_epsilon_variables_widget->sizeHint().height()" << remove_epsilon_variables_widget->sizeHint().height();
+    //remove_epsilon_variables_widget->setBaseSize(1, 1);
+    //remove_epsilon_variables_widget->setMinimumHeight(1);
+
+    remove_epsilon_variables_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    qDebug() << "variables_container->minimumHeight();" << variables_container->minimumHeight();
+    qDebug() << "variables_container->maximumHeight()" << variables_container->maximumHeight();
+    qDebug() << "variables_container->height()" << variables_container->height();
 //    variables_container->setMinimumSize(0,0);
 
     //top container
@@ -278,7 +295,7 @@ void MainWindow::prepareRemoveEpsilon_GUI()
     h_spitter1->addWidget(fa_epsilon_container);
     h_spitter1->addWidget(algorithm_container);
 
-    //down left container
+    //down right container
     QWidget* down_left_container = new QWidget(w);
     QSplitter* v_spitter3 = new QSplitter(Qt::Vertical,w);
     v_spitter3->addWidget(variables_container);
@@ -287,8 +304,8 @@ void MainWindow::prepareRemoveEpsilon_GUI()
     horizontal_layout3->setMargin(0);
     horizontal_layout3->setSpacing(0);
     down_left_container->layout()->addWidget(v_spitter3);
-    epsilon_closer_list_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    down_left_container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    //epsilon_closer_list_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    //down_left_container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     //down container
     QWidget* down_container = new QWidget(w);
@@ -306,7 +323,8 @@ void MainWindow::prepareRemoveEpsilon_GUI()
     v_spitter1->addWidget(down_container);
     w->layout()->addWidget(v_spitter1);
 
-
+    qDebug() << "down_left_container->height()" << down_left_container->height();
+    w->show();
 }
 
 
@@ -338,7 +356,7 @@ void MainWindow::on_action_step_mode_triggered()
 /////////////////////////////////////////
 /////////////////////////////////////////
 
-void MainWindow::setRE_FA_example(RegExp *_re)
+void MainWindow::RE_FA_example(RegExp *_re)
 {
     on_action_check_mode_triggered();
     ui->action_RE_to_FA->setChecked(true);
@@ -350,50 +368,89 @@ void MainWindow::setRE_FA_example(RegExp *_re)
 
 void MainWindow::on_RE_FA_example0_triggered()
 {
-    setRE_FA_example(new RegExp());
+    RE_FA_example(new RegExp());
 }
 
 void MainWindow::on_RE_FA_example1_triggered()
 {
-    setRE_FA_example(new RegExp(EPSILON));
+    RE_FA_example(new RegExp(EPSILON));
 }
 
 void MainWindow::on_RE_FA_example2_triggered()
 {
-    setRE_FA_example(new RegExp("a"));
+    RE_FA_example(new RegExp("a"));
 }
 
 void MainWindow::on_RE_FA_example3_triggered()
 {
-    setRE_FA_example(new RegExp("ab"));;
+    RE_FA_example(new RegExp("ab"));;
 }
 
 void MainWindow::on_RE_FA_example4_triggered()
 {
-    setRE_FA_example(new RegExp("a*"));;
+    RE_FA_example(new RegExp("a*"));;
 }
 
 void MainWindow::on_RE_FA_example5_triggered()
 {
-    setRE_FA_example(new RegExp("a+b"));;
+    RE_FA_example(new RegExp("a+b"));;
 }
 
 void MainWindow::on_RE_FA_example6_triggered()
 {
-    setRE_FA_example(new RegExp("a+b*"));;
+    RE_FA_example(new RegExp("a+b*"));;
 }
 
 void MainWindow::on_RE_FA_example7_triggered()
 {
-    setRE_FA_example(new RegExp("(a+b)*"));;
+    RE_FA_example(new RegExp("(a+b)*"));;
 }
 
 void MainWindow::on_RE_FA_example8_triggered()
 {
-    setRE_FA_example(new RegExp("((a+b)*+c)*"));;
+    RE_FA_example(new RegExp("((a+b)*+c)*"));;
 }
 
 void MainWindow::on_RE_FA_example9_triggered()
 {
-    setRE_FA_example(new RegExp("(a+b)*(a+c)*"));;
+    RE_FA_example(new RegExp("(a+b)*(a+c)*"));;
+}
+
+void MainWindow::RemoveEpsilon_example(FiniteAutomata _FA)
+{
+    on_action_check_mode_triggered();
+    ui->action_RemoveEpsilon->setChecked(true);
+    if(!remove_epsilon_algorithm)
+        prepareRemoveEpsilon();
+    remove_epsilon_algorithm->setExample(_FA);
+}
+
+void MainWindow::on_RemoveEpsilon_example0_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "0" << "1" << "2" << "3";
+    FA.startState = "0";
+    FA.finalStates << "2" << "3";
+    FA.alphabet << "a" << "b";
+    FA.rules << ComputationalRules("0","1",EPSILON) << ComputationalRules("1","2","a") << ComputationalRules("1","3","b");
+    RemoveEpsilon_example(FA);
+}
+
+void MainWindow::on_RemoveEpsilon_advanced_example1_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "s" << "q1" << "q2" << "f";
+    FA.startState = "s";
+    FA.finalStates << "f";
+    FA.alphabet << "a" << "b" <<"c";
+    FA.rules
+            << ComputationalRules("s","q1",EPSILON)
+            << ComputationalRules("s","q2",EPSILON)
+            << ComputationalRules("q1","f","b")
+            << ComputationalRules("q2","f","c")
+            << ComputationalRules("s","s","a")
+            << ComputationalRules("q1","q1","b")
+            << ComputationalRules("q2","q2","c")
+            << ComputationalRules("f","f","a");
+    RemoveEpsilon_example(FA);
 }

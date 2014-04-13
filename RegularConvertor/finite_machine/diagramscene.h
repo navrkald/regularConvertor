@@ -32,7 +32,7 @@ public:
     StateNode* startingState;
     Arrow* getArrow(StateNode* from, StateNode* to);
     //clean scene but not delete or change FA
-    void clean();
+    void emit_FA_changed(FiniteAutomata* FA);
 
 public slots:
     void setFA(FiniteAutomata* FA);
@@ -56,6 +56,7 @@ private:
     //automaticaly place new node
     void addNode(QString node);
     StateNode* getNodeByName(QString nodeName);
+    void clean();
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);

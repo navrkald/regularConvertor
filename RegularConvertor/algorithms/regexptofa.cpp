@@ -71,29 +71,24 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
                 break;
         }
     }
-
-
-
-    play_timer = new QTimer();
-    check_step_timer = new QTimer();
     setMode(mode, re);
-    //
-    // Connect timers.
-    //
-    connect(play_timer, SIGNAL(timeout()), this, SLOT(nextStep()));
-    connect(check_step_timer, SIGNAL(timeout()), this, SLOT(checkSolution()));
-
 
     //
     // Connect algorithm buttons.
     //
     connect(this->algorithm_widget,SIGNAL(playPressed(int)),this,SLOT(runAlgorithm(int)));
     connect(this->algorithm_widget,SIGNAL(stopPressed()),this,SLOT(stop()));
-    connect(this->algorithm_widget,SIGNAL(prewPressed()),this,SLOT(prewStep()));
+    connect(this->algorithm_widget,SIGNAL(prewPressed()),this,SLOT(prevStep()));
     connect(this->algorithm_widget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
     connect(this->algorithm_widget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
     connect(this->algorithm_widget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
     connect(this->algorithm_widget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
+
+    //
+    // Connect timers.
+    //
+    connect(play_timer, SIGNAL(timeout()), this, SLOT(nextStep()));
+    connect(check_step_timer, SIGNAL(timeout()), this, SLOT(checkSolution()));
 
     //
     // Connect regexp widget
@@ -103,6 +98,9 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
 
     re_widget->setRegExp(_re);
     re_widget->modelChanged();
+
+    // because not implemented
+    algorithm_widget->disableShowButton();
 }
 
 void RegExpToFA::setMode(modes _mode, RegExp* _re)
@@ -283,10 +281,10 @@ void RegExpToFA::computeSolution()
     }
 }
 
-void RegExpToFA::runAlgorithm(int mil_sec)
-{
-    play_timer->start(mil_sec);
-}
+//void RegExpToFA::runAlgorithm(int mil_sec)
+//{
+//    play_timer->start(mil_sec);
+//}
 
 void RegExpToFA::nextStep()
 {
@@ -388,7 +386,7 @@ void RegExpToFA::nextStep()
     }
 }
 
-void RegExpToFA::prewStep()
+void RegExpToFA::prevStep()
 {
     if (actPos > 0)
     {
@@ -413,10 +411,10 @@ void RegExpToFA::removeFuture()
 }
 
 
-void RegExpToFA::stop()
-{
-    play_timer->stop();
-}
+//void RegExpToFA::stop()
+//{
+//    play_timer->stop();
+//}
 
 //void RegExpToFA::getData(QModelIndex _index)
 //{

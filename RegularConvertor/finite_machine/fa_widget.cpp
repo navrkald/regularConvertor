@@ -71,6 +71,9 @@ FA_widget::FA_widget(QWidget *parent) :
     //set FA also to scene
     connect(this,SIGNAL(setFA_signal(FiniteAutomata*)),this->scene,SLOT(setFA(FiniteAutomata*)));
 
+    // FA changed - scene notify
+    connect(scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
+
     //this code displayes edit buttons in front of graphicsView
     QVBoxLayout* vlayout = new QVBoxLayout(ui->graphicsView);
     QHBoxLayout* hlayout = new QHBoxLayout();
@@ -83,6 +86,8 @@ FA_widget::FA_widget(QWidget *parent) :
     button_group->setExclusive(true);
 
     //button positionig
+    status_label = new QLabel();
+    hlayout->addWidget(status_label);
     hlayout->addStretch();
     hlayout->addWidget(MoveNodeBut);
     hlayout->addWidget(AddNodeBut);
@@ -128,6 +133,23 @@ QStringList FA_widget::getSortedUniqueList(QString raw_text)
     QStringList unique_list_of_states = raw_list_of_states.toSet().toList();
     unique_list_of_states.sort();
     return unique_list_of_states;
+}
+
+void FA_widget::setCorrectStatus()
+{
+    status_label->setText("<b><font color=\"green\">CORRECT</font></b>");
+    status_label->show();
+}
+
+void FA_widget::setWrongStatus()
+{
+    status_label->setText("<b><font color=\"red\">WRONG</font></b>");
+    status_label->show();
+}
+
+void FA_widget::clearStatus()
+{
+    status_label->hide();
 }
 
 FA_widget::~FA_widget()
@@ -239,15 +261,27 @@ void FA_widget::updateStates()
         emit setStartNode(FA->startState);
     }
 
-    //This block of code update ending state validator and completer
+    //update ending state validator and completer
     endingStatesCompleter->setItems(items);
     //set up new values for validator od ending states line edit
     QStringList items_string_list = items;
-    QString awailableStates = items_string_list.join( "|" );
-    awailableStates = "(" + awailableStates + ")";
-    //^\\w+(,\\s*\\w+)*,?$
-    endingStatesValidator->setRegExp(QRegExp("^" + awailableStates + "+(,\\s*" + awailableStates + ")*,?$"));
+    QString awailableStates = "(" + items_string_list.join( "|" ) + ")";
+    endingStatesValidator->setRegExp(QRegExp("^" + awailableStates + "+(,\\s*" + awailableStates + ")*,?$")); // RegExp: ^\\w+(,\\s*\\w+)*,?$
     //TODO! osetrit kdyz se smaze uzel ktery se vyskytuje v prechodech
+}
+
+void FA_widget::emitAddEdge(ComputationalRules rule)
+{
+    QSet<ComputationalRules> rules;
+    rules.insert(rule);
+    emit addEdges(rules);
+}
+
+void FA_widget::emitAddEndingNode(QString node)
+{
+    QSet <QString> nodes;
+    nodes.insert(node);
+    emit addEndingNodes(nodes);
 }
 
 //zmena startovniho stavu ve formalnim popisu
@@ -420,15 +454,16 @@ void FA_widget::clean()
     ui->endingStatesLineEdit->setText("");
     ui->rulesListWidget->clear();
     ui->startStateComboBox->clear();
-    emit FA_changed(FA);
 }
 
 
 //nastavý nový automat
 void FA_widget::setFA(FiniteAutomata* FA)
 {
+    disconnect(scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
     clean();
     this->FA = FA;
     emit setFA_signal(FA);
+    connect(scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
     emit FA_changed(FA);
 }

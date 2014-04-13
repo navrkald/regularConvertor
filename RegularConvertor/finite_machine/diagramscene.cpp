@@ -14,6 +14,10 @@ DiagramScene::DiagramScene(FiniteAutomata* _FA, QWidget *parent = 0) : QGraphics
     FA = _FA;
     startingState = NULL;
     connect(this, SIGNAL(selectionChanged()), this, SLOT(changeSelected()));
+
+    //for future random generate
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
 }
 
 
@@ -107,7 +111,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                  symbols = inputDialog.symbols;
                  StateNode *startItem = qgraphicsitem_cast<StateNode *>(startItems.first());
                  StateNode *endItem = qgraphicsitem_cast<StateNode *>(endItems.first());
-                 Arrow *arrow = new Arrow(startItem, endItem, FA, symbols);
+                 Arrow *arrow = new Arrow(startItem, endItem, FA, symbols,0,this);
                  foreach(QString symbol,symbols)
                  {
                     if(symbol != EPSILON)
@@ -250,7 +254,7 @@ void DiagramScene::addEdges(QSet<ComputationalRules> rules)
         {
             QStringList symbolList;
             symbolList.append(symbol);
-            Arrow *newArrow = new Arrow(from, to, FA, symbolList);
+            Arrow *newArrow = new Arrow(from, to, FA, symbolList,0,this);
             from->addArrow(newArrow);
             to->addArrow(newArrow);
             newArrow->setZValue(-1000.0);   //posun na pozadi
@@ -294,18 +298,21 @@ QPoint DiagramScene::randGeneratePos()
 {
     QGraphicsView* view = dynamic_cast<QGraphicsView*> (this->parent());
 
+
     QRect viewport_rect(0, 0, view->viewport()->width(), view->viewport()->height());
+    //qDebug() << viewport_rect;
     QRectF visible_scene_rect = view->mapToScene(viewport_rect).boundingRect();
 
-    QTime time = QTime::currentTime();
-    qsrand((uint)time.msec());
+    //qDebug() << visible_scene_rect;
 
     int x_low = visible_scene_rect.x() + NODE_RADIUS;
     int y_low = visible_scene_rect.y() + NODE_RADIUS;
 
     int x_high = visible_scene_rect.x() + visible_scene_rect.width() - NODE_RADIUS;
     int y_higt = visible_scene_rect.y() + visible_scene_rect.height() - NODE_RADIUS;
-    return QPoint(qrand() % ((x_high + 1) - x_low) + x_low, qrand() % ((y_higt + 1) - y_low) + y_low);
+    QPoint point = QPoint(qrand() % ((x_high + 1) - x_low) + x_low, qrand() % ((y_higt + 1) - y_low) + y_low);
+    //qDebug() << point;
+    return point;
 
 }
 
@@ -409,8 +416,11 @@ void DiagramScene::clean()
         else
             qDebug() << "Chyba v diagramscene.cpp, ktera by nikdy nemela nastat!";
     }
-    emit FA_changed(FA);
+}
 
+void DiagramScene::emit_FA_changed(FiniteAutomata *FA)
+{
+    emit emit_FA_changed(FA);
 }
 
 void DiagramScene::setFA(FiniteAutomata* _FA)

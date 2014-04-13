@@ -1,6 +1,6 @@
 #include "multiselectcompleter.h"
 
-MultiSelectCompleter::MultiSelectCompleter( const QStringList& items, QObject* parent = 0)
+MultiSelectCompleter::MultiSelectCompleter( const QStringList& items, QObject* parent)
     : QCompleter( items, parent )
 {
     stringListModel = new QStringListModel();

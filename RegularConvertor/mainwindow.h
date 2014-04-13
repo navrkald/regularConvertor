@@ -44,7 +44,7 @@ private slots:
     // RegExp to FA
     //
     void prepareREtoFA(RegExp* _re = new RegExp());
-    void setRE_FA_example(RegExp* _re);
+    void RE_FA_example(RegExp* _re);
     void on_RE_FA_example0_triggered();
     void on_RE_FA_example1_triggered();
     void on_RE_FA_example2_triggered();
@@ -60,6 +60,10 @@ private slots:
     // Remove Epsilon
     //
     void prepareRemoveEpsilon(FiniteAutomata FA = FiniteAutomata());
+    void RemoveEpsilon_example(FiniteAutomata _FA);
+    void on_RemoveEpsilon_example0_triggered();
+
+    void on_RemoveEpsilon_advanced_example1_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -94,7 +98,7 @@ private:
     //
     RemoveEpsilon* remove_epsilon_algorithm;
     QWidget* removeEpsilon_central_widget;
-    QTextEdit* remove_epsilon_variables_widget;
+    QLabel* remove_epsilon_variables_widget;
     QListWidget* epsilon_closer_list_widget;
     FA_widget* fa_epsilon_widget;
     FA_widget* fa_not_epsilon_widget;

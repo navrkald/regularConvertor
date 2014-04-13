@@ -10,8 +10,6 @@
 #include <time.h>
 #include <QtTest/QTest>
 
-#define CHECK_STEP_TIMEOUT 1000
-
 class RegExpToFA : public Algorithm
 {
     Q_OBJECT
@@ -22,7 +20,6 @@ public:
     void computeSolution();
 
     bool continue_running;
-    int num;
     QList <RegExpNode*> getAvailableNodes();
     RegExp* re;
     typedef struct step
@@ -33,7 +30,6 @@ public:
     } steps;
 
     QList<steps> history;
-    int actPos;
 
 
     void initInstructions();
@@ -45,18 +41,16 @@ public slots:
     void setRE(RegExp* _re);
     void selectRegExp(QModelIndex index);
     void saveStep();
-    void runAlgorithm(int mil_sec);
+//    void runAlgorithm(int mil_sec);
     void nextStep();
-    void prewStep();
-    void stop();
+    void prevStep();
+//    void stop();
     void checkSolution();
     void showCorrectSolution();
     void showUserSolution();
     void setExample(RegExp* _re);
 
 private:
-    QTimer *play_timer;
-    QTimer *check_step_timer;
     AlgorithmWidget* algorithm_widget;
     modes mode;
     RegExpWidget* re_widget;

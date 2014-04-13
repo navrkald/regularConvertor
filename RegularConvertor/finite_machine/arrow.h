@@ -59,16 +59,16 @@ class QPainterPath;
 class StateNode;
 class DiagramScene;
 
-class Arrow : public QGraphicsLineItem
+class Arrow : public QObject, public QGraphicsLineItem
 {
-
+    Q_OBJECT
 public:
 
     ~Arrow();
     enum { Type = UserType + 2 };
 
     Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA, QStringList symbol,
-    QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    QGraphicsItem *parent = 0, DiagramScene *scene = 0);
 
     int type() const { return Type; }
     QRectF boundingRect() const;
@@ -83,7 +83,9 @@ public:
     StateNode *myStartItem;
     StateNode *myEndItem;
     QStringList symbols;
-    QGraphicsScene *scene;
+    DiagramScene *scene;
+signals:
+    void FA_changed(FiniteAutomata* FA);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,

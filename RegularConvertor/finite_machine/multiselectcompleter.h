@@ -7,7 +7,7 @@ class MultiSelectCompleter : public QCompleter
 {
     Q_OBJECT
 public:
-    MultiSelectCompleter( const QStringList& items, QObject* parent );
+    MultiSelectCompleter( const QStringList& items, QObject* parent = 0);
     MultiSelectCompleter(QObject *parent);
     ~MultiSelectCompleter();
 

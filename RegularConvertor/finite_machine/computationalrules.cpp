@@ -2,7 +2,9 @@
 
 ComputationalRules::ComputationalRules()
 {
-
+    from = "";
+    to = "";
+    symbol= "";
 }
 
 ComputationalRules::ComputationalRules(QString _from, QString _to, QString _symbol)
@@ -25,11 +27,19 @@ ComputationalRules::ComputationalRules(QString rule)
     }
 }
 
-ComputationalRules::ComputationalRules(const ComputationalRules& object)
+ComputationalRules::ComputationalRules(const ComputationalRules& _object)
 {
-    this->from = object.from;
-    this->to = object.to;
-    this->symbol = object.symbol;
+    this->from = _object.from;
+    this->to = _object.to;
+    this->symbol = _object.symbol;
+}
+
+ComputationalRules &ComputationalRules::operator=(const ComputationalRules& _rule)
+{
+    this->from = _rule.from;
+    this->to = _rule.to;
+    this->symbol = _rule.symbol;
+    return *this;
 }
 
 
@@ -49,7 +59,6 @@ bool operator<(const ComputationalRules& r1, const ComputationalRules& r2)
 
 QDebug operator<<(QDebug dbg, const ComputationalRules& rule)
 {
-
     dbg.nospace() << rule.toString()+'\n';
     return dbg.maybeSpace();
 }

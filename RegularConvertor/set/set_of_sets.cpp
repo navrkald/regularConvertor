@@ -47,11 +47,8 @@ QString qsetToQstring(QSet<QString> set)
     //for(int k = 0; k < (list.size()/2); k++) list.swap(k,list.size()-(1+k));
 
     QString string = "{";
-    foreach(QString s,list)
-    {
-        string+= s + ", ";
-    }
-    string.truncate(string.length() - 2); //remove last ", "
+    QStringList string_list = list;
+    string+= string_list.join(",");
     string+="}";
     return string;
 }

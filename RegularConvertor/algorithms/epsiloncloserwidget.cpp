@@ -19,6 +19,7 @@ EpsilonCloserWidget::EpsilonCloserWidget(QString _state, QList<QString> _user_ep
     layout->addWidget(label3);
 
     connect(line_edit,SIGNAL(textEdited(QString)),this,SLOT(statesEdited(QString)));
+    connect(line_edit,SIGNAL(textChanged(QString)),this,SLOT(statesEdited(QString)));
 }
 
 void EpsilonCloserWidget::setCorrectness(bool correct)

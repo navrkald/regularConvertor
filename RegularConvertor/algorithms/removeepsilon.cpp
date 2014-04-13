@@ -450,7 +450,7 @@ void RemoveEpsilon::prepareGUItoCheck()
         closer.sort();
         QListWidgetItem * item = new QListWidgetItem(epsilon_closer_list_widget);
         QStringList emptyList;
-        EpsilonCloserWidget* epsilon_widget = new EpsilonCloserWidget(state, emptyList, epsilon_closer, epsilon_closer_list_widget);
+        EpsilonCloserWidget* epsilon_widget = new EpsilonCloserWidget(state, emptyList, closer, epsilon_closer_list_widget);
         epsilon_widget->setCompleter(new MultiSelectCompleter(FA.states.toList()));
         epsilon_closer_list_widget->setItemWidget(item,epsilon_widget);
         item->setSizeHint(epsilon_widget->sizeHint());

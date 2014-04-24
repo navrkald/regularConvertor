@@ -304,8 +304,7 @@ QPointF Arrow::getEndItemPos() const
     }
     else
     {
-        //QRectF rect = QRectF(endItem()->elipseBoundingRect().topLeft(), endItem()->pos());
-        return EllipseLineIntersection(endItem()->sceneBoundingRect(), startItem()->sceneBoundingRect().center(), endItem()->sceneBoundingRect().center());
+        return EllipseLineIntersection(endItem()->elipseBoundingRect(), startItem()->sceneBoundingRect().center(), endItem()->elipseBoundingRect().center());
     }
 }
 
@@ -324,219 +323,63 @@ QRectF Arrow::recalculateTextSpace() const
     return metrics.boundingRect(displayText);
 }
 
-QPointF Arrow::intersectionPoint1(StateNode *circle, QLineF  *line) const
+//QPointF Arrow::intersectionPoint1(StateNode *circle, QLineF  *line) const
+
+//{
+//    float R= 20;
+//    float x0 = (circle->mapToScene(circle->shape().controlPointRect().center())).x();
+//    float y0 = (circle->mapToScene(circle->shape().controlPointRect().center())).y();
+// if(line->x2() != line->x1())
+//  {
+//    QPointF yaxis_intersection;
+//    line->intersect( QLineF(QPointF(0, 10000), QPointF(0, -10000)), &yaxis_intersection);
+//    float a = (line->y2() - line->y1())/(line->x2() - line->x1());
+//    float b = yaxis_intersection.y();
+//    float A = 1 + a*a;
+//    float B = 2*(a*b - a*y0 - x0);
+//    float C = x0 * x0 + y0*y0 + b*b - 2*b*y0 - R*R;
+//    float Q = B*B - 4*A*C;
+//    if(Q > 0)
+//     {
+//       float s1 = (-1)*(B + sqrt(Q))/(2*A);
+//       float s2 = (sqrt(Q) - B)/(2*A);
+//       QPointF ps1(s1, a*s1 + b);
+//       QPointF ps2(s2, a*s2 + b);
+// if(contains(ps1))
+//  return ps1;
+// else
+//  return ps2;
+//     }
+//     else
+//     {
+//       float s0 = (-1)*B/(2*A);
+//       return QPointF(s0, a*s0 + b);
+//     }
+//   }
+//  else
+//   {
+//     float x = line->x1();
+//     // y*y - 2*y0*y + (x - x0)*(x - x0) + y0*y0 - R*R = 0
+//     float C = (x - x0)*(x - x0) + y0*y0 - R*R;
+//     float Q = 4*y0*y0 - 4*C;
+//    if(Q > 0)
+//     {
+//       float s1 = y0 - sqrt(Q)/2;
+//       float s2 = y0 + sqrt(Q)/2 ;
+//       QPointF ps1(x, s1);
+//       QPointF ps2(x, s2);
+// if(contains(ps1))
+//  return ps1;
+// else
+//  return ps2;
+//     }
+//     else
+//     {
+//       return QPointF(x, y0);
+//     }
+//   }
+//}
 
-{
-
-
-
-    float R= 20;
-
-
-
-    float x0 = (circle->mapToScene(circle->shape().controlPointRect().center())).x();
-
-    float y0 = (circle->mapToScene(circle->shape().controlPointRect().center())).y();
-
-
-
-
-
- if(line->x2() != line->x1())
-
-  {
-
-    QPointF yaxis_intersection;
-
-    line->intersect( QLineF(QPointF(0, 10000), QPointF(0, -10000)), &yaxis_intersection);
-
-
-
-    float a = (line->y2() - line->y1())/(line->x2() - line->x1());
-
-    float b = yaxis_intersection.y();
-
-
-
-    float A = 1 + a*a;
-
-    float B = 2*(a*b - a*y0 - x0);
-
-    float C = x0 * x0 + y0*y0 + b*b - 2*b*y0 - R*R;
-
-
-
-    float Q = B*B - 4*A*C;
-
-    if(Q > 0)
-
-     {
-
-       float s1 = (-1)*(B + sqrt(Q))/(2*A);
-
-       float s2 = (sqrt(Q) - B)/(2*A);
-
-       QPointF ps1(s1, a*s1 + b);
-
-       QPointF ps2(s2, a*s2 + b);
-
-
-
- if(contains(ps1))
-
-  return ps1;
-
- else
-
-  return ps2;
-
-     }
-
-     else
-
-     {
-
-       float s0 = (-1)*B/(2*A);
-
-       return QPointF(s0, a*s0 + b);
-
-     }
-
-   }
-
-  else
-
-   {
-
-     float x = line->x1();
-
-     // y*y - 2*y0*y + (x - x0)*(x - x0) + y0*y0 - R*R = 0
-
-
-
-     float C = (x - x0)*(x - x0) + y0*y0 - R*R;
-
-     float Q = 4*y0*y0 - 4*C;
-
-
-
-    if(Q > 0)
-
-     {
-
-       float s1 = y0 - sqrt(Q)/2;
-
-       float s2 = y0 + sqrt(Q)/2 ;
-
-       QPointF ps1(x, s1);
-
-       QPointF ps2(x, s2);
-
-
-
- if(contains(ps1))
-
-  return ps1;
-
- else
-
-  return ps2;
-
-     }
-
-     else
-
-     {
-
-       return QPointF(x, y0);
-
-     }
-
-   }
-
-
-
-}
-
-QPointF Arrow::findEllipseSegmentIntersections(QRectF rect, QPointF pt1, QPointF pt2, bool segment_only) const
-{
-    // If the ellipse or line segment are empty, return no intersections.
-    if (rect.width() == 0 || rect.height() == 0 || ((pt1.x() == pt2.x()) && (pt1.y() == pt2.y())))
-        return QPointF(0,0);
-
-    // Make sure the rectangle has non-negative width and height.
-    if (rect.width() < 0)
-    {
-        rect.setX(rect.left());
-        rect.setWidth(-rect.width());
-    }
-    if (rect.height() < 0)
-    {
-        rect.setY(rect.bottom());
-        rect.setHeight(-rect.height());
-    }
-
-    // Translate so the ellipse is centered at the origin.
-    qreal cx = rect.left() + rect.width() / 2.0;
-    qreal cy = rect.top() - rect.height() / 2.0;
-    rect.setX(rect.x() - cx);
-    rect.setY(rect.y() - cy);
-    pt1.setX(pt1.x() - cx);
-    pt1.setY(pt1.y() - cy);
-    pt2.setX(pt2.x() - cx);
-    pt2.setY(pt2.y() - cy);
-
-    // Get the semimajor and semiminor axes.
-    qreal a = rect.width() / 2;
-    qreal b = rect.height() / 2;
-
-    // Calculate the quadratic parameters.
-    qreal A = (pt2.x() - pt1.x()) * (pt2.x() - pt1.x()) / a / a +
-            (pt2.y() - pt1.y()) * (pt2.y() - pt1.y()) / b / b;
-    qreal B = 2 * pt1.x() * (pt2.x() - pt1.x()) / a / a +
-            2 * pt1.y() * (pt2.y() - pt1.y()) / b / b;
-    qreal C = pt1.x() * pt1.x() / a / a + pt1.y() * pt1.y() / b / b - 1;
-
-    // Make a list of t values.
-    QList<qreal> t_values;
-
-    // Calculate the discriminant.
-    float discriminant = B * B - 4 * A * C;
-    if (discriminant == 0)
-    {
-        // One real solution.
-        t_values.append(-B / 2 / A);
-    }
-    else if (discriminant > 0)
-    {
-        // Two real solutions.
-        t_values.append((qreal)((-B + qSqrt(discriminant)) / 2 / A));
-        t_values.append((qreal)((-B - qSqrt(discriminant)) / 2 / A));
-    }
-    else
-    {
-        qDebug() << "Fatal error: Discriminant is negative!";
-        exit(-1);
-    }
-
-    // Convert the t values into points.
-    QList<QPointF> points;
-    foreach (qreal t, t_values)
-    {
-        // If the points are on the segment (or we
-        // don't care if they are), add them to the list.
-        if (!segment_only || ((t >= 0.0) && (t <= 1.0)))
-        {
-            qreal x = pt1.x() + (pt2.x() - pt1.x()) * t + cx;
-            qreal y = pt1.y() + (pt2.y() - pt1.y()) * t + cy;
-            points.append(QPointF(x, y));
-        }
-    }
-
-    // Return the points.
-   // qDebug() << "pp: " << points << endl;
-    return points.first();
-}
 QPointF Arrow::EllipseLineIntersection(QRectF elipse, QPointF p1, QPointF p2) const
 {
 /*

@@ -113,8 +113,6 @@ private:
      //uzly neprekrivali
      QPointF perpendicularDifference(QLineF line, qreal distance)const;
      QRectF recalculateTextSpace() const;
-     QPointF findEllipseSegmentIntersections(QRectF rect, QPointF pt1, QPointF pt2, bool segment_only = false) const;
-     QPointF intersectionPoint1(StateNode *circle, QLineF *line) const;
      QPointF EllipseLineIntersection(QRectF elipse, QPointF p1, QPointF p2) const;
 };
 

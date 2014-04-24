@@ -41,6 +41,11 @@ int Algorithm::clearActInstruction()
     }
 }
 
+void Algorithm::setMode(Algorithm::modes _mode)
+{
+
+}
+
 void Algorithm::getData(QModelIndex _index)
 {
     breakpoints[_index.row()] = data(_index, Algorithm::Breakpoint_Role).toBool();

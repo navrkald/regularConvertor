@@ -18,8 +18,7 @@ public:
     RemoveEpsilon(FiniteAutomata _FA,modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
     FiniteAutomata computeSolution();
     void initInstructions();
-    void showVariables();
-    void clearVariables();
+
     void setExample(FiniteAutomata _FA);
 
     typedef struct step
@@ -89,7 +88,8 @@ private:
     void setEpsilonCloserWidget();
     void prepareGUItoCheck();
     void removeFuture();
-
+    void showVariables();
+    void clearVariables();
 };
 
 #endif // REMOVEEPSILON_H

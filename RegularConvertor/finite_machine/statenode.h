@@ -30,7 +30,7 @@ public:
     int type() const;
 
     //StateNode();
-
+    Arrow* hasArrowTo(StateNode* node_to);
     StateNode(DiagramScene* scene, FiniteAutomata* _FA);
     //tento konstruktor se pouziva pri pri automatickem vytvareni uzlu, nikdy nepouzivat rucne
     StateNode(DiagramScene* scene, FiniteAutomata* _FA, QString uniqueName);
@@ -57,7 +57,7 @@ protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 signals:
     void deleteItem();
-    void sendErrorMessage(QString message);
+    void sendStatusBarMessage(QString message);
     void FA_changed(FiniteAutomata* FA);
 //    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 public slots:

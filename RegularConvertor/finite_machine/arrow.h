@@ -84,6 +84,8 @@ public:
     StateNode *myEndItem;
     QStringList symbols;
     DiagramScene *scene;
+
+    void editArrow();
 signals:
     void FA_changed(FiniteAutomata* FA);
 

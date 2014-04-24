@@ -52,7 +52,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                                          mouseEvent->scenePos()));
              actLine->setPen(QPen(Qt::black, 2));
              addItem(actLine);
-             emit FA_changed(FA);
+             //emit FA_changed(FA);
              break;
         case MoveNode:
              break;
@@ -100,24 +100,39 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
          if (startItems.count() > 0 && endItems.count() > 0
             && 0 != qgraphicsitem_cast<StateNode *>(startItems.first())
-            && 0 != qgraphicsitem_cast<StateNode *>(endItems.first())
-            //&& startItems.first() != endItems.first()
-                 )
+            && 0 != qgraphicsitem_cast<StateNode *>(endItems.first()))
          {
+             StateNode *startItem = qgraphicsitem_cast<StateNode *>(startItems.first());
+             StateNode *endItem = qgraphicsitem_cast<StateNode *>(endItems.first());
+             Arrow *arrow;
+             if((arrow = startItem->hasArrowTo(endItem)) != 0)
+             {
+                arrow->editArrow();
+                return;
+             }
              SymbolsInputDialog inputDialog("");
              QStringList symbols;
              if(QDialog::Accepted == inputDialog.exec())
              {
                  symbols = inputDialog.symbols;
-                 StateNode *startItem = qgraphicsitem_cast<StateNode *>(startItems.first());
-                 StateNode *endItem = qgraphicsitem_cast<StateNode *>(endItems.first());
-                 Arrow *arrow = new Arrow(startItem, endItem, FA, symbols,0,this);
+                 arrow = new Arrow(startItem, endItem, FA, symbols,0,this);
+                 QStringList new_symbols;
                  foreach(QString symbol,symbols)
                  {
-                    if(symbol != EPSILON)
-                        FA->addSymbol(symbol);
-                    FA->addRule(ComputationalRules(startItem->getName(),endItem->getName(),symbol));
-                    emit FA_changed(FA);
+                    if(FA->addRule(ComputationalRules(startItem->getName(),endItem->getName(),symbol)))
+                    {
+                        if(symbol != EPSILON)
+                        {
+                            FA->addSymbol(symbol);
+                            new_symbols.append(symbol);
+                            emit FA_changed(FA);
+                        }
+                    }
+                    else
+                    {
+                        emit sendStatusBarMessage(tr("WARNING: Vámi zadaná hrana již existuje."));
+                    }
+
                  }
                  startItem->addArrow(arrow);
                  endItem->addArrow(arrow);
@@ -266,6 +281,7 @@ void DiagramScene::addEdges(QSet<ComputationalRules> rules)
             arrow->addSymbol(symbol);
             arrow->updatePosition();
         }
+        FA->addRule(rule);
     }
     emit FA_changed(FA);
 }
@@ -319,7 +335,6 @@ QPoint DiagramScene::randGeneratePos()
 //add node to qgraphic scene
 void DiagramScene::addNode(QString node_name)
 {
-
     StateNode* newNode = new StateNode(this, this->FA, node_name);
     this->addItem(newNode);
     int least_num_colide_items = std::numeric_limits<int>::max();

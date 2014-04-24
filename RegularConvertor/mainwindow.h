@@ -13,6 +13,7 @@
 #include "algorithms/algorithmwidget.h"
 #include "algorithms/algorithm.h"
 #include "algorithms/removeepsilon.h"
+#include "algorithms/fatodfa.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,16 +27,17 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QShortcut* deleteShortCut;
-    enum Conversions {none, RE_to_FA, REMOVE_EPSILON};
+    enum Conversions {none, RE_to_FA, REMOVE_EPSILON, DFA};
     AlgorithmWidget* alhgorithm_widget;
 
 
 
 signals:
     void modeChanged(Algorithm::modes mode);
+public slots:
+    void showStatusMessage(QString message);
 private slots:
-    void myStatusbarShowMessage(QString message);
-
+    void hideStatusMessage();
     void on_action_check_mode_triggered();
     void on_action_play_mode_triggered();
     void on_action_step_mode_triggered();
@@ -62,12 +64,28 @@ private slots:
     void prepareRemoveEpsilon(FiniteAutomata FA = FiniteAutomata());
     void RemoveEpsilon_example(FiniteAutomata _FA);
     void on_RemoveEpsilon_example0_triggered();
-
     void on_RemoveEpsilon_advanced_example1_triggered();
+
+    //
+    // DFA
+    //
+    void prepareDFA(FiniteAutomata FA = FiniteAutomata());
+    void Determinization_example(FiniteAutomata _FA);
+    void on_Determinization_example_1_triggered();
+
+    void on_Determinization_advanced_example_1_triggered();
 
 private:
     Ui::MainWindow *ui;
+    QTimer* status_timer;
+    QLabel* status_label;
 
+    // General private function
+    QWidget* prepareAlgorithnContainer(QWidget* central_w, QString str_label, Algorithm* algorithm);
+    QWidget* prepareFAContainer(QWidget* central_w, QString str_label, FA_widget* fa_widget);
+    QWidget* variablesContainer(QWidget* central_w, QString str_label, QLabel* var_widget);
+    QWidget* horizontalContainer(QWidget* central_w, QList<QWidget*> widgets);
+    QWidget* verticalContainer(QWidget* central_w, QList<QWidget*> widgets);
 
     //old thinks to delete
     QList<QGraphicsItem*> itemsToDelete;
@@ -103,6 +121,16 @@ private:
     FA_widget* fa_epsilon_widget;
     FA_widget* fa_not_epsilon_widget;
     void prepareRemoveEpsilon_GUI();
+
+    //
+    // Determinization
+    //
+    FaToDFA* DFA_algorithm;
+    QWidget* DFA_central_widget;
+    QLabel* DFA_variables_widget;
+    FA_widget* not_DFA_widget;
+    FA_widget* DFA_widget;
+    void prepareDFA_GUI();
 
 };
 

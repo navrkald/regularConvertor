@@ -41,6 +41,9 @@ QSet < QSet<QString> > findInSubsets(QSet < QSet<QString> > sets, QSet<QString> 
 
 QString qsetToQstring(QSet<QString> set)
 {
+    if (set.empty())
+        return "∅";
+
     QList <QString> list = set.toList();
     qSort(list);
     //reverse list

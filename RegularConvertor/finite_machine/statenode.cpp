@@ -8,7 +8,18 @@ unsigned int StateNode::ID_counter = 1;
 int StateNode::type() const
 {
         // Enable the use of qgraphicsitem_cast with this item.
-        return Type;
+    return Type;
+}
+
+Arrow* StateNode::hasArrowTo(StateNode *node_to)
+{
+    QSet<Arrow*> same_arrows = arrows.toSet().intersect(node_to->arrows.toSet());
+    foreach(Arrow* arrow,same_arrows)
+    {
+        if(arrow->startItem() == this && arrow->endItem() == node_to)
+            return arrow;
+    }
+    return 0;
 }
 
 StateNode::StateNode(DiagramScene* scene, FiniteAutomata* _FA)
@@ -17,12 +28,14 @@ StateNode::StateNode(DiagramScene* scene, FiniteAutomata* _FA)
     FA = _FA;
     myscene = scene;
     node_name = FA->createUniqueName();
+    firstInit();
+
+    connect(this,SIGNAL(sendStatusBarMessage(QString)),scene,SIGNAL(sendStatusBarMessage(QString)));
+    connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
 
     FA->addState(node_name);
     emit FA_changed(FA);
-    firstInit();
-    connect(this,SIGNAL(sendErrorMessage(QString)),scene,SIGNAL(sendErrorMessage(QString)));
-    connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
+
 
 }
 
@@ -32,6 +45,14 @@ StateNode::StateNode(DiagramScene *scene, FiniteAutomata *_FA, QString uniqueNam
     myscene = scene;
     node_name = uniqueName;
     firstInit();
+
+    connect(this,SIGNAL(sendStatusBarMessage(QString)),scene,SIGNAL(sendStatusBarMessage(QString)));
+    connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
+
+    FA->addState(node_name);
+    emit FA_changed(FA);
+
+
 }
 
 void StateNode::firstInit()
@@ -219,7 +240,7 @@ void StateNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
                 QString message = tr("Uzel se stejnym jmenem jiz existuje!");
                 errorMessage.showMessage(message);
                 errorMessage.exec();
-                emit sendErrorMessage(message);
+                emit sendStatusBarMessage(message);
 
             }
         }

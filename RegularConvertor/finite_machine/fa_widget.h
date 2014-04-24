@@ -24,7 +24,6 @@ public:
     DiagramScene *scene;
     FiniteAutomata* FA;
     QShortcut* deleteShortCut;
-    QErrorMessage errorMessage;
 
     static QStringList getSortedUniqueList(QString raw_text);
     void setCorrectStatus();
@@ -69,7 +68,7 @@ signals:
     void setStartNode(QString n);
     void addEndingNodes(QSet <QString> nodes);
     void removeEndingNodes(QSet <QString> nodes);
-    void errorMessageSignal(QString message);
+    void sendStatusBarMessage(QString message);
 
 private:
     //properties

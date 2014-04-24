@@ -1,12 +1,8 @@
 # Build dirs #
 ##############
-/build-RegularConvertor-Desktop*
 /RegularConvertor-build-desktop-Qt_4_8_5__4_8_5__Debug/
 /RegularConvertor-build-desktop-Qt_4_8_5__4_8_5__Release/
-/build-RegularConvertorUnitTests-Desktop_Qt_5_0_2_GCC_64bit-Debug/
-/build-RegularConvertor-Desktop_qt52-Debug/
-/build-RegularConvertorUnitTests-Desktop_qt52-Debug/
-/build-RegularConvertorUnitTests-Desktop_Qt_5_2_1_GCC_64bit_qt_521-Debug/
+/build*
 
 # User build settings #
 #######################

@@ -38,9 +38,12 @@ public:
     int setActInstruction();
     int clearActInstruction();
 public slots:
+    virtual void setMode(Algorithm::modes _mode);
     void getData(QModelIndex _index);
     void runAlgorithm(int mil_sec);
     void stop();
+signals:
+    void sendStatusBarMessage(QString message);
 protected:
     QTimer *play_timer;
     QTimer *check_step_timer;

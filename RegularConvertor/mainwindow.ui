@@ -91,8 +91,16 @@ p, li { white-space: pre-wrap; }
      <addaction name="RemoveEpsilon_example0"/>
      <addaction name="RemoveEpsilon_advanced_example1"/>
     </widget>
+    <widget class="QMenu" name="menuDeterminizace_KA">
+     <property name="title">
+      <string>Determinizace KA</string>
+     </property>
+     <addaction name="Determinization_example_1"/>
+     <addaction name="Determinization_advanced_example_1"/>
+    </widget>
     <addaction name="examples_RegExp_FA"/>
     <addaction name="menuRemove_epsilon"/>
+    <addaction name="menuDeterminizace_KA"/>
    </widget>
    <widget class="QMenu" name="menuV_b_r_konverze">
     <property name="title">
@@ -100,6 +108,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="action_RE_to_FA"/>
     <addaction name="action_RemoveEpsilon"/>
+    <addaction name="action_Determinization"/>
    </widget>
    <addaction name="menuSoubor"/>
    <addaction name="menuV_b_r_m_du"/>
@@ -120,7 +129,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Regulární výraz (RV) -&gt; Konečný automat (KA)</string>
+    <string>Regulární výraz na konečný automat</string>
    </property>
   </action>
   <action name="action_RemoveEpsilon">
@@ -128,7 +137,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>KA -&gt; KA bez epsilon přechodů</string>
+    <string>Odstranění epsilon přechodů</string>
    </property>
   </action>
   <action name="action_check_mode">
@@ -222,6 +231,24 @@ p, li { white-space: pre-wrap; }
   <action name="RemoveEpsilon_advanced_example1">
    <property name="text">
     <string>Advanced example1</string>
+   </property>
+  </action>
+  <action name="action_Determinization">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Determinizaca KA</string>
+   </property>
+  </action>
+  <action name="Determinization_example_1">
+   <property name="text">
+    <string>Example 1</string>
+   </property>
+  </action>
+  <action name="Determinization_advanced_example_1">
+   <property name="text">
+    <string>Advanced example 2</string>
    </property>
   </action>
  </widget>

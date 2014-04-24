@@ -53,6 +53,5 @@ QDebug operator<<(QDebug dbg, const ComputationalRules& rule);
 bool lessThan(const ComputationalRules& r1, const ComputationalRules& r2);
 QSet <QString> getFroms(QList <ComputationalRules> list);
 QSet <QString> getTos(QList <ComputationalRules> list);
-
 uint qHash(const ComputationalRules& rule);
 #endif // COMPUTATIONALRULES_H

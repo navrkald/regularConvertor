@@ -11,6 +11,7 @@ FA_widget::FA_widget(QWidget *parent) :
     FA = new FiniteAutomata();
 
     scene = new DiagramScene(FA, ui->graphicsView);
+    connect(scene,SIGNAL(sendStatusBarMessage(QString)),this,SIGNAL(sendStatusBarMessage(QString)));
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
     deleteShortCut=new QShortcut(QKeySequence::Delete, this);
@@ -298,7 +299,7 @@ void FA_widget::on_startStateComboBox_activated(const QString &arg1)
 
 //DOTO kdyz jsou prazdne uzly tak vyhodit pri pokusu pridavat prechody error message
 
-//pridani noveho pravidla ve dormalnim popisu FA
+//pridani noveho pravidla ve Formalnim popisu FA
 void FA_widget::on_addRuleToolButton_clicked()
 {
     //updatovani stavu a abecedy (zavolame explicitne protoze "nestrati fokus, tak aby to fungovalo")
@@ -307,10 +308,8 @@ void FA_widget::on_addRuleToolButton_clicked()
 
     if(FA->states.isEmpty())
     {
-        QString message = tr("Nelse pridavat prechody. Musite prvne pridat nejake uzly!");
-        errorMessage.showMessage(message);
-        errorMessage.exec();
-        emit errorMessageSignal(message);
+        QString message = tr("WARNING: Nelse pridavat prechody. Musite prvne pridat nejake uzly!");
+        emit sendStatusBarMessage(message);
         emit FA_changed(FA);
         return;
     }
@@ -336,7 +335,7 @@ void FA_widget::on_addRuleToolButton_clicked()
         }
         else
         {
-            ;//TODO vypsat warning
+            emit sendStatusBarMessage(tr("WARNING: Vámi zadaná hrana již existuje."));
         }
     }
     emit FA_changed(FA);

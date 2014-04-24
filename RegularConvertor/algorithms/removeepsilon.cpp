@@ -127,6 +127,7 @@ void RemoveEpsilon::setMode(Algorithm::modes _mode)
     clearActInstruction();
     clearVariables();
     epsilon_closer_list_widget->clear();
+    // because show correct solution break connectiom betwen user FA and user FA widget
     connect(not_epsilon_fa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(set_not_epsilonFA(FiniteAutomata*)));
 
     switch (mode)
@@ -144,7 +145,6 @@ void RemoveEpsilon::setMode(Algorithm::modes _mode)
         break;
         case CHECK_MODE: case STEP_MODE:
             correct_FA = computeSolution();
-            prepareGUItoCheck();
         break;
     }
 
@@ -373,9 +373,6 @@ void RemoveEpsilon::saveStep()
     s.actInstruction = actInstruction;
     s.prewInstruction = prewInstruction;
     s.non_epsilon_FA = non_epsilon_FA;
-//    s.epsilon_closer_list_widget = new QListWidget(epsilon_closer_list_widget);
-//    s.epsilon_closer_list_widget->setParent(0); // because we dont want display 2 QListWidget
-//    s.parrent =  epsilon_closer_list_widget->parent();
     s.p = p;
     s.p_prime = p_prime;
     s.non_epsilon_rule = non_epsilon_rule;
@@ -460,7 +457,6 @@ void RemoveEpsilon::prepareGUItoCheck()
 void RemoveEpsilon::removeFuture()
 {
     int count  = history.count();
-    int a = actPos;
     for(int i = actPos+1; i < count; i++)
     {
         history.removeLast();

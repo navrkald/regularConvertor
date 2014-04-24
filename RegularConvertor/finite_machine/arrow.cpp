@@ -128,6 +128,32 @@ void Arrow::updatePosition()
     //std::cout<<"fce update position"<< std::endl;
 }
 
+void Arrow::editArrow()
+{
+    SymbolsInputDialog inputDialog(symbols.join(", "));
+    if(QDialog::Accepted == inputDialog.exec())
+    {
+        //Setup FA
+        QStringList editedSymbols = inputDialog.symbols;
+        QSet<QString> deletedSymbols = this->symbols.toSet() -  editedSymbols.toSet();
+        QSet<QString> newSymbols = editedSymbols.toSet() - this->symbols.toSet();
+        foreach(QString symbol,deletedSymbols)
+        {
+            FA->removeRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
+            FA->removeSymbol(symbol);
+        }
+        foreach(QString symbol,newSymbols)
+        {
+            FA->addRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
+            FA->addSymbol(symbol);
+        }
+        //Setup this
+        this->symbols  = editedSymbols;
+        this->displayText = this->symbols.join(", ");
+        emit FA_changed(FA);
+    }
+}
+
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 QWidget *)
 {
@@ -189,30 +215,9 @@ QWidget *)
     }
 }
 
- void Arrow::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+ void Arrow::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
  {
-    SymbolsInputDialog inputDialog(symbols.join(", "));
-    if(QDialog::Accepted == inputDialog.exec())
-    {
-        //Setup FA
-        QStringList editedSymbols = inputDialog.symbols;
-        QSet<QString> deletedSymbols = this->symbols.toSet() -  editedSymbols.toSet();
-        QSet<QString> newSymbols = editedSymbols.toSet() - this->symbols.toSet();
-        foreach(QString symbol,deletedSymbols)
-        {
-            FA->removeRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
-            FA->removeSymbol(symbol);
-        }
-        foreach(QString symbol,newSymbols)
-        {
-            FA->addRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
-            FA->addSymbol(symbol);
-        }
-        //Setup this
-        this->symbols  = editedSymbols;
-        this->displayText = this->symbols.join(", ");
-        emit FA_changed(FA);
-    }
+     editArrow();
  }
 
  QPointF Arrow::textPos() const

@@ -18,7 +18,7 @@ class DiagramScene : public QGraphicsScene
 signals:
     //void deleteSelected();
     void FA_changed(FiniteAutomata* FA);
-    void sendErrorMessage(QString message);
+    void sendStatusBarMessage(QString message);
 
 public:
     DiagramScene(FiniteAutomata* _FA, QWidget *parent);

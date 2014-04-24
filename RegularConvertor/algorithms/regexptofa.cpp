@@ -71,7 +71,7 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
                 break;
         }
     }
-    setMode(mode, re);
+    setMode(mode);
 
     //
     // Connect algorithm buttons.
@@ -103,7 +103,7 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
     algorithm_widget->disableShowButton();
 }
 
-void RegExpToFA::setMode(modes _mode, RegExp* _re)
+void RegExpToFA::setMode(modes _mode)
 {
     mode = _mode;
     nodesToProcede.clear();
@@ -147,7 +147,6 @@ void RegExpToFA::setMode(modes _mode, RegExp* _re)
 
 void RegExpToFA::setRE(RegExp *_re)
 {
-    RegExp *prew_re = re;
     //Has impact to computeSolution() and nextStep()
     nodesToProcede.clear();
 

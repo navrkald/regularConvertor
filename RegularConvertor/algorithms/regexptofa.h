@@ -36,7 +36,7 @@ public:
 //    void setNewRegExp(RegExp* re);
 
 public slots:
-    void setMode(Algorithm::modes _mode, RegExp* _re = new RegExp());
+    void setMode(Algorithm::modes _mode);
 //    void setRE_old(RegExp* _re);
     void setRE(RegExp* _re);
     void selectRegExp(QModelIndex index);

@@ -28,10 +28,6 @@ public:
     //vrati data indexu se specifickou rolý (text a ikonu)
     QVariant data(const QModelIndex &index, int role) const;
 
-    //nedela nic
-    QVariant headerData(int section, Qt::Orientation orientation,
-                        CharPos charter) const;
-
     //vrati
     QModelIndex indexFromNode(RegExpNode *node) const;
     //vrati data na indexu

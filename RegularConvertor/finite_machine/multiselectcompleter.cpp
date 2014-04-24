@@ -6,7 +6,7 @@ MultiSelectCompleter::MultiSelectCompleter( const QStringList& items, QObject* p
     stringListModel = new QStringListModel();
 }
 
-MultiSelectCompleter::MultiSelectCompleter(QObject *parent = 0)
+MultiSelectCompleter::MultiSelectCompleter(QObject*)
 {
     stringListModel = new QStringListModel();
 }

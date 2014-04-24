@@ -93,7 +93,7 @@ bool RegExpNode::childrenProcessed()
     return true;
 }
 
-bool RegExpNode::clearProcessed()
+void RegExpNode::clearProcessed()
 {
     clearProcessed(this);
 }

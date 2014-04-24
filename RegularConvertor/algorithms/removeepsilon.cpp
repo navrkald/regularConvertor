@@ -20,7 +20,7 @@ RemoveEpsilon::RemoveEpsilon(FiniteAutomata _FA)
 }
 
 RemoveEpsilon::RemoveEpsilon(FiniteAutomata _FA, modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent)
- : FA(_FA), Algorithm(parrent), algorithm_widget(_algorithm_widget), mode(_mode), epsilon_fa_widget(_epsilon_fa_widget), not_epsilon_fa_widget(_not_epsilon_fa_widget), var_widget(_var_widget), epsilon_closer_list_widget(_epsilon_closer_list_widget)
+ :  Algorithm(parrent), FA(_FA), algorithm_widget(_algorithm_widget), mode(_mode), epsilon_fa_widget(_epsilon_fa_widget), not_epsilon_fa_widget(_not_epsilon_fa_widget),  var_widget(_var_widget), epsilon_closer_list_widget(_epsilon_closer_list_widget)
 {
     actInstruction = HEADER;
     prewInstruction = HEADER;
@@ -145,6 +145,8 @@ void RemoveEpsilon::setMode(Algorithm::modes _mode)
         break;
         case CHECK_MODE: case STEP_MODE:
             correct_FA = computeSolution();
+        break;
+        case NONE:
         break;
     }
 

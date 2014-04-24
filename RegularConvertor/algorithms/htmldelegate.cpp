@@ -81,7 +81,7 @@ void HTMLDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option,
     }
 }
 
-QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
+QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem &, const QModelIndex & index ) const
 {
 
     //doc size
@@ -118,7 +118,7 @@ QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModel
     return QSize(total_width,total_height);
 }
 
-bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &, const QModelIndex &index)
 {
     if ((event->type() == QEvent::MouseButtonRelease) || (event->type() == QEvent::MouseButtonDblClick))
     {
@@ -147,7 +147,7 @@ bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const Q
     return ret_val;
 }
 
-void HTMLDelegate::changeActInstruction(int _actInstruction)
+void HTMLDelegate::changeActInstruction(int)
 {
 
 }
@@ -157,7 +157,7 @@ void HTMLDelegate::clearBackround()
 
 }
 
-void HTMLDelegate::drawBrakepoint ( QPainter * painter, const QStyleOptionViewItem & option, const QRect & rect, bool selected ) const
+void HTMLDelegate::drawBrakepoint ( QPainter * painter, const QStyleOptionViewItem &, const QRect & rect, bool selected ) const
 {
     QRect myRect = rect;
     //qDebug()<< "myRect: " <<myRect.width() <<"," << myRect.height();

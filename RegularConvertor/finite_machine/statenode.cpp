@@ -164,7 +164,7 @@ double StateNode::getRadius()
    return radius;
 }
 
-void StateNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void StateNode::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
     painter->setBrush(*nodeBrush);
     if(selected)

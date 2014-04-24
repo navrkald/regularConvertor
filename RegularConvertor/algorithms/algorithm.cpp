@@ -16,7 +16,7 @@ void Algorithm::initBreakpoints(int _num)
     }
 }
 
-int Algorithm::setActInstruction()
+void Algorithm::setActInstruction()
 {
     clearActInstruction();
     QModelIndex index;
@@ -32,7 +32,7 @@ int Algorithm::setActInstruction()
 }
 
 //Clear act instruction from algorithm view
-int Algorithm::clearActInstruction()
+void Algorithm::clearActInstruction()
 {
     for(int i = 0; i<instruction_count; i++)
     {
@@ -41,7 +41,7 @@ int Algorithm::clearActInstruction()
     }
 }
 
-void Algorithm::setMode(Algorithm::modes _mode)
+void Algorithm::setMode(Algorithm::modes)
 {
 
 }

@@ -837,11 +837,6 @@ bool FiniteAutomata::canDivide(FiniteAutomata FA ,QString symbol, QSet<QSet<QStr
     QSet <QString> Q1, Q2;
     QList<ComputationalRules> rules;
 
-    if(Qm.count() ==4)
-    {
-        int i = 0;
-    }
-
     //add all rules with from = X and witch symbol
     foreach(QString from,X)
     {

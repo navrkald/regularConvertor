@@ -19,7 +19,7 @@ FaToDFA::FaToDFA(FiniteAutomata _FA) : FA(_FA)
 }
 
 FaToDFA::FaToDFA(FiniteAutomata _FA, modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, QLabel* _var_widget, QObject* parrent)
- : FA(_FA), Algorithm(parrent), algorithm_widget(_algorithm_widget), mode(_mode), not_dfa_widget(_not_dfa_widget), dfa_widget(_dfa_widget), var_widget(_var_widget)
+ : Algorithm(parrent),  mode(_mode),  algorithm_widget(_algorithm_widget), not_dfa_widget(_not_dfa_widget), dfa_widget(_dfa_widget), var_widget(_var_widget), FA(_FA)
 {
     actInstruction = HEADER;
     prewInstruction = HEADER;
@@ -96,6 +96,8 @@ void FaToDFA::initInstructions()
 void FaToDFA::setFA(FiniteAutomata *_FA)
 {
     this->FA = *_FA;
+    if(this->FA.hasEpsilon())
+        emit sendStatusBarMessage(tr("WARNING: Input finite automata has epsilon rules."));
     not_dfa_widget->clearStatus();
     setMode(mode);
 }
@@ -129,6 +131,8 @@ void FaToDFA::setMode(Algorithm::modes _mode)
         case CHECK_MODE: case STEP_MODE:
             correct_FA = computeSolution();
         break;
+        case NONE:
+        break;
     }
 
     if(mode == STEP_MODE)
@@ -151,6 +155,11 @@ void FaToDFA::nextStep()
     if(FA.startState == "")
     {
         emit sendStatusBarMessage("WARNING: Input FA has not start state.");
+        return;
+    }
+    if(FA.hasEpsilon())
+    {
+        emit sendStatusBarMessage("ERROR: Input FA has epsilon rules.");
         return;
     }
 
@@ -309,6 +318,12 @@ void FaToDFA::nextStep()
 
 FiniteAutomata FaToDFA::computeSolution()
 {
+    if(FA.hasEpsilon())
+    {
+        emit sendStatusBarMessage("ERROR: Input FA has epsilon rules.");
+        return FiniteAutomata();
+    }
+
     FiniteAutomata FAd;
     FAd.alphabet = FA.alphabet;                                 //FAd alphabet
 
@@ -358,6 +373,13 @@ FiniteAutomata FaToDFA::computeSolution()
 
 void FaToDFA::checkSolution()
 {
+    if(FA.hasEpsilon())
+    {
+        emit sendStatusBarMessage("ERROR: Input FA has epsilon rules.");
+        return;
+    }
+
+
     if(FiniteAutomata::areEquivalent(DFA, correct_FA))
     {
         dfa_widget->setCorrectStatus();

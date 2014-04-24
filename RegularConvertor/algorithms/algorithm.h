@@ -35,10 +35,10 @@ public:
     int actInstruction;
     int prewInstruction;
     int actPos;
-    int setActInstruction();
-    int clearActInstruction();
+    void setActInstruction();
+    void clearActInstruction();
 public slots:
-    virtual void setMode(Algorithm::modes _mode);
+    void setMode(Algorithm::modes _mode);
     void getData(QModelIndex _index);
     void runAlgorithm(int mil_sec);
     void stop();

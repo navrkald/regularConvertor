@@ -14,7 +14,7 @@ RegExp::RegExp()
     rootNode = new RegExpNode(emptyString);
 }
 
-RegExp::RegExp(QString _regexp,QObject *parent)
+RegExp::RegExp(QString _regexp,QObject*)
 {
     regexp = _regexp;
     init(regexp);

@@ -125,8 +125,8 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                         {
                             FA->addSymbol(symbol);
                             new_symbols.append(symbol);
-                            emit FA_changed(FA);
                         }
+                        emit FA_changed(FA);
                     }
                     else
                     {

@@ -93,9 +93,6 @@ QVariant RegExpTreeModel::data(const QModelIndex &index, int role) const
             case RegExpNode::UNKNOWN:
                 icon.addFile(":/algorithms/algorithms/pictures/unknown.png");
             break;
-        //case default:
-
-
         }
         return icon;
     }
@@ -104,26 +101,7 @@ QVariant RegExpTreeModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole)
         return node->symbol.charter;;
 
-
-    if((role == Qt::FontRole))
-    {
-        return QVariant();
-    }
-    else
-        return QVariant();
-}
-
-QVariant RegExpTreeModel::headerData(int section,
-                                  Qt::Orientation orientation,
-                                  CharPos charter) const
-{
-//    if (orientation == Qt::Horizontal) {
-//        if (section == 0) {
-//            return tr("Node");
-//        } else if (section == 1) {
-//            return tr("Value");
-//        }
-//    }
+    //default
     return QVariant();
 }
 
@@ -135,10 +113,7 @@ RegExpNode* RegExpTreeModel::nodeFromIndex(const QModelIndex &index) const
         if(return_node)
             return return_node;
     }
-    else
-    {
-        return rootNode;
-    }
+    return rootNode;
 }
 
 QModelIndex RegExpTreeModel::indexFromNode(RegExpNode *node) const//   int row, int column,                                const QModelIndex &parent) const

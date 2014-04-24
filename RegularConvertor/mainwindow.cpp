@@ -45,9 +45,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //    deleteShortCut = new QShortcut(QKeySequence::Delete, this);
     //    connect( deleteShortCut, SIGNAL(activated()), FA1_widget->scene, SLOT(deleteSelected()));
-    //    connect(FA1_widget,SIGNAL(errorMessageSignal(QString)),this, SLOT(myStatusbarShowMessage(QString)));
-    //    connect(FA1_widget->scene,SIGNAL(sendErrorMessage(QString)),this,SLOT(myStatusbarShowMessage(QString))
-
     prepareDFA();
 
     // Custom status bar
@@ -70,6 +67,7 @@ MainWindow::~MainWindow()
 void MainWindow::showStatusMessage(QString message)
 {
     message.replace("WARNING:","<b><font color=#FF00FF>WARNING:</font></b>");
+    message.replace("ERROR:","<b><font color=\"red\">ERROR:</font></b>");
     status_label->setText(message);
     status_label->show();
     status_timer->start();
@@ -185,8 +183,7 @@ void MainWindow::prepareREtoFA_GUI()
     QWidget* w = regExpToFA_central_widget;
     this->setCentralWidget(w);
     QLayout* layout = new QGridLayout(w);
-//    w->setLayout(layout);
-    w->layout()->setMargin(0);
+    layout->setMargin(0);
 
 
     //spitters
@@ -256,8 +253,6 @@ void MainWindow::prepareRemoveEpsilon(FiniteAutomata FA)
         connect(fa_epsilon_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         connect(fa_not_epsilon_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         remove_epsilon_variables_widget = new QLabel(removeEpsilon_central_widget);
-        //remove_epsilon_variables_widget->ba
-        //remove_epsilon_variables_widget->setReadOnly(true);
         epsilon_closer_list_widget = new QListWidget(removeEpsilon_central_widget);
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
         remove_epsilon_algorithm = new RemoveEpsilon(FA, mode, alhgorithm_widget, fa_epsilon_widget, fa_not_epsilon_widget, remove_epsilon_variables_widget, epsilon_closer_list_widget, removeEpsilon_central_widget);
@@ -280,8 +275,7 @@ void MainWindow::prepareRemoveEpsilon_GUI()
     QWidget* w = removeEpsilon_central_widget;
     this->setCentralWidget(w);
     QLayout* layout = new QGridLayout(w);
-//    w->setLayout(layout);
-    w->layout()->setMargin(0);
+    layout->setMargin(0);
 
     //algorithm container
     QWidget* algorithm_container = prepareAlgorithnContainer(w, "<b>Algoritmus Odstranění epsilon pravidel</b>", remove_epsilon_algorithm);
@@ -372,8 +366,7 @@ void MainWindow::prepareDFA_GUI()
     QWidget* w = DFA_central_widget;
     this->setCentralWidget(w);
     QLayout* layout = new QGridLayout(w);
-//    w->setLayout(layout);
-    w->layout()->setMargin(0);
+    layout->setMargin(0);
 
     //algorithm container
     QWidget* algorithm_container = prepareAlgorithnContainer(w, "<b>Determinizace KA</b>", DFA_algorithm);
@@ -392,30 +385,10 @@ void MainWindow::prepareDFA_GUI()
     //top container
     QWidget* up_container = horizontalContainer(w, QList<QWidget *>() << in_fa_container << algorithm_container);
 
-//    QWidget* up_container = new QWidget(w);
-//    QHBoxLayout* horizontal_layout1 = new QHBoxLayout(up_container);
-//    horizontal_layout1->setMargin(0);
-//    up_container->setLayout(horizontal_layout1);r
-//    QSplitter* h_spitter1 = new QSplitter(Qt::Horizontal,w);
-//    up_container->layout()->addWidget(h_spitter1);
-//    h_spitter1->addWidget(fa_epsilon_container);
-//    h_spitter1->addWidget(algorithm_container);
-//    QSpacerItem* spacer =  new QSpacerItem();
-//    spacer->set
-//    QSpacerItem* spacer = new QSpacerItem(1,1,QSizePolicy::Expanding,QSizePolicy::Expanding);
     QWidget* downRightContainer = verticalContainer(w,QList<QWidget*>() << variables_container);
 
     //down container
     QWidget* down_container = horizontalContainer(w, QList<QWidget *>() << out_fa_container << downRightContainer);
-
-//    QWidget* down_container = new QWidget(w);
-//    QSplitter* h_spitter2 = new QSplitter(Qt::Horizontal,w);
-//    h_spitter2->addWidget(fa_not_epsilon_container);
-//    h_spitter2->addWidget(down_left_container);
-//    QHBoxLayout* horizontal_layout2 = new QHBoxLayout(down_container);
-//    horizontal_layout2->setMargin(0);
-//    horizontal_layout2->setSpacing(0);
-//    down_container->layout()->addWidget(h_spitter2);
 
     //vertical splitter
     QSplitter* v_spitter = new QSplitter(Qt::Vertical,w);

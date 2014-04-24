@@ -63,7 +63,7 @@ QDebug operator<<(QDebug dbg, const ComputationalRules& rule)
     return dbg.maybeSpace();
 }
 
-uint qHash(const ComputationalRules &rule)
+uint qHash(const ComputationalRules&)
 {
     //TODO vylepsit tento hash
     return 1;

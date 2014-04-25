@@ -304,7 +304,7 @@ QPointF Arrow::getEndItemPos() const
     }
     else
     {
-        return EllipseLineIntersection(endItem()->elipseBoundingRect(), startItem()->sceneBoundingRect().center(), endItem()->elipseBoundingRect().center());
+        return EllipseLineIntersection(endItem()->mapRectToScene(endItem()->elipseBoundingRect()), startItem()->sceneBoundingRect().center(), endItem()->mapRectToScene(endItem()->elipseBoundingRect()).center());
     }
 }
 

@@ -298,9 +298,11 @@ QPointF Arrow::getStartItemPos() const
 
 QPointF Arrow::getEndItemPos() const
 {
-    if(arrowHasSibling()) {
+    if(arrowHasSibling())
+    {
 
-        return endItem()->pos() - perpendicularDifference(QLineF(startItem()->pos(),endItem()->pos()),LINES_DISTANCE);
+        //return endItem()->pos() - perpendicularDifference(QLineF(startItem()->pos(),endItem()->pos()),LINES_DISTANCE);
+        return EllipseLineIntersection(endItem()->mapRectToScene(endItem()->elipseBoundingRect()), startItem()->sceneBoundingRect().center(), endItem()->mapRectToScene(endItem()->elipseBoundingRect()).center() - perpendicularDifference(QLineF(startItem()->pos(),endItem()->pos()),LINES_DISTANCE));
     }
     else
     {

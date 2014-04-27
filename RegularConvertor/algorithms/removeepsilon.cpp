@@ -19,8 +19,8 @@ RemoveEpsilon::RemoveEpsilon(FiniteAutomata _FA)
     this->FA = _FA;
 }
 
-RemoveEpsilon::RemoveEpsilon(FiniteAutomata _FA, modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent)
- :  Algorithm(parrent), FA(_FA), algorithm_widget(_algorithm_widget), mode(_mode), epsilon_fa_widget(_epsilon_fa_widget), not_epsilon_fa_widget(_not_epsilon_fa_widget),  var_widget(_var_widget), epsilon_closer_list_widget(_epsilon_closer_list_widget)
+RemoveEpsilon::RemoveEpsilon(modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent)
+ :  Algorithm(parrent), algorithm_widget(_algorithm_widget), mode(_mode), epsilon_fa_widget(_epsilon_fa_widget), not_epsilon_fa_widget(_not_epsilon_fa_widget),  var_widget(_var_widget), epsilon_closer_list_widget(_epsilon_closer_list_widget)
 {
     actInstruction = HEADER;
     prewInstruction = HEADER;
@@ -82,8 +82,8 @@ RemoveEpsilon::RemoveEpsilon(FiniteAutomata _FA, modes _mode, AlgorithmWidget* _
     connect(epsilon_fa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(setFA(FiniteAutomata*)));
     connect(not_epsilon_fa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(set_not_epsilonFA(FiniteAutomata*)));
 
-    epsilon_fa_widget->setFA(new FiniteAutomata(FA));
-
+    epsilon_fa_widget->setFA(new FiniteAutomata());
+    not_epsilon_fa_widget->setFA(new FiniteAutomata());
     //here is implemented
     algorithm_widget->enableShowButton();
 }
@@ -472,9 +472,14 @@ void RemoveEpsilon::clearVariables()
     var_widget->clear();
 }
 
-void RemoveEpsilon::setExample(FiniteAutomata _FA)
+void RemoveEpsilon::setInputFA(FiniteAutomata _FA)
 {
     epsilon_fa_widget->setFA(new FiniteAutomata(_FA));
+}
+
+void RemoveEpsilon::setOutputFA(FiniteAutomata out_FA)
+{
+    not_epsilon_fa_widget->setFA(new FiniteAutomata(out_FA));
 }
 
 void RemoveEpsilon::showVariables()

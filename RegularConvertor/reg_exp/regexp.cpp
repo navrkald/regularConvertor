@@ -154,4 +154,14 @@ void RegExp::clean()
 //}
 
 
+QDataStream &operator<<(QDataStream &out, const RegExp &reg_exp)
+{
+    out << reg_exp.regexp;
+    return out;
+}
 
+QDataStream &operator>>(QDataStream &in, RegExp &reg_exp)
+{
+    in  >> reg_exp.regexp;
+    return in;
+}

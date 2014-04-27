@@ -58,6 +58,28 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(status_timer,SIGNAL(timeout()),this,SLOT(hideStatusMessage()));
 
+    //ui->RemoveEpsilon_example0->setToolTip("<img src=':/main_window/pictures/remove_epsilon_example1.png'/>");
+    //ui->RemoveEpsilon_advanced_example1->setToolTip("<img src= ':/main_window/pictures/remove_epsilon_advanced_example1.png' />");
+
+
+
+    FiniteAutomata FA;
+    FA.states << "A" << "B" << "C" << "D";
+    FA.startState = "A";
+    FA.finalStates << "D";
+    FA.alphabet << "0" << "1";
+    FA.rules
+        << ComputationalRules("A","A","0")
+        << ComputationalRules("A","A","1")
+        << ComputationalRules("A","B","1")
+        << ComputationalRules("B","C","0")
+        << ComputationalRules("B","C","1")
+        << ComputationalRules("C","D","0")
+        << ComputationalRules("C","D","1");
+    //DFAtoMinFA* a = new DFAtoMinFA(FA);
+    //a->computeSolution();
+    //FA.toMinFA();
+
 }
 
 MainWindow::~MainWindow()
@@ -152,8 +174,8 @@ QWidget *MainWindow::verticalContainer(QWidget* central_w, QList<QWidget *> widg
 
 void MainWindow::prepareREtoFA(RegExp* _re)
 {
-    if(activeConversion != RE_to_FA)
-    {
+//    if(activeConversion != RE_to_FA)
+//    {
         activeConversion = RE_to_FA;
 
         //basic components
@@ -169,11 +191,11 @@ void MainWindow::prepareREtoFA(RegExp* _re)
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
         reg_exp_algorithm = new RegExpToFA(alhgorithm_widget, mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right, _re, regExpToFA_central_widget);
         prepareREtoFA_GUI();
-    }
-    else
-    {
-        ;
-    }
+//    }
+//    else
+//    {
+//        ;
+//    }
 }
 
 void MainWindow::prepareREtoFA_GUI()
@@ -240,10 +262,10 @@ void MainWindow::prepareREtoFA_GUI()
 
 
 
-void MainWindow::prepareRemoveEpsilon(FiniteAutomata FA)
+void MainWindow::prepareRemoveEpsilon()
 {
-    if(activeConversion != REMOVE_EPSILON)
-    {
+    //if(activeConversion != REMOVE_EPSILON)
+    //{
         activeConversion = REMOVE_EPSILON;
 
         //basic components
@@ -256,13 +278,13 @@ void MainWindow::prepareRemoveEpsilon(FiniteAutomata FA)
         remove_epsilon_variables_widget = new QLabel(removeEpsilon_central_widget);
         epsilon_closer_list_widget = new QListWidget(removeEpsilon_central_widget);
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
-        remove_epsilon_algorithm = new RemoveEpsilon(FA, mode, alhgorithm_widget, fa_epsilon_widget, fa_not_epsilon_widget, remove_epsilon_variables_widget, epsilon_closer_list_widget, removeEpsilon_central_widget);
+        remove_epsilon_algorithm = new RemoveEpsilon(mode, alhgorithm_widget, fa_epsilon_widget, fa_not_epsilon_widget, remove_epsilon_variables_widget, epsilon_closer_list_widget, removeEpsilon_central_widget);
         prepareRemoveEpsilon_GUI();
-    }
-    else
-    {
-        ;
-    }
+    //}
+    //else
+    //{
+    //   ;
+    //}
 }
 
 
@@ -331,11 +353,11 @@ void MainWindow::prepareRemoveEpsilon_GUI()
 }
 
 
-void MainWindow::prepareDFA(FiniteAutomata FA)
+void MainWindow::prepareDFA()
 {
 
-    if(activeConversion != DFA)
-    {
+    //if(activeConversion != DFA)
+    //{
         activeConversion = DFA;
 
         //basic components
@@ -348,14 +370,14 @@ void MainWindow::prepareDFA(FiniteAutomata FA)
         DFA_variables_widget = new QLabel(DFA_central_widget);
         DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
-        DFA_algorithm = new FaToDFA(FA, mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, DFA_central_widget);
+        DFA_algorithm = new FaToDFA(mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, DFA_central_widget);
         connect(DFA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         prepareDFA_GUI();
-    }
-    else
-    {
-        ;
-    }
+    //}
+    //else
+    //{
+    //    ;
+    //}
 }
 
 
@@ -493,11 +515,9 @@ void MainWindow::on_RE_FA_example9_triggered()
 
 void MainWindow::RemoveEpsilon_example(FiniteAutomata _FA)
 {
-    on_action_check_mode_triggered();
-    ui->action_RemoveEpsilon->setChecked(true);
     if(activeConversion != REMOVE_EPSILON)
         prepareRemoveEpsilon();
-    remove_epsilon_algorithm->setExample(_FA);
+    remove_epsilon_algorithm->setInputFA(_FA);
 }
 
 void MainWindow::on_RemoveEpsilon_example0_triggered()
@@ -539,7 +559,7 @@ void MainWindow::Determinization_example(FiniteAutomata _FA)
     {
         prepareDFA();
     }
-    DFA_algorithm->setExample(_FA);
+    DFA_algorithm->setInputFA(_FA);
 }
 
 void MainWindow::on_Determinization_example_1_triggered()
@@ -581,4 +601,99 @@ void MainWindow::on_Determinization_advanced_example_1_triggered()
         << ComputationalRules("C","D","1");
 
     Determinization_example(FA);
+}
+
+void MainWindow::on_action_save_triggered()
+{
+    QFile file("/tmp/test.txt");
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);   // we will serialize the data into the file
+    out << activeConversion << mode;
+    switch(activeConversion)
+    {
+        case none:
+        break;
+        case RE_to_FA:
+            out << *reg_exp_algorithm->re;
+        break;
+        case REMOVE_EPSILON:
+                out << remove_epsilon_algorithm->FA << remove_epsilon_algorithm->non_epsilon_FA;
+        break;
+        case DFA:
+            out << DFA_algorithm->FA << DFA_algorithm->DFA;
+        break;
+    }
+    file.close();
+}
+
+void MainWindow::on_action_open_file_triggered()
+{
+    QFile read("/tmp/test.txt");
+    read.open(QIODevice::ReadOnly);
+    QDataStream in(&read);    // read the data serialized from the file
+    FiniteAutomata FA;
+    //
+    Conversions conversion;
+    in >> conversion;
+    in >> mode;
+    switch (mode)
+    {
+        case Algorithm::NONE:
+
+        break;
+        case Algorithm::CHECK_MODE:
+            on_action_check_mode_triggered();
+        break;
+        case Algorithm::PLAY_MODE:
+            on_action_play_mode_triggered();
+        break;
+        case Algorithm::STEP_MODE:
+            on_action_step_mode_triggered();
+        break;
+    }
+
+    switch(conversion)
+    {
+        case none:
+            qDebug() << "Conversion: none";
+        break;
+        case RE_to_FA:
+        {
+            qDebug() << "Conversion: RE_to_FA";
+            RegExp re;
+            in >> re;
+            prepareREtoFA(new RegExp(re));
+        }
+        break;
+        case REMOVE_EPSILON:
+        {
+            qDebug() << "Conversion: REMOVE_EPSILON";
+            FiniteAutomata in_FA;
+            FiniteAutomata out_FA;
+            in >> in_FA >> out_FA;
+            prepareRemoveEpsilon();
+            remove_epsilon_algorithm->setInputFA(in_FA);
+            remove_epsilon_algorithm->setOutputFA(out_FA);
+        }
+        break;
+        case DFA:
+            qDebug() << "Conversion: DFA";
+            FiniteAutomata in_FA;
+            FiniteAutomata out_FA;
+            in >> in_FA >> out_FA;
+            prepareDFA();
+            DFA_algorithm->setInputFA(in_FA);
+            DFA_algorithm->setOutputFA(out_FA);
+        break;
+    }
+
+    qDebug() << FA;
+}
+
+QDataStream& operator>>(QDataStream& in, MainWindow::Conversions& e)
+{
+    quint32 tmp;
+    in >> tmp;
+    e = (MainWindow::Conversions)tmp;
+    return in;
 }

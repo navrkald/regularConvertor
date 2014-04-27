@@ -104,5 +104,6 @@ bool operator==(const FiniteAutomata FA1, const FiniteAutomata FA2);
   */
 QDebug operator<< (QDebug d, const FiniteAutomata &FA);
 
-
+QDataStream &operator<<(QDataStream &out, const FiniteAutomata &FA);
+QDataStream &operator>>(QDataStream &in, FiniteAutomata &FA);
 #endif // FINITEAUTOMATA_H

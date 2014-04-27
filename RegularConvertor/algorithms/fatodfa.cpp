@@ -23,8 +23,8 @@ FaToDFA::~FaToDFA()
 
 }
 
-FaToDFA::FaToDFA(FiniteAutomata _FA, modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, QLabel* _var_widget, QObject* parrent)
- : Algorithm(parrent),  mode(_mode),  algorithm_widget(_algorithm_widget), not_dfa_widget(_not_dfa_widget), dfa_widget(_dfa_widget), var_widget(_var_widget), FA(_FA)
+FaToDFA::FaToDFA(modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, QLabel* _var_widget, QObject* parrent)
+ : Algorithm(parrent),  mode(_mode),  algorithm_widget(_algorithm_widget), not_dfa_widget(_not_dfa_widget), dfa_widget(_dfa_widget), var_widget(_var_widget)
 {
     actInstruction = HEADER;
     prewInstruction = HEADER;
@@ -74,7 +74,7 @@ FaToDFA::FaToDFA(FiniteAutomata _FA, modes _mode, AlgorithmWidget* _algorithm_wi
     connect(not_dfa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(setFA(FiniteAutomata*)));
     connect(dfa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(setDFA(FiniteAutomata*)));
 
-    not_dfa_widget->setFA(new FiniteAutomata(FA));
+    not_dfa_widget->setFA(new FiniteAutomata());
 
     algorithm_widget->enableShowButton();
 }
@@ -140,7 +140,7 @@ void FaToDFA::setMode(Algorithm::modes _mode)
         break;
     }
 
-    if(mode == STEP_MODE)
+    if(mode == CHECK_MODE)
         check_step_timer->start(CHECK_STEP_TIMEOUT);
     else
         check_step_timer->stop();
@@ -518,9 +518,14 @@ void FaToDFA::showVariables()
     var_widget->setText(text);
 }
 
-void FaToDFA::setExample(FiniteAutomata _FA)
+void FaToDFA::setInputFA(FiniteAutomata _FA)
 {
     not_dfa_widget->setFA(new FiniteAutomata(_FA));
+}
+
+void FaToDFA::setOutputFA(FiniteAutomata out_FA)
+{
+    dfa_widget->setFA(new FiniteAutomata(out_FA));
 }
 
 void FaToDFA::saveStep()

@@ -186,6 +186,7 @@ void FiniteAutomata::removeNonTerminatingStates()
 
 FiniteAutomata FiniteAutomata::makeWellDefined(FiniteAutomata FA)
 {
+    FA.toDFA();
     FiniteAutomata wellDefinedFA = FA;
     wellDefinedFA.removeUnreachableStates();
     wellDefinedFA.removeNonTerminatingStates();
@@ -194,7 +195,7 @@ FiniteAutomata FiniteAutomata::makeWellDefined(FiniteAutomata FA)
     {
         foreach (QString symbol, wellDefinedFA.alphabet)
         {
-             QList <ComputationalRules> rules = findRule_From(state);
+             QList <ComputationalRules> rules = wellDefinedFA.findRule_From(state);
              bool searched = false;
              foreach(ComputationalRules rule, rules)
              {
@@ -984,4 +985,20 @@ QDebug operator<< (QDebug d, const FiniteAutomata &FA)
    d << "s= "<< FA.startState;
    d << "F=" << FA.finalStates << "}";
    return d;
+}
+
+QDataStream &operator<<(QDataStream &out, const FiniteAutomata &FA)
+{
+    out << FA.states << FA.startState << FA.finalStates << FA.alphabet  << FA.rules << (quint32)FA.nextId;
+    return out;
+}
+
+
+
+QDataStream &operator>>(QDataStream &in, FiniteAutomata &FA)
+{
+    quint32 nextId;
+    in  >> FA.states >> FA.startState >> FA.finalStates >> FA.alphabet  >> FA.rules >> nextId;
+    FA.nextId = (int)nextId;
+    return in;
 }

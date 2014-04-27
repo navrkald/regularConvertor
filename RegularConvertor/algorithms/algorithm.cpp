@@ -60,3 +60,11 @@ void Algorithm::stop()
 {
     play_timer->stop();
 }
+
+QDataStream& operator>>(QDataStream& in, Algorithm::modes& m)
+{
+    quint32 tmp;
+    in >> tmp;
+    m = (Algorithm::modes)tmp;
+    return in;
+}

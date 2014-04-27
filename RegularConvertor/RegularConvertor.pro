@@ -91,5 +91,6 @@ FORMS    += mainwindow.ui \
 
 CONFIG += static
 
+QMAKE_CXXFLAGS += -g -gdwarf-2
 RESOURCES += \
     pictures.qrc

@@ -5,6 +5,7 @@
         <file>reg_exp/pictures/branch-more.png</file>
         <file>reg_exp/pictures/branch-open.png</file>
         <file>reg_exp/pictures/vline.png</file>
+        <file>pictures/remove_epsilon_example1.png</file>
     </qresource>
     <qresource prefix="/algorithms">
         <file>algorithms/pictures/alternate_fa.png</file>
@@ -25,5 +26,11 @@
         <file>finite_machine/pictures/add_node.png</file>
         <file>finite_machine/pictures/cursor.png</file>
         <file>finite_machine/pictures/delete.png</file>
+    </qresource>
+    <qresource prefix="/main_window">
+        <file>pictures/remove_epsilon_example1.png</file>
+        <file>pictures/remove_epsilon_advanced_example1.png</file>
+        <file>pictures/determinization_example1.png</file>
+        <file>pictures/determinization_advanced_example1.png</file>
     </qresource>
 </RCC>

@@ -16,14 +16,19 @@ class FaToDFA : public Algorithm
     Q_OBJECT
 
 public:
-    FaToDFA(FiniteAutomata _FA, modes _mode, AlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, QLabel *_var_widget, QObject *parrent);
+    FaToDFA(modes _mode, AlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, QLabel *_var_widget, QObject *parrent);
     FaToDFA(FiniteAutomata _FA);
     ~FaToDFA();
     FiniteAutomata computeSolution();
     void initInstructions();
 
     void setMode(Algorithm::modes _mode);
-    void setExample(FiniteAutomata _FA);
+
+    void setInputFA(FiniteAutomata _FA);
+    void setOutputFA(FiniteAutomata out_FA);
+
+    FiniteAutomata FA;
+    FiniteAutomata DFA;
 
 public slots:
     void setFA(FiniteAutomata* _FA);
@@ -65,8 +70,6 @@ private:
     QLabel* var_widget;
 
     //internal variables
-    FiniteAutomata FA;
-    FiniteAutomata DFA;
     QSet <QString> act_state;       // = Q'
     QString act_state_name;
     QSet<QString> discovered_state; // = Q''

@@ -54,6 +54,8 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Soubor</string>
     </property>
+    <addaction name="action_save"/>
+    <addaction name="action_open_file"/>
    </widget>
    <widget class="MyTooltipQMenu" name="menuV_b_r_m_du">
     <property name="title">
@@ -91,7 +93,7 @@ p, li { white-space: pre-wrap; }
      <addaction name="RemoveEpsilon_example0"/>
      <addaction name="RemoveEpsilon_advanced_example1"/>
     </widget>
-    <widget class="QMenu" name="menuDeterminizace_KA">
+    <widget class="MyTooltipQMenu" name="menuDeterminizace_KA">
      <property name="title">
       <string>Determinizace KA</string>
      </property>
@@ -163,7 +165,7 @@ p, li { white-space: pre-wrap; }
     <string>Samostatná práce</string>
    </property>
    <property name="toolTip">
-    <string notr="true">V tomto modu si řešíte samostatně danou úlohu.</string>
+    <string notr="true">V tomto módu si řešíte samostatně danou úlohu.</string>
    </property>
   </action>
   <action name="action_play_mode">
@@ -174,7 +176,7 @@ p, li { white-space: pre-wrap; }
     <string>Krokovat</string>
    </property>
    <property name="toolTip">
-    <string>V tomto modů si můžete krokovat daný algoritmus.</string>
+    <string>V tomto módu si můžete krokovat daný algoritmus.</string>
    </property>
   </action>
   <action name="action_step_mode">
@@ -243,7 +245,7 @@ p, li { white-space: pre-wrap; }
     <string>Simple example 1</string>
    </property>
    <property name="toolTip">
-    <string>Simple example 1</string>
+    <string>&lt;img src=':/main_window/pictures/remove_epsilon_example1.png'/&gt;</string>
    </property>
    <property name="statusTip">
     <string>FA=({0,1,2}, {a,b}, {0ε-&gt;1, 1a-&gt;2, 2b-&gt;3},  0, {2,3})</string>
@@ -255,6 +257,9 @@ p, li { white-space: pre-wrap; }
   <action name="RemoveEpsilon_advanced_example1">
    <property name="text">
     <string>Advanced example1</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src= ':/main_window/pictures/remove_epsilon_advanced_example1.png' /&gt;</string>
    </property>
   </action>
   <action name="action_Determinization">
@@ -269,10 +274,26 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Example 1</string>
    </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/determinization_example1.png'/&gt;</string>
+   </property>
   </action>
   <action name="Determinization_advanced_example_1">
    <property name="text">
     <string>Advanced example 2</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/determinization_advanced_example1.png' /&gt;</string>
+   </property>
+  </action>
+  <action name="action_save">
+   <property name="text">
+    <string>Uložit</string>
+   </property>
+  </action>
+  <action name="action_open_file">
+   <property name="text">
+    <string>Otevřít</string>
    </property>
   </action>
  </widget>

@@ -39,4 +39,7 @@ private:
     void clean();
 
 };
+
+QDataStream &operator<<(QDataStream &out, const RegExp &reg_exp);
+QDataStream &operator>>(QDataStream &in, RegExp &reg_exp);
 #endif // REGEXP_H

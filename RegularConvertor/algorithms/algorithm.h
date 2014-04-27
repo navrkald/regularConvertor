@@ -48,5 +48,5 @@ protected:
     QTimer *play_timer;
     QTimer *check_step_timer;
 };
-
+QDataStream& operator>>(QDataStream& in, Algorithm::modes& m);
 #endif // ALGORITHM_H

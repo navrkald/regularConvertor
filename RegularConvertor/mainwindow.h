@@ -14,6 +14,7 @@
 #include "algorithms/algorithm.h"
 #include "algorithms/removeepsilon.h"
 #include "algorithms/fatodfa.h"
+#include "algorithms/dfatominfa.h"
 
 namespace Ui {
 class MainWindow;
@@ -61,7 +62,7 @@ private slots:
     //
     // Remove Epsilon
     //
-    void prepareRemoveEpsilon(FiniteAutomata FA = FiniteAutomata());
+    void prepareRemoveEpsilon();
     void RemoveEpsilon_example(FiniteAutomata _FA);
     void on_RemoveEpsilon_example0_triggered();
     void on_RemoveEpsilon_advanced_example1_triggered();
@@ -69,11 +70,15 @@ private slots:
     //
     // DFA
     //
-    void prepareDFA(FiniteAutomata FA = FiniteAutomata());
+    void prepareDFA();
     void Determinization_example(FiniteAutomata _FA);
     void on_Determinization_example_1_triggered();
 
     void on_Determinization_advanced_example_1_triggered();
+
+    void on_action_save_triggered();
+
+    void on_action_open_file_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -132,6 +137,7 @@ private:
     FA_widget* DFA_widget;
     void prepareDFA_GUI();
 
-};
 
+};
+    QDataStream& operator>>(QDataStream& in, MainWindow::Conversions& e);
 #endif // MAINWINDOW_H

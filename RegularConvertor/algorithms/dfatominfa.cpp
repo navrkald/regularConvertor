@@ -54,7 +54,7 @@ bool DFAtoMinFA::canDivide(QString symbol, QSet< QSet <QString> > Qm, QSet<QStri
         return true;
 }
 
-FiniteAutomata DFAtoMinFA::convert()
+FiniteAutomata DFAtoMinFA::computeSolution()
 {
     this->FA.makeWellDefined();
 

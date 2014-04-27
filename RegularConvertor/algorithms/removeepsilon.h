@@ -15,11 +15,11 @@ class RemoveEpsilon : public Algorithm
     Q_OBJECT
 public:
     RemoveEpsilon(FiniteAutomata _FA);
-    RemoveEpsilon(FiniteAutomata _FA,modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
+    RemoveEpsilon(modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
     FiniteAutomata computeSolution();
     void initInstructions();
 
-    void setExample(FiniteAutomata _FA);
+
 
     typedef struct step
     {
@@ -41,7 +41,10 @@ public:
     } steps;
 
     QList<steps> history;
-
+    void setInputFA(FiniteAutomata _FA);
+    void setOutputFA(FiniteAutomata out_FA);
+    FiniteAutomata FA;
+    FiniteAutomata non_epsilon_FA;
 public slots:
     void setFA(FiniteAutomata* FA);
     void set_not_epsilonFA(FiniteAutomata* FA);
@@ -55,8 +58,6 @@ public slots:
     void showCorrectSolution();
     void showUserSolution();
 private:
-    FiniteAutomata FA;
-    FiniteAutomata non_epsilon_FA;
     FiniteAutomata correct_FA;
     AlgorithmWidget* algorithm_widget;
     modes mode;
@@ -76,6 +77,7 @@ private:
     QList<ComputationalRules> non_epsilon_rule_list;
     QList< QPair <QString ,QList<QString> > >  epsilon_closers;
     QList< QPair <QString ,QList<QString> > >  correct_epsilon_closers;
+
 
     //internal functions
     inline QString p_toString() {return QString("<b>p</b> = %1").arg(p);}

@@ -9,7 +9,7 @@ class DFAtoMinFA
 public:
     DFAtoMinFA(FiniteAutomata _FA);
     FiniteAutomata FA;
-    FiniteAutomata convert();
+    FiniteAutomata computeSolution();
 
 private:
     bool canDivide(QString symbol, QSet< QSet <QString> > Qm, QSet<QString> X, QSet <QString> &X1, QSet <QString> &X2);

@@ -55,7 +55,7 @@ p, li { white-space: pre-wrap; }
      <string>Soubor</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menuV_b_r_m_du">
+   <widget class="MyTooltipQMenu" name="menuV_b_r_m_du">
     <property name="title">
      <string>Výběr módu</string>
     </property>
@@ -84,7 +84,7 @@ p, li { white-space: pre-wrap; }
      <addaction name="RE_FA_example8"/>
      <addaction name="RE_FA_example9"/>
     </widget>
-    <widget class="QMenu" name="menuRemove_epsilon">
+    <widget class="MyTooltipQMenu" name="menuRemove_epsilon">
      <property name="title">
       <string>Remove epsilon</string>
      </property>
@@ -131,13 +131,25 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Regulární výraz na konečný automat</string>
    </property>
+   <property name="iconText">
+    <string>&quot;&quot;</string>
+   </property>
+   <property name="toolTip">
+    <string>&quot;&quot;</string>
+   </property>
   </action>
   <action name="action_RemoveEpsilon">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Odstranění epsilon přechodů</string>
+    <string>Odstranění epsilon pravidel</string>
+   </property>
+   <property name="iconText">
+    <string notr="true">Odstranění epsilon pravidel</string>
+   </property>
+   <property name="toolTip">
+    <string notr="true">Odstranění epsilon pravidel</string>
    </property>
   </action>
   <action name="action_check_mode">
@@ -147,6 +159,12 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Samostatná práce</string>
    </property>
+   <property name="iconText">
+    <string>Samostatná práce</string>
+   </property>
+   <property name="toolTip">
+    <string notr="true">V tomto modu si řešíte samostatně danou úlohu.</string>
+   </property>
   </action>
   <action name="action_play_mode">
    <property name="checkable">
@@ -155,6 +173,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Krokovat</string>
    </property>
+   <property name="toolTip">
+    <string>V tomto modů si můžete krokovat daný algoritmus.</string>
+   </property>
   </action>
   <action name="action_step_mode">
    <property name="checkable">
@@ -162,6 +183,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Režim kontroly</string>
+   </property>
+   <property name="toolTip">
+    <string>V tomto módu se vám bude automaticky kontrolovat Vaše řešení.</string>
    </property>
   </action>
   <action name="RE_FA_example8">
@@ -253,6 +277,13 @@ p, li { white-space: pre-wrap; }
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MyTooltipQMenu</class>
+   <extends>QMenu</extends>
+   <header location="global">mytooltipqmenu.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

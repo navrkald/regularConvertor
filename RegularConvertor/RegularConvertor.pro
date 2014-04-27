@@ -48,7 +48,8 @@ SOURCES += main.cpp\
     set/set_of_sets.cpp \
     algorithms/htmldelegate.cpp \
     algorithms/algorithmview.cpp \
-    algorithms/epsiloncloserwidget.cpp
+    algorithms/epsiloncloserwidget.cpp \
+    mytooltipqmenu.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -78,7 +79,8 @@ HEADERS  += mainwindow.h \
     set/set_of_sets.h \
     algorithms/htmldelegate.h \
     algorithms/algorithmview.h \
-    algorithms/epsiloncloserwidget.h
+    algorithms/epsiloncloserwidget.h \
+    mytooltipqmenu.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \

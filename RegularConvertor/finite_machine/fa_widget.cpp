@@ -459,6 +459,7 @@ void FA_widget::clean()
 //nastavý nový automat
 void FA_widget::setFA(FiniteAutomata* FA)
 {
+    qDebug() << scene;
     disconnect(scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
     clean();
     this->FA = FA;

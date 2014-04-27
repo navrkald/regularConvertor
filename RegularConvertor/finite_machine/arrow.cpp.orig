@@ -298,12 +298,13 @@ QPointF Arrow::getStartItemPos() const
 
 QPointF Arrow::getEndItemPos() const
 {
-    if(endItem() == startItem())
+    if(arrowHasSibling())
     {
-        return startItem()->sceneBoundingRect().center();
-    }
-    else if(arrowHasSibling())
-    {
+<<<<<<< HEAD
+
+        //return endItem()->pos() - perpendicularDifference(QLineF(startItem()->pos(),endItem()->pos()),LINES_DISTANCE);
+=======
+>>>>>>> tooltips
         return EllipseLineIntersection(endItem()->mapRectToScene(endItem()->elipseBoundingRect()), startItem()->sceneBoundingRect().center(), endItem()->mapRectToScene(endItem()->elipseBoundingRect()).center() - perpendicularDifference(QLineF(startItem()->pos(),endItem()->pos()),LINES_DISTANCE));
     }
     else

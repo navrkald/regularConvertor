@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     status_label->setStyleSheet("QLabel { background-color : white;}");
 
     connect(status_timer,SIGNAL(timeout()),this,SLOT(hideStatusMessage()));
+
 }
 
 MainWindow::~MainWindow()
@@ -270,6 +271,7 @@ void MainWindow::prepareRemoveEpsilon_GUI()
 {
     setWindowTitle(MY_WINDOW_TITLE + tr(" - Odstranění epsilon pravidel"));
 
+     delete this->centralWidget();
 
     //set central widget
     QWidget* w = removeEpsilon_central_widget;
@@ -361,6 +363,7 @@ void MainWindow::prepareDFA_GUI()
 {
     setWindowTitle(MY_WINDOW_TITLE + tr(" - Determinizace KA"));
 
+     delete this->centralWidget();
 
     //set central widget
     QWidget* w = DFA_central_widget;
@@ -431,10 +434,11 @@ void MainWindow::RE_FA_example(RegExp *_re)
 {
     on_action_check_mode_triggered();
     ui->action_RE_to_FA->setChecked(true);
-    if(reg_exp_algorithm)
-        reg_exp_algorithm->setExample(_re);
-    else
+    if(activeConversion != RE_to_FA)
         prepareREtoFA(_re);
+    reg_exp_algorithm->setExample(_re);
+
+
 }
 
 void MainWindow::on_RE_FA_example0_triggered()
@@ -491,7 +495,7 @@ void MainWindow::RemoveEpsilon_example(FiniteAutomata _FA)
 {
     on_action_check_mode_triggered();
     ui->action_RemoveEpsilon->setChecked(true);
-    if(!remove_epsilon_algorithm)
+    if(activeConversion != REMOVE_EPSILON)
         prepareRemoveEpsilon();
     remove_epsilon_algorithm->setExample(_FA);
 }
@@ -530,8 +534,11 @@ void MainWindow::Determinization_example(FiniteAutomata _FA)
 {
     on_action_check_mode_triggered();
     ui->action_Determinization->setChecked(true);
-    if(!DFA_algorithm)
+
+    if(activeConversion != DFA)
+    {
         prepareDFA();
+    }
     DFA_algorithm->setExample(_FA);
 }
 

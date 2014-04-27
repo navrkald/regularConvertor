@@ -18,6 +18,11 @@ FaToDFA::FaToDFA(FiniteAutomata _FA) : FA(_FA)
     ;
 }
 
+FaToDFA::~FaToDFA()
+{
+
+}
+
 FaToDFA::FaToDFA(FiniteAutomata _FA, modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, QLabel* _var_widget, QObject* parrent)
  : Algorithm(parrent),  mode(_mode),  algorithm_widget(_algorithm_widget), not_dfa_widget(_not_dfa_widget), dfa_widget(_dfa_widget), var_widget(_var_widget), FA(_FA)
 {

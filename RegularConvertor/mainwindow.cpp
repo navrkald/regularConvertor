@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //    deleteShortCut = new QShortcut(QKeySequence::Delete, this);
     //    connect( deleteShortCut, SIGNAL(activated()), FA1_widget->scene, SLOT(deleteSelected()));
-    prepareDFA();
+
 
     // Custom status bar
     status_label = new QLabel(this);

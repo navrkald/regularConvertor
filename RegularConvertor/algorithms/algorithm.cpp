@@ -10,9 +10,9 @@ Algorithm::Algorithm(QObject* parent)
 void Algorithm::initBreakpoints(int _num)
 {
     breakpoints.resize(_num);
-    foreach(bool breakpoint,breakpoints)
+    for(int i = 0; i < _num; i++)
     {
-        breakpoint = false;
+        breakpoints[i] = false;
     }
 }
 

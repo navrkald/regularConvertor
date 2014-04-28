@@ -348,27 +348,33 @@ FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
     Qm.insert(FA.finalStates);
     if(FA.states != FA.finalStates)
             Qm.insert(FA.states - FA.finalStates);
-    bool divided = false;
-    do
+    bool divided;
+    QSet< QSet<QString> >::iterator X = Qm.begin();
+    while (X != Qm.end())
     {
         divided = false;
-        foreach(QSet<QString> X, Qm)
+        foreach(QString symbol,FA.alphabet)
         {
-            foreach(QString symbol,FA.alphabet)
-            {
-                QSet <QString> X1;
-                QSet <QString> X2;
-                if((canDivide(FA, symbol, Qm, X, X1, X2)) == true)
-                {// Do fision
-                    Qm.remove(X);
-                    Qm.insert(X1);
-                    Qm.insert(X2);
-                    divided = true;
-                }
-
+            QSet <QString> X1;
+            QSet <QString> X2;
+            if((canDivide(FA, symbol, Qm, *X, X1, X2)) == true)
+            {// Do fision
+                Qm.erase(X);
+                Qm.insert(X1);
+                Qm.insert(X2);
+                divided = true;
+                break;
             }
         }
-    }while(divided);
+        if(divided)
+        {
+            X = Qm.begin();
+        }
+        else
+        {
+            ++X;
+        }
+    }
 
     //Lets create new minFA
     FiniteAutomata minFA;

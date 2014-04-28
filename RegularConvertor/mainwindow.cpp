@@ -78,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent) :
         << ComputationalRules("C","D","1");
     //DFAtoMinFA* a = new DFAtoMinFA(FA);
     //a->computeSolution();
-    //FA.toMinFA();
+    FA.toMinFA();
 
 }
 

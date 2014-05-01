@@ -202,6 +202,7 @@ void RemoveEpsilon::nextStep()
         case FOREACH_P:
             // alwais at leas one
             p_prime_list = FA.epsilonCloser(p).toList();
+            epsilon_closer = p_prime_list;
             actInstruction = FOREACH_P_IN_CLOSER;
         break;
         case FOREACH_P_IN_CLOSER:

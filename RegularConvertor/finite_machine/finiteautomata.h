@@ -83,6 +83,7 @@ public:
     bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
 
     bool hasEpsilon();
+    bool isDeterministic();
     QSet <QString> epsilonCloser(QString state);
 
     QSet <QString> epsilonNeighbours(QString state);

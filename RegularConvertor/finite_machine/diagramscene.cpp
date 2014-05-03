@@ -75,8 +75,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
  {
      if (actMode == AddArrow && actLine != 0)
      {
-         QLineF newLine(actLine->line().p1(), mouseEvent->scenePos());
-         actLine->setLine(newLine);
+         actLine->setLine(actLine->line().p1().x(),actLine->line().p1().y(), mouseEvent->scenePos().x(),mouseEvent->scenePos().y());
      }
      else //if (actMode == MoveNode)
          QGraphicsScene::mouseMoveEvent(mouseEvent);

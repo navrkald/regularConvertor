@@ -78,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent) :
         << ComputationalRules("C","D","1");
     //DFAtoMinFA* a = new DFAtoMinFA(FA);
     //a->computeSolution();
-    //FA.toMinFA();
+    FA.toMinFA();
 
 }
 
@@ -556,9 +556,7 @@ void MainWindow::Determinization_example(FiniteAutomata _FA)
     ui->action_Determinization->setChecked(true);
 
     if(activeConversion != DFA)
-    {
         prepareDFA();
-    }
     DFA_algorithm->setInputFA(_FA);
 }
 

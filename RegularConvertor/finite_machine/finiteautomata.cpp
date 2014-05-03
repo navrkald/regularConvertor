@@ -770,6 +770,16 @@ bool FiniteAutomata::hasEpsilon()
     return false;
 }
 
+bool FiniteAutomata::isDeterministic()
+{
+    foreach (ComputationalRules rule, this->rules)
+    {
+        if(findRule_FromSymbol(rule.from,rule.symbol).count() > 1)
+            return false;
+    }
+    return true;
+}
+
 QSet<QString> FiniteAutomata::epsilonCloser(QString state)
 {
     //empty set
@@ -841,7 +851,7 @@ QString FiniteAutomata::normalize_chooseSmallestNonprocessed(QList <QString> ren
 //helper function for method toMinFA()
 bool FiniteAutomata::canDivide(FiniteAutomata FA ,QString symbol, QSet<QSet<QString> > Qm, QSet<QString> X, QSet<QString> &X1, QSet<QString> &X2)
 {
-    QSet <QString> Q1, Q2;
+    QSet <QString> Q1;
     QList<ComputationalRules> rules;
 
     //add all rules with from = X and witch symbol
@@ -859,20 +869,9 @@ bool FiniteAutomata::canDivide(FiniteAutomata FA ,QString symbol, QSet<QSet<QStr
             {
                 X1.insert(rule.from);
             }
-            else if (Q2.empty())
-            {
-                Q2 = *findInSubsets(Qm,rule.to).begin();
-                X2.insert(rule.from);
-            }
-            else if (Q2 == *findInSubsets(Qm,rule.to).begin())
-            {
-                X2.insert(rule.from);
-            }
             else
             {
-                qDebug() << "Fatal error when minimalise FA!";
-                qDebug() << "Error occured in function fission()!";
-                exit(EXIT_FAILURE);
+                X2.insert(rule.from);
             }
         }
         else //for first create new Q1

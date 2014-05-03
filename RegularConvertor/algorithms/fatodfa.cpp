@@ -140,7 +140,7 @@ void FaToDFA::setMode(Algorithm::modes _mode)
         break;
     }
 
-    if(mode == CHECK_MODE)
+    if(mode == STEP_MODE)
         check_step_timer->start(CHECK_STEP_TIMEOUT);
     else
         check_step_timer->stop();

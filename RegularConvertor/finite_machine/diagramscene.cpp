@@ -74,8 +74,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
  {
      if (actMode == AddArrow && actLine != 0)
      {
-         QLineF newLine(actLine->line().p1(), mouseEvent->scenePos());
-         actLine->setLine(newLine);
+         actLine->setLine(actLine->line().p1().x(),actLine->line().p1().y(), mouseEvent->scenePos().x(),mouseEvent->scenePos().y());
      }
      else //if (actMode == MoveNode)
          QGraphicsScene::mouseMoveEvent(mouseEvent);
@@ -95,8 +94,11 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
          if (endItems.count() && endItems.first() == actLine)
              endItems.removeFirst();
 
+         qDebug() << "Toto vypise.";
          removeItem(actLine);
          delete actLine;
+         actLine = 0;
+         qDebug() << "Toto nevypise.";
 
          if (startItems.count() > 0 && endItems.count() > 0
             && 0 != qgraphicsitem_cast<StateNode *>(startItems.first())

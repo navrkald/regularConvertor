@@ -33,6 +33,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
  {
      if (mouseEvent->button() != Qt::LeftButton)
          return;
+
      clicked = true;
      StateNode* newNode;
      switch(this->actMode)
@@ -97,6 +98,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
          removeItem(actLine);
          delete actLine;
+         actLine = 0;
 
          if (startItems.count() > 0 && endItems.count() > 0
             && 0 != qgraphicsitem_cast<StateNode *>(startItems.first())
@@ -142,7 +144,6 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
              }
          }
      }
-     actLine = 0;
     QGraphicsScene::mouseReleaseEvent(mouseEvent);
  }
 

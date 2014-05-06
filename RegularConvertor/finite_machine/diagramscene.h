@@ -39,7 +39,7 @@ public slots:
     void setMode(Mode mode);
     void changeSelected();
     void deleteSelected();
-    void addNodes(QSet<QString> nodes);
+    void addNodes(QSet<QString> nodes, QMap<QString,QPoint> coordinates = QMap<QString,QPoint>());
     void removeNodes(QSet<QString> nodes);
     void setStartNode(QString nodeName);
     void addEndingNodes(QSet <QString> nodes);
@@ -54,7 +54,7 @@ private:
     FiniteAutomata* FA;
     QPoint randGeneratePos();
     //automaticaly place new node
-    void addNode(QString node);
+    void addNode(QString node, QPoint point);
     StateNode* getNodeByName(QString nodeName);
     void clean();
 

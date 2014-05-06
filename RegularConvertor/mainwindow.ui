@@ -52,14 +52,14 @@ p, li { white-space: pre-wrap; }
    </property>
    <widget class="QMenu" name="menuSoubor">
     <property name="title">
-     <string>Soubor</string>
+     <string>File</string>
     </property>
     <addaction name="action_save"/>
     <addaction name="action_open_file"/>
    </widget>
    <widget class="MyTooltipQMenu" name="menuV_b_r_m_du">
     <property name="title">
-     <string>Výběr módu</string>
+     <string>Mode selection</string>
     </property>
     <addaction name="separator"/>
     <addaction name="action_check_mode"/>
@@ -68,7 +68,7 @@ p, li { white-space: pre-wrap; }
    </widget>
    <widget class="QMenu" name="menuP_klady">
     <property name="title">
-     <string>Příklady</string>
+     <string>Examples</string>
     </property>
     <widget class="QMenu" name="examples_RegExp_FA">
      <property name="title">
@@ -91,14 +91,26 @@ p, li { white-space: pre-wrap; }
       <string>Remove epsilon</string>
      </property>
      <addaction name="RemoveEpsilon_example0"/>
+     <addaction name="RemoveEpsilon_example1"/>
+     <addaction name="RemoveEpsilon_example2"/>
+     <addaction name="RemoveEpsilon_example3"/>
      <addaction name="RemoveEpsilon_advanced_example1"/>
+     <addaction name="RemoveEpsilon_advanced_example2"/>
+     <addaction name="RemoveEpsilon_advanced_example3"/>
+     <addaction name="RemoveEpsilon_advanced_example4"/>
     </widget>
     <widget class="MyTooltipQMenu" name="menuDeterminizace_KA">
      <property name="title">
-      <string>Determinizace KA</string>
+      <string>Determinization of the Finite automata</string>
      </property>
      <addaction name="Determinization_example_1"/>
+     <addaction name="Determinization_example_2"/>
+     <addaction name="Determinization_example_3"/>
+     <addaction name="Determinization_example_4"/>
      <addaction name="Determinization_advanced_example_1"/>
+     <addaction name="Determinization_advanced_example_2"/>
+     <addaction name="Determinization_advanced_example_3"/>
+     <addaction name="Determinization_advanced_example_4"/>
     </widget>
     <addaction name="examples_RegExp_FA"/>
     <addaction name="menuRemove_epsilon"/>
@@ -106,16 +118,24 @@ p, li { white-space: pre-wrap; }
    </widget>
    <widget class="QMenu" name="menuV_b_r_konverze">
     <property name="title">
-     <string>Výběr konverze</string>
+     <string>Conversion selection</string>
     </property>
     <addaction name="action_RE_to_FA"/>
     <addaction name="action_RemoveEpsilon"/>
     <addaction name="action_Determinization"/>
    </widget>
+   <widget class="QMenu" name="menuLanguages">
+    <property name="title">
+     <string>Languages</string>
+    </property>
+    <addaction name="actionCzech"/>
+    <addaction name="actionEnglish"/>
+   </widget>
    <addaction name="menuSoubor"/>
    <addaction name="menuV_b_r_m_du"/>
    <addaction name="menuV_b_r_konverze"/>
    <addaction name="menuP_klady"/>
+   <addaction name="menuLanguages"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -124,6 +144,7 @@ p, li { white-space: pre-wrap; }
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionEnglish"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_RE_to_FA">
@@ -131,7 +152,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Regulární výraz na konečný automat</string>
+    <string>Regular expresion to Finite machine</string>
    </property>
    <property name="iconText">
     <string>&quot;&quot;</string>
@@ -145,7 +166,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Odstranění epsilon pravidel</string>
+    <string>Remove epsilon rules</string>
    </property>
    <property name="iconText">
     <string notr="true">Odstranění epsilon pravidel</string>
@@ -159,13 +180,13 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Samostatná práce</string>
+    <string>Individual work</string>
    </property>
    <property name="iconText">
     <string>Samostatná práce</string>
    </property>
    <property name="toolTip">
-    <string notr="true">V tomto módu si řešíte samostatně danou úlohu.</string>
+    <string>In this mode you are solving exercise individualy.</string>
    </property>
   </action>
   <action name="action_play_mode">
@@ -173,10 +194,10 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Krokovat</string>
+    <string>Algorithm stepping</string>
    </property>
    <property name="toolTip">
-    <string>V tomto módu si můžete krokovat daný algoritmus.</string>
+    <string>In this mode you can step throw algorithm.</string>
    </property>
   </action>
   <action name="action_step_mode">
@@ -184,63 +205,96 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Režim kontroly</string>
+    <string>Continuous checking</string>
    </property>
    <property name="toolTip">
-    <string>V tomto módu se vám bude automaticky kontrolovat Vaše řešení.</string>
+    <string>In this mode will be your solution periodically checked.</string>
    </property>
   </action>
   <action name="RE_FA_example8">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>RE &quot;((ab)*+c)*&quot;</string>
    </property>
   </action>
   <action name="RE_FA_example1">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>RE &quot;ε&quot;</string>
    </property>
   </action>
   <action name="RE_FA_example2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>RE &quot;a&quot;</string>
    </property>
   </action>
   <action name="RE_FA_example3">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>RE &quot;ab&quot;</string>
    </property>
   </action>
   <action name="RE_FA_example5">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>RE &quot;a+b&quot;</string>
    </property>
   </action>
   <action name="RE_FA_example4">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>RE &quot;a*&quot;</string>
    </property>
   </action>
   <action name="RE_FA_example6">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>RE &quot;a+b*&quot;</string>
    </property>
   </action>
   <action name="RE_FA_example7">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>RE &quot;(a+b)*&quot;</string>
    </property>
   </action>
   <action name="RE_FA_example9">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>RE &quot;(a+b)*(a+c)*&quot;</string>
    </property>
   </action>
   <action name="RE_FA_example0">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>RE Ø</string>
    </property>
   </action>
   <action name="RemoveEpsilon_example0">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Simple example 1</string>
    </property>
@@ -255,8 +309,11 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="RemoveEpsilon_advanced_example1">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Advanced example1</string>
+    <string>Advanced example 1</string>
    </property>
    <property name="toolTip">
     <string>&lt;img src= ':/main_window/pictures/remove_epsilon_advanced_example1.png' /&gt;</string>
@@ -267,33 +324,187 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Determinizaca KA</string>
+    <string>Determinization of Finite Automata</string>
    </property>
   </action>
   <action name="Determinization_example_1">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Example 1</string>
+    <string>Simple example 1</string>
    </property>
    <property name="toolTip">
     <string>&lt;img src=':/main_window/pictures/determinization_example1.png'/&gt;</string>
    </property>
   </action>
   <action name="Determinization_advanced_example_1">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Advanced example 2</string>
+    <string>Advanced example 1</string>
    </property>
    <property name="toolTip">
     <string>&lt;img src=':/main_window/pictures/determinization_advanced_example1.png' /&gt;</string>
    </property>
   </action>
   <action name="action_save">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Uložit</string>
+    <string>Save</string>
    </property>
   </action>
   <action name="action_open_file">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Otevřít</string>
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="RemoveEpsilon_example1">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Simple example 2</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/remove_epsilon_example2.png'/&gt;</string>
+   </property>
+  </action>
+  <action name="RemoveEpsilon_example2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Simple example 3</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/remove_epsilon_example3.png'/&gt;</string>
+   </property>
+  </action>
+  <action name="RemoveEpsilon_example3">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Simple example 4</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/remove_epsilon_example4.png'/&gt;</string>
+   </property>
+  </action>
+  <action name="RemoveEpsilon_advanced_example2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Advanced example 2</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src= ':/main_window/pictures/remove_epsilon_advanced_example2.png' /&gt;</string>
+   </property>
+  </action>
+  <action name="RemoveEpsilon_advanced_example3">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Advanced example 3</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src= ':/main_window/pictures/remove_epsilon_advanced_example3.png' /&gt;</string>
+   </property>
+  </action>
+  <action name="RemoveEpsilon_advanced_example4">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Advanced example 4</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src= ':/main_window/pictures/remove_epsilon_advanced_example4.png' /&gt;</string>
+   </property>
+  </action>
+  <action name="Determinization_example_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Simple example 2</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/determinization_example2.png'/&gt;</string>
+   </property>
+  </action>
+  <action name="Determinization_example_3">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Simple example 3</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/determinization_example3.png'/&gt;</string>
+   </property>
+  </action>
+  <action name="Determinization_example_4">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Simple example 4</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/determinization_example4.png'/&gt;</string>
+   </property>
+  </action>
+  <action name="Determinization_advanced_example_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Advanced example 2</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/determinization_advanced_example2.png' /&gt;</string>
+   </property>
+  </action>
+  <action name="Determinization_advanced_example_3">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Advanced example 3</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/determinization_advanced_example3.png' /&gt;</string>
+   </property>
+  </action>
+  <action name="Determinization_advanced_example_4">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Advanced example 4</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/determinization_advanced_example4.png' /&gt;</string>
+   </property>
+  </action>
+  <action name="actionCzech">
+   <property name="text">
+    <string>Czech</string>
+   </property>
+  </action>
+  <action name="actionEnglish">
+   <property name="text">
+    <string>English</string>
    </property>
   </action>
  </widget>

@@ -35,7 +35,7 @@ bool DFAtoMinFA::canDivide(QString symbol, QSet< QSet <QString> > Qm, QSet<QStri
             QSet < QSet<QString> > tmp = findInSubsets(Qm,rule.to);
             if(tmp.empty())
             {
-                qDebug() << "Fatal error: in function bool FiniteAutomata::canDivide(FiniteAutomata FA ,QString symbol, QSet<QSet<QString> > Qm, QSet<QString> X, QSet<QString> &X1, QSet<QString> &X2)";
+                qFatal("Fatal error: in function bool FiniteAutomata::canDivide(FiniteAutomata FA ,QString symbol, QSet<QSet<QString> > Qm, QSet<QString> X, QSet<QString> &X1, QSet<QString> &X2)");
                 exit(1);
             }
             Q1 = *findInSubsets(Qm,rule.to).begin();

@@ -160,9 +160,6 @@ void HTMLDelegate::clearBackround()
 void HTMLDelegate::drawBrakepoint ( QPainter * painter, const QStyleOptionViewItem &, const QRect & rect, bool selected ) const
 {
     QRect myRect = rect;
-    //qDebug()<< "myRect: " <<myRect.width() <<"," << myRect.height();
-    //myRect.setRight((myRect.left() + 2*myFont.pointSize()));
-    //painter->drawRect(myRect);
 
     painter->setBrush( QBrush(Qt::yellow));
     painter->setBackground(QBrush(Qt::yellow));

@@ -54,9 +54,6 @@ void RegExpTextEdit::validateText()
     else
     {
         this->setStyleSheet("#" + this->objectName() + "{background: red;}");
-        //delete re->rootNode;
-        //re->rootNode = 0;
-        //qDebug() << "To red" << this->objectName();
     }
 
 }

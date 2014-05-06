@@ -63,7 +63,8 @@ signals:
 public slots:
     void setStartinState();
     void setEndingState(bool _endingState);
-
+private slots:
+    void positionChanged();
 private:
     //methods
     void firstInit();

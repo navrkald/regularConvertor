@@ -385,7 +385,7 @@ void FaToDFA::checkSolution()
     }
 
 
-    if(FiniteAutomata::areEquivalent(DFA, correct_FA))
+    if(FiniteAutomata::areEquivalent(DFA, correct_FA) && ! DFA.hasEpsilon() && DFA.isDeterministic())
     {
         dfa_widget->setCorrectStatus();
     }

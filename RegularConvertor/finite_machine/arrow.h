@@ -41,7 +41,7 @@
 #ifndef ARROW_H
 #define ARROW_H
 
-#define TEXT_DISTANCE 20
+#define TEXT_DISTANCE 10
 #define LINES_DISTANCE 10
 
 #include <QGraphicsLineItem>

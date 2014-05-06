@@ -172,6 +172,7 @@ void RemoveEpsilon::nextStep()
             non_epsilon_FA.states = FA.states;
             non_epsilon_FA.startState = FA.startState;
             non_epsilon_FA.alphabet = FA.alphabet;
+            non_epsilon_FA.coordinates = FA.coordinates;
             not_epsilon_fa_widget->setFA(new FiniteAutomata(non_epsilon_FA));
             p_list = FA.get_sorted_states();
             if(!p_list.empty())
@@ -521,6 +522,8 @@ void RemoveEpsilon::showVariables()
             text = p_toString() + "<br>";                        // p =
             text += epsilon_closer_toString() + "<br>";          // e-closer(p)
             text += p_prime_toString() + "<br>";                 // p' =
+            text += symbol_toString() + "<br>";                  // a =
+            text += q_toString() + "<br>";                       // q =
             text += non_epsilon_rule_toString();        // r  =
             break;
 
@@ -528,6 +531,8 @@ void RemoveEpsilon::showVariables()
             text = p_toString() + "<br>";                        // p =
             text += epsilon_closer_toString() + "<br>";          // e-closer(p)
             text += p_prime_toString() + "<br>";                 // p' =
+            text += symbol_toString() + "<br>";                  // a =
+            text += q_toString() + "<br>";                       // q =
             text += non_epsilon_rule_toString() + "<br>";        // r  =
             text += non_epsilon_prime_rule_toString();  // r' =
             break;

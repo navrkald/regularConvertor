@@ -4,8 +4,7 @@
 //#define NEW_NUM_NAME
 #define NEW_COMMA_NAME
 
-FiniteAutomata::FiniteAutomata() //:
-    //QObject(parent)
+FiniteAutomata::FiniteAutomata()
 {
     nextId = 0;
     startState = "";
@@ -25,6 +24,7 @@ FiniteAutomata::FiniteAutomata(const FiniteAutomata& _FA)
     rules = _FA.rules;
     startState = _FA.startState;
     finalStates = _FA.finalStates;
+    coordinates = _FA.coordinates;
 }
 
 void FiniteAutomata::init(QString symbol)
@@ -274,7 +274,7 @@ FiniteAutomata FiniteAutomata::toDFA(FiniteAutomata FA)
 
     if(FA.startState == "")
     {
-        qDebug() << "WARNING: FA has no start state!";
+        qWarning("WARNING: FA has no start state, returning original FA.");
         return FA;
     }
 
@@ -333,12 +333,12 @@ FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
 {
     if(FA.startState == "")
     {
-        qDebug() << "WARNING: FA has not start state!";
+        qWarning("WARNING: FA has no start state, returning original FA.");
         return FA;
     }
     if(FA.finalStates.empty())
     {
-        qDebug() << "WARNING: FA has not any final states!";
+        qWarning("WARNING: FA has not any final states, returning original FA.");
         return FA;
     }
 
@@ -393,7 +393,7 @@ FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
             QSet < QSet<QString> > tos = findInSubsets(Qm,getTos(rules));
             if(froms.count() != 1 || tos.count() != 1)
             {
-                qDebug() << "Fatal Eroor: Fatal error in FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)";
+                qFatal("Fatal Eroor: Fatal error in FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)");
                 exit(-1);
             }
             minFA.addRule(qsetToQstring(*(froms.begin())), qsetToQstring(*(tos.begin())),symbol);
@@ -412,7 +412,7 @@ FiniteAutomata FiniteAutomata::normalize(FiniteAutomata FA)
 {
     if(FA.startState == "")
     {
-        qDebug() << "Warning: FA has not start state!";
+        qWarning("WARNING: FA has no start state, returning original FA.");
         return FA;
     }
 
@@ -455,7 +455,7 @@ FiniteAutomata FiniteAutomata::normalize(FiniteAutomata FA)
             }
             else if(rules.count() > 1)
             {
-                qDebug() << "Fatal Error: Trying to normalize not determinized FA!";
+                qFatal("Fatal Error: Trying to normalize not determinized FA!");
                 exit(-1);
             }
         }
@@ -596,12 +596,6 @@ bool FiniteAutomata::areEquivalent(FiniteAutomata FA1, FiniteAutomata FA2)
 
 bool FiniteAutomata::isStateUnique(QString state)
 {
-//    //debug
-//    if(states.contains(state))
-//        qDebug() << "Mnozina stavu uz obsahje \"" + state + "\".";
-//    else
-//        qDebug() << "Mnozina stavu uz nebsahje \"" + state + "\".";
-
     return !states.contains(state);
 }
 
@@ -651,6 +645,10 @@ bool FiniteAutomata::renameState(QString oldStateName, QString newStateName)
     if(startState == oldStateName)
         startState = newStateName;
 
+    // Rename coordinates
+    coordinates[newStateName] = coordinates[oldStateName];
+    coordinates.remove(oldStateName);
+
     //rename state in finalStates
     if(finalStates.contains(oldStateName))
     {
@@ -668,8 +666,8 @@ bool FiniteAutomata::renameState(QString oldStateName, QString newStateName)
                 newRule.from = newStateName;
             if(rule.to == oldStateName)
                 newRule.to = newStateName;
-            this->removeRule(rule);
             this->addRule(newRule);
+            this->removeRule(rule);
         }
     }
     //rename state in states set
@@ -712,11 +710,12 @@ QList<QString> FiniteAutomata::get_sorted_states()
 bool FiniteAutomata::addRule(ComputationalRules rule)
 {
     if(rules.contains(rule))
-    {
-        //qDebug()<<"Mnozina pravidel uz obsahuje "<<rule.from<<" " <<rule.symbol<<"->"<<rule.to;
+    {//Mnozina pravidel uz obsahuje "<<rule.from<<" " <<rule.symbol<<"->"<<rule.to
         return false;
     }
     rules.insert(rule);
+    if(!alphabet.contains(rule.symbol) && rule.symbol != EPSILON)
+        alphabet.insert(rule.symbol);
     return true;
 }
 
@@ -879,8 +878,8 @@ bool FiniteAutomata::canDivide(FiniteAutomata FA ,QString symbol, QSet<QSet<QStr
             QSet < QSet<QString> > tmp = findInSubsets(Qm,rule.to);
             if(tmp.empty())
             {
-                qDebug() << "Fatal error: in function bool FiniteAutomata::canDivide(FiniteAutomata FA ,QString symbol, QSet<QSet<QString> > Qm, QSet<QString> X, QSet<QString> &X1, QSet<QString> &X2)";
-                exit(1);
+                qFatal("Fatal error: in function bool FiniteAutomata::canDivide(FiniteAutomata FA ,QString symbol, QSet<QSet<QString> > Qm, QSet<QString> X, QSet<QString> &X1, QSet<QString> &X2)");
+                exit(-1);
             }
             Q1 = *findInSubsets(Qm,rule.to).begin();
             X1.insert(rule.from);
@@ -989,12 +988,13 @@ QDebug operator<< (QDebug d, const FiniteAutomata &FA)
    d << "R={" << FA.rules << "}";
    d << "s= "<< FA.startState;
    d << "F=" << FA.finalStates << "}";
+   d << FA.coordinates;
    return d;
 }
 
 QDataStream &operator<<(QDataStream &out, const FiniteAutomata &FA)
 {
-    out << FA.states << FA.startState << FA.finalStates << FA.alphabet  << FA.rules << (quint32)FA.nextId;
+    out << FA.states << FA.startState << FA.finalStates << FA.alphabet  << FA.rules << (quint32)FA.nextId << FA.coordinates;
     return out;
 }
 
@@ -1003,7 +1003,7 @@ QDataStream &operator<<(QDataStream &out, const FiniteAutomata &FA)
 QDataStream &operator>>(QDataStream &in, FiniteAutomata &FA)
 {
     quint32 nextId;
-    in  >> FA.states >> FA.startState >> FA.finalStates >> FA.alphabet  >> FA.rules >> nextId;
+    in  >> FA.states >> FA.startState >> FA.finalStates >> FA.alphabet  >> FA.rules >> nextId >> FA.coordinates;
     FA.nextId = (int)nextId;
     return in;
 }

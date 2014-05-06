@@ -122,11 +122,6 @@ QModelIndex RegExpTreeModel::indexFromNode(RegExpNode *node) const//   int row, 
     QModelIndex rootIndex = index(0,0,QModelIndex());
     indexesToProcese.append(rootIndex);
 
-    //rowCount(rootIndex);
-    //columnCount(rootIndex);
-
-    //qDebug() << "Seacherd node" << node->str;
-
     while(!indexesToProcese.empty())
     {
         QModelIndex processedIndex = indexesToProcese.first();
@@ -140,18 +135,13 @@ QModelIndex RegExpTreeModel::indexFromNode(RegExpNode *node) const//   int row, 
             {
                     QModelIndex i = index(row,0,processedIndex);
                     indexesToProcese.append(i);
-                    //qDebug() << "Node:  " << processedNode->str;
-                    //qDebug() << "row:   " << row;
-                    //qDebug() << "column:" << column;
             }
         }
         else
         {
-            //qDebug() << "Processed node" << processedNode->str;
             return processedIndex;
         }
     }
     //not fount so return empty index
-    qDebug() << "ERROR: NOT FIND!!!!!";
     return QModelIndex();
 }

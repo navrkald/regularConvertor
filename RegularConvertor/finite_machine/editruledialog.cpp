@@ -13,9 +13,6 @@ editRuleDialog::editRuleDialog(QStringList _states, QStringList _alphabet, QWidg
     this->from = ui->fromComboBox->itemText(0);
     this->symbol = ui->symbolComboBox->itemText(0);
     this->to = ui->toComboBox->itemText(0);
-    //qDebug() <<"Returning from: "<<this->from;
-    //qDebug() <<"Returning symbol: "<<this->symbol;
-    //qDebug() <<"Returning to: "<<this->to;
 }
 
 editRuleDialog::~editRuleDialog()

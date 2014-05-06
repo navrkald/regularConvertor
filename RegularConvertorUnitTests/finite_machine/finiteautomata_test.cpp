@@ -297,15 +297,15 @@ void FiniteAutomata_test::initTestCase()
     nonterminating_states_check_FA.addRule("q1","q2","a");
 
     makeWellDefined_check_FA.alphabet << "a" << "b" << "c";
-    makeWellDefined_check_FA.states << "s" << "f" << "0";
-    makeWellDefined_check_FA.startState = "s";
-    makeWellDefined_check_FA.finalStates << "f";
-    makeWellDefined_check_FA.addRule("s", "s", "a");
-    makeWellDefined_check_FA.addRule("s", "f", "b");
-    makeWellDefined_check_FA.addRule("s", "0", "c");
-    makeWellDefined_check_FA.addRule("f", "f", "c");
-    makeWellDefined_check_FA.addRule("f", "0", "b");
-    makeWellDefined_check_FA.addRule("f", "0", "a");
+    makeWellDefined_check_FA.states << "{s}" << "{f}" << "0";
+    makeWellDefined_check_FA.startState = "{s}";
+    makeWellDefined_check_FA.finalStates << "{f}";
+    makeWellDefined_check_FA.addRule("{s}", "{s}", "a");
+    makeWellDefined_check_FA.addRule("{s}", "{f}", "b");
+    makeWellDefined_check_FA.addRule("{s}", "0", "c");
+    makeWellDefined_check_FA.addRule("{f}", "{f}", "c");
+    makeWellDefined_check_FA.addRule("{f}", "0", "b");
+    makeWellDefined_check_FA.addRule("{f}", "0", "a");
     makeWellDefined_check_FA.addRule("0", "0", "b");
     makeWellDefined_check_FA.addRule("0", "0", "a");
     makeWellDefined_check_FA.addRule("0", "0", "c");
@@ -328,15 +328,15 @@ void FiniteAutomata_test::initTestCase()
     toMinFA_FA1.addRule("q4","q2","b");
 
     toMinFA_FA1_check.alphabet << "a" << "b";
-    toMinFA_FA1_check.states << "{f, s}" << "{q1, q2}" << "{q3, q4}";
-    toMinFA_FA1_check.startState = "{f, s}";
-    toMinFA_FA1_check.finalStates << "{f, s}";
-    toMinFA_FA1_check.addRule("{f, s}", "{f, s}", "a");
-    toMinFA_FA1_check.addRule("{q1, q2}", "{q1, q2}", "a");
-    toMinFA_FA1_check.addRule("{q3, q4}", "{q3, q4}", "a");
-    toMinFA_FA1_check.addRule("{q1, q2}", "{f, s}", "b");
-    toMinFA_FA1_check.addRule("{f, s}", "{q3, q4}", "b");
-    toMinFA_FA1_check.addRule("{q3, q4}", "{q1, q2}", "b");
+    toMinFA_FA1_check.states << "{{f}, {s}}" << "{{q1}, {q2}}" << "{{q3}, {q4}}";
+    toMinFA_FA1_check.startState = "{{f}, {s}}";
+    toMinFA_FA1_check.finalStates << "{{f}, {s}}";
+    toMinFA_FA1_check.addRule("{{f}, {s}}", "{{f}, {s}}", "a");
+    toMinFA_FA1_check.addRule("{{q1}, {q2}}", "{{q1}, {q2}}", "a");
+    toMinFA_FA1_check.addRule("{{q3}, {q4}}", "{{q3}, {q4}}", "a");
+    toMinFA_FA1_check.addRule("{{q1}, {q2}}", "{{f}, {s}}", "b");
+    toMinFA_FA1_check.addRule("{{f}, {s}}", "{{q3}, {q4}}", "b");
+    toMinFA_FA1_check.addRule("{{q3}, {q4}}", "{{q1}, {q2}}", "b");
 
     normalize_FA1.alphabet << "a" << "b";
     normalize_FA1.states << "q0" <<"q1" << "q2" << "q3" << "q4";
@@ -433,6 +433,7 @@ void FiniteAutomata_test::makeWellDefined_test()
 {
     FiniteAutomata result = not_makeWellDefined_FA.makeWellDefined(not_makeWellDefined_FA);
     QCOMPARE(makeWellDefined_check_FA, result);
+    //QVERIFY(makeWellDefined_check_FA == result);
 }
 
 void FiniteAutomata_test::toMinFA_test()

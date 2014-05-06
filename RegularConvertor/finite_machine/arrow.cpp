@@ -159,7 +159,7 @@ QWidget *)
 {
     //if (myStartItem != myEndItem && myStartItem->collidesWithItem(myEndItem))
     //return;
-
+    painter->setRenderHint(QPainter::Antialiasing, true);
     QPen myPen = pen();
     myPen.setColor(myColor);
     qreal arrowSize = 20;
@@ -229,7 +229,6 @@ QWidget *)
      else
      {
          QRectF text_rect = recalculateTextSpace();
-//         qDebug() << getStartItemPos() << getEndItemPos();
          QLineF centerLine(getStartItemPos(), getEndItemPos());
 
          QPointF center_point =  centerLine.pointAt(0.5);
@@ -431,7 +430,7 @@ t=-------------------
 
    if(D < 0)
    {
-       qDebug() << "Fatal eroor: EllipseLineIntersection() NEGATIVE Diskriminant!";
+       qFatal("Fatal error: EllipseLineIntersection() NEGATIVE Diskriminant!");
        exit(-1);
    }
 
@@ -455,8 +454,9 @@ t=-------------------
    }
    else
    {
-       //qDebug() << "Fatal eroor: No intersect, returning point [0,0]\n" << "t1=" << t1 << " t2= " <<t2;
-       return QPoint();
+       // No intersect, returning end point p2;
+       // Line is probably inside epilse
+       return p2;
    }
 
 }

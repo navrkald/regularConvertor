@@ -30,7 +30,7 @@ public:
     QShortcut* deleteShortCut;
     enum Conversions {none, RE_to_FA, REMOVE_EPSILON, DFA};
     AlgorithmWidget* alhgorithm_widget;
-
+    void mySetWindowTitle(QString example_name = "");
 
 
 signals:
@@ -79,6 +79,30 @@ private slots:
     void on_action_save_triggered();
 
     void on_action_open_file_triggered();
+
+    void on_RemoveEpsilon_example1_triggered();
+
+    void on_RemoveEpsilon_example2_triggered();
+
+    void on_RemoveEpsilon_example3_triggered();
+
+    void on_RemoveEpsilon_advanced_example2_triggered();
+
+    void on_RemoveEpsilon_advanced_example3_triggered();
+
+    void on_RemoveEpsilon_advanced_example4_triggered();
+
+    void on_Determinization_example_2_triggered();
+
+    void on_Determinization_example_3_triggered();
+
+    void on_Determinization_example_4_triggered();
+
+    void on_Determinization_advanced_example_2_triggered();
+
+    void on_Determinization_advanced_example_3_triggered();
+
+    void on_Determinization_advanced_example_4_triggered();
 
 private:
     Ui::MainWindow *ui;

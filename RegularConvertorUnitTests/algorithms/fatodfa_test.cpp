@@ -39,7 +39,7 @@ void FaToDFA_test::initTestCase()
 void FaToDFA_test::computeSolution_test()
 {
     FaToDFA fa_to_dfa_algorithm(toDFA_FA1);
-    FiniteAutomata result = fa_to_dfa_algorithm.getDFA();
+    FiniteAutomata result = fa_to_dfa_algorithm.computeSolution();
     QCOMPARE(toDFA_FA1_check, result);
 }
 

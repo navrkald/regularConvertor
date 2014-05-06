@@ -106,7 +106,7 @@ void RegExpNode::clearProcessed(RegExpNode *node)
         }
         if(node->str == "")
         {
-            qDebug()<<"ERROR!!!!!";
+            qWarning("Warning: node->str == \"\" in void RegExpNode::clearProcessed(RegExpNode *node)");
         }
         node->processed = false;
 }

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/language">
+        <file>RegularConvertor_cs_CZ.qm</file>
+    </qresource>
+</RCC>

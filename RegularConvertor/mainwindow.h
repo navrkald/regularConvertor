@@ -30,13 +30,14 @@ public:
     QShortcut* deleteShortCut;
     enum Conversions {none, RE_to_FA, REMOVE_EPSILON, DFA};
     AlgorithmWidget* alhgorithm_widget;
-    void mySetWindowTitle(QString example_name = "");
+    QTranslator* translator;
 
 
 signals:
     void modeChanged(Algorithm::modes mode);
 public slots:
     void showStatusMessage(QString message);
+    void mySetWindowTitle(QString example_name = "");
 private slots:
     void hideStatusMessage();
     void on_action_check_mode_triggered();
@@ -47,7 +48,7 @@ private slots:
     // RegExp to FA
     //
     void prepareREtoFA(RegExp* _re = new RegExp());
-    void RE_FA_example(RegExp* _re);
+    void RE_FA_example(RegExp* _re, QString example_name = "");
     void on_RE_FA_example0_triggered();
     void on_RE_FA_example1_triggered();
     void on_RE_FA_example2_triggered();
@@ -63,7 +64,7 @@ private slots:
     // Remove Epsilon
     //
     void prepareRemoveEpsilon();
-    void RemoveEpsilon_example(FiniteAutomata _FA);
+    void RemoveEpsilon_example(FiniteAutomata _FA, QString example_name = "");
     void on_RemoveEpsilon_example0_triggered();
     void on_RemoveEpsilon_advanced_example1_triggered();
 
@@ -71,7 +72,7 @@ private slots:
     // DFA
     //
     void prepareDFA();
-    void Determinization_example(FiniteAutomata _FA);
+    void Determinization_example(FiniteAutomata _FA, QString example_name = "");
     void on_Determinization_example_1_triggered();
 
     void on_Determinization_advanced_example_1_triggered();
@@ -103,6 +104,10 @@ private slots:
     void on_Determinization_advanced_example_3_triggered();
 
     void on_Determinization_advanced_example_4_triggered();
+
+    void on_actionCzech_triggered();
+
+    void on_actionEnglish_triggered();
 
 private:
     Ui::MainWindow *ui;

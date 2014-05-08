@@ -6,7 +6,7 @@
 #include "algorithms/algorithmwidget.h"
 //#include "finite_machine/finiteautomata.h"
 
-#define MY_WINDOW_TITLE "Regular Convertor"
+#define MY_APP_NAME "Regular Convertor"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //this->ui->actionSimple_example_1->
 
     statusBarTimeout = 5000; //5 second
-    setWindowTitle(MY_WINDOW_TITLE);
+    setWindowTitle(MY_APP_NAME);
     connect(ui->action_RE_to_FA,SIGNAL(triggered()),this,SLOT(prepareREtoFA()));
     connect(ui->action_RemoveEpsilon,SIGNAL(triggered()),this,SLOT(prepareRemoveEpsilon()));
     connect(ui->action_Determinization,SIGNAL(triggered()),this,SLOT(prepareDFA()));
@@ -61,6 +61,10 @@ MainWindow::MainWindow(QWidget *parent) :
     examples_group->addAction(ui->Determinization_advanced_example_3);
     examples_group->addAction(ui->Determinization_advanced_example_4);
 
+    QActionGroup* language_group = new QActionGroup(this);
+    language_group->addAction(ui->actionCzech);
+    language_group->addAction(ui->actionEnglish);
+
     reg_exp_algorithm = 0;
     remove_epsilon_algorithm = 0;
     activeConversion = none;
@@ -70,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
     alhgorithm_widget = new AlgorithmWidget(mode);
     alhgorithm_widget->hide();
     connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
-
+    connect(this, SIGNAL(modeChanged(Algorithm::modes)), this, SLOT(mySetWindowTitle()));
     //    deleteShortCut = new QShortcut(QKeySequence::Delete, this);
     //    connect( deleteShortCut, SIGNAL(activated()), FA1_widget->scene, SLOT(deleteSelected()));
 
@@ -84,42 +88,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
     status_label->setStyleSheet("QLabel { background-color : white;}");
 
+    translator = new QTranslator(this);
+
     connect(status_timer,SIGNAL(timeout()),this,SLOT(hideStatusMessage()));
 
-
-    QIcon my_icon = QIcon(":/main_window/pictures/Flag_of_the_Czech_Republic.png");
-
-    QToolButton* language_button = new QToolButton();
-    //language_button->set
-    language_button->setIcon(my_icon);
-    language_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    language_button->setIconSize(QSize(100,100));
-//    QVBoxLayout* vlayout = new QVBoxLayout(ui->menuBar);
-//    QHBoxLayout* hlayout = new QHBoxLayout();
-//    vlayout->addLayout(hlayout);
+//    QIcon my_icon = QIcon(":/main_window/pictures/Flag_of_the_Czech_Republic.png");
+//    QToolButton* language_button = new QToolButton();
+//    language_button->setIcon(my_icon);
+//    language_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+//    language_button->setIconSize(QSize(100,100));
+//    QHBoxLayout* hlayout = new QHBoxLayout(ui->menuBar);
 //    hlayout->addStretch();
 //    hlayout->addWidget(language_button);
-
-
-    QHBoxLayout* hlayout = new QHBoxLayout(ui->menuBar);
-    hlayout->addStretch();
-    hlayout->addWidget(language_button);
-
-//    //button positionig
-//    status_label = new QLabel();
-//    hlayout->addWidget(status_label);
-//    hlayout->addStretch();
-//    hlayout->addWidget(MoveNodeBut);
-//    hlayout->addWidget(AddNodeBut);
-//    hlayout->addWidget(AddArrowBut);
-//    hlayout->addWidget(DeleteNodeBut);
-//    hlayout->setMargin(0);
-//    vlayout->setMargin(4);
-//    #if defined(_WIN64) || defined(_WIN32)
-//        hlayout->addSpacing(18);
-//    #endif
-//    vlayout->addLayout(hlayout);
-//    vlayout->addStretch();
 }
 
 MainWindow::~MainWindow()
@@ -137,13 +117,13 @@ void MainWindow::mySetWindowTitle(QString example_name)
             conversion_str="";
         break;
         case RE_to_FA:
-            conversion_str=tr("Převod regulárního výrazu na konečný automat. ");
+            conversion_str=tr("RegExp to Finite autoamta");
         break;
         case REMOVE_EPSILON:
-            conversion_str=tr("Odstranění epsilon pravidel. ");
+            conversion_str=tr("Remove epsilon rules");
         break;
         case DFA:
-            conversion_str=tr("Determinizace konečného automatu. ");
+            conversion_str=tr("FA determinization");
         break;
     }
 
@@ -153,16 +133,20 @@ void MainWindow::mySetWindowTitle(QString example_name)
             mode_str = "";
         break;
         case Algorithm::CHECK_MODE:
-            mode_str = tr("Mód samostatné práce. ");
+            mode_str = tr("Mode: individual work");
         break;
         case Algorithm::PLAY_MODE:
-            mode_str = tr("Režim krokování. ");
+            mode_str = tr("Mode: algorithm stepping");
         break;
         case Algorithm::STEP_MODE:
-            mode_str = tr("Režim průběžné kontroly. ");
+            mode_str = tr("Mode: instat checking");
         break;
     }
-    setWindowTitle(MY_WINDOW_TITLE " - " + conversion_str + mode_str +  example_name);
+    QString example_str;
+    if(example_name != "")
+        example_str = " - " + example_name;
+    setWindowTitle(MY_APP_NAME " - " + conversion_str + " - " + mode_str + example_str);
+
 }
 
 void MainWindow::showStatusMessage(QString message)
@@ -278,7 +262,9 @@ void MainWindow::prepareREtoFA(RegExp* _re)
 
 void MainWindow::prepareREtoFA_GUI()
 {
-    setWindowTitle(MY_WINDOW_TITLE + tr(" - Převod regulárního výrazu na konečný automat"));
+    ui->textBrowser = 0;
+
+    mySetWindowTitle();
 
     //set central widget
     QWidget* w = regExpToFA_central_widget;
@@ -369,8 +355,7 @@ void MainWindow::prepareRemoveEpsilon()
 
 void MainWindow::prepareRemoveEpsilon_GUI()
 {
-    setWindowTitle(MY_WINDOW_TITLE + tr(" - Odstranění epsilon pravidel"));
-
+    mySetWindowTitle();
      delete this->centralWidget();
 
     //set central widget
@@ -461,8 +446,7 @@ void MainWindow::prepareDFA()
 
 void MainWindow::prepareDFA_GUI()
 {
-    setWindowTitle(MY_WINDOW_TITLE + tr(" - Determinizace KA"));
-
+    mySetWindowTitle();
      delete this->centralWidget();
 
     //set central widget
@@ -530,20 +514,20 @@ void MainWindow::on_action_step_mode_triggered()
 /////////////////////////////////////////
 /////////////////////////////////////////
 
-void MainWindow::RE_FA_example(RegExp *_re)
+void MainWindow::RE_FA_example(RegExp *_re, QString example_name)
 {
     on_action_check_mode_triggered();
     ui->action_RE_to_FA->setChecked(true);
     if(activeConversion != RE_to_FA)
         prepareREtoFA(_re);
     reg_exp_algorithm->setExample(_re);
-
+    mySetWindowTitle(example_name);
 
 }
 
 void MainWindow::on_RE_FA_example0_triggered()
 {
-    RE_FA_example(new RegExp());
+    RE_FA_example(new RegExp(), tr("Example 1"));
 }
 
 void MainWindow::on_RE_FA_example1_triggered()
@@ -591,11 +575,15 @@ void MainWindow::on_RE_FA_example9_triggered()
     RE_FA_example(new RegExp("(a+b)*(a+c)*"));;
 }
 
-void MainWindow::RemoveEpsilon_example(FiniteAutomata _FA)
+void MainWindow::RemoveEpsilon_example(FiniteAutomata _FA, QString example_name)
 {
+    on_action_check_mode_triggered();
+    ui->action_RemoveEpsilon->setChecked(true);
+
     if(activeConversion != REMOVE_EPSILON)
         prepareRemoveEpsilon();
     remove_epsilon_algorithm->setInputFA(_FA);
+    mySetWindowTitle(example_name);
 }
 
 void MainWindow::on_RemoveEpsilon_example0_triggered()
@@ -610,7 +598,7 @@ void MainWindow::on_RemoveEpsilon_example0_triggered()
     FA.coordinates["1"] = QPoint(259,279);
     FA.coordinates["2"] = QPoint(344,336);
     FA.coordinates["3"] = QPoint(350,223);
-    RemoveEpsilon_example(FA);
+    RemoveEpsilon_example(FA, tr("Example 1"));
 }
 
 void MainWindow::on_RemoveEpsilon_example1_triggered()
@@ -626,7 +614,7 @@ void MainWindow::on_RemoveEpsilon_example1_triggered()
     FA.coordinates["s"] = QPoint(166,292);
     FA.coordinates["q"] = QPoint(266,81);
     FA.coordinates["f"] = QPoint(389,295);
-    RemoveEpsilon_example(FA);
+    RemoveEpsilon_example(FA, tr("Example 2"));
 }
 
 void MainWindow::on_RemoveEpsilon_example2_triggered()
@@ -646,7 +634,7 @@ void MainWindow::on_RemoveEpsilon_example2_triggered()
     FA.coordinates["q1"] = QPoint(357,114);
     FA.coordinates["q2"] = QPoint(282,189);
     FA.coordinates["q3"] = QPoint(338,295);
-    RemoveEpsilon_example(FA);
+    RemoveEpsilon_example(FA, tr("Example 3"));
 }
 
 void MainWindow::on_RemoveEpsilon_example3_triggered()
@@ -668,7 +656,7 @@ void MainWindow::on_RemoveEpsilon_example3_triggered()
     FA.coordinates["q1"] = QPoint(265,89);
     FA.coordinates["q2"] = QPoint(271,295);
     FA.coordinates["f"] = QPoint(386,202);
-    RemoveEpsilon_example(FA);
+    RemoveEpsilon_example(FA, tr("Example 4"));
 }
 
 void MainWindow::on_RemoveEpsilon_advanced_example1_triggered()
@@ -691,7 +679,7 @@ void MainWindow::on_RemoveEpsilon_advanced_example1_triggered()
     FA.coordinates["q1"] = QPoint(280,220);
     FA.coordinates["q2"] = QPoint(279,346);
     FA.coordinates["f"] = QPoint(395,291);
-    RemoveEpsilon_example(FA);
+    RemoveEpsilon_example(FA, tr("Advanced example 1"));
 }
 
 void MainWindow::on_RemoveEpsilon_advanced_example2_triggered()
@@ -715,7 +703,7 @@ void MainWindow::on_RemoveEpsilon_advanced_example2_triggered()
     FA.coordinates["2"] = QPoint(319,192);
     FA.coordinates["3"] = QPoint(230,288);
     FA.coordinates["4"] = QPoint(394,294);
-    RemoveEpsilon_example(FA);
+    RemoveEpsilon_example(FA, tr("Advanced example 2"));
 }
 
 void MainWindow::on_RemoveEpsilon_advanced_example3_triggered()
@@ -740,7 +728,7 @@ void MainWindow::on_RemoveEpsilon_advanced_example3_triggered()
     FA.coordinates["1"] = QPoint(264,109);
     FA.coordinates["2"] = QPoint(273,283);
     FA.coordinates["3"] = QPoint(386,179);
-    RemoveEpsilon_example(FA);
+    RemoveEpsilon_example(FA, tr("Advanced example 3"));
 }
 
 void MainWindow::on_RemoveEpsilon_advanced_example4_triggered()
@@ -767,10 +755,10 @@ void MainWindow::on_RemoveEpsilon_advanced_example4_triggered()
     FA.coordinates["3"] = QPoint(296,114);
     FA.coordinates["4"] = QPoint(337,296);
     FA.coordinates["5"] = QPoint(382,199);
-    RemoveEpsilon_example(FA);
+    RemoveEpsilon_example(FA, tr("Advanced example 4"));
 }
 
-void MainWindow::Determinization_example(FiniteAutomata _FA)
+void MainWindow::Determinization_example(FiniteAutomata _FA, QString example_name)
 {
     on_action_check_mode_triggered();
     ui->action_Determinization->setChecked(true);
@@ -778,6 +766,7 @@ void MainWindow::Determinization_example(FiniteAutomata _FA)
     if(activeConversion != DFA)
         prepareDFA();
     DFA_algorithm->setInputFA(_FA);
+    mySetWindowTitle(example_name);
 }
 
 void MainWindow::on_Determinization_example_1_triggered()
@@ -793,7 +782,7 @@ void MainWindow::on_Determinization_example_1_triggered()
         << ComputationalRules("0","1","b");
     FA.coordinates["0"] = QPoint(178,227);
     FA.coordinates["1"] = QPoint(316,230);
-    Determinization_example(FA);
+    Determinization_example(FA, tr("Example 1"));
 }
 void MainWindow::on_Determinization_example_2_triggered()
 {
@@ -809,7 +798,7 @@ void MainWindow::on_Determinization_example_2_triggered()
         << ComputationalRules("A","B","0");
     FA.coordinates["A"] = QPoint(173,198);
     FA.coordinates["B"] =  QPoint(318,200);
-    Determinization_example(FA);
+    Determinization_example(FA, tr("Example 2"));
 }
 
 void MainWindow::on_Determinization_example_3_triggered()
@@ -831,7 +820,7 @@ void MainWindow::on_Determinization_example_3_triggered()
     FA.coordinates["1"] = QPoint(188,249);
     FA.coordinates["2"] = QPoint(186,417);
     FA.coordinates["3"] = QPoint(385,249);
-    Determinization_example(FA);
+    Determinization_example(FA, tr("Example 3"));
 }
 
 void MainWindow::on_Determinization_example_4_triggered()
@@ -856,7 +845,7 @@ void MainWindow::on_Determinization_example_4_triggered()
     FA.coordinates["q1"] = QPoint(279,425);
     FA.coordinates["q2"] = QPoint(277,231);
     FA.coordinates["f"] = QPoint(396,315);
-    Determinization_example(FA);
+    Determinization_example(FA, tr("Example 4"));
 }
 
 
@@ -879,7 +868,7 @@ void MainWindow::on_Determinization_advanced_example_1_triggered()
     FA.coordinates["B"] = QPoint(246,281);
     FA.coordinates["C"] = QPoint(333,282);
     FA.coordinates["D"] = QPoint(410,282);
-    Determinization_example(FA);
+    Determinization_example(FA, tr("Advanced example 1"));
 }
 
 void MainWindow::on_Determinization_advanced_example_2_triggered()
@@ -899,7 +888,7 @@ void MainWindow::on_Determinization_advanced_example_2_triggered()
     FA.coordinates["A"] = QPoint(178,201);
     FA.coordinates["B"] = QPoint(278,402);
     FA.coordinates["C"] = QPoint(378,198);
-    Determinization_example(FA);
+    Determinization_example(FA, tr("Advanced example 2"));
 }
 
 void MainWindow::on_Determinization_advanced_example_3_triggered()
@@ -925,7 +914,7 @@ void MainWindow::on_Determinization_advanced_example_3_triggered()
     FA.coordinates["C"] = QPoint(254,244);
     FA.coordinates["D"] = QPoint(286,367);
     FA.coordinates["E"] = QPoint(370,249);
-    Determinization_example(FA);
+    Determinization_example(FA, tr("Advanced example 3"));
 }
 
 void MainWindow::on_Determinization_advanced_example_4_triggered()
@@ -947,7 +936,7 @@ void MainWindow::on_Determinization_advanced_example_4_triggered()
     FA.coordinates["A"] = QPoint(159,266);
     FA.coordinates["B"] = QPoint(309,152);
     FA.coordinates["C"] = QPoint(326,363);
-    Determinization_example(FA);
+    Determinization_example(FA, tr("Advanced example 4"));
 }
 void MainWindow::on_action_save_triggered()
 {
@@ -1045,3 +1034,15 @@ QDataStream& operator>>(QDataStream& in, MainWindow::Conversions& e)
 }
 
 
+
+void MainWindow::on_actionCzech_triggered()
+{
+    translator->load(":/translations/language/RegularConvertor_cs_CZ.qm");
+    qApp->installTranslator(translator);
+    ui->retranslateUi(this);
+}
+
+void MainWindow::on_actionEnglish_triggered()
+{
+    qApp->removeTranslator(translator);
+}

@@ -8,6 +8,10 @@ QT       += core gui widgets opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+# "cs" je ISO 639 kód pro češtinu, "CZ" je ISO 3166 kód pro ČR
+TRANSLATIONS = RegularConvertor_cs_CZ.ts
+CODECFORTR = UTF-8
+
 TARGET = RegularConvertor
 TEMPLATE = app
 
@@ -17,6 +21,7 @@ unix {
 }
 
 win32 {
+    QT += testlib
     LIBS += -lopengl32
 }
 
@@ -93,4 +98,5 @@ CONFIG += static
 
 QMAKE_CXXFLAGS += -g -gdwarf-2
 RESOURCES += \
-    pictures.qrc
+    pictures.qrc \
+    translations.qrc

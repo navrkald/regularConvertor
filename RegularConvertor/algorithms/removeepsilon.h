@@ -87,6 +87,8 @@ private:
     inline QString epsilon_closer_toString() {return QString("ε-uzaver(<b>%1</b>) = %2").arg(p,qsetToQstring(epsilon_closer.toSet()));}
     inline QString F_toString(){return QString("<b>F</b> = %1").arg(qsetToQstring(FA.finalStates));}
     inline QString F_prime_toString(){return QString("<b>F'</b> = %1").arg(qsetToQstring(non_epsilon_FA.finalStates));}
+    inline QString symbol_toString(){return QString("<b>a</b> = %1").arg(non_epsilon_rule.symbol);}
+    inline QString q_toString(){return QString("<b>q</b> = %1").arg(non_epsilon_rule.to);}
     void setEpsilonCloserWidget();
     void prepareGUItoCheck();
     void removeFuture();

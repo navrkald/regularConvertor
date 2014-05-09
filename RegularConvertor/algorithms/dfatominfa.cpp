@@ -7,7 +7,7 @@ DFAtoMinFA::DFAtoMinFA(FiniteAutomata _FA) : FA(_FA)
 
 bool DFAtoMinFA::canDivide(QString symbol, QSet< QSet <QString> > Qm, QSet<QString> X, QSet <QString> &X1, QSet <QString> &X2)
 {
-    QSet <QString> Q1, Q2;
+    QSet <QString> Q1;
     QList<ComputationalRules> rules;
 
     //add all rules with from = X and witch symbol
@@ -25,24 +25,19 @@ bool DFAtoMinFA::canDivide(QString symbol, QSet< QSet <QString> > Qm, QSet<QStri
             {
                 X1.insert(rule.from);
             }
-            else if (Q2.empty())
-            {
-                Q2 = *findInSubsets(Qm,rule.to).begin();
-                X2.insert(rule.from);
-            }
-            else if (Q2 == *findInSubsets(Qm,rule.to).begin())
-            {
-                X2.insert(rule.from);
-            }
             else
             {
-                qDebug() << "Fatal error when minimalise FA!";
-                qDebug() << "Error occured in function fission()!";
-                exit(EXIT_FAILURE);
+                X2.insert(rule.from);
             }
         }
         else //for first create new Q1
         {
+            QSet < QSet<QString> > tmp = findInSubsets(Qm,rule.to);
+            if(tmp.empty())
+            {
+                qFatal("Fatal error: in function bool FiniteAutomata::canDivide(FiniteAutomata FA ,QString symbol, QSet<QSet<QString> > Qm, QSet<QString> X, QSet<QString> &X1, QSet<QString> &X2)");
+                exit(1);
+            }
             Q1 = *findInSubsets(Qm,rule.to).begin();
             X1.insert(rule.from);
         }

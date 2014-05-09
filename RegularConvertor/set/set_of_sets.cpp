@@ -51,7 +51,7 @@ QString qsetToQstring(QSet<QString> set)
 
     QString string = "{";
     QStringList string_list = list;
-    string+= string_list.join(",");
+    string+= string_list.join(", ");
     string+="}";
     return string;
 }

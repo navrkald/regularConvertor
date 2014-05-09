@@ -6,7 +6,7 @@
 #include "algorithms/algorithmwidget.h"
 //#include "finite_machine/finiteautomata.h"
 
-#define MY_WINDOW_TITLE "Regular Convertor"
+#define MY_APP_NAME "Regular Convertor"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //this->ui->actionSimple_example_1->
 
     statusBarTimeout = 5000; //5 second
-    setWindowTitle(MY_WINDOW_TITLE);
+    setWindowTitle(MY_APP_NAME);
     connect(ui->action_RE_to_FA,SIGNAL(triggered()),this,SLOT(prepareREtoFA()));
     connect(ui->action_RemoveEpsilon,SIGNAL(triggered()),this,SLOT(prepareRemoveEpsilon()));
     connect(ui->action_Determinization,SIGNAL(triggered()),this,SLOT(prepareDFA()));
@@ -33,6 +33,38 @@ MainWindow::MainWindow(QWidget *parent) :
     conversionGroup->addAction(ui->action_RemoveEpsilon);
     conversionGroup->addAction(ui->action_Determinization);
 
+    QActionGroup* examples_group = new QActionGroup(this);
+    examples_group->addAction(ui->RE_FA_example0);
+    examples_group->addAction(ui->RE_FA_example1);
+    examples_group->addAction(ui->RE_FA_example2);
+    examples_group->addAction(ui->RE_FA_example3);
+    examples_group->addAction(ui->RE_FA_example4);
+    examples_group->addAction(ui->RE_FA_example5);
+    examples_group->addAction(ui->RE_FA_example6);
+    examples_group->addAction(ui->RE_FA_example7);
+    examples_group->addAction(ui->RE_FA_example8);
+    examples_group->addAction(ui->RE_FA_example9);
+    examples_group->addAction(ui->RemoveEpsilon_example0);
+    examples_group->addAction(ui->RemoveEpsilon_example1);
+    examples_group->addAction(ui->RemoveEpsilon_example2);
+    examples_group->addAction(ui->RemoveEpsilon_example3);
+    examples_group->addAction(ui->RemoveEpsilon_advanced_example1);
+    examples_group->addAction(ui->RemoveEpsilon_advanced_example2);
+    examples_group->addAction(ui->RemoveEpsilon_advanced_example3);
+    examples_group->addAction(ui->RemoveEpsilon_advanced_example4);
+    examples_group->addAction(ui->Determinization_example_1);
+    examples_group->addAction(ui->Determinization_example_2);
+    examples_group->addAction(ui->Determinization_example_3);
+    examples_group->addAction(ui->Determinization_example_4);
+    examples_group->addAction(ui->Determinization_advanced_example_1);
+    examples_group->addAction(ui->Determinization_advanced_example_2);
+    examples_group->addAction(ui->Determinization_advanced_example_3);
+    examples_group->addAction(ui->Determinization_advanced_example_4);
+
+    QActionGroup* language_group = new QActionGroup(this);
+    language_group->addAction(ui->actionCzech);
+    language_group->addAction(ui->actionEnglish);
+
     reg_exp_algorithm = 0;
     remove_epsilon_algorithm = 0;
     activeConversion = none;
@@ -42,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
     alhgorithm_widget = new AlgorithmWidget(mode);
     alhgorithm_widget->hide();
     connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
-
+    connect(this, SIGNAL(modeChanged(Algorithm::modes)), this, SLOT(mySetWindowTitle()));
     //    deleteShortCut = new QShortcut(QKeySequence::Delete, this);
     //    connect( deleteShortCut, SIGNAL(activated()), FA1_widget->scene, SLOT(deleteSelected()));
 
@@ -56,35 +88,65 @@ MainWindow::MainWindow(QWidget *parent) :
 
     status_label->setStyleSheet("QLabel { background-color : white;}");
 
+    translator = new QTranslator(this);
+
     connect(status_timer,SIGNAL(timeout()),this,SLOT(hideStatusMessage()));
 
-    //ui->RemoveEpsilon_example0->setToolTip("<img src=':/main_window/pictures/remove_epsilon_example1.png'/>");
-    //ui->RemoveEpsilon_advanced_example1->setToolTip("<img src= ':/main_window/pictures/remove_epsilon_advanced_example1.png' />");
-
-
-
-    FiniteAutomata FA;
-    FA.states << "A" << "B" << "C" << "D";
-    FA.startState = "A";
-    FA.finalStates << "D";
-    FA.alphabet << "0" << "1";
-    FA.rules
-        << ComputationalRules("A","A","0")
-        << ComputationalRules("A","A","1")
-        << ComputationalRules("A","B","1")
-        << ComputationalRules("B","C","0")
-        << ComputationalRules("B","C","1")
-        << ComputationalRules("C","D","0")
-        << ComputationalRules("C","D","1");
-    //DFAtoMinFA* a = new DFAtoMinFA(FA);
-    //a->computeSolution();
-    FA.toMinFA();
-
+//    QIcon my_icon = QIcon(":/main_window/pictures/Flag_of_the_Czech_Republic.png");
+//    QToolButton* language_button = new QToolButton();
+//    language_button->setIcon(my_icon);
+//    language_button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+//    language_button->setIconSize(QSize(100,100));
+//    QHBoxLayout* hlayout = new QHBoxLayout(ui->menuBar);
+//    hlayout->addStretch();
+//    hlayout->addWidget(language_button);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::mySetWindowTitle(QString example_name)
+{
+    QString conversion_str;
+    QString mode_str;
+    switch(activeConversion)
+    {
+        case none:
+            conversion_str="";
+        break;
+        case RE_to_FA:
+            conversion_str=tr("RegExp to Finite autoamta");
+        break;
+        case REMOVE_EPSILON:
+            conversion_str=tr("Remove epsilon rules");
+        break;
+        case DFA:
+            conversion_str=tr("FA determinization");
+        break;
+    }
+
+    switch(mode)
+    {
+        case Algorithm::NONE:
+            mode_str = "";
+        break;
+        case Algorithm::CHECK_MODE:
+            mode_str = tr("Mode: individual work");
+        break;
+        case Algorithm::PLAY_MODE:
+            mode_str = tr("Mode: algorithm stepping");
+        break;
+        case Algorithm::STEP_MODE:
+            mode_str = tr("Mode: instat checking");
+        break;
+    }
+    QString example_str;
+    if(example_name != "")
+        example_str = " - " + example_name;
+    setWindowTitle(MY_APP_NAME " - " + conversion_str + " - " + mode_str + example_str);
+
 }
 
 void MainWindow::showStatusMessage(QString message)
@@ -200,7 +262,9 @@ void MainWindow::prepareREtoFA(RegExp* _re)
 
 void MainWindow::prepareREtoFA_GUI()
 {
-    setWindowTitle(MY_WINDOW_TITLE + tr(" - Převod regulárního výrazu na konečný automat"));
+    ui->textBrowser = 0;
+
+    mySetWindowTitle();
 
     //set central widget
     QWidget* w = regExpToFA_central_widget;
@@ -291,8 +355,7 @@ void MainWindow::prepareRemoveEpsilon()
 
 void MainWindow::prepareRemoveEpsilon_GUI()
 {
-    setWindowTitle(MY_WINDOW_TITLE + tr(" - Odstranění epsilon pravidel"));
-
+    mySetWindowTitle();
      delete this->centralWidget();
 
     //set central widget
@@ -383,8 +446,7 @@ void MainWindow::prepareDFA()
 
 void MainWindow::prepareDFA_GUI()
 {
-    setWindowTitle(MY_WINDOW_TITLE + tr(" - Determinizace KA"));
-
+    mySetWindowTitle();
      delete this->centralWidget();
 
     //set central widget
@@ -452,20 +514,20 @@ void MainWindow::on_action_step_mode_triggered()
 /////////////////////////////////////////
 /////////////////////////////////////////
 
-void MainWindow::RE_FA_example(RegExp *_re)
+void MainWindow::RE_FA_example(RegExp *_re, QString example_name)
 {
     on_action_check_mode_triggered();
     ui->action_RE_to_FA->setChecked(true);
     if(activeConversion != RE_to_FA)
         prepareREtoFA(_re);
     reg_exp_algorithm->setExample(_re);
-
+    mySetWindowTitle(example_name);
 
 }
 
 void MainWindow::on_RE_FA_example0_triggered()
 {
-    RE_FA_example(new RegExp());
+    RE_FA_example(new RegExp(), tr("Example 1"));
 }
 
 void MainWindow::on_RE_FA_example1_triggered()
@@ -513,11 +575,15 @@ void MainWindow::on_RE_FA_example9_triggered()
     RE_FA_example(new RegExp("(a+b)*(a+c)*"));;
 }
 
-void MainWindow::RemoveEpsilon_example(FiniteAutomata _FA)
+void MainWindow::RemoveEpsilon_example(FiniteAutomata _FA, QString example_name)
 {
+    on_action_check_mode_triggered();
+    ui->action_RemoveEpsilon->setChecked(true);
+
     if(activeConversion != REMOVE_EPSILON)
         prepareRemoveEpsilon();
     remove_epsilon_algorithm->setInputFA(_FA);
+    mySetWindowTitle(example_name);
 }
 
 void MainWindow::on_RemoveEpsilon_example0_triggered()
@@ -528,7 +594,69 @@ void MainWindow::on_RemoveEpsilon_example0_triggered()
     FA.finalStates << "2" << "3";
     FA.alphabet << "a" << "b";
     FA.rules << ComputationalRules("0","1",EPSILON) << ComputationalRules("1","2","a") << ComputationalRules("1","3","b");
-    RemoveEpsilon_example(FA);
+    FA.coordinates["0"] = QPoint(165,279);
+    FA.coordinates["1"] = QPoint(259,279);
+    FA.coordinates["2"] = QPoint(344,336);
+    FA.coordinates["3"] = QPoint(350,223);
+    RemoveEpsilon_example(FA, tr("Example 1"));
+}
+
+void MainWindow::on_RemoveEpsilon_example1_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "s" << "q" << "f";
+    FA.startState = "s";
+    FA.finalStates << "f";
+    FA.alphabet << "0" << "1";
+    FA.rules << ComputationalRules("s","q","1") << ComputationalRules("q","s","0")
+             << ComputationalRules("q","f",EPSILON) << ComputationalRules("f","q",EPSILON)
+             << ComputationalRules("f","s","1") << ComputationalRules("s","f","0")   ;
+    FA.coordinates["s"] = QPoint(166,292);
+    FA.coordinates["q"] = QPoint(266,81);
+    FA.coordinates["f"] = QPoint(389,295);
+    RemoveEpsilon_example(FA, tr("Example 2"));
+}
+
+void MainWindow::on_RemoveEpsilon_example2_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "s" << "f1" << "f2" << "q1" << "q2" << "q3";
+    FA.startState = "s";
+    FA.finalStates << "f1" << "f2";
+    FA.alphabet << "a" << "b";
+    FA.rules << ComputationalRules("s","f1",EPSILON) << ComputationalRules("s","f2",EPSILON)
+             << ComputationalRules("f1","q1","a") << ComputationalRules("q1","f1","b")
+             << ComputationalRules("f2","q2","a") << ComputationalRules("q2","q3","b")
+             << ComputationalRules("q3","f2","a");
+    FA.coordinates["s"]  = QPoint(176,196);
+    FA.coordinates["f1"] = QPoint(175,113);
+    FA.coordinates["f2"] = QPoint(178,293);
+    FA.coordinates["q1"] = QPoint(357,114);
+    FA.coordinates["q2"] = QPoint(282,189);
+    FA.coordinates["q3"] = QPoint(338,295);
+    RemoveEpsilon_example(FA, tr("Example 3"));
+}
+
+void MainWindow::on_RemoveEpsilon_example3_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "s" << "q1" << "q2" << "f";
+    FA.startState = "s";
+    FA.finalStates << "f";
+    FA.alphabet << "a" << "b";
+    FA.rules
+        << ComputationalRules("s","q2","a")
+        << ComputationalRules("q1","s","a")
+        << ComputationalRules("q1","q2","b")
+        << ComputationalRules("q2","f",EPSILON)
+        << ComputationalRules("q1","f","b")
+        << ComputationalRules("f","q1",EPSILON)
+        << ComputationalRules("q1","q2","b");
+    FA.coordinates["s"] = QPoint(168,192);
+    FA.coordinates["q1"] = QPoint(265,89);
+    FA.coordinates["q2"] = QPoint(271,295);
+    FA.coordinates["f"] = QPoint(386,202);
+    RemoveEpsilon_example(FA, tr("Example 4"));
 }
 
 void MainWindow::on_RemoveEpsilon_advanced_example1_triggered()
@@ -547,22 +675,155 @@ void MainWindow::on_RemoveEpsilon_advanced_example1_triggered()
         << ComputationalRules("q1","q1","b")
         << ComputationalRules("q2","q2","c")
         << ComputationalRules("f","f","a");
-    RemoveEpsilon_example(FA);
+    FA.coordinates["s"] = QPoint(169,287);
+    FA.coordinates["q1"] = QPoint(280,220);
+    FA.coordinates["q2"] = QPoint(279,346);
+    FA.coordinates["f"] = QPoint(395,291);
+    RemoveEpsilon_example(FA, tr("Advanced example 1"));
 }
 
-void MainWindow::Determinization_example(FiniteAutomata _FA)
+void MainWindow::on_RemoveEpsilon_advanced_example2_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "0" << "1" << "2" << "3" << "4";
+    FA.startState = "0";
+    FA.finalStates << "2";
+    FA.alphabet << "a" << "b";
+    FA.rules
+        << ComputationalRules("0","1",EPSILON)
+        << ComputationalRules("0","3",EPSILON)
+        << ComputationalRules("1","2",EPSILON)
+        << ComputationalRules("3","2",EPSILON)
+        << ComputationalRules("1","1","a")
+        << ComputationalRules("2","2","b")
+        << ComputationalRules("3","4","a")
+        << ComputationalRules("4","3","b");
+    FA.coordinates["0"] = QPoint(168,194);
+    FA.coordinates["1"] = QPoint(235,114);
+    FA.coordinates["2"] = QPoint(319,192);
+    FA.coordinates["3"] = QPoint(230,288);
+    FA.coordinates["4"] = QPoint(394,294);
+    RemoveEpsilon_example(FA, tr("Advanced example 2"));
+}
+
+void MainWindow::on_RemoveEpsilon_advanced_example3_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "0" << "1" << "2" << "3";
+    FA.startState = "0";
+    FA.finalStates << "3";
+    FA.alphabet << "a" << "b" << "c" << "d";
+    FA.rules
+        << ComputationalRules("0","0",EPSILON)
+        << ComputationalRules("0","0","a")
+        << ComputationalRules("3","0","a")
+        << ComputationalRules("2","0",EPSILON)
+        << ComputationalRules("0","1",EPSILON)
+        << ComputationalRules("1","1","c")
+        << ComputationalRules("1","3","a")
+        << ComputationalRules("3","3","b")
+        << ComputationalRules("3","2",EPSILON)
+        << ComputationalRules("2","2","d");
+    FA.coordinates["0"] = QPoint(153,177);
+    FA.coordinates["1"] = QPoint(264,109);
+    FA.coordinates["2"] = QPoint(273,283);
+    FA.coordinates["3"] = QPoint(386,179);
+    RemoveEpsilon_example(FA, tr("Advanced example 3"));
+}
+
+void MainWindow::on_RemoveEpsilon_advanced_example4_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "0" << "1" << "2" << "3" << "4" << "5";
+    FA.startState = "0";
+    FA.finalStates << "5";
+    FA.alphabet << "a" << "b" << "c" << "d";
+    FA.rules
+        << ComputationalRules("0","5",EPSILON)
+        << ComputationalRules("1","0",EPSILON)
+        << ComputationalRules("2","0",EPSILON)
+        << ComputationalRules("3","1",EPSILON)
+        << ComputationalRules("4","2",EPSILON)
+        << ComputationalRules("3","3","b")
+        << ComputationalRules("4","4","a")
+        << ComputationalRules("5","4","c")
+        << ComputationalRules("3","5",EPSILON)
+        << ComputationalRules("5","3","d");
+    FA.coordinates["0"] = QPoint(163,190);
+    FA.coordinates["1"] = QPoint(207,108);
+    FA.coordinates["2"] = QPoint(209,297);
+    FA.coordinates["3"] = QPoint(296,114);
+    FA.coordinates["4"] = QPoint(337,296);
+    FA.coordinates["5"] = QPoint(382,199);
+    RemoveEpsilon_example(FA, tr("Advanced example 4"));
+}
+
+void MainWindow::Determinization_example(FiniteAutomata _FA, QString example_name)
 {
     on_action_check_mode_triggered();
     ui->action_Determinization->setChecked(true);
 
     if(activeConversion != DFA)
-    {
         prepareDFA();
-    }
     DFA_algorithm->setInputFA(_FA);
+    mySetWindowTitle(example_name);
 }
 
 void MainWindow::on_Determinization_example_1_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "0" << "1";
+    FA.startState = "0";
+    FA.finalStates << "1";
+    FA.alphabet << "a" << "b";
+    FA.rules
+        << ComputationalRules("0","0","a")
+        << ComputationalRules("0","0","b")
+        << ComputationalRules("0","1","b");
+    FA.coordinates["0"] = QPoint(178,227);
+    FA.coordinates["1"] = QPoint(316,230);
+    Determinization_example(FA, tr("Example 1"));
+}
+void MainWindow::on_Determinization_example_2_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "A" << "B";
+    FA.startState = "A";
+    FA.finalStates << "B";
+    FA.alphabet << "0" << "1";
+    FA.rules
+        << ComputationalRules("A","A","0")
+        << ComputationalRules("A","A","1")
+        << ComputationalRules("B","B","0")
+        << ComputationalRules("A","B","0");
+    FA.coordinates["A"] = QPoint(173,198);
+    FA.coordinates["B"] =  QPoint(318,200);
+    Determinization_example(FA, tr("Example 2"));
+}
+
+void MainWindow::on_Determinization_example_3_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "0" << "1" << "2" << "3";
+    FA.startState = "0";
+    FA.finalStates << "3";
+    FA.alphabet << "a" << "b";
+    FA.rules
+        << ComputationalRules("0","0","b")
+        << ComputationalRules("0","1","b")
+        << ComputationalRules("3","1","b")
+        << ComputationalRules("3","1","a")
+        << ComputationalRules("2","3","b")
+        << ComputationalRules("1","2","b")
+        << ComputationalRules("2","1","a");
+    FA.coordinates["0"] = QPoint(184,149);
+    FA.coordinates["1"] = QPoint(188,249);
+    FA.coordinates["2"] = QPoint(186,417);
+    FA.coordinates["3"] = QPoint(385,249);
+    Determinization_example(FA, tr("Example 3"));
+}
+
+void MainWindow::on_Determinization_example_4_triggered()
 {
     FiniteAutomata FA;
     FA.states << "s" << "q1" << "q2" << "f";
@@ -580,9 +841,13 @@ void MainWindow::on_Determinization_example_1_triggered()
         << ComputationalRules("s","q2","c")
         << ComputationalRules("q1","f","b")
         << ComputationalRules("q2","f","c");
-
-    Determinization_example(FA);
+    FA.coordinates["s"] = QPoint(169,315);
+    FA.coordinates["q1"] = QPoint(279,425);
+    FA.coordinates["q2"] = QPoint(277,231);
+    FA.coordinates["f"] = QPoint(396,315);
+    Determinization_example(FA, tr("Example 4"));
 }
+
 
 void MainWindow::on_Determinization_advanced_example_1_triggered()
 {
@@ -599,10 +864,80 @@ void MainWindow::on_Determinization_advanced_example_1_triggered()
         << ComputationalRules("B","C","1")
         << ComputationalRules("C","D","0")
         << ComputationalRules("C","D","1");
-
-    Determinization_example(FA);
+    FA.coordinates["A"] = QPoint(161,279);
+    FA.coordinates["B"] = QPoint(246,281);
+    FA.coordinates["C"] = QPoint(333,282);
+    FA.coordinates["D"] = QPoint(410,282);
+    Determinization_example(FA, tr("Advanced example 1"));
 }
 
+void MainWindow::on_Determinization_advanced_example_2_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "A" << "B" << "C";
+    FA.startState = "A";
+    FA.finalStates << "B";
+    FA.alphabet << "0" << "1";
+    FA.rules
+        << ComputationalRules("A","A","0")
+        << ComputationalRules("A","B","1")
+        << ComputationalRules("B","A","0")
+        << ComputationalRules("C","A","1")
+        << ComputationalRules("B","C","0")
+        << ComputationalRules("C","B","1");
+    FA.coordinates["A"] = QPoint(178,201);
+    FA.coordinates["B"] = QPoint(278,402);
+    FA.coordinates["C"] = QPoint(378,198);
+    Determinization_example(FA, tr("Advanced example 2"));
+}
+
+void MainWindow::on_Determinization_advanced_example_3_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "A" << "B" << "C" << "D" << "E";
+    FA.startState = "A";
+    FA.finalStates << "D" << "E";
+    FA.alphabet << "0" << "1";
+    FA.rules
+        << ComputationalRules("A","A","0")
+        << ComputationalRules("A","A","1")
+        << ComputationalRules("D","D","0")
+        << ComputationalRules("D","D","1")
+        << ComputationalRules("E","E","0")
+        << ComputationalRules("E","E","1")
+        << ComputationalRules("A","C","0")
+        << ComputationalRules("A","B","1")
+        << ComputationalRules("C","E","0")
+        << ComputationalRules("B","D","1");
+    FA.coordinates["A"] = QPoint(167,135);
+    FA.coordinates["B"] = QPoint(167,365);
+    FA.coordinates["C"] = QPoint(254,244);
+    FA.coordinates["D"] = QPoint(286,367);
+    FA.coordinates["E"] = QPoint(370,249);
+    Determinization_example(FA, tr("Advanced example 3"));
+}
+
+void MainWindow::on_Determinization_advanced_example_4_triggered()
+{
+    FiniteAutomata FA;
+    FA.states << "A" << "B" << "C";
+    FA.startState = "A";
+    FA.finalStates << "C";
+    FA.alphabet << "0" << "1";
+    FA.rules
+        << ComputationalRules("A","A","1")
+        << ComputationalRules("A","C","0")
+        << ComputationalRules("A","C","1")
+        << ComputationalRules("C","A","1")
+        << ComputationalRules("C","B","0")
+        << ComputationalRules("B","B","1")
+        << ComputationalRules("B","A","0")
+        << ComputationalRules("B","A","1");
+    FA.coordinates["A"] = QPoint(159,266);
+    FA.coordinates["B"] = QPoint(309,152);
+    FA.coordinates["C"] = QPoint(326,363);
+    Determinization_example(FA, tr("Advanced example 4"));
+}
 void MainWindow::on_action_save_triggered()
 {
     QFile file("/tmp/test.txt");
@@ -696,4 +1031,18 @@ QDataStream& operator>>(QDataStream& in, MainWindow::Conversions& e)
     in >> tmp;
     e = (MainWindow::Conversions)tmp;
     return in;
+}
+
+
+
+void MainWindow::on_actionCzech_triggered()
+{
+    translator->load(":/translations/language/RegularConvertor_cs_CZ.qm");
+    qApp->installTranslator(translator);
+    ui->retranslateUi(this);
+}
+
+void MainWindow::on_actionEnglish_triggered()
+{
+    qApp->removeTranslator(translator);
 }

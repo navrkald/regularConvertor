@@ -140,7 +140,7 @@ void FaToDFA::setMode(Algorithm::modes _mode)
         break;
     }
 
-    if(mode == CHECK_MODE)
+    if(mode == STEP_MODE)
         check_step_timer->start(CHECK_STEP_TIMEOUT);
     else
         check_step_timer->stop();
@@ -385,7 +385,7 @@ void FaToDFA::checkSolution()
     }
 
 
-    if(FiniteAutomata::areEquivalent(DFA, correct_FA))
+    if(FiniteAutomata::areEquivalent(DFA, correct_FA) && ! DFA.hasEpsilon() && DFA.isDeterministic())
     {
         dfa_widget->setCorrectStatus();
     }

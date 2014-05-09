@@ -30,7 +30,21 @@
     <qresource prefix="/main_window">
         <file>pictures/remove_epsilon_example1.png</file>
         <file>pictures/remove_epsilon_advanced_example1.png</file>
-        <file>pictures/determinization_example1.png</file>
+        <file>pictures/determinization_example4.png</file>
         <file>pictures/determinization_advanced_example1.png</file>
+        <file>pictures/remove_epsilon_advanced_example2.png</file>
+        <file>pictures/remove_epsilon_advanced_example3.png</file>
+        <file>pictures/remove_epsilon_advanced_example4.png</file>
+        <file>pictures/remove_epsilon_example2.png</file>
+        <file>pictures/remove_epsilon_example3.png</file>
+        <file>pictures/remove_epsilon_example4.png</file>
+        <file>pictures/determinization_advanced_example2.png</file>
+        <file>pictures/determinization_advanced_example3.png</file>
+        <file>pictures/determinization_advanced_example4.png</file>
+        <file>pictures/determinization_example1.png</file>
+        <file>pictures/determinization_example2.png</file>
+        <file>pictures/determinization_example3.png</file>
+        <file>pictures/Flag_of_the_Czech_Republic.png</file>
+        <file>pictures/Flag_of_the_United_Kingdom.png</file>
     </qresource>
 </RCC>

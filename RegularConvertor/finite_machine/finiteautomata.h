@@ -54,7 +54,9 @@ public:
     QSet <ComputationalRules> rules;
     QString startState;
     QSet <QString> finalStates;
+    QMap<QString, QPoint> coordinates;
     int nextId;
+
     
     static FiniteAutomata concatenate(FiniteAutomata FA1, FiniteAutomata FA2);
     static FiniteAutomata iteration(FiniteAutomata FA1);
@@ -83,6 +85,7 @@ public:
     bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
 
     bool hasEpsilon();
+    bool isDeterministic();
     QSet <QString> epsilonCloser(QString state);
 
     QSet <QString> epsilonNeighbours(QString state);

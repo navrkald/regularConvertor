@@ -223,7 +223,7 @@ void RegExpToFA::selectRegExp(QModelIndex index)
 void RegExpToFA::saveStep()
 {
     if(re->rootNode->str == "")
-        qDebug() << "Fatal Error: in funcion void RegExpToFA::saveStep()";
+        qFatal("Fatal Error: in funcion void RegExpToFA::saveStep()");
     steps s;
     s.re = new RegExp(*re);
     s.num = ++num;
@@ -345,25 +345,6 @@ void RegExpToFA::nextStep()
                 }
             }
         }
-//        QList<RegExpNode*> children = processedNode->children;
-//        qDebug() << "Pocet synu: " << children.count();
-//        if(children.count() > 0)
-//        {
-//            left_fa_widget->setFA(new FiniteAutomata(children.at(0)->user_FA));
-//        }
-//        else
-//        {
-//            left_fa_widget->setFA(new FiniteAutomata());
-//        }
-//        if(children.count() > 1)
-//        {
-//            right_fa_widget->setFA(new FiniteAutomata(children.at(1)->user_FA));
-//        }
-//        else
-//        {
-//            right_fa_widget->setFA(new FiniteAutomata());
-//        }
-//        center_fa_widget->setFA(new FiniteAutomata(processedNode->user_FA));
 
         if(breakpoints[actInstruction])
             play_timer->stop();
@@ -483,7 +464,7 @@ void RegExpToFA::postOrder(RegExpNode* node)
     }
     if(node->str == "")
     {
-        qDebug()<<"ERROR:(this shoud not ever happen) in function void RegExpToFA::postOrder(RegExpNode* node)";
+        qFatal("Fatal error:(this shoud not ever happen) in function void RegExpToFA::postOrder(RegExpNode* node)");
         exit(-1);
     }
     if(! node->processed) //because of restore point in hystori

@@ -45,7 +45,8 @@ SOURCES +=\
     ../RegularConvertor/algorithms/algorithmview.cpp \
     ../RegularConvertor/algorithms/algorithmwidget.cpp \
     ../RegularConvertor/algorithms/htmldelegate.cpp \
-    ../RegularConvertor/reg_exp/regextextedit.cpp
+    ../RegularConvertor/reg_exp/regextextedit.cpp \
+    ../RegularConvertor/algorithms/epsiloncloserwidget.cpp
 
 
 HEADERS  += \
@@ -81,7 +82,8 @@ HEADERS  += \
     ../RegularConvertor/algorithms/algorithmview.h \
     ../RegularConvertor/algorithms/algorithmwidget.h \
     ../RegularConvertor/algorithms/htmldelegate.h \
-    ../RegularConvertor/reg_exp/regextextedit.h
+    ../RegularConvertor/reg_exp/regextextedit.h \
+    ../RegularConvertor/algorithms/epsiloncloserwidget.h
 
 FORMS    += \
     ../RegularConvertor/finite_machine/fa_widget.ui \

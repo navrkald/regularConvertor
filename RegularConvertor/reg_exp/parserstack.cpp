@@ -92,7 +92,10 @@ CharPos ParserStack::top()
         }
     }
     if(!found)
-        qDebug() << "FATAL ERROR: Not found any terminal in stack!";
+    {
+        qFatal("Fatal error: Not found any terminal in stack!");
+        exit(-1);
+    }
     return topTerminal;
 }
 

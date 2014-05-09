@@ -32,6 +32,9 @@ StateNode::StateNode(DiagramScene* scene, FiniteAutomata* _FA)
 
     connect(this,SIGNAL(sendStatusBarMessage(QString)),scene,SIGNAL(sendStatusBarMessage(QString)));
     connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
+    connect(this,SIGNAL(xChanged()),this,SLOT(positionChanged()));
+    connect(this,SIGNAL(yChanged()),this,SLOT(positionChanged()));
+
 
     FA->addState(node_name);
     emit FA_changed(FA);
@@ -48,6 +51,8 @@ StateNode::StateNode(DiagramScene *scene, FiniteAutomata *_FA, QString uniqueNam
 
     connect(this,SIGNAL(sendStatusBarMessage(QString)),scene,SIGNAL(sendStatusBarMessage(QString)));
     connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
+    connect(this,SIGNAL(xChanged()),this,SLOT(positionChanged()));
+    connect(this,SIGNAL(yChanged()),this,SLOT(positionChanged()));
 
     FA->addState(node_name);
     emit FA_changed(FA);
@@ -73,6 +78,7 @@ void StateNode::firstInit()
 StateNode::~StateNode()
 {
     removeArrows();
+    //FA->coordinates.remove(node_name);
 }
 
 QRectF StateNode::boundingRect() const
@@ -116,6 +122,12 @@ void StateNode::setEndingState(bool _endingState)
     endingState = _endingState;
     update();
     emit FA_changed(FA);
+}
+
+void StateNode::positionChanged()
+{
+    FA->coordinates[node_name] = this->pos().toPoint();
+    qDebug() << node_name << ":" << this->pos().toPoint();
 }
 
 void StateNode::removeArrows()

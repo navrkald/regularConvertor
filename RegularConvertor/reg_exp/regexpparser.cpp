@@ -88,7 +88,7 @@ bool RegExpParser::parse(QString text)
                             }
                             else
                             {
-                                qDebug() << "Fatal error: Reduced string has lenth bigger then 1, when symbol rule matched!";
+                                qFatal("Fatal error: Reduced string has lenth bigger then 1, when symbol rule matched!");
                                 exit(EXIT_FAILURE);
                             }
 
@@ -132,7 +132,7 @@ bool RegExpParser::parse(QString text)
                         case BRACKET_RULE:
                             break;
                         default:
-                            qDebug() << "Fatal error: No rule found!";
+                            qFatal("Fatal error: No rule found!");
                             exit(EXIT_FAILURE);
                             break;
                     }
@@ -153,7 +153,7 @@ bool RegExpParser::parse(QString text)
     }
     else
     {
-        qDebug() << "FATAL ERRPR: Node stack is empty or contains more then one root node!";
+        qFatal("Fatal error: Node stack is empty or contains more then one root node!");
         exit(EXIT_FAILURE);
     }
 
@@ -215,7 +215,7 @@ int RegExpParser::getIndex(QString s)
         return DOLAR_INDEX;
     else
     {
-        qDebug() << "FATAL EROOR: Can't find index of \"" << s << "\"!";
+        qFatal("FATAL EROOR: Can't find index of \"%s \"!",qPrintable(s));
         exit (EXIT_FAILURE);
     }
 }

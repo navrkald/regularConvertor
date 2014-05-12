@@ -125,7 +125,6 @@ void Arrow::updatePosition()
 {
     QLineF line(mapFromItem(myStartItem, 0, 0), mapFromItem(myEndItem, 0, 0));
     setLine(line);
-    //std::cout<<"fce update position"<< std::endl;
 }
 
 void Arrow::editArrow()

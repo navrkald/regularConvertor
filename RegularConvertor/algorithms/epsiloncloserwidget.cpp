@@ -3,7 +3,7 @@
 EpsilonCloserWidget::EpsilonCloserWidget(QString _state, QList<QString> _user_epsilon_closer_list, QList<QString> _correct_epsilon_closer_list, QWidget *parent):
     QWidget(parent), state(_state), user_epsilon_closer_list(_user_epsilon_closer_list), correct_epsilon_closer_list(_correct_epsilon_closer_list)
 {
-    label1 = new QLabel("ɜ-uzávěr(<b>" + state + "</b>) = {",this);
+    label1 = new QLabel(tr("ɜ-closer(<b>") + state + "</b>) = {",this);
     label2 = new QLabel("}", this);
     line_edit = new QLineEdit(user_epsilon_closer_list.join(", "),this);
     line_edit->show();

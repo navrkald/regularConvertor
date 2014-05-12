@@ -84,18 +84,18 @@ FaToDFA::FaToDFA(modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _no
 void FaToDFA::initInstructions()
 {
     instructions.resize(instruction_count);
-    instructions[HEADER] =                  "<b>Vstup:</b> KA bez ε-přechodů <i>M</i>=(Q, Σ, R, s, F)<br><b>Výstup:</b> DKA M'=(Q<sub>d</sub>, Σ, R<sub>d</sub>, s<sub>d</sub>, F<sub>d</sub>)";
-    instructions[VAR_INIT] =                "s<sub>d</sub> = {s}; Q<sub>new</sub> = {s<sub>d</sub>}; R<sub>d</sub> = ∅; Q<sub>d</sub> = Q<sub>new</sub>; F<sub>d</sub> = ∅";
-    instructions[DO] =                      "<b>do</b>";
-    instructions[DO_INIT] =                 INDENT      "Q' ∈ Q<sub>new</sub>; Q<sub>new</sub> = Q<sub>new</sub> - {Q'};";
-    instructions[FOREACH_A] =               INDENT      "<b>for each</b> a ∈ Σ <b>do</b>";
-    instructions[INIT_DOUBLE_PRIME_Q]=      INDENT  INDENT      "Q'' = ∅";
-    instructions[FOREACH_RULE_IN_Q] =       INDENT  INDENT      "<b>for each</b> r = {p a → q} <b>where</b> p ∈ Q'";
-    instructions[DOUBLE_PRIME_Q] =          INDENT  INDENT  INDENT      "Q'' ∈ Q'' ∪ {q}";
-    instructions[IF_Q_NEW] =                INDENT  INDENT      "<b>if</b> Q'' ∉ Q<sub>d</sub> ∪ {∅} <b>then</b> Q<sub>new</sub> = Q<sub>new</sub> ∪ {Q''}; Q<sub>d</sub> = Q<sub>d</sub> ∪ {Q''};";
-    instructions[IF_DOUBLE_PRIME_Q] =       INDENT  INDENT      "<b>if</b> Q'' ≠ ∅ <b>then</b> R<sub>d</sub> = R<sub>d</sub> ∪ r'={Q' a → Q''};";
-    instructions[IF_FINAL] =                INDENT      "<b>if</b> Q' ∩ F ≠ ∅ <b>then</b> F<sub>d</sub> = F<sub>d</sub> ∪ {Q'}";
-    instructions[WHILE_NEW] =               "<b>until</b> Q<sub>new</sub> = ∅";
+    instructions[HEADER] =                  tr("<b>Input:</b> FA without ε-rules <i>M</i>=(Q, Σ, R, s, F)<br><b>Output:</b> DKA M'=(Q<sub>d</sub>, Σ, R<sub>d</sub>, s<sub>d</sub>, F<sub>d</sub>)");
+    instructions[VAR_INIT] =                tr("s<sub>d</sub> = {s}; Q<sub>new</sub> = {s<sub>d</sub>}; R<sub>d</sub> = ∅; Q<sub>d</sub> = Q<sub>new</sub>; F<sub>d</sub> = ∅");
+    instructions[DO] =                      tr("<b>do</b>");
+    instructions[DO_INIT] =                 INDENT     + tr("Q' ∈ Q<sub>new</sub>; Q<sub>new</sub> = Q<sub>new</sub> - {Q'};");
+    instructions[FOREACH_A] =               INDENT     + tr("<b>for each</b> a ∈ Σ <b>do</b>");
+    instructions[INIT_DOUBLE_PRIME_Q]=      INDENT  INDENT      + tr("Q'' = ∅");
+    instructions[FOREACH_RULE_IN_Q] =       INDENT  INDENT     + tr("<b>for each</b> r = {p a → q} <b>where</b> p ∈ Q'");
+    instructions[DOUBLE_PRIME_Q] =          INDENT  INDENT  INDENT     + tr("Q'' ∈ Q'' ∪ {q}");
+    instructions[IF_Q_NEW] =                INDENT  INDENT     + tr("<b>if</b> Q'' ∉ Q<sub>d</sub> ∪ {∅} <b>then</b> Q<sub>new</sub> = Q<sub>new</sub> ∪ {Q''}; Q<sub>d</sub> = Q<sub>d</sub> ∪ {Q''};");
+    instructions[IF_DOUBLE_PRIME_Q] =       INDENT  INDENT     + tr("<b>if</b> Q'' ≠ ∅ <b>then</b> R<sub>d</sub> = R<sub>d</sub> ∪ r'={Q' a → Q''};");
+    instructions[IF_FINAL] =                INDENT      + tr("<b>if</b> Q' ∩ F ≠ ∅ <b>then</b> F<sub>d</sub> = F<sub>d</sub> ∪ {Q'}");
+    instructions[WHILE_NEW] =               tr("<b>until</b> Q<sub>new</sub> = ∅");
 }
 
 void FaToDFA::setFA(FiniteAutomata *_FA)

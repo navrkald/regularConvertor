@@ -132,7 +132,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                     }
                     else
                     {
-                        emit sendStatusBarMessage(tr("WARNING: Vámi zadaná hrana již existuje."));
+                        emit sendStatusBarMessage(tr("WARNING: Your set existing edge."));
                     }
 
                  }

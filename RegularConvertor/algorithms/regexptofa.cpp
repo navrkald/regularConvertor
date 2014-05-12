@@ -502,12 +502,12 @@ void RegExpToFA::initInstructions()
 {
 
     instructions.resize(instruction_count);
-    instructions[HEADER] = "<b>\"Zevnitř\" RV <i>r</i> opakovaně použít následující pravidla <br> ke konstrukci konečného automatu <i>M</i>:</b>";
-    instructions[EMPTY_FA] = "Pro RV ∅ vytvoř KA <b><i>M<sub>∅</sub></i>:</b> ";
-    instructions[EPSILON_FA] = QString("Pro RV %1 vytvoř FA <b><i>M<sub> %1 </sub></i>: </b>").arg(EPSILON);
-    instructions[ONE_SYMBOL_FA] = "Pro RV <b>a</b> ∈ Σ vytvoř KA <b>M<sub>a</sub>: </b>";
-    instructions[COMPOSED_FA] ="<b>Nechť</b> pro RV <b><i>r</i></b> a <b><i>t</i></b> již existují po řadě KA <b><i>M<sub>r</sub></i></b> a <b><i>M<sub>t</sub></i></b> <!--<br>--><b>Potom:</b>";
-    instructions[CONCATENATE_FA] = INDENT "Pro RV <b>r.t</b> vytvoř KA <b><i>M<sub>r.t</sub></i>: </b>";
-    instructions[ALTERNATE_FA] = INDENT "Pro RV <b>r+t</b> vytvoř KA <b><i>M<sub>r+t<sub></i>: </b>";
-    instructions[ITERATE_FA] = INDENT "Pro RV <b>r*</b> vytvoř KA <b><i>M<sub>r*</sub></i>: </b>";
+    instructions[HEADER] = tr("<b>\"From inside\" RegExp <i>r</i> repeatedly use this rules <br>for construction of the finite automata<i>M</i>:</b>");
+    instructions[EMPTY_FA] = tr("For RegExp ∅ create FA <b><i>M<sub>∅</sub></i>:</b> ");
+    instructions[EPSILON_FA] = tr("For RegExp " EPSILON " create FA <b><i>M<sub>" EPSILON "</sub></i>: </b>");
+    instructions[ONE_SYMBOL_FA] = tr("For RegExp <b>a</b> ∈ Σ create FA <b>M<sub>a</sub>: </b>");
+    instructions[COMPOSED_FA] = tr("<b>Let</b> for RegExp <b><i>r</i></b> a <b><i>t</i></b>  exists FA <b><i>M<sub>r</sub></i></b> a <b><i>M<sub>t</sub></i></b> <!--<br>--><b>Then:</b>");
+    instructions[CONCATENATE_FA] = INDENT + tr("For RegExp <b>r.t</b> create FA <b><i>M<sub>r.t</sub></i>: </b>");
+    instructions[ALTERNATE_FA] = INDENT + tr("For RegExp <b>r+t</b> create FA <b><i>M<sub>r+t<sub></i>: </b>");
+    instructions[ITERATE_FA] = INDENT + tr("For RegExp <b>r*</b> create FA <b><i>M<sub>r*</sub></i>: </b>");
 }

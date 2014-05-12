@@ -308,7 +308,7 @@ void FA_widget::on_addRuleToolButton_clicked()
 
     if(FA->states.isEmpty())
     {
-        QString message = tr("WARNING: Nelse pridavat prechody. Musite prvne pridat nejake uzly!");
+        QString message = tr("WARNING: Can not add edges. First you have to add some nodes.");
         emit sendStatusBarMessage(message);
         emit FA_changed(FA);
         return;
@@ -335,7 +335,7 @@ void FA_widget::on_addRuleToolButton_clicked()
         }
         else
         {
-            emit sendStatusBarMessage(tr("WARNING: Vámi zadaná hrana již existuje."));
+            emit sendStatusBarMessage(tr("WARNING: Your set edge existing."));
         }
     }
     emit FA_changed(FA);

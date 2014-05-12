@@ -249,7 +249,7 @@ void StateNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
             }
             else
             {
-                QString message = tr("Uzel se stejnym jmenem jiz existuje!");
+                QString message = tr("Node with same name already exists!");
                 errorMessage.showMessage(message);
                 errorMessage.exec();
                 emit sendStatusBarMessage(message);

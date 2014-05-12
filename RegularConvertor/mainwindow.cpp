@@ -282,22 +282,22 @@ void MainWindow::prepareREtoFA_GUI()
     QWidget* reg_exp_container = new QWidget(w);
     QVBoxLayout* reg_exp_vlayout = new QVBoxLayout(reg_exp_container);
     reg_exp_vlayout->setMargin(0);
-    QLabel* reg_exp_label = new QLabel("<b>Regulární výraz</b>",w);
+    QLabel* reg_exp_label = new QLabel(tr("<b>Regular expression</b>"),w);
     reg_exp_label->setAlignment(Qt::AlignCenter);
     reg_exp_vlayout->addWidget(reg_exp_label);
     reg_exp_vlayout->addWidget(reg_exp_widget);
 
     //algorithm
-    QWidget* algorithm_container = prepareAlgorithnContainer(w, "<b>Algoritmus RV na FA</b>", reg_exp_algorithm);
+    QWidget* algorithm_container = prepareAlgorithnContainer(w, tr("<b>Algorithm RegExp to FA</b>"), reg_exp_algorithm);
 
     //left FA
-    QWidget* left_fa_container = prepareFAContainer(w, "<b>levý syn</b>", fa_widget_left);
+    QWidget* left_fa_container = prepareFAContainer(w, tr("<b>left son</b>"), fa_widget_left);
 
     //center FA
-    QWidget* center_fa_container = prepareFAContainer(w, "<b>vybraný uzel</b>", fa_widget_center);
+    QWidget* center_fa_container = prepareFAContainer(w, tr("<b>chosen node</b>"), fa_widget_center);
 
     //right FA
-    QWidget* right_fa_container = prepareFAContainer(w, "<b>pravý syn</b>", fa_widget_right);
+    QWidget* right_fa_container = prepareFAContainer(w, tr("<b>right son</b>"), fa_widget_right);
 
 
     //top container
@@ -365,16 +365,16 @@ void MainWindow::prepareRemoveEpsilon_GUI()
     layout->setMargin(0);
 
     //algorithm container
-    QWidget* algorithm_container = prepareAlgorithnContainer(w, "<b>Algoritmus Odstranění epsilon pravidel</b>", remove_epsilon_algorithm);
+    QWidget* algorithm_container = prepareAlgorithnContainer(w, tr("<b>Algorithm: Remove epsilon rules</b>"), remove_epsilon_algorithm);
 
     //input FA container
-    QWidget* fa_epsilon_container = prepareFAContainer(w, "<b>vstupní automat</b>", fa_epsilon_widget);
+    QWidget* fa_epsilon_container = prepareFAContainer(w, tr("<b>input FA</b>"), fa_epsilon_widget);
 
     //output FA container
-    QWidget* fa_not_epsilon_container = prepareFAContainer(w, "<b>výstupní automat</b>", fa_not_epsilon_widget);
+    QWidget* fa_not_epsilon_container = prepareFAContainer(w, "<b>Output FA</b>", fa_not_epsilon_widget);
 
     //variables container
-    QWidget* variables_container = variablesContainer(w, "<b>Proměnné</b>", remove_epsilon_variables_widget);
+    QWidget* variables_container = variablesContainer(w, "<b>Variables</b>", remove_epsilon_variables_widget);
 
 
     //top container
@@ -456,16 +456,16 @@ void MainWindow::prepareDFA_GUI()
     layout->setMargin(0);
 
     //algorithm container
-    QWidget* algorithm_container = prepareAlgorithnContainer(w, "<b>Determinizace KA</b>", DFA_algorithm);
+    QWidget* algorithm_container = prepareAlgorithnContainer(w, tr("<b>FA determinization</b>"), DFA_algorithm);
 
     //input FA container
-    QWidget* in_fa_container = prepareFAContainer(w, "<b>vstupní automat</b>", not_DFA_widget);
+    QWidget* in_fa_container = prepareFAContainer(w, tr("<b>input FA</b>"), not_DFA_widget);
 
     //output FA container
-    QWidget* out_fa_container = prepareFAContainer(w, "<b>výstupní automat</b>", DFA_widget);
+    QWidget* out_fa_container = prepareFAContainer(w, tr("<b>output FA</b>"), DFA_widget);
 
     //variables container
-    QWidget* variables_container = variablesContainer(w, "<b>Proměnné</b>", DFA_variables_widget);
+    QWidget* variables_container = variablesContainer(w, tr("<b>Variables</b>"), DFA_variables_widget);
     QVBoxLayout* variables_layout = static_cast<QVBoxLayout*>(variables_container->layout());
     variables_layout->addStretch();
 

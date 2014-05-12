@@ -123,12 +123,12 @@ void AlgorithmWidget::on_showButton_clicked()
     showSolution=!showSolution;
     if(showSolution)
     {
-        ui->showButton->setText("Show solution");
+        ui->showButton->setText(tr("Show solution"));
         emit showUserSolutionPressed();
     }
     else
     {
-        ui->showButton->setText("Back");
+        ui->showButton->setText(tr("Back"));
         emit showCorrectSolutionPressed();
     }
 }

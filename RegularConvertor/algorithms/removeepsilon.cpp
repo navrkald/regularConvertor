@@ -91,18 +91,18 @@ RemoveEpsilon::RemoveEpsilon(modes _mode, AlgorithmWidget* _algorithm_widget, FA
 void RemoveEpsilon::initInstructions()
 {
     instructions.resize(instruction_count);
-    instructions[HEADER] =                      "<b>Vstup:</b> KA <i>M</i>=(Q,Σ,R,s,F)<br><b>Výstup:</b> KA bez ε-přechodů M'=(Q,Σ,R',s,F')";
-    instructions[FOREACH_P_EPSILONCLOSER] =    "<b>for each</b> p ∈ Q <b>do</b>";
-    instructions[EPSILONCLOSER] =              INDENT "ε-uzávěr(p) = {q:q∈Q, p ⊢* q}";
+    instructions[HEADER] =                     tr("<b>Input:</b> FA <i>M</i>=(Q,Σ,R,s,F)<br><b>Output:</b> FA without ε-rules M'=(Q,Σ,R',s,F')");
+    instructions[FOREACH_P_EPSILONCLOSER] =    tr("<b>for each</b> p ∈ Q <b>do</b>");
+    instructions[EPSILONCLOSER] =              INDENT + tr("ε-closer(p) = {q:q∈Q, p ⊢* q}");
 
-    instructions[FOREACH_P] =                  "<b>for each</b> p ∈ Q <b>do</b>";
-    instructions[FOREACH_P_IN_CLOSER] =         INDENT      "<b>for each</b> p'∈ ε-uzávěr(p) <b>do</b>";
-    instructions[FOREACH_RULE] =                INDENT INDENT      "<b>for each</b> r={p'a→q}∈ R <b>where</b> a ∈ Σ <b>do</b>";
-    instructions[NEW_RULE] =                    INDENT INDENT INDENT      "R'∈ R' ∪ r'={pa→q}";
+    instructions[FOREACH_P] =                  tr("<b>for each</b> p ∈ Q <b>do</b>");
+    instructions[FOREACH_P_IN_CLOSER] =        INDENT     + tr("<b>for each</b> p'∈ ε-closer(p) <b>do</b>");
+    instructions[FOREACH_RULE] =               INDENT INDENT     + tr("<b>for each</b> r={p'a→q}∈ R <b>where</b> a ∈ Σ <b>do</b>");
+    instructions[NEW_RULE] =                   INDENT INDENT INDENT     + tr("R'∈ R' ∪ r'={pa→q}");
 
-    instructions[FOREACH_P_FINAL] =         "<b>for each</b> p ∈ Q <b>do</b>";
-    instructions[IF_FINAL] =                     INDENT       "<b>if</b> ε-uzávěr(p) ∩ F ≠ ∅ <b>then</b>";
-    instructions[NEW_FINAL] =                    INDENT INDENT       "F'∈ F' ∪ {p}";
+    instructions[FOREACH_P_FINAL] =            tr("<b>for each</b> p ∈ Q <b>do</b>");
+    instructions[IF_FINAL] =                   INDENT      + tr("<b>if</b> ε-closer(p) ∩ F ≠ ∅ <b>then</b>");
+    instructions[NEW_FINAL] =                  INDENT INDENT       +tr ("F'∈ F' ∪ {p}");
 }
 
 void RemoveEpsilon::setFA(FiniteAutomata *FA)

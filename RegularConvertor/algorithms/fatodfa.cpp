@@ -409,7 +409,7 @@ void FaToDFA::showUserSolution()
 
 void FaToDFA::toBegin()
 {
-     not_dfa_widget->setFA(FA);
+     not_dfa_widget->setFA(new FiniteAutomata(FA));
 }
 
 void FaToDFA::toEnd()

@@ -14,7 +14,7 @@ AlgorithmWidget::AlgorithmWidget(Algorithm::modes _mode, QWidget *parent) :
     connect(this->ui->playButton,SIGNAL(clicked()),this,SLOT(emitPlay()));
     connect(this->ui->stopButton,SIGNAL(clicked()),this,SIGNAL(stopPressed()));
     connect(this->ui->checkButton,SIGNAL(clicked()),this,SIGNAL(checkSolutionPressed()));
-    connect(this->ui->beginButton,SIGNAL(clicked()), this, SIGNAl(beginPressed()));
+    connect(this->ui->beginButton,SIGNAL(clicked()), this, SIGNAL(beginPressed()));
     connect(this->ui->endButton,SIGNAL(clicked()),this, SIGNAL(endPressed()));
     setWidgets(mode);
 }

@@ -1,4 +1,4 @@
-#ifndef FINITEAUTOMATA_H
+    #ifndef FINITEAUTOMATA_H
 #define FINITEAUTOMATA_H
 
 #include <QObject>

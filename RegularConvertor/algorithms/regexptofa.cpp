@@ -83,6 +83,8 @@ RegExpToFA::RegExpToFA(AlgorithmWidget* _algorithm_widget, modes _mode, RegExpWi
     connect(this->algorithm_widget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
     connect(this->algorithm_widget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
     connect(this->algorithm_widget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
+    connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
+    connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toEnd()));
 
     //
     // Connect timers.
@@ -442,6 +444,17 @@ void RegExpToFA::setExample(RegExp *_re)
     re_widget->setRegExp(_re);
     re_widget->modelChanged();
     setMode(CHECK_MODE);
+}
+
+void RegExpToFA::toBegin()
+{
+    re_widget->setRegExp(re);
+    re_widget->modelChanged();
+}
+
+void RegExpToFA::toEnd()
+{
+    runAlgorithm(0);
 }
 
 

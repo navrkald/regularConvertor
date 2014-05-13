@@ -38,7 +38,8 @@ signals:
     void checkSolutionPressed();
     void showCorrectSolutionPressed();
     void showUserSolutionPressed();
-
+    void beginPressed();
+    void endPressed();
 
 public slots:
     void emitPlay();

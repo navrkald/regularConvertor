@@ -57,8 +57,12 @@ public slots:
     void checkSolution();
     void showCorrectSolution();
     void showUserSolution();
+    void toBegin();
+    void toEnd();
+
 private:
     FiniteAutomata correct_FA;
+    FiniteAutomata backup_FA;
     AlgorithmWidget* algorithm_widget;
     modes mode;
     FA_widget* epsilon_fa_widget;

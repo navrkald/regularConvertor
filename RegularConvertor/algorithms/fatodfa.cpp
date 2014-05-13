@@ -62,7 +62,8 @@ FaToDFA::FaToDFA(modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _no
     connect(this->algorithm_widget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
     connect(this->algorithm_widget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
     connect(this->algorithm_widget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
-
+    connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
+    connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toEnd()));
 
     //
     // Connect timers.
@@ -397,14 +398,23 @@ void FaToDFA::checkSolution()
 
 void FaToDFA::showCorrectSolution()
 {
-    disconnect(dfa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(setDFA(FiniteAutomata*)));
+    backup_FA = DFA;
     dfa_widget->setFA(new FiniteAutomata(correct_FA));
 }
 
 void FaToDFA::showUserSolution()
 {
-    dfa_widget->setFA(new FiniteAutomata(DFA));
-    connect(dfa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(setDFA(FiniteAutomata*)));
+    dfa_widget->setFA(new FiniteAutomata(backup_FA));
+}
+
+void FaToDFA::toBegin()
+{
+     not_dfa_widget->setFA(FA);
+}
+
+void FaToDFA::toEnd()
+{
+    runAlgorithm(0);
 }
 
 void FaToDFA::removeFuture()

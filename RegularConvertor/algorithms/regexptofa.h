@@ -49,6 +49,8 @@ public slots:
     void showCorrectSolution();
     void showUserSolution();
     void setExample(RegExp* _re);
+    void toBegin();
+    void toEnd();
 
 private:
     AlgorithmWidget* algorithm_widget;

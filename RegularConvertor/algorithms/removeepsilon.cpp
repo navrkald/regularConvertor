@@ -70,7 +70,8 @@ RemoveEpsilon::RemoveEpsilon(modes _mode, AlgorithmWidget* _algorithm_widget, FA
     connect(this->algorithm_widget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
     connect(this->algorithm_widget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
     connect(this->algorithm_widget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
-
+    connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
+    connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toEnd()));
 
     //
     // Connect timers.
@@ -568,14 +569,23 @@ void RemoveEpsilon::showVariables()
 
 void RemoveEpsilon::showCorrectSolution()
 {
-    disconnect(not_epsilon_fa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(set_not_epsilonFA(FiniteAutomata*)));
+    backup_FA = non_epsilon_FA;
     not_epsilon_fa_widget->setFA(new FiniteAutomata(correct_FA));
 }
 
 void RemoveEpsilon::showUserSolution()
 {
-    not_epsilon_fa_widget->setFA(new FiniteAutomata(non_epsilon_FA));
-    connect(not_epsilon_fa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(set_not_epsilonFA(FiniteAutomata*)));
+    not_epsilon_fa_widget->setFA(new FiniteAutomata(backup_FA));
+}
+
+void RemoveEpsilon::toBegin()
+{
+    epsilon_fa_widget->setFA(new FiniteAutomata(FA));
+}
+
+void RemoveEpsilon::toEnd()
+{
+    runAlgorithm(0);
 }
 
 void RemoveEpsilon::checkSolution()

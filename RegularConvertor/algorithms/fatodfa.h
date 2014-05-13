@@ -38,6 +38,8 @@ public slots:
     void checkSolution();
     void showCorrectSolution();
     void showUserSolution();
+    void toBegin();
+    void toEnd();
 
 private:
 
@@ -61,7 +63,7 @@ private:
     } steps;
 
     QList<steps> history;
-
+    FiniteAutomata backup_FA;
     FiniteAutomata correct_FA;
     modes mode;
     AlgorithmWidget* algorithm_widget;

@@ -14,6 +14,8 @@ AlgorithmWidget::AlgorithmWidget(Algorithm::modes _mode, QWidget *parent) :
     connect(this->ui->playButton,SIGNAL(clicked()),this,SLOT(emitPlay()));
     connect(this->ui->stopButton,SIGNAL(clicked()),this,SIGNAL(stopPressed()));
     connect(this->ui->checkButton,SIGNAL(clicked()),this,SIGNAL(checkSolutionPressed()));
+    connect(this->ui->beginButton,SIGNAL(clicked()), this, SIGNAl(beginPressed()));
+    connect(this->ui->endButton,SIGNAL(clicked()),this, SIGNAL(endPressed()));
     setWidgets(mode);
 }
 
@@ -48,12 +50,12 @@ void AlgorithmWidget::setWidgets(Algorithm::modes mode)
         showWidgets(QList<QWidget*>() << ui->checkButton <<  ui->showButton);
         showSpacer(ui->checkSpacer);
         hideWidgets(QList<QWidget*>()
-                    << ui->prewButton << ui->nextButton << ui->playButton << ui->stopButton << ui->spinBox << ui->delay_label
+                    << ui->prewButton << ui->nextButton << ui->playButton << ui->stopButton << ui->spinBox << ui->delay_label << ui->beginButton << ui->endButton
                     << ui->prew_stepButton << ui->next_stepButton );
         hideSpacer(ui->stepSpacer);
         break;
     case Algorithm::PLAY_MODE:
-        showWidgets(QList<QWidget*>() << ui->prewButton << ui->nextButton << ui->playButton << ui->stopButton << ui->spinBox << ui->delay_label);
+        showWidgets(QList<QWidget*>() << ui->prewButton << ui->nextButton << ui->playButton << ui->stopButton << ui->spinBox << ui->delay_label << ui->beginButton << ui->endButton);
         hideWidgets(QList<QWidget*>()
                     << ui->checkButton <<  ui->showButton
                     << ui->prew_stepButton << ui->next_stepButton );
@@ -64,7 +66,7 @@ void AlgorithmWidget::setWidgets(Algorithm::modes mode)
         showWidgets(QList<QWidget*>()<< ui->prew_stepButton << ui->next_stepButton);
         hideWidgets(QList<QWidget*>()
                     << ui->checkButton <<  ui->showButton
-                    << ui->prewButton << ui->nextButton << ui->playButton << ui->stopButton << ui->spinBox << ui->delay_label);
+                    << ui->prewButton << ui->nextButton << ui->playButton << ui->stopButton << ui->spinBox << ui->delay_label << ui->beginButton << ui->endButton);
         showSpacer(ui->stepSpacer);
         hideSpacer(ui->checkSpacer);
         break;

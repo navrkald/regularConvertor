@@ -21,7 +21,7 @@ unix {
 }
 
 win32 {
-    QT += testlib
+    #QT += testlib
     LIBS += -lopengl32
 }
 

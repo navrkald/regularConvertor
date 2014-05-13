@@ -371,10 +371,10 @@ void MainWindow::prepareRemoveEpsilon_GUI()
     QWidget* fa_epsilon_container = prepareFAContainer(w, tr("<b>input FA</b>"), fa_epsilon_widget);
 
     //output FA container
-    QWidget* fa_not_epsilon_container = prepareFAContainer(w, "<b>Output FA</b>", fa_not_epsilon_widget);
+    QWidget* fa_not_epsilon_container = prepareFAContainer(w, "<b>output FA</b>", fa_not_epsilon_widget);
 
     //variables container
-    QWidget* variables_container = variablesContainer(w, "<b>Variables</b>", remove_epsilon_variables_widget);
+    QWidget* variables_container = variablesContainer(w, "<b>variables</b>", remove_epsilon_variables_widget);
 
 
     //top container
@@ -465,7 +465,7 @@ void MainWindow::prepareDFA_GUI()
     QWidget* out_fa_container = prepareFAContainer(w, tr("<b>output FA</b>"), DFA_widget);
 
     //variables container
-    QWidget* variables_container = variablesContainer(w, tr("<b>Variables</b>"), DFA_variables_widget);
+    QWidget* variables_container = variablesContainer(w, tr("<b>variables</b>"), DFA_variables_widget);
     QVBoxLayout* variables_layout = static_cast<QVBoxLayout*>(variables_container->layout());
     variables_layout->addStretch();
 

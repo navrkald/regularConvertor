@@ -156,7 +156,8 @@ QVariant StateNode::itemChange(GraphicsItemChange change, const QVariant &value)
 
     if (change == QGraphicsItem::ItemSelectedChange)
     {
-        if (value == true)
+        bool bool_val = value.toBool();
+        if (bool_val == true)
         {
             selected = true;
             update();

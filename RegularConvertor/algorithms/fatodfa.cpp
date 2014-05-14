@@ -63,7 +63,7 @@ FaToDFA::FaToDFA(modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _no
     connect(this->algorithm_widget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
     connect(this->algorithm_widget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
     connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
-    connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toEnd()));
+    connect(this->algorithm_widget, SIGNAL(endPressed()), this, SLOT(toEnd()));
 
     //
     // Connect timers.
@@ -409,12 +409,37 @@ void FaToDFA::showUserSolution()
 
 void FaToDFA::toBegin()
 {
-     not_dfa_widget->setFA(new FiniteAutomata(FA));
+     algorithm_widget->enableNext();
+     actPos=0;
+     steps s = history.at(actPos);
+
+     num = s.num ;
+     actInstruction = s.actInstruction;
+     prewInstruction = s.prewInstruction;
+     DFA = s.DFA;
+     dfa_widget->setFA(new FiniteAutomata(DFA));
+     act_state = s.act_state;
+     discovered_state = s.discovered_state;
+     Q_new = s.Q_new;
+     a = s.a;
+     p = s.p;
+     q = s.q;
+     r = s.r;
+     r_prime = s.r_prime;
+     alphabet = s.alphabet;
+     rules = s.rules;
+     rules_prime = s.rules_prime;
+
+     showVariables();
+     setActInstruction();
+     dfa_widget->clearStatus();
+     algorithm_widget->disablePrev();
 }
 
 void FaToDFA::toEnd()
 {
-    runAlgorithm(0);
+    while(actInstruction != last_instruction)
+        nextStep();
 }
 
 void FaToDFA::removeFuture()

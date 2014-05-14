@@ -167,6 +167,11 @@ QWidget *)
     this->displayText = symbols.join(", ");
     painter->drawText(textPos(),this->displayText);
 
+    if (isSelected())
+    {
+        painter->setPen(QPen(myColor, 1, Qt::DashLine));
+    }
+
     if(getStartItemPos() == getEndItemPos())
     {//jedna se o self smycku
 

@@ -33,6 +33,12 @@ FA_widget::FA_widget(QWidget *parent) :
 
     //set init checked to AddNodeBut
     AddNodeBut->setChecked(true);
+    //MoveNodeBut->setChecked(true);
+
+    MoveNodeBut->setToolTip(tr("If this button is activated, you can select and move with items in scene."));
+    AddNodeBut->setToolTip(tr("If this button is activated, left mouse click into screene creates new node."));
+    AddArrowBut->setToolTip(tr("If this button is activated, you can create transition between nodes. <br>(Click on from item, hold mouse left button and release on arrow target.)"));
+    DeleteNodeBut->setToolTip(tr("Click on this button deletes all selected items. <br>(You can select multiple items when holding control button.)"));
 
     //adjust size of button according text in
 //    MoveNodeBut->setMaximumWidth(MoveNodeBut->fontMetrics().boundingRect(MoveNodeBut->text()).width()+15);
@@ -57,7 +63,8 @@ FA_widget::FA_widget(QWidget *parent) :
     //notify changes in formal view
     connect(this->ui->statesLineEdit,SIGNAL(editingFinished()),this,SLOT(statesEdited()));
     connect(this->ui->endingStatesLineEdit,SIGNAL(editingFinished()),this,SLOT(endingStatesEdited()));
-    connect(this->ui->alphabetLineEdit,SIGNAL(editingFinished()),this,SLOT(alphaberEdited()));
+    connect(this->ui->alphabetLineEdit,SIGNAL(editingFinished()),this,SLOT(alphabetEdited()));
+    connect(this->ui->alphabetLineEdit,SIGNAL(textEdited(QString)),this,SLOT(alphabetEdited()));
 
     //add items to scene
     connect(this,SIGNAL(addNodes(QSet<QString>)),this->scene,SLOT(addNodes(QSet<QString>)));
@@ -111,7 +118,7 @@ void FA_widget::setupValidators()
 {
     QRegExp listOfIdentifiers("^(\\w+(,\\s*\\w+)*,?)?$");
     //hint [^,] mean what ever char not ','
-    QRegExp listOfSymbols("^\\S(,\\s*\\S)*$");
+    QRegExp listOfSymbols("^(\\S(,\\s*\\S)*)?$");
     QRegExp emptyRegExp("^$");
     statesValidator = new QRegExpValidator(listOfIdentifiers, this);
     alphabetValidator = new QRegExpValidator(listOfSymbols, this);
@@ -184,7 +191,9 @@ void FA_widget::statesEdited()
     if(ui->statesLineEdit->text() == "")
     {
         emit removeNodes(FA->states);
-        FA->states.clear();
+        FA->removeStates(FA->states);
+        //FA->states.clear();
+
         emit FA_changed(FA);
         return;
     }
@@ -194,11 +203,26 @@ void FA_widget::statesEdited()
     QSet <QString> setOfStatesLineEdit = unique_list_of_states.toSet();
     QSet <QString> statesToDel = FA->states - setOfStatesLineEdit;
     QSet <QString> statesToAdd = setOfStatesLineEdit - FA->states;
-    FA->states =setOfStatesLineEdit;
+    FA->removeStates(statesToDel);
+    foreach(QString state_to_add, statesToAdd)
+        FA->addState(state_to_add);
     if(!statesToDel.empty())
     {
-        emit FA_changed(FA);
+        //remove nodes emits in scene FA_changed()
         emit removeNodes(statesToDel);
+
+        // this block of code removes rules in formal view that consist of
+        foreach(QString state_to_del,statesToDel)
+        {
+            QList<QListWidgetItem *>  items_to_dell = ui->rulesListWidget->findItems(state_to_del+" ",Qt::MatchStartsWith);
+            items_to_dell.append(ui->rulesListWidget->findItems(" "+state_to_del,Qt::MatchEndsWith));
+            foreach(QListWidgetItem* item,items_to_dell.toSet())
+            {
+                ui->rulesListWidget->takeItem(ui->rulesListWidget->row(item));
+                delete item;
+            }
+        }
+
     }
     if(!statesToAdd.empty())
     {
@@ -206,7 +230,7 @@ void FA_widget::statesEdited()
         emit FA_changed(FA);
     }
     updateStates();
-    emit FA_changed(FA);
+    // not needed  emit FA_changed(FA)(emit only if there is some changes (add or nemove nodes));
 }
 
 void FA_widget::endingStatesEdited()
@@ -220,29 +244,57 @@ void FA_widget::endingStatesEdited()
     QSet <QString> endingStatesToAdd = setOfEndigStates - FA->finalStates;
     FA->finalStates = setOfEndigStates;
     if(!endingStatesToDel.empty())
+    {
         emit removeEndingNodes(endingStatesToDel);
+        //FA changed is emited in node
+    }
     if(!endingStatesToAdd.empty())
+    {
         emit addEndingNodes(endingStatesToAdd);
-
-    emit FA_changed(FA);
+        // FA changed is emited in node
+    }
 }
 
-void FA_widget::alphaberEdited()
+void FA_widget::alphabetEdited()
 {
-    QStringList SortedUniqueList = getSortedUniqueList(ui->alphabetLineEdit->text());
-    ui->alphabetLineEdit->setText(SortedUniqueList.join(", "));
+    QString text = ui->alphabetLineEdit->text();
+    int pos = 0;
+    if (alphabetValidator->validate(text, pos) == QValidator::Acceptable)
+    {
+        QStringList SortedUniqueList = getSortedUniqueList(ui->alphabetLineEdit->text());
+        ui->alphabetLineEdit->setText(SortedUniqueList.join(", "));
 
 
-    QSet <QString> setOfAlphabet =  SortedUniqueList.toSet();
-    QSet <QString> symbolsToDel = FA->alphabet - setOfAlphabet;
-    QSet <QString> symbolsToAdd = setOfAlphabet - FA->alphabet;
-    FA->alphabet = SortedUniqueList.toSet();
-    if(!symbolsToDel.empty())
-        emit removeSymbols(symbolsToDel);
-    if(!symbolsToAdd.empty())
-        emit addSymbols(symbolsToAdd);
+        QSet <QString> setOfAlphabet =  SortedUniqueList.toSet();
+        QSet <QString> symbolsToDel = FA->alphabet - setOfAlphabet;
+        QSet <QString> symbolsToAdd = setOfAlphabet - FA->alphabet;
+        if(!symbolsToDel.empty())
+        {
+            foreach(QString symbol, symbolsToDel)
+            {
+                // This block of code removes rules from formal view where delete symbols appears
+                //QList<QListWidgetItem *>  items_to_dell = ui->rulesListWidget->findItems(" "+symbol+" ->",Qt::MatchContains);
+                QList<QListWidgetItem *>  items_to_dell = ui->rulesListWidget->findItems("^\\S+ "+symbol+" -> \\S+$",Qt::MatchRegExp);
+                foreach(QListWidgetItem* item,items_to_dell.toSet())
+                {
+                    ui->rulesListWidget->takeItem(ui->rulesListWidget->row(item));
+                    delete item;
+                }
+                emit removeEdges(FA->findRule_Symbol(symbol).toSet());
+                FA->removeSymbol(symbol);
+            }
+            emit FA_changed(FA);
+        }
 
-    emit FA_changed(FA);
+        if(!symbolsToAdd.empty())
+        {
+            foreach(QString symbol, symbolsToAdd)
+            {
+                FA->addSymbol(symbol);
+            }
+            emit FA_changed(FA);
+        }
+    }
     //TODO! osetrit kdyz se vyskytuji symboly abecedy v prechodech
 }
 
@@ -268,7 +320,8 @@ void FA_widget::updateStates()
     QStringList items_string_list = items;
     QString awailableStates = "(" + items_string_list.join( "|" ) + ")";
     endingStatesValidator->setRegExp(QRegExp("^" + awailableStates + "+(,\\s*" + awailableStates + ")*,?$")); // RegExp: ^\\w+(,\\s*\\w+)*,?$
-    //TODO! osetrit kdyz se smaze uzel ktery se vyskytuje v prechodech
+    QStringList endingStates = FA->finalStates.toList();
+    ui->endingStatesLineEdit->setText(endingStates.join(", "));
 }
 
 void FA_widget::emitAddEdge(ComputationalRules rule)
@@ -289,6 +342,9 @@ void FA_widget::emitAddEndingNode(QString node)
 void FA_widget::on_startStateComboBox_activated(const QString &arg1)
 {
     statesEdited(); //zavolame explicitne protoze "strati fokus, tak aby to fungovalo"
+    //because prew function erase selected item in gui
+    int index = ui->startStateComboBox->findText(arg1);
+    ui->startStateComboBox->setCurrentIndex(index);
     if(arg1 != "")
     {
         FA->startState = QString(arg1);
@@ -304,7 +360,7 @@ void FA_widget::on_addRuleToolButton_clicked()
 {
     //updatovani stavu a abecedy (zavolame explicitne protoze "nestrati fokus, tak aby to fungovalo")
     statesEdited();
-    alphaberEdited();
+    alphabetEdited();
 
     if(FA->states.isEmpty())
     {
@@ -349,7 +405,7 @@ void FA_widget::on_removeRuleToolButton_clicked()
 {
     //updatovani stavu a abecedy (zavolame explicitne protoze "nestrati fokus, tak aby to fungovalo")
     statesEdited();
-    alphaberEdited();
+    alphabetEdited();
 
     QList<QListWidgetItem *> items = ui->rulesListWidget->selectedItems();
 
@@ -371,7 +427,7 @@ void FA_widget::on_rulesListWidget_itemDoubleClicked(QListWidgetItem *item)
 {
     //updatovani stavu a abecedy (zavolame explicitne protoze "nestrati fokus, tak aby to fungovalo")
     statesEdited();
-    alphaberEdited();
+    alphabetEdited();
 
     ComputationalRules oldrule(item->text());
 
@@ -435,7 +491,7 @@ void FA_widget::on_tabWidget_currentChanged(int index)
         ui->endingStatesLineEdit->setText(endingStates.join(", "));
 
     }
-    emit FA_changed(FA);
+    // not needed emit, we set only old data from FA graphic - emit FA_changed(FA);
 }
 
 //vymaze selected items

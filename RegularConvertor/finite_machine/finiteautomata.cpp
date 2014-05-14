@@ -698,6 +698,11 @@ void FiniteAutomata::addSymbol(QString symbol)
 void FiniteAutomata::removeSymbol(QString symbol)
 {
     alphabet.remove(symbol);
+    QList<ComputationalRules> rules_to_dell = findRule_Symbol(symbol);
+    foreach(ComputationalRules rule, rules_to_dell)
+    {
+        rules.remove(rule);
+    }
 }
 
 QList<QString> FiniteAutomata::get_sorted_states()

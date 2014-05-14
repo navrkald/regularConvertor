@@ -35,7 +35,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
          return;
 
      clicked = true;
-     StateNode* newNode;
+     StateNode* newNode = 0;
      switch(this->actMode)
      {
         case AddNode:
@@ -46,6 +46,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
              FA->coordinates[newNode->getName()] = mouseEvent->scenePos().toPoint();
              if(newNode->getName() == "0" && startingState == NULL)
                  newNode->setStartinState();
+
              emit FA_changed(FA);
              break;
         case AddArrow:
@@ -70,6 +71,11 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 //         elipse->setFlag(QGraphicsItem::ItemIsSelectable, true);
 //         elipse->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
      QGraphicsScene::mousePressEvent(mouseEvent);
+
+     //cant unselect node because selection set also mouse release event :(
+//     // Unselect node
+//     if(newNode != 0)
+//         newNode->setSelected(false);
  }
 
  void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)

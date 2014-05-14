@@ -71,7 +71,7 @@ RemoveEpsilon::RemoveEpsilon(modes _mode, AlgorithmWidget* _algorithm_widget, FA
     connect(this->algorithm_widget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
     connect(this->algorithm_widget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
     connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
-    connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toEnd()));
+    connect(this->algorithm_widget, SIGNAL(endPressed()), this, SLOT(toEnd()));
 
     //
     // Connect timers.
@@ -403,8 +403,6 @@ void RemoveEpsilon::prevStep()
         prewInstruction = s.prewInstruction;
         non_epsilon_FA = s.non_epsilon_FA;
         not_epsilon_fa_widget->setFA(new FiniteAutomata(non_epsilon_FA));
-//        epsilon_closer_list_widget = s.epsilon_closer_list_widget;
-//        epsilon_closer_list_widget->setParent((QWidget*)s.parrent);
         p = s.p;
         p_prime = s.p_prime;
         non_epsilon_rule = s.non_epsilon_rule;
@@ -580,12 +578,34 @@ void RemoveEpsilon::showUserSolution()
 
 void RemoveEpsilon::toBegin()
 {
-    epsilon_fa_widget->setFA(new FiniteAutomata(FA));
+    algorithm_widget->enableNext();
+    actPos = 0;
+    steps s = history.at(actPos);
+    num = s.num;
+    actInstruction = s.actInstruction;
+    prewInstruction = s.prewInstruction;
+    non_epsilon_FA = s.non_epsilon_FA;
+    not_epsilon_fa_widget->setFA(new FiniteAutomata(non_epsilon_FA));
+    p = s.p;
+    p_prime = s.p_prime;
+    non_epsilon_rule = s.non_epsilon_rule;
+    non_epsilon_prime_rule = s.non_epsilon_prime_rule;
+    epsilon_closer = s.epsilon_closer;
+    epsilon_closers = s.epsilon_closers;
+    p_list = s.p_list;
+    p_prime_list = s.p_prime_list;
+    non_epsilon_rule_list = s.non_epsilon_rule_list;
+    showVariables();
+    setActInstruction();
+    setEpsilonCloserWidget();
+    not_epsilon_fa_widget->clearStatus();
+    algorithm_widget->disablePrev();
 }
 
 void RemoveEpsilon::toEnd()
 {
-    runAlgorithm(0);
+    while(actInstruction != last_instruction)
+        nextStep();
 }
 
 void RemoveEpsilon::checkSolution()

@@ -19,23 +19,24 @@ public:
 
 
     void init(QString symbol);
-
-
     bool isStateUnique(QString state);
     QString createUniqueName();
-    QList <ComputationalRules> findRule_Symbol(QString symbol);
 
+    QList <ComputationalRules> findRule_Symbol(QString symbol);
     QList <ComputationalRules> findRule_FromSymbol(QString from, QString symbol);
     QList <ComputationalRules> findRule_FromSymbol(QSet <QString> from, QString symbol);
     QList <ComputationalRules> findRule_From(QString from);
     QList <QString> findState_from(QString from);
     QList <QString> findState_to(QString to);
+
     QList <QString> getReachableStates();
     QList <QString> getReverseReachableStates();
+
     void removeUnreachableStates();
     FiniteAutomata removeUnreachableStates(FiniteAutomata FA);
     FiniteAutomata removeNonTerminatingStates(FiniteAutomata FA);
     void removeNonTerminatingStates();
+
     FiniteAutomata makeWellDefined(FiniteAutomata FA);
     void makeWellDefined();
     FiniteAutomata removeEpsilon(FiniteAutomata FA);
@@ -46,16 +47,7 @@ public:
     void toMinFA();
     FiniteAutomata normalize(FiniteAutomata FA);
 
-    //
-    //Variables
-    //
-    QSet <QString>  states;
-    QSet <QString> alphabet;
-    QSet <ComputationalRules> rules;
-    QString startState;
-    QSet <QString> finalStates;
-    QMap<QString, QPoint> coordinates;
-    int nextId;
+
 
     
     static FiniteAutomata concatenate(FiniteAutomata FA1, FiniteAutomata FA2);
@@ -92,9 +84,19 @@ public:
     QSet <ComputationalRules> nonEpsilonRulesOf(QString state);
     QString normalize_chooseSmallestNonprocessed(QList <QString> renamed, QList <QString> processed);
 
+    //
+    //Variables
+    //
+    QSet <QString>  states;
+    QSet <QString> alphabet;
+    QSet <ComputationalRules> rules;
+    QString startState;
+    QSet <QString> finalStates;
+    QMap<QString, QPoint> coordinates;
+    int nextId;
 
 private:
-    bool canDivide(FiniteAutomata FA,QString symbol, QSet< QSet <QString> > Qm, QSet<QString> X, QSet <QString> &X1, QSet <QString> &X2);
+    bool canDivide(FiniteAutomata FA,QString symbol, QSet< QSet <QString> > Qm, QSet<QString> X, QSet <QString>& X1, QSet <QString>& X2);
 
 
 };
@@ -105,8 +107,8 @@ bool operator==(const FiniteAutomata FA1, const FiniteAutomata FA2);
 /**
   * Overloading operator for debugging purposes
   */
-QDebug operator<< (QDebug d, const FiniteAutomata &FA);
+QDebug operator<< (QDebug d, const FiniteAutomata& FA);
 
-QDataStream &operator<<(QDataStream &out, const FiniteAutomata &FA);
-QDataStream &operator>>(QDataStream &in, FiniteAutomata &FA);
+QDataStream& operator<<(QDataStream &out, const FiniteAutomata &FA);
+QDataStream& operator>>(QDataStream &in, FiniteAutomata &FA);
 #endif // FINITEAUTOMATA_H

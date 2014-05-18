@@ -15,7 +15,8 @@
 class RegExpNode
 {
 public:
-    RegExpNode(CharPos& _symbol);
+    RegExpNode(const CharPos& _symbolCharPos);
+    RegExpNode();
 //    RegExpNode(RegExpNode*& reg_exp_node);
     RegExpNode(RegExpNode* reg_exp_node);
     void copyTreeInOrder(const RegExpNode* orgTree, RegExpNode* copyTree);
@@ -25,7 +26,11 @@ public:
     void clearProcessed();
     static void clearProcessed(RegExpNode* node);
     bool isLeaf();
+    static void save(RegExpNode* node, QDataStream& s);
+    static RegExpNode* load(QDataStream& s);
+
     enum states {CORRECT,WRONG,UNKNOWN};
+
     states state;
     bool selected;
     FiniteAutomata user_FA;
@@ -36,5 +41,8 @@ public:
     RegExpNode *parent;
     QList<RegExpNode *> children;
 };
+
+QDataStream &operator<<(QDataStream& out, const RegExpNode* node);
+QDataStream &operator>>(QDataStream& in, RegExpNode* node);
 
 #endif // REGEXPNODE_H

@@ -1,9 +1,19 @@
 #include "regexpnode.h"
+#include <QDataStream>
 
-RegExpNode::RegExpNode(CharPos& _symbol) : processed(false)
+RegExpNode::RegExpNode(const CharPos& _symbol) : processed(false)
 {
     this->symbol = _symbol;
     this->str = _symbol.charter;
+    parent = 0;
+    this->state = UNKNOWN;
+    this->selected = false;
+}
+
+RegExpNode::RegExpNode()
+{
+    this->symbol = dolar;
+    this->str = dolar.charter;
     parent = 0;
     this->state = UNKNOWN;
     this->selected = false;
@@ -118,4 +128,42 @@ bool RegExpNode::isLeaf()
         return true;
     }
     return false;
+}
+
+void RegExpNode::save(RegExpNode *node, QDataStream& out)
+{
+    out << node << node->children.count();
+    for(int i = 0; i < node->children.count(); i++)
+    {
+        save(node->children.at(i) ,out);
+    }
+}
+
+RegExpNode* RegExpNode::load(QDataStream& in)
+{
+    int children_count;
+    RegExpNode* node = new RegExpNode();
+    in >> node >> children_count;
+    for(int i = 0; i < children_count; i++)
+    {
+        node->children.append(load(in));
+    }
+    return node;
+}
+
+QDataStream &operator<<(QDataStream &out, const RegExpNode* node)
+{
+    out << node->state << node->selected << node->user_FA << node->correct_FA << node->processed << node->symbol << node->str;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, RegExpNode* node)
+{
+    qint32 tmp_state;
+    in >> tmp_state;
+    in >> node->selected;
+    in >> node->user_FA >> node->correct_FA >> node->processed >> node->symbol >> node->str;
+
+    node->state = (RegExpNode::states)tmp_state;
+    return in;
 }

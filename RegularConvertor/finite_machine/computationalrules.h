@@ -15,7 +15,7 @@ public:
     ComputationalRules(QString _from, QString _to, QString _symbol);
     ComputationalRules(QString rule);
     ComputationalRules(const ComputationalRules& _object);//Toto je kopirovaci konstruktor
-    ComputationalRules &operator=(const ComputationalRules& _rule);
+    ComputationalRules& operator=(const ComputationalRules& _rule);
     QString toString() const{return from + " " + symbol + "-> " + to;}
 
 

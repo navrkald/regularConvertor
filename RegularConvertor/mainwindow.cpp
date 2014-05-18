@@ -940,22 +940,56 @@ void MainWindow::on_Determinization_advanced_example_4_triggered()
 }
 void MainWindow::on_action_save_triggered()
 {
-    QFile file("/tmp/test.txt");
+    if(activeConversion == none)
+    {
+        showStatusMessage(tr("ERROR: No conversion selected!"));
+        return;
+    }
+    QString filename = "";
+    if((filename = QFileDialog::getSaveFileName(this,tr("Save conversion"))) == "")
+        return;
+
+    QFile file(filename);
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);   // we will serialize the data into the file
     out << activeConversion << mode;
     switch(activeConversion)
     {
-        case none:
-        break;
         case RE_to_FA:
-            out << *reg_exp_algorithm->re;
+        {
+            // In play mode does not make sence to save output fa
+            if(mode == Algorithm::PLAY_MODE)
+            {
+                out << reg_exp_algorithm->re->regexp;
+            }
+            else
+            {
+                out << *reg_exp_algorithm->re;
+            }
+        }
         break;
         case REMOVE_EPSILON:
+            if(mode == Algorithm::PLAY_MODE)
+            {
+                 out << remove_epsilon_algorithm->FA;
+            }
+            else
+            {
                 out << remove_epsilon_algorithm->FA << remove_epsilon_algorithm->non_epsilon_FA;
+            }
         break;
         case DFA:
-            out << DFA_algorithm->FA << DFA_algorithm->DFA;
+            if(mode == Algorithm::PLAY_MODE)
+            {
+                 out << DFA_algorithm->FA;
+            }
+            else
+            {
+                out << DFA_algorithm->FA << DFA_algorithm->DFA;
+            }
+        break;
+        // This should never happend
+        case none:
         break;
     }
     file.close();
@@ -963,19 +997,22 @@ void MainWindow::on_action_save_triggered()
 
 void MainWindow::on_action_open_file_triggered()
 {
-    QFile read("/tmp/test.txt");
+    QString filename = "";
+    if((filename = QFileDialog::getOpenFileName(this, tr("Open conversion")))=="")
+        return;
+
+    QFile read(filename);
     read.open(QIODevice::ReadOnly);
     QDataStream in(&read);    // read the data serialized from the file
     FiniteAutomata FA;
     //
-    Conversions conversion;
-    in >> conversion;
-    in >> mode;
-    switch (mode)
-    {
-        case Algorithm::NONE:
+    Conversions conversion = none;
+    Algorithm::modes tmp_mode = Algorithm::NONE;
 
-        break;
+    in >> conversion;
+    in >> tmp_mode;
+    switch (tmp_mode)
+    {
         case Algorithm::CHECK_MODE:
             on_action_check_mode_triggered();
         break;
@@ -985,44 +1022,64 @@ void MainWindow::on_action_open_file_triggered()
         case Algorithm::STEP_MODE:
             on_action_step_mode_triggered();
         break;
+        case Algorithm::NONE:
+            showStatusMessage(tr("ERROR: Input file in wrong format!"));
+            return;
+        break;
     }
+    mode = tmp_mode;
 
     switch(conversion)
     {
-        case none:
-            qDebug() << "Conversion: none";
-        break;
         case RE_to_FA:
         {
-            qDebug() << "Conversion: RE_to_FA";
-            RegExp re;
-            in >> re;
-            prepareREtoFA(new RegExp(re));
+            if(mode == Algorithm::PLAY_MODE)
+            {
+                QString regexp_str;
+                in >> regexp_str;
+                prepareREtoFA(new RegExp(regexp_str));
+            }
+            else
+            {
+                RegExp re;
+                in >> re;
+                prepareREtoFA(new RegExp(re));
+            }
         }
         break;
         case REMOVE_EPSILON:
         {
-            qDebug() << "Conversion: REMOVE_EPSILON";
             FiniteAutomata in_FA;
-            FiniteAutomata out_FA;
-            in >> in_FA >> out_FA;
+            in >> in_FA;
             prepareRemoveEpsilon();
             remove_epsilon_algorithm->setInputFA(in_FA);
-            remove_epsilon_algorithm->setOutputFA(out_FA);
+            if(mode != Algorithm::PLAY_MODE)
+            {
+                FiniteAutomata out_FA;
+                in >> out_FA;
+                remove_epsilon_algorithm->setOutputFA(out_FA);
+            }
         }
         break;
         case DFA:
-            qDebug() << "Conversion: DFA";
+        {
             FiniteAutomata in_FA;
-            FiniteAutomata out_FA;
-            in >> in_FA >> out_FA;
+            in >> in_FA;
             prepareDFA();
             DFA_algorithm->setInputFA(in_FA);
-            DFA_algorithm->setOutputFA(out_FA);
+            if(mode != Algorithm::PLAY_MODE)
+            {
+                FiniteAutomata out_FA;
+                in >> out_FA;
+                DFA_algorithm->setOutputFA(out_FA);
+            }
+        }
+        break;
+        case none:
+            showStatusMessage(tr("ERROR: Input file in wrong format!"));
+            return;
         break;
     }
-
-    qDebug() << FA;
 }
 
 QDataStream& operator>>(QDataStream& in, MainWindow::Conversions& e)

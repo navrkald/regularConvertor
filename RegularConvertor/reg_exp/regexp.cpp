@@ -10,7 +10,6 @@
 
 RegExp::RegExp()
 {
-    CharPos emptyString (EMPTYSET,0,true);
     rootNode = new RegExpNode(emptyString);
 }
 
@@ -157,11 +156,13 @@ void RegExp::clean()
 QDataStream &operator<<(QDataStream &out, const RegExp &reg_exp)
 {
     out << reg_exp.regexp;
+    RegExpNode::save(reg_exp.rootNode, out);
     return out;
 }
 
 QDataStream &operator>>(QDataStream &in, RegExp &reg_exp)
 {
     in  >> reg_exp.regexp;
+    reg_exp.rootNode =  RegExpNode::load(in);
     return in;
 }

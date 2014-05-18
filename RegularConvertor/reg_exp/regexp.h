@@ -7,7 +7,6 @@
 #include "charpos.h"
 #include "regexpnode.h"
 
-#define EMPTY_SET
 
 class RegExp
 {
@@ -18,6 +17,8 @@ public:
 
     bool init(QString _strToVal);
     QList<CharPos> addConcOperator(QString _reqExp);
+
+
     RegExpParser parser;
     RegExpNode* rootNode;
     QString regexp;
@@ -37,7 +38,6 @@ private:
     static bool isAlphabetChar(QString symbol);
     static QString precedenceTable[7][7];
     void clean();
-
 };
 
 QDataStream &operator<<(QDataStream &out, const RegExp &reg_exp);

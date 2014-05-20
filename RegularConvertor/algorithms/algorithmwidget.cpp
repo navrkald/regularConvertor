@@ -45,6 +45,7 @@ void AlgorithmWidget::showWidgets(QList<QWidget *> widgets)
 
 void AlgorithmWidget::setWidgets(Algorithm::modes mode)
 {
+
     switch (mode) {
     case Algorithm::CHECK_MODE:
         showWidgets(QList<QWidget*>() << ui->checkButton <<  ui->showButton);
@@ -73,6 +74,7 @@ void AlgorithmWidget::setWidgets(Algorithm::modes mode)
     default:
         break;
     }
+    hideWidgets(QList<QWidget*>()  << ui->prew_stepButton << ui->next_stepButton);
 }
 
 void AlgorithmWidget::disableNext()

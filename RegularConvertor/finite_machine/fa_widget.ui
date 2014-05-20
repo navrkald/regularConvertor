@@ -42,7 +42,7 @@
      </property>
      <widget class="QWidget" name="KA_diagram">
       <attribute name="title">
-       <string>KA - graphic</string>
+       <string>FA - graphic</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
@@ -76,7 +76,7 @@
      </widget>
      <widget class="QWidget" name="KA_formal">
       <attribute name="title">
-       <string>KA - formal</string>
+       <string>FA - formal</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>

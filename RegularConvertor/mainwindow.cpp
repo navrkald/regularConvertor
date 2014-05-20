@@ -100,6 +100,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //    QHBoxLayout* hlayout = new QHBoxLayout(ui->menuBar);
 //    hlayout->addStretch();
 //    hlayout->addWidget(language_button);
+
+    ui->menuLanguages->menuAction()->setVisible(false);
 }
 
 MainWindow::~MainWindow()

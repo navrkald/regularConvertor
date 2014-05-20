@@ -31,8 +31,8 @@ RemoveEpsilon::RemoveEpsilon(modes _mode, AlgorithmWidget* _algorithm_widget, FA
     initInstructions();
     initBreakpoints(instruction_count);
 
-    QIcon epsilon_closer_icon = QIcon(":/algorithms/algorithms/pictures/epsilon_closer.png");
-    QIcon remove_epsilon_icon = QIcon(":/algorithms/algorithms/pictures/remove_epsilon.png");
+    QIcon epsilon_closer_icon = QIcon(tr(":/algorithms/algorithms/pictures/epsilon_closer_en.png"));
+    QIcon remove_epsilon_icon = QIcon(tr(":/algorithms/algorithms/pictures/remove_epsilon_en.png"));
 
     this->setColumnCount(1);
     this->setRowCount(instructions.count());

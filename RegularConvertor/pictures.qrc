@@ -20,6 +20,8 @@
         <file>algorithms/pictures/unknown.png</file>
         <file>algorithms/pictures/warning.png</file>
         <file>algorithms/pictures/ok.png</file>
+        <file>algorithms/pictures/epsilon_closer_en.png</file>
+        <file>algorithms/pictures/remove_epsilon_en.png</file>
     </qresource>
     <qresource prefix="/finite_machine">
         <file>finite_machine/pictures/add_arrow.png</file>

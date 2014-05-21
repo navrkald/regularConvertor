@@ -17,6 +17,7 @@ AlgorithmWidget::AlgorithmWidget(Algorithm::modes _mode, QWidget *parent) :
     connect(this->ui->beginButton,SIGNAL(clicked()), this, SIGNAL(beginPressed()));
     connect(this->ui->endButton,SIGNAL(clicked()),this, SIGNAL(endPressed()));
     setWidgets(mode);
+    ui->Formal->removeTab(1);
 }
 
 AlgorithmWidget::~AlgorithmWidget()

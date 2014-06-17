@@ -254,6 +254,7 @@ void MainWindow::prepareREtoFA(RegExp* _re)
         alhgorithm_widget = new AlgorithmWidget(mode,regExpToFA_central_widget);
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
         reg_exp_algorithm = new RegExpToFA(alhgorithm_widget, mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right, _re, regExpToFA_central_widget);
+        connect(this, SIGNAL(modeChanged(Algorithm::modes)), reg_exp_algorithm, SLOT(setMode(Algorithm::modes)));
         prepareREtoFA_GUI();
 //    }
 //    else
@@ -345,6 +346,7 @@ void MainWindow::prepareRemoveEpsilon()
         epsilon_closer_list_widget = new QListWidget(removeEpsilon_central_widget);
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
         remove_epsilon_algorithm = new RemoveEpsilon(mode, alhgorithm_widget, fa_epsilon_widget, fa_not_epsilon_widget, remove_epsilon_variables_widget, epsilon_closer_list_widget, removeEpsilon_central_widget);
+        connect(this, SIGNAL(modeChanged(Algorithm::modes)), remove_epsilon_algorithm, SLOT(setMode(Algorithm::modes)));
         prepareRemoveEpsilon_GUI();
     //}
     //else
@@ -436,6 +438,7 @@ void MainWindow::prepareDFA()
         DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
         DFA_algorithm = new FaToDFA(mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, DFA_central_widget);
+        connect(this, SIGNAL(modeChanged(Algorithm::modes)), DFA_algorithm, SLOT(setMode(Algorithm::modes)));
         connect(DFA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         prepareDFA_GUI();
     //}

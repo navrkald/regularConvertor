@@ -22,7 +22,7 @@ public:
     FiniteAutomata computeSolution();
     void initInstructions();
 
-    void setMode(Algorithm::modes _mode);
+
 
     void setInputFA(FiniteAutomata _FA);
     void setOutputFA(FiniteAutomata out_FA);
@@ -31,6 +31,7 @@ public:
     FiniteAutomata DFA;
 
 public slots:
+    void setMode(Algorithm::modes _mode);
     void setFA(FiniteAutomata* _FA);
     void setDFA(FiniteAutomata* _FA);
     void prevStep();

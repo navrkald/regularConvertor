@@ -11,3 +11,9 @@
 flatt/
 .project
 /RegularConvertor/.directory
+
+# Some other mess #
+.gitignore.swp
+.gitignore~
+Zdrojove kody.tar.gz
+regularConvertor.zip

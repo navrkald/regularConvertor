@@ -192,6 +192,7 @@
 	\tableofcontents
 	\clearpage
 	\pagestyle{fancy}
+	\clearpage
 	}
 
 \def\b#1{% zkrácení stylu \textbf na \b
@@ -339,12 +340,18 @@
 \put(75,-223.3){\linethickness{1pt}\line(0,1){16.4}}
 \end{picture}
 \clearpage
-\thispagestyle{empty}
 \voffset=-1.61cm\evensidemargin=0.96cm\oddsidemargin=0.96cm\headsep=1cm\headheight=0.5cm\setlength{\parskip}{3pt}\textheight=248mm\textwidth=155mm
+
+% Zadání
+\ifthenelse{\not \equal{\typ}{sem}}
+{
+\thispagestyle{empty}
 ***nascannované zadání s. 1***
 \clearpage
 \thispagestyle{empty}
 ***nascannované zadání s. 2***
+}
+
 \clearpage
 \thispagestyle{empty}
 \nm{Abstrakt}
@@ -360,16 +367,38 @@
 
 \emph{Keywords:}
 \clearpage
+
+% Podekování
+\ifthenelse{\not \equal{\typ}{sem}}
+{
 \thispagestyle{empty}
 podìkování, motto, úryvky knih, básní atp.
+}
+
 \obsah
+
+\newboolean{seminarka}
+\setboolean{seminarka}{true}
+
+\setcounter{page}{3}
 \nn{Úvod}
-text
+Tato práce pojednává o vývoji aplikace která má didakticky prezentovat studentùm teoretické informatiky oblast bezkontextových jazykù. Aplikace navazuje na bakaláøskou práci, její¾ praktickou èástí bylo implementovat vybrané konverze modelù bezkontextových jazykù.
+
+Zdrojové kódy a text bakaláøské práce jsou dostupné pod opensource licencí na internetovém serveru Github. Tato práce spoleènì se zdrojovými kódy zde bude uveøejnìna takté¾.
+ 
+Tuto práci jsem se na rozdíl od své bakaláøské, kterou jsem psal v programu Open Office, rozhodl psát v jazyce \LaTeX. Toto rozhodnutí má hned nìkolik dùvodù. Prvním z nich je to, ¾e jsem se chtìl tento jazyk u¾ dlouho nauèit, proto¾e mi je jako programátorovi mnohem bli¾¹í. Dal¹í dùvodem je pak, ¾e je pomocí jazyka \LaTeX mù¾u mít práci napsánu v textovém formátu, na rozdíl od programù Open Office nebo Microsoft Word. Tato zkuteènost znamená i mnohem efektivnìj¹í verzování jednotlivých commitù v Gitu, ve kterém si pak mù¾u prohlí¾et a porovnávat jednotlivé verze a pøípadnì se i vrátit k nìkteré z pøedchozích verzí.
+\ifseminarka{
+Jedna z dal¹ích výhod \LaTeX u je ta, ¾e mi dovoluje pou¾ívat pøíkazu \verb|\ifthenelse| a tak následný text snadno pou¾ít i v mé diplomové práci.
+Tímto bych chtìl také zároveò podìkovat panu docentovi Ja¹kovi, ¾e nám umo¾nil pou¾ít v rámci této seminární práce pou¾ít \LaTeX.
+}
+
+\newpage
 
 \cast{Teoretická èást}
 
 \n{1}{Nadpis}
 text
+
 
 \n{1}{Nadpis}
 

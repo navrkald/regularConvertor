@@ -41,6 +41,9 @@
 \usepackage[srcstyle=leftnumhang,linenumbersep={\ }]{examplep} % pokroèilej¹í sazba programového kódu
 \usepackage{url}	% balíèek pro vysázení internetové adresy stylem verbatim s vylep¹eným øádkovým zlomem
 \usepackage{auto-pst-pdf}
+\usepackage{framed}
+\usepackage{amsthm} % Used for definitions>
+\theoremstyle{definition}
 
 %\usepackage{layout}	% zobrazí nastavení tiskového zrcadla (pøíkaz \layout)
 %\usepackage{times}	% balíèek pro pou¾ití fontu times
@@ -313,6 +316,15 @@
 \newcommand{\comment}[1]{\color{red}#1\color{black}}
 
 % ****************************** KONEC PREAMBULE ******************************
+\newboolean{seminarka}
+\ifthenelse{\equal{\typ}{sem}}
+{
+	\setboolean{seminarka}{true}
+}
+{
+	\setboolean{seminarka}{false}
+}
+
 \begin{document}
 \lhead{\b{UTB ve Zlínì, \ifthenelse{\equal{\fakulta}{fame}}{Fakulta managementu a ekonomiky}{\ifthenelse{\equal{\fakulta}{ft}}{Fakulta technologická}{\ifthenelse{\equal{\fakulta}{fmk}}{Fakulta multimediálních komunikací}{\ifthenelse{\equal{\fakulta}{uni}}{Univerzitní institut}{\ifthenelse{\equal{\fakulta}{fai}}{Fakulta aplikované informatiky}{Chyba! Promìnná $\backslash${}fakulta nebyla definována nebo byla definována nesprávnì!}}}}}}}
 
@@ -323,8 +335,15 @@
 \setlength{\unitlength}{1mm}
 \begin{picture}(-10,8)
 \put(0,-50){\makebox(170,50){}}
-\put(0,-100){\makebox(170,50){\fontsize{24}{1}\usefont{OT1}{phv}{b}{n}Konverze modelù bezkontextových jazykù}}
+\put(0,-80){\makebox(170,20){\fontsize{24}{1}\usefont{OT1}{phv}{b}{n}Konverze modelù bezkontextových jazykù}}
+\ifseminarka{
+	\put(0,-100){\makebox(155,20){\fontsize{24}{1}\usefont{OT1}{phv}{b}{n}Conversions of models of context-free languages}}
+}
 \put(0,-135){\makebox(170,25){\fontsize{20}{1}\usefont{OT1}{phv}{c}{n}Bc. David Navrkal}}
+\ifseminarka{
+	\put(0,-170){\makebox(42,10){\fontsize{18}{1}\usefont{OT1}{phv}{c}{n}Obor: Informaèní technologie}}
+	\put(0,-180){\makebox(40,10){\fontsize{18}{1}\usefont{OT1}{phv}{c}{n}Email: navrkald@gmail.com}}
+}
 \ifthenelse{\equal{\fakulta}{fame}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{fame_logo_cz.ps}}}}{
 \ifthenelse{\equal{\fakulta}{ft}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{ft_logo_cz.ps}}}}{
 \ifthenelse{\equal{\fakulta}{fmk}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{fmk_logo_cz.ps}}}}{
@@ -377,30 +396,48 @@ podìkování, motto, úryvky knih, básní atp.
 
 \obsah
 
-\newboolean{seminarka}
-\setboolean{seminarka}{true}
-
 \setcounter{page}{3}
+%Todo napsat proc v C++(Na fitu jsem programoval v C++ a v praci v AVG taky), proc v Qt, proc v gitu a proc jsem si vybral zrovna formalni jazyky (navazuji na bakalarku, je to slozite na pochopeni pro studenty)
 \nn{Úvod}
-Tato práce pojednává o vývoji aplikace která má didakticky prezentovat studentùm teoretické informatiky oblast bezkontextových jazykù. Aplikace navazuje na bakaláøskou práci, její¾ praktickou èástí bylo implementovat vybrané konverze modelù bezkontextových jazykù.
+Tato práce pojednává o vývoji aplikace která má didakticky prezentovat studentùm teoretické informatiky oblast bezkontextových jazykù. Aplikace navazuje na bakaláøskou práci, její¾ praktickou èástí bylo implementovat vybrané konverze modelù bezkontextových jazykù. Toto téma jsem si vybral z toho dùvodu, ¾e oblast formálních jazykù mù¾e být pro studenty hùøe pochopitelná a pomocí mé aplikace si tak mohou tuto nároènou teorii procvièit na praktických pøíkladech.
 
-Zdrojové kódy a text bakaláøské práce jsou dostupné pod opensource licencí na internetovém serveru Github. Tato práce spoleènì se zdrojovými kódy zde bude uveøejnìna takté¾.
+Zdrojové kódy a text bakaláøské práce, na kterou tímto navazuji, jsou dostupné pod opensource licencí na internetovém serveru Github. Tato práce spoleènì se zdrojovými kódy zde bude uveøejnìna takté¾.
+
+Jak ji¾ napovídá název serveru Github, práci vèetnì zdrojových kódù verzuji pomocí systémy Git. Díky tomu mám jistotu, ¾e a» se stane cokoliv svoje data mám tímto zálohovaná. Dále pak se mohu v pøípadì potøeby vracet ke star¹ím verzím. Mohu monitorovat svou práci, proto¾e vidím kolik jsem který den udìlal. Mohu také nový kód ukládat do vìtví, co¾ mi umo¾òuje mít stabilní vìtev pro koncové u¾ivatele a vývojovou vìtev, ve které si vyvíjím novou funkcionalitu. Jeliko¾ jsou zdrojové kódy veøejnì pøístupné, tak v pøípadì zájmu mù¾e kdokoliv pøispìt k v vývoji této výukové aplikace a v pøípadì potøeby mù¾e provést takzvaný pull reguest, který mohu schválit a zaèlenit jej do aplikace.
+
+Pro vývoj tohoto programu jsem si zvolil jazyk C++, proto¾e je mi velmi blízký, jeliko¾ jej pou¾ívám ve svém povolání programátora ve firmì AVG a také na tento jazyk byl kladen na mé pøedchozí ¹kole FIT VUT v Brnì. Jeliko¾ se pohybuji ve svém ¾ivotì na pomezí svìta Windows a Linuxu, tak pro mì bylo zásadní, aby aplikace fungovala na tìchto dvou operaèních systémech, tak jsem si zvolil pro vývoj grafického u¾ivatelského prostøedí knihovnu Qt verze 5, která je v souèasné dobì nejnovìj¹í.
  
-Tuto práci jsem se na rozdíl od své bakaláøské, kterou jsem psal v programu Open Office, rozhodl psát v jazyce \LaTeX. Toto rozhodnutí má hned nìkolik dùvodù. Prvním z nich je to, ¾e jsem se chtìl tento jazyk u¾ dlouho nauèit, proto¾e mi je jako programátorovi mnohem bli¾¹í. Dal¹í dùvodem je pak, ¾e je pomocí jazyka \LaTeX mù¾u mít práci napsánu v textovém formátu, na rozdíl od programù Open Office nebo Microsoft Word. Tato zkuteènost znamená i mnohem efektivnìj¹í verzování jednotlivých commitù v Gitu, ve kterém si pak mù¾u prohlí¾et a porovnávat jednotlivé verze a pøípadnì se i vrátit k nìkteré z pøedchozích verzí.
+Tuto práci jsem se na rozdíl od své bakaláøské, kterou jsem psal v programu Open Office, rozhodl psát v jazyce \LaTeX. Toto rozhodnutí má hned nìkolik dùvodù. Prvním z nich je to, ¾e jsem se chtìl tento jazyk u¾ dlouho nauèit, proto¾e mi je jako programátorovi mnohem bli¾¹í. Myslím si, ¾e technické texty vypadají mnohem lépe v tomto jazyce a také mám pøi psaní v \LaTeX u vìt¹í kontrolu nad textem. Dal¹ím dùvodem, je ¾e pomocí jazyka \LaTeX mù¾u mít práci napsánu v textovém formátu, na rozdíl od programù Open Office nebo Microsoft Word, které pou¾ívají binární formát, který si nemohu otevøít v poznámkovém bloku, nebo nad ním dìlat jednodu¹e porovnání dvou verzí. Tato zkuteènost znamená i mnohem efektivnìj¹í verzování jednotlivých commitù v Gitu, ve kterém si pak mù¾u prohlí¾et a porovnávat jednotlivé verze a pøípadnì se i vrátit k nìkteré z pøedchozích verzí.
 \ifseminarka{
 Jedna z dal¹ích výhod \LaTeX u je ta, ¾e mi dovoluje pou¾ívat pøíkazu \verb|\ifthenelse| a tak následný text snadno pou¾ít i v mé diplomové práci.
-Tímto bych chtìl také zároveò podìkovat panu docentovi Ja¹kovi, ¾e nám umo¾nil pou¾ít v rámci této seminární práce pou¾ít \LaTeX.
-}
+Tímto bych chtìl také zároveò podìkovat panu docentovi Ja¹kovi, ¾e nám umo¾nil pou¾ít v rámci této seminární práce pou¾ít \LaTeX{} a tak nemuset nedìlat práci dvakrát.
+}llmk
 
 \newpage
 
 \cast{Teoretická èást}
 
-\n{1}{Nadpis}
+% Uvod o bezkontextových jazycích
+% Definice koneèného zasobnikoveho automatu a jeho modifikace
+% Definice bezkontextove gramatiky
+
+\n{1}{Bezkontextový jazyk}
 text
 
+\newtheorem{mydef}{Definice}
 
-\n{1}{Nadpis}
+\n{1}{Zásobníkový automat}
+Nyní si definujeme pojem zásobníkového automatu.
+\begin{mydef}
+\begin{framed}
+Here is a new definition.
+dsa.dsadsa.dsa
+asd
+dsa
+dsa
+dsadsa
+\end{framed}
+\end{mydef}
 
 \n{2}{Podnadpis}
 text
@@ -416,11 +453,17 @@ text
 \n{2}{Podnadpis}
 
 \cast{Projektová èást}
+% Pøedstavení aplikace regular konvertor
+% Popsat mody aplikace, co umi co neumi, k èemu se dá pou¾ít.
 
 \n{1}{Nadpis}
 \n{2}{Podnadpis}
 
 \nn{Závìr}
+% Ujasnit si o èem chci v diplomce psat
+% Nauèil jsem se Latex (Pracovat se zdroji), zprovoznit na linuxu Latex a pracovat s TeXWork.
+% Naucil jsem se pracovat s programem na mocup
+% Napsal jsem kus diplomove prace zaroven (Teorie, definice)
 text
 
 \seznamlit{

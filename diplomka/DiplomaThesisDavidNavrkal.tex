@@ -344,11 +344,11 @@
 	\put(0,-170){\makebox(42,10){\fontsize{18}{1}\usefont{OT1}{phv}{c}{n}Obor: Informaèní technologie}}
 	\put(0,-180){\makebox(40,10){\fontsize{18}{1}\usefont{OT1}{phv}{c}{n}Email: navrkald@gmail.com}}
 }
-\ifthenelse{\equal{\fakulta}{fame}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{fame_logo_cz.ps}}}}{
-\ifthenelse{\equal{\fakulta}{ft}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{ft_logo_cz.ps}}}}{
-\ifthenelse{\equal{\fakulta}{fmk}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{fmk_logo_cz.ps}}}}{
-\ifthenelse{\equal{\fakulta}{uni}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{uni_logo_cz.ps}}}}{
-\ifthenelse{\equal{\fakulta}{fai}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{./fai_logo_cz.ps}}}}{}}}}}
+\ifthenelse{\equal{\fakulta}{fame}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{obrazky/fame_logo_cz.ps}}}}{
+\ifthenelse{\equal{\fakulta}{ft}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{obrazky/ft_logo_cz.ps}}}}{
+\ifthenelse{\equal{\fakulta}{fmk}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{obrazky/fmk_logo_cz.ps}}}}{
+\ifthenelse{\equal{\fakulta}{uni}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{obrazky/uni_logo_cz.ps}}}}{
+\ifthenelse{\equal{\fakulta}{fai}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{obrazky/fai_logo_cz.ps}}}}{}}}}}
 \put(0,-205){\linethickness{1pt}\line(1,0){170}}
 \ifthenelse{\equal{\typ}{bak}}{\put(4,-215){\makebox(69.5,4.5)[l]{\noindent\fontsize{16}{1}\usefont{OT1}{phv}{m}{n}Bakaláøská práce}}}{
 \ifthenelse{\equal{\typ}{dip}}{\put(4,-215){\makebox(69.5,4.5)[l]{\noindent\fontsize{16}{1}\usefont{OT1}{phv}{m}{n}Diplomová práce}}}{
@@ -411,7 +411,7 @@ Tuto práci jsem se na rozdíl od své bakaláøské, kterou jsem psal v programu Open
 \ifseminarka{
 Jedna z dal¹ích výhod \LaTeX u je ta, ¾e mi dovoluje pou¾ívat pøíkazu \verb|\ifthenelse| a tak následný text snadno pou¾ít i v mé diplomové práci.
 Tímto bych chtìl také zároveò podìkovat panu docentovi Ja¹kovi, ¾e nám umo¾nil pou¾ít v rámci této seminární práce pou¾ít \LaTeX{} a tak nemuset nedìlat práci dvakrát.
-}llmk
+}
 
 \newpage
 
@@ -421,36 +421,89 @@ Tímto bych chtìl také zároveò podìkovat panu docentovi Ja¹kovi, ¾e nám umo¾nil p
 % Definice koneèného zasobnikoveho automatu a jeho modifikace
 % Definice bezkontextove gramatiky
 
+\n{1}{Chomského hierarchie}
+Abychom si mohli dát bezkontextové jazyky do souvislosti s ostatními formálními jazyky, je nutné si vyspìtlit Chomského hierarchii. Tato hierarchie byla vytvoøena panem Noamem Chomskym v roce 1956. Dává do souvislosti jazyky regulární, bezkontextové, kontextové a jazyky typu 0. Jejich vztah, mù¾ete vidìt na obrázku 1, jako vztah mno¾in.
+
+\obr{obrazky/Chomskeho_hierarchie.eps}{0.4}{\label{Velky} Chomskeho hierarchie formálních jazykù}
+
+Jak je vidìt z obrázku nejmen¹í mno¾inu, chcete-li poèet jazykù popisují jazyky regulární. Nenechte se v¹ak zmýlit pojmem  poèet jazykù, proto¾e poèet jazykù a mno¾ství øetìzcù generovaný daným jazykem jsou dvì rozdílné vìci. Napøíklad jednoduchým regulárním výrazem \( (a + b)^* \) lze popsat v¹echny slova nad abecedou \( \Sigma = {a, b} \). Av¹ak jazyk, v¹ech slov, kde první pùlka slova se skládá ze stejného poètu písmen 'a' jako druhá pùlka slova skládající se ze z písmena 'b' regulárním jazykem nepopí¹eme. Dalo by se tak øíci, ¾e èím vý¹e se jazyk nachází v Chomského hierarchii, tím pøesnìji doká¾eme jazyk popsat, jinými slovy tím více jazykù jsme schopni generovat.
+ 
+Nyní si pro lep¹í pøedstavu u ka¾dého jazyku uvedeme modely, které daný jazyk popisují s jedním pøíkladem konkrétního jazyka.
+
+Regulární jazyky mù¾eme popsat pomocí regulárních gramatik, regulárním výrazem nebo koneèným automatem. Pøíkladem je napøíklad jazyk který obsahuje libovolnou kombinaci písmen 'a' a 'b' konèící písmenem 'b'. Tento jazyk by se dal pospat regulárním výrazem \( (a + b)^* b \). 
+
+Jazyky bezkontextové lze popsat modely jakými jsou bezkontextové gramatiky a koneèný zásobníkový automat. V¹echny jazyky regulární jsou zároveò bezkontextové, av¹ak obrácené tvrzení neplatí. Pøíkladem je jazyk \( L = \{ a^n b^n : n >= 1 \}  \)
+
+Jazyky kontextové mù¾eme popsat lineárnì ohranièeným Turingovým strojem. Pøíkladem nech» je jazyk \( L = \{ a^n b^n c^n : n >= 1 \}  \)
+
+% TODO: Doplnit jazyk typu 0.
+Jazyk typy nula, který v sobì obsahuje v¹echny doposud zmínìné jazyky plus je¹tì jazyky navíc. Popisujeme je úplným Turingovým strojem. 
+
+
 \n{1}{Bezkontextový jazyk}
-text
+V pøedchozí kapitole jsme si uvedli vzájemný vztah formálních jazykù. Nyní se pojïme podívat podrobnìji na bezkontextové jazyky. Tyto jazyky popisujeme pomocí dvou hlavních modelù, kterými jsou bezkontextová gramatika (CFG) a koneèný zásobníkový automat (PDA).
+
+Nenechme se v¹ak zmýlit pøedstavou, ¾e pomocí obou mù¾eme generovat bezkontextové jazyky. Proto¾e pomocí bezkontextové gramatiky mù¾eme jazyk generovat, av¹ak pomocí koneèného zásobníkového automatu mù¾eme rozpoznat, zda konkretní jazyk je popsán daným automatem. 
+
+Pro nás je ka¾dopádnì dùle¾itá zkuteènost, ¾e oba popisy jsou vzájemnì ekvivalentní, tj. ¾e lze pøevést PDA na CFG a takté¾ lze pøevést CFG na PDA. Formální popis bezkontextové gramatiky a zásobníkového automatu bude uveden dále spolu s jejich vzájemnými konverzemi. 
+
+Pro lep¹í pøedstavu jaké jsou to vlastnì ty bezkontextové jazyky si nyní uvedeme pár pøíkladù. Krásným pøíkladem z praxe by mohl být jazyk závorek, tak aby odpovídal poèet levých závorek poètu závorek pravých. Slo¾itìj¹ím pøíkladem by mohl být jazyk algebraických výrazù, který se skládá z operátorù plus, mínus, krát, dìleno, symbolù 'x', 'y', 'z' a závorek. Dal¹ím pøíkladem z praxe je, ¾e velká podmno¾ina programovacích jazykù se dá popsat pomocí regulární gramatiky. 
+
+Jak je vidìt z tìchto pøíkladù, pomocí bezkontextového jazyka se dají popsat slo¾itìj¹í vìci a jejich uplatnìní mù¾eme nalézt u popisu programovacích jazykù. Existuje notace bezkontextové gramatiky, zvaná Backusova-Naurova forma, která se právì èasto pou¾ívá pro popis syntaxe programovacích jazykù. Znalost bezkontextových jazykù lze vyu¾ít pøi konstrukci pøekladaèe, nebo interpretu programovacího jazyka a také pøi poèítaèovém zpracování algebraických výrazù.
 
 \newtheorem{mydef}{Definice}
 
 \n{1}{Zásobníkový automat}
-Nyní si definujeme pojem zásobníkového automatu.
-\begin{mydef}
+Nyní si definujeme definici zásobníkového automatu.
+
 \begin{framed}
-Here is a new definition.
-dsa.dsadsa.dsa
-asd
-dsa
-dsa
-dsadsa
+Koneèný zásobníkový automat \( M \) je uspoøádaná sedmice \( M = (Q, \Sigma, \Gamma, \delta, q_0, z_0, F) \) kde:
+\begin{itemize}
+\item \( Q \) je koneèná mno¾ina vnitøních stavù,
+\item \( \Sigma \) je koneèná vstupní abeceda,
+\item \( \Gamma \) je koneèná abeceda zásobníku,
+\item \( \delta \) je pøechodová relace, popisující pravidla èinnosti automatu, je definovaná jako koneèná mno¾ina kartézského souèinu \( Q \times (\Sigma \cup \{\varepsilon\} ) \times \Gamma \times Q \times G^* \),
+\item \( q_0 \) je poèáteèní stav z mno¾iny \( Q \),
+\item \( z_0 \) je poèáteèní symbol na vrcholu zásobníku z mno¾iny \( G \),
+\item \( F \) je mno¾ina koncových stavù, \( F \subseteq Q \).
+\end{itemize}
 \end{framed}
+\begin{mydef}
+Definice zásobníkového automatu.
 \end{mydef}
 
-\n{2}{Podnadpis}
-text
+Pro lep¹í pøedstavu si uvedeme pøíklad zásobníkového automatu \(M\), který popisuje jazyk \( L = \{ 0^n 1^n \text{, kde } n \geq 0 \} \).
 
-\n{3}{Podpodnadpis}
-text
+Nech» \(M\) je definován následovnì:  
+\begin{itemize}
+\item \( Q = \{ p, q, r\} \) ,
+\item \( \Sigma = \{0, 1\} \) ,
+\item \( \Gamma =  \{A, Z\}\) ,
+\item \( \delta = (p, 0, Z, p, AZ) , (p,0,A,p,AA), (p,\epsilon,Z,q,Z), (p,\epsilon,A,q,A), (q,1,A,q,\epsilon), (q,\epsilon,Z,r,Z) \),
+\item \( q_0 = p\) ,
+\item \( z_0 = Z \) ,
+\item \( F = \{r\} \) .
+\end{itemize}
 
-\n{3}{Podpodnadpis}
-text
+Graficky znázornìný stejný zásobníkový automat by vypadal následovnì:
 
-\cast{Analytická èást}
-\n{1}{Nadpis}
-\n{2}{Podnadpis}
+\obr{obrazky/Pda_example.eps}{0.6}{\label{Velky} Pøíklad zásobníkového automatu}
+
+\n{1}{Bezkontextová gramatika}
+Definice bezkontextové gramatiky je následující.
+
+\begin{framed}
+Bezkontextová gramatika \( G \) je uspoøádaná ètvrtice \( G = (V, \Sigma, R, S) \) kde:
+\begin{itemize}
+\item \( V \) je koneèná mno¾ina non-terminálních symbolù,
+\item \( \Sigma \) je koneèná mno¾ina terminálních symbolù,
+\item \( R \) je koneèná mno¾ina relací z \(V\) do \( (V \cup \Sigma )^* \), takté¾ se nazývá mno¾inou pøepisovacích pravidel,
+\item \( S \in V\) se nazývá poèáteèní symbol gramatiky.,
+\end{itemize}
+\end{framed}
+\begin{mydef}
+Definice bezkontextové gramatiky.
+\end{mydef}
 
 \cast{Projektová èást}
 % Pøedstavení aplikace regular konvertor
@@ -459,29 +512,40 @@ text
 \n{1}{Nadpis}
 \n{2}{Podnadpis}
 
+%Todo pøidat url na Github
+
 \nn{Závìr}
 % Ujasnit si o èem chci v diplomce psat
 % Nauèil jsem se Latex (Pracovat se zdroji), zprovoznit na linuxu Latex a pracovat s TeXWork.
 % Naucil jsem se pracovat s programem na mocup
 % Napsal jsem kus diplomove prace zaroven (Teorie, definice)
-text
+V této práci jsem se sna¾il k hùøe stravitelné teorii pøikládat mno¾ství pøíkladù, aby byla tato problematika pochopitelná a pøínosná pro studenta, který by si tuto práci chtìl pùjèit v univerzitní knihovnì. Z vlastní zku¹enosti vím, ¾e pro lep¹í pochopení dané problematiky je kromì suché teorie nutné pøilo¾it i pøíklady. Dával jsem je i pro to, ¾e koneèným cílem diplomové práce bude kromì textu nutné vytvoøit i funkèní aplikaci, která má slou¾it pøedev¹ím studentùm, ale samozøejmì ji mohou vyu¾ít i profesoøi na na¹í ¹kole k prezentaci pøedná¹ené látky pro lep¹í pøiblí¾ení studentùm. Chtìl jsem, aby i student nepøíli¹ seznámený s danou problematikou mohl po pøeètení této práce zaèít pou¾ívat mou aplikaci bez obtí¾í.
+% Pøínos seminární práce.
+\ifthenelse{\equal{\typ}{sem}}
+{
+Nejvìt¹í pøínos této seminární práce je asi pro mì samotného. Jednak jsem byl tímto \uv{donucen} k tomu, abych napsal kus textu, který vyu¾iji v mé diplomové práci. Dále pak, ¾e jsem se seznámil s danou problematikou a s problematikou psaní práce v \LaTeX u. Pøi tvorbì této práce se ukázalo, ¾e tento jazyk se mimoøádnì hodí na sazbu matematických symbolù, znaèek, rovnic a dal¹ích technických konstrukcí. Kdy¾ jsem psal svoji bakaláøskou práci v OpenOffice, tak jsem nemìl tolik pod kontrolou výsledné vysázení a v pøípadì, ¾e bych mìl psát dal¹í odbornou technickou práci, asi bych nezvolil nic jiného ne¾ sázecí systém \LaTeX a je¹tì jednou bych tìl za tuto obrovskou mo¾nost podìkovat panu docentovi Ja¹kovi. 
+}
+
+% Cituje se pomoci prikazu \cite{chmel}
 
 \seznamlit{
 \bibitem{chmel}\it{Èeský chmel: atlas odrùd} [online]. [cit. 2004-10-15]. Dostupný z~WWW: \url{http://www.beer.cz/humulus/}.
-}
+\bibitem{latex}KOPKA, Helmut, Patrick W DALY a Jan GREGOR. \it{Latex: podrobný prùvodce}. Vyd. 1. Brno: Computer Press, 2004, 576 s. ISBN 80-7226-973-9.
+}.
 
 \seznamzkr
 
 \begin{tabular}{ll}
-ABC & Význam zkratky \\
+CFG & Context-free grammar, èesky takté¾ bezkontextová gramatika \\
+PDA & Pushdown automaton, èesky té¾ zásobníkový automat
 \end{tabular}
 
 \seznamobr
 
-\seznamtab
+%\seznamtab
 
-\listofappendices
+%listofappendices
 
-\priloha{Název pøílohy}
+%\priloha{Název pøílohy}
 
 \end{document}

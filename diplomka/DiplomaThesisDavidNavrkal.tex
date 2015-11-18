@@ -23,6 +23,7 @@
 % sem  -- semestrální práce
 \newcommand{\rok}{2016}
 % zadejte rok místo "xxxx"
+\newcommand{\nonTerm}[1] {\textbf{\textless #1\textgreater}}
 % konec u¾ivatelských definic
 % **************************** INICIALIZACE BALÍÈKÙ ***************************
 % \usepackage{czech}	% balík czech obsahuje speciality èeské sazby, jako napø. na¹e dolní a horní uvozovky - pøíkaz \uv{nìjaký text} -- volba pøi kompilaci cslatexem
@@ -41,10 +42,11 @@
 \usepackage[srcstyle=leftnumhang,linenumbersep={\ }]{examplep} % pokroèilej¹í sazba programového kódu
 \usepackage{url}	% balíèek pro vysázení internetové adresy stylem verbatim s vylep¹eným øádkovým zlomem
 \usepackage{auto-pst-pdf}
+\usepackage{amssymb}
 \usepackage{framed}
 \usepackage{amsthm} % Used for definitions>
 \theoremstyle{definition}
-
+%\usepackage[nottoc,numbib]{tocbibind}
 %\usepackage{layout}	% zobrazí nastavení tiskového zrcadla (pøíkaz \layout)
 %\usepackage{times}	% balíèek pro pou¾ití fontu times
 %\usepackage{verbatim}	% vysází text bez formátování, tak jak je zapsán v souboru
@@ -93,7 +95,6 @@
 \renewcommand*{\listtablename}{\uppercase{Seznam tabulek}}	% pøedefinování názvu seznamu tabulek
 \renewcommand*{\figurename}{Obr.}				% pøedefinování názvù obrázkù
 \renewcommand*{\tablename}{Tab.}				% pøedefinování názvù tabulek
-
 % *************************** NASTAVENÍ ÈÍTAÈÙ ********************************
 \setcounter{tocdepth}{3} % do obsahu se ukládají pouze první dvì úrovnì kapitol
 
@@ -174,9 +175,10 @@
 	\addcontentsline{toc}{section}{\uppercase{Seznam tabulek}}
 	\clearpage
 	}
-	
-\newcommand{\seznamlit}[1]{% pøíkaz \seznamlit pro vysázení seznamu literatury
-	\addcontentsline{toc}{section}{\uppercase{Seznam pou¾ité literatury}}
+
+% pøíkaz \seznamlit pro vysázení seznamu literatury	
+\newcommand{\seznamlit}[1]{
+	%\addcontentsline{toc}{section}{\uppercase{Seznam pou¾ité literatury}}
 	\begin{thebibliography}{99}
 	#1
 	\end{thebibliography}}
@@ -326,6 +328,8 @@
 }
 
 \begin{document}
+\renewcommand\refname{SEZNAM POU®ITÝCH ZDROJÙ}
+
 \lhead{\b{UTB ve Zlínì, \ifthenelse{\equal{\fakulta}{fame}}{Fakulta managementu a ekonomiky}{\ifthenelse{\equal{\fakulta}{ft}}{Fakulta technologická}{\ifthenelse{\equal{\fakulta}{fmk}}{Fakulta multimediálních komunikací}{\ifthenelse{\equal{\fakulta}{uni}}{Univerzitní institut}{\ifthenelse{\equal{\fakulta}{fai}}{Fakulta aplikované informatiky}{Chyba! Promìnná $\backslash${}fakulta nebyla definována nebo byla definována nesprávnì!}}}}}}}
 
 \thispagestyle{empty}
@@ -377,7 +381,7 @@
 \vspace{1cm}
 Tato práce je roz¹íøením mé bakaláøské práce, která se zabývala, jak didakticky prezentovat studentùm formálních jazykù jazyky regulární. Proto v této práci budu pokraèovat jazyky bezkontextovými. Na této práci budu stavìt dále mou diplomovou práci na stejné téma. 
 
-Doète se zde o teorii bezkontextových jazykù s mno¾stvím pøíkladù. Budu se zde zabývat modely bezkontextových jazykù a to zásobníkovým automatem a bezkontextovou gramatikou. U bezkontextové gramatiky bude pøedstavena i její nejpou¾ívanìj¹í forma a o je Backusova-Naurova forma. Dále v teorii budou prezentovány algoritmy pro pøevod bezkontextové gramatiky na zásobníkový automat a zpìt. Projektová èást se bude zabývat návrhem u¾ivatelského rozhraní pro pøevodní algoritmy a krátkou rekapitulací programu vyvinutého v rámci bp. práce do kterého tyto pøevodní algoritmy budu implementovat.\\
+Doètete se zde o teorii bezkontextových jazykù s mno¾stvím pøíkladù. Budu se zde zabývat modely bezkontextových jazykù a to zásobníkovým automatem a bezkontextovou gramatikou. U bezkontextové gramatiky bude pøedstavena i její nejpou¾ívanìj¹í forma a o je Backusova-Naurova forma. Dále v teorii budou prezentovány algoritmy pro pøevod bezkontextové gramatiky na zásobníkový automat a zpìt. Projektová èást se bude zabývat návrhem u¾ivatelského rozhraní pro pøevodní algoritmy a krátkou rekapitulací programu vyvinutého v rámci bp. práce do kterého tyto pøevodní algoritmy budu implementovat.\\
 
 \emph{Klíèová slova:}
 Bezkontextové jazyky, zásobníkový automat, bezkontextová gramatika, Backusova-Naurova forma, pøevody zásobníkového automatu a bezkontextové gramatiky.
@@ -419,7 +423,7 @@ Pro vývoj tohoto programu jsem si zvolil jazyk C++, proto¾e je mi velmi blízký, 
 Tuto práci jsem se na rozdíl od své bakaláøské, kterou jsem psal v programu Open Office, rozhodl psát v jazyce \LaTeX. Toto rozhodnutí má hned nìkolik dùvodù. Prvním z nich je to, ¾e jsem se chtìl tento jazyk u¾ dlouho nauèit, proto¾e mi je jako programátorovi mnohem bli¾¹í. Myslím si, ¾e technické texty vypadají mnohem lépe v tomto jazyce a také mám pøi psaní v \LaTeX u vìt¹í kontrolu nad textem. Dal¹ím dùvodem, je ¾e pomocí jazyka \LaTeX mù¾u mít práci napsánu v textovém formátu, na rozdíl od programù Open Office nebo Microsoft Word, které pou¾ívají binární formát, který si nemohu otevøít v poznámkovém bloku, nebo nad ním dìlat jednodu¹e porovnání dvou verzí. Tato zkuteènost znamená i mnohem efektivnìj¹í verzování jednotlivých commitù v Gitu, ve kterém si pak mù¾u prohlí¾et a porovnávat jednotlivé verze a pøípadnì se i vrátit k nìkteré z pøedchozích verzí.
 \ifseminarka{
 Jedna z dal¹ích výhod \LaTeX u je ta, ¾e mi dovoluje pou¾ívat pøíkazu \verb|\ifthenelse| a tak následný text snadno pou¾ít i v mé diplomové práci.
-Tímto bych chtìl také zároveò podìkovat panu docentovi Ja¹kovi, ¾e nám umo¾nil pou¾ít v rámci této seminární práce pou¾ít \LaTeX{} a tak nemuset nedìlat práci dvakrát.
+Tímto bych chtìl také zároveò podìkovat panu docentovi Ja¹kovi, ¾e nám umo¾nil pou¾ít v rámci této seminární práce pou¾ít \LaTeX{} a tak jsem nemusel nedìlat práci dvakrát.
 \cite{latex}
 }
 
@@ -436,7 +440,7 @@ Abychom si mohli dát bezkontextové jazyky do souvislosti s ostatními formálními 
 
 \obr{obrazky/Chomskeho_hierarchie.eps}{0.4}{\label{Velky} Chomskeho hierarchie formálních jazykù}
 
-Jak je vidìt z obrázku nejmen¹í mno¾inu, chcete-li poèet jazykù popisují jazyky regulární. Nenechte se v¹ak zmýlit pojmem  poèet jazykù, proto¾e poèet jazykù a mno¾ství øetìzcù generovaný daným jazykem jsou dvì rozdílné vìci. Napøíklad jednoduchým regulárním výrazem \( (a + b)^* \) lze popsat v¹echny slova nad abecedou \( \Sigma = {a, b} \). Av¹ak jazyk, v¹ech slov, kde první pùlka slova se skládá ze stejného poètu písmen 'a' jako druhá pùlka slova skládající se ze z písmena 'b' regulárním jazykem nepopí¹eme. Dalo by se tak øíci, ¾e èím vý¹e se jazyk nachází v Chomského hierarchii, tím pøesnìji doká¾eme jazyk popsat, jinými slovy tím více jazykù jsme schopni generovat.
+Jak je vidìt z obrázku nejmen¹í mno¾inu, chcete-li poèet jazykù popisují jazyky regulární. Nenechte se v¹ak zmýlit pojmem  poèet jazykù, proto¾e poèet jazykù a mno¾ství øetìzcù generovaných daným jazykem jsou dvì rozdílné vìci. Napøíklad jednoduchým regulárním výrazem \( (a + b)^* \) lze popsat v¹echny slova nad abecedou \( \Sigma = {a, b} \). Av¹ak jazyk, v¹ech slov, kde první pùlka slova se skládá ze stejného poètu písmen 'a' jako druhá pùlka slova skládající se ze z písmena 'b' regulárním jazykem nepopí¹eme. Dalo by se tak øíci, ¾e èím vý¹e se jazyk nachází v Chomského hierarchii, tím pøesnìji doká¾eme jazyk popsat, jinými slovy tím více jazykù jsme schopni generovat.
  
 Nyní si pro lep¹í pøedstavu u ka¾dého jazyku uvedeme modely, které daný jazyk popisují s jedním pøíkladem konkrétního jazyka.
 
@@ -462,6 +466,7 @@ Pro lep¹í pøedstavu jaké jsou to vlastnì ty bezkontextové jazyky si nyní uvedeme
 Jak je vidìt z tìchto pøíkladù, pomocí bezkontextového jazyka se dají popsat slo¾itìj¹í vìci a jejich uplatnìní mù¾eme nalézt u popisu programovacích jazykù. Existuje notace bezkontextové gramatiky, zvaná Backusova-Naurova forma, která se právì èasto pou¾ívá pro popis syntaxe programovacích jazykù. Znalost bezkontextových jazykù lze vyu¾ít pøi konstrukci pøekladaèe, nebo interpretu programovacího jazyka a také pøi poèítaèovém zpracování algebraických výrazù.
 \cite{CFL}
 \newtheorem{mydef}{Definice}
+\newtheorem{myAlgorithm}{Algoritmus}
 
 \n{1}{Zásobníkový automat}
 Nyní si definujeme definici zásobníkového automatu.
@@ -472,9 +477,9 @@ Koneèný zásobníkový automat \( M \) je uspoøádaná sedmice \( M = (Q, \Sigma, \Ga
 \item \( Q \) je koneèná mno¾ina vnitøních stavù,
 \item \( \Sigma \) je koneèná vstupní abeceda,
 \item \( \Gamma \) je koneèná abeceda zásobníku,
-\item \( \delta \) je pøechodová relace, popisující pravidla èinnosti automatu, je definovaná jako koneèná mno¾ina kartézského souèinu \( Q \times (\Sigma \cup \{\varepsilon\} ) \times \Gamma \times Q \times G^* \),
+\item \( \delta \) je pøechodová relace, popisující pravidla èinnosti automatu, je definovaná jako koneèná mno¾ina kartézského souèinu \( Q \times (\Sigma \cup \{\varepsilon\} ) \times \Gamma \times Q \times \Gamma^* \),
 \item \( q_0 \) je poèáteèní stav z mno¾iny \( Q \),
-\item \( z_0 \) je poèáteèní symbol na vrcholu zásobníku z mno¾iny \( G \),
+\item \( z_0 \) je poèáteèní symbol na vrcholu zásobníku z mno¾iny \( \Gamma \),
 \item \( F \) je mno¾ina koncových stavù, \( F \subseteq Q \).
 \end{itemize}
 \end{framed}
@@ -529,16 +534,57 @@ Pøíklad konkrétního slova, které generuje tato gramatika by mohl vypadat následo
 \n{2}{Backusova-Naurova forma}
 Pro zápis bezkontextové gramatiky se pou¾ívají pøevá¾nì dvì notace a to Backusova-Naurova forma (BNF) a jako druhá v poøadí je Van Wijngaardenova gramatika. My si zde pøedstavíme pouze první z nich, proto¾e s BNF se mù¾ete setkat èastìji. Jazyky, které jsou popsány BNF a roz¹íøenou BNF jsou Algol, Paskal, C/C++, Ada 95, PL/I a dal¹í.
 
-Syntaktická pøepisovací pravidla jsou definována tak, ¾e levou stranu v¾dy tvoøí non-terminál, za kterým následuje oddìlovaè \uv{::=} (dve dvojteèny následované rovnítkem) za kterým následuje pravá strana pravidla, která se skládá z øetìzcù non-terminálù a terminálù. Pravá strana se mù¾e skládat z více øetìzcù oddìlených symbolem \uv{|} | znaèící logický operátor OR. Tento operátor byl zaveden, kvùli optimalizaci zápisu pravidle, tak aby místo zápisu, ¾e jeden non-terminální symbol se mù¾e rozepsat na \it{N} øetìzcù, co¾ by muselo být rozepsáno na \it{N} pravidel na \it{N} øádcích. Místo toho se tìchto \it{N} øetìzcù napí¹e na pravou stranu oddìlených symbolem \uv{|}. Terminální symboly jsou uvedeny v uvozovkách.
-%TODO pøidat pøíklad
+Syntaktická pøepisovací pravidla jsou definována tak, ¾e levou stranu v¾dy tvoøí non-terminál, za kterým následuje oddìlovaè \uv{::=} (dve dvojteèny následované rovnítkem) za kterým následuje pravá strana pravidla, která se skládá z øetìzcù non-terminálù a terminálù. Pravá strana se mù¾e skládat z více øetìzcù oddìlených symbolem \uv{\textbar} znaèící logický operátor OR. Tento operátor byl zaveden, kvùli optimalizaci zápisu pravidle, tak aby místo zápisu, ¾e jeden non-terminální symbol se mù¾e rozepsat na \it{N} øetìzcù, co¾ by muselo být rozepsáno na \it{N} pravidel na \it{N} øádcích. Místo toho se tìchto \it{N} øetìzcù napí¹e na pravou stranu oddìlených symbolem \uv{\textbar}. Terminální symboly jsou uvedeny v uvozovkách.
 \cite{BCF}
+\\ \\
+Gramatika pro popis èíselné konstanty by mohla vypadat takto:\\
+\nonTerm{konstanta}~::= \nonTerm{èíslice}~\textbar~\nonTerm{konstatnta} \nonTerm{èíslice} \\
+\nonTerm{èíslice}~::=~\uv{0}~\textbar~\uv{1}~\textbar~\uv{2}~\textbar~\uv{3}~\textbar~\uv{4}~
+                                 \textbar~\uv{5}~\textbar~\uv{6}~\textbar~\uv{7}~\textbar~\uv{8}~\textbar~\uv{9} \\
+\\
+Gramatika který by popisovala základní aritmetické operace by mìla navíc tato pravidla:\\
+\nonTerm{výraz} ::= \nonTerm{výraz} \uv{+} \nonTerm{výraz} \\
+\nonTerm{výraz} ::= \nonTerm{výraz} \uv{-} \nonTerm{výraz} \\
+\nonTerm{výraz} ::= \nonTerm{výraz} \uv{\(\times\)} \nonTerm{výraz} \\
+\nonTerm{výraz} ::= \nonTerm{výraz} \uv{/} \nonTerm{výraz} \\
+\nonTerm{výraz} ::= \uv{(} \nonTerm{výraz} \uv{)} \\
+\nonTerm{výraz} ::= \nonTerm{konstanta}\\
 
-\cast{Projektová èást}
+\n{1}{Algoritmus pøevodu CFG na PDA}
+\begin{framed}
+Vstup: CFG \(G = (V,\Sigma, R, S) \)\\
+Výstup: Nedeterministický PDA \(M = (Q, \Sigma, \Gamma, \delta, q_0, z_0, F) \), který pøijímá vstupní øetìzec vyprázdnìním zásobníku. 
+\begin{enumerate}
+\item \(Q = {q_0}\)
+\item \(\Sigma = \Sigma\)
+\item \(\Gamma = V \cup \Sigma \)
+\item Poèáteèní stav je \(q_0\)
+\item Konstrukce pøechodové mno¾iny \( \delta \):
+\begin{enumerate}
+\item Pro ka¾dé $a \in \Sigma$: pøidej $(q_0,a,a,q_0,\varepsilon)$ do $\delta$
+\item Pro ka¾dé $A \rightarrow x$, kde $A \in V, x \in (V \cup \Sigma)^*$, pøidej do $\delta (q_0, \varepsilon, A, q_0, y)$, 
+kde $y = reversal(x)$
+\end{enumerate}
+\item \(z_0 = S\)
+\item $G = \varnothing$
+\end{enumerate}
+\end{framed}
+\begin{myAlgorithm}
+Pøevod CFG na PDA.
+\end{myAlgorithm}
+\cite{CFG_to_PDA} \\
+Po aplikaci tohoto algoritmu nám vznikne nedeterministický PDA s jedním vstupním stavem a ¾ádným ukonèovacím stavem. Tento automat pøijímá vstupní øetìzec vyprázdnìním zásobníku. Má stejnou vstupní abecedu, jako byla abeceda terminálù u pùvodní CFG. Zásobníková abeceda automatu vznikla slouèením mno¾in terminálù a non-terminálù vstupní gramatiky. Poèáteèním symbolem na zásobníku je poèáteèní non-terminální symbol gramatiky. 
+
+První èást mno¾iny pøechodových pravidel vznikla tak, ¾e pro v¹echny terminální symboly se pøidala pøechodová pravidla taková, ¾e poèáteèní i koncový stav pravidla je v¾dy poèáteèní stav automatu. Zároveò aktuální symbol na pásce a stejnì tak na vrcholu zásobníku musí být stejný terminální symbol. Znak $\varepsilon$ øíká, ¾e symbol z vrcholu zásobníku odstraním. 
+
+Zbytek pøechodových má takté¾ poèáteèní a koncový stav stejný. $\varepsilon$ zde øíká, neètu ¾ádný ze symbolù na pásce, ale pøeètu jeden non-terminál z vrcholu zásobníku a nahradím jej øetìzcem znakù z pravé èásti pravidla napsaných pozpátku.  
+ 
+%\cast{Projektová èást}
 % Pøedstavení aplikace regular konvertor
 % Popsat mody aplikace, co umi co neumi, k èemu se dá pou¾ít.
 
-\n{1}{Nadpis}
-\n{2}{Podnadpis}
+%\n{1}{Nadpis}
+%\n{2}{Podnadpis}
 
 \nn{Závìr}
 % Ujasnit si o èem chci v diplomce psat
@@ -549,11 +595,12 @@ V této práci jsem se sna¾il k hùøe stravitelné teorii pøikládat mno¾ství pøíklad
 % Pøínos seminární práce.
 \ifthenelse{\equal{\typ}{sem}}
 {
-Nejvìt¹í pøínos této seminární práce je asi pro mì samotného. Jednak jsem byl tímto \uv{donucen} k tomu, abych napsal kus textu, který vyu¾iji v mé diplomové práci. Dále pak, ¾e jsem se seznámil s danou problematikou a s problematikou psaní práce v \LaTeX u. Pøi tvorbì této práce se ukázalo, ¾e tento jazyk se mimoøádnì hodí na sazbu matematických symbolù, znaèek, rovnic a dal¹ích technických konstrukcí. Kdy¾ jsem psal svoji bakaláøskou práci v OpenOffice, tak jsem nemìl tolik pod kontrolou výsledné vysázení a v pøípadì, ¾e bych mìl psát dal¹í odbornou technickou práci, asi bych nezvolil nic jiného ne¾ sázecí systém \LaTeX a je¹tì jednou bych tìl za tuto obrovskou mo¾nost podìkovat panu docentovi Ja¹kovi. 
+Nejvìt¹í pøínos této seminární práce je pro mì samotného. Jsem rád, ¾e jsem mohl napsat kus textu, který vyu¾iji v mé diplomové práci. Dále pak, ¾e jsem se seznámil s danou problematikou a s problematikou psaní práce v \LaTeX u. Pøi tvorbì této práce se ukázalo, ¾e tento jazyk se mimoøádnì hodí na sazbu matematických symbolù, znaèek, rovnic a dal¹ích technických konstrukcí. Kdy¾ jsem psal svoji bakaláøskou práci v OpenOffice, tak jsem nemìl tolik pod kontrolou výsledné vysázení a v pøípadì, ¾e bych mìl psát dal¹í odbornou technickou práci, asi bych nezvolil nic jiného ne¾ sázecí systém \LaTeX a je¹tì jednou bych tìl za tuto obrovskou mo¾nost podìkovat panu docentovi Ja¹kovi. 
 }
 
-\seznamlit{
+\newpage
 
+\seznamlit{
 \bibitem{latex}KOPKA, Helmut, Patrick W DALY a Jan GREGOR. \it{Latex: podrobný prùvodce}. Vyd. 1. Brno: Computer Press, 2004, 576 s. ISBN 80-7226-973-9.
 
 \bibitem{Chomsky_hierarchy}\it{Chomsky hierarchy} [online]. [cit. 2015-11-16]. Dostupný z~WWW: \url{https://en.wikipedia.org/wiki/Chomsky_hierarchy}.
@@ -566,7 +613,8 @@ Nejvìt¹í pøínos této seminární práce je asi pro mì samotného. Jednak jsem byl tí
 
 \bibitem{BCF}\it{Backus-Naur Form} [online]. [cit. 2015-11-18]. Dostupný z~WWW: \url{https://en.wikipedia.org/wiki/Backus-Naur_Form}.
 
-}.
+\bibitem{CFG_to_PDA}HOPCROFT, John E, Rajeev MOTWANI a Jeffrey D ULLMAN. \it{Introduction to automata theory, languages, and computation}. 2nd ed. Boston: Addison-Wesley, 2001, xiv, 521 s. ISBN 0201441241.
+}
 
 \seznamzkr
 

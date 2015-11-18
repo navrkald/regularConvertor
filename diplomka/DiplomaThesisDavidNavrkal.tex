@@ -375,16 +375,25 @@
 \thispagestyle{empty}
 \nm{Abstrakt}
 \vspace{1cm}
+Tato práce je roz¹íøením mé bakaláøské práce, která se zabývala, jak didakticky prezentovat studentùm formálních jazykù jazyky regulární. Proto v této práci budu pokraèovat jazyky bezkontextovými. Na této práci budu stavìt dále mou diplomovou práci na stejné téma. 
+
+Doète se zde o teorii bezkontextových jazykù s mno¾stvím pøíkladù. Budu se zde zabývat modely bezkontextových jazykù a to zásobníkovým automatem a bezkontextovou gramatikou. U bezkontextové gramatiky bude pøedstavena i její nejpou¾ívanìj¹í forma a o je Backusova-Naurova forma. Dále v teorii budou prezentovány algoritmy pro pøevod bezkontextové gramatiky na zásobníkový automat a zpìt. Projektová èást se bude zabývat návrhem u¾ivatelského rozhraní pro pøevodní algoritmy a krátkou rekapitulací programu vyvinutého v rámci bp. práce do kterého tyto pøevodní algoritmy budu implementovat.\\
 
 \emph{Klíèová slova:}
+Bezkontextové jazyky, zásobníkový automat, bezkontextová gramatika, Backusova-Naurova forma, pøevody zásobníkového automatu a bezkontextové gramatiky.
 
-\vspace{3cm}
+\vspace{1cm}
 
 \nns{Abstract}
+
+This work is an extension of my bachalor thesis, which deals with how the didacticly present regular languages to the students of formal languages. Therefore, this work will continue with context-free languages. Some of text of this seminar work will be used also in my master thesis.
+
+You can read here about the theory of context-free languages with plenty of examples. I will discuss models of context-free languages such as pushdown automaton and context-free grammar. For context-free grammars will be presented as well its most widely used form the Backus-Naur form. Furthermore, in the theory will be presented algorithms for conversion of context-free grammar to pushdown automata and back. Project part will deal with user interface design for the conversion algorithms and a brief overview on the program developed in bachelor theisis in which I will be these algorithms implement.
 
 \vspace{1cm}
 
 \emph{Keywords:}
+Context-free languages, pushdown automata, context-free grammar, Backus-Naur form, conversions pushdown automata and context-free grammars.
 \clearpage
 
 % Podekování
@@ -401,7 +410,7 @@ podìkování, motto, úryvky knih, básní atp.
 \nn{Úvod}
 Tato práce pojednává o vývoji aplikace která má didakticky prezentovat studentùm teoretické informatiky oblast bezkontextových jazykù. Aplikace navazuje na bakaláøskou práci, její¾ praktickou èástí bylo implementovat vybrané konverze modelù bezkontextových jazykù. Toto téma jsem si vybral z toho dùvodu, ¾e oblast formálních jazykù mù¾e být pro studenty hùøe pochopitelná a pomocí mé aplikace si tak mohou tuto nároènou teorii procvièit na praktických pøíkladech.
 
-Zdrojové kódy a text bakaláøské práce, na kterou tímto navazuji, jsou dostupné pod opensource licencí na internetovém serveru Github. Tato práce spoleènì se zdrojovými kódy zde bude uveøejnìna takté¾.
+Zdrojové kódy a text bakaláøské práce, na kterou tímto navazuji, jsou dostupné pod opensource licencí na internetovém serveru Github. Tato práce spoleènì se zdrojovými kódy zde bude uveøejnìna takté¾ na \url{https://github.com/navrkald/regularConvertor}.
 
 Jak ji¾ napovídá název serveru Github, práci vèetnì zdrojových kódù verzuji pomocí systémy Git. Díky tomu mám jistotu, ¾e a» se stane cokoliv svoje data mám tímto zálohovaná. Dále pak se mohu v pøípadì potøeby vracet ke star¹ím verzím. Mohu monitorovat svou práci, proto¾e vidím kolik jsem který den udìlal. Mohu také nový kód ukládat do vìtví, co¾ mi umo¾òuje mít stabilní vìtev pro koncové u¾ivatele a vývojovou vìtev, ve které si vyvíjím novou funkcionalitu. Jeliko¾ jsou zdrojové kódy veøejnì pøístupné, tak v pøípadì zájmu mù¾e kdokoliv pøispìt k v vývoji této výukové aplikace a v pøípadì potøeby mù¾e provést takzvaný pull reguest, který mohu schválit a zaèlenit jej do aplikace.
 
@@ -411,6 +420,7 @@ Tuto práci jsem se na rozdíl od své bakaláøské, kterou jsem psal v programu Open
 \ifseminarka{
 Jedna z dal¹ích výhod \LaTeX u je ta, ¾e mi dovoluje pou¾ívat pøíkazu \verb|\ifthenelse| a tak následný text snadno pou¾ít i v mé diplomové práci.
 Tímto bych chtìl také zároveò podìkovat panu docentovi Ja¹kovi, ¾e nám umo¾nil pou¾ít v rámci této seminární práce pou¾ít \LaTeX{} a tak nemuset nedìlat práci dvakrát.
+\cite{latex}
 }
 
 \newpage
@@ -438,7 +448,7 @@ Jazyky kontextové mù¾eme popsat lineárnì ohranièeným Turingovým strojem. Pøíklad
 
 % TODO: Doplnit jazyk typu 0.
 Jazyk typy nula, který v sobì obsahuje v¹echny doposud zmínìné jazyky plus je¹tì jazyky navíc. Popisujeme je úplným Turingovým strojem. 
-
+\cite{Chomsky_hierarchy}
 
 \n{1}{Bezkontextový jazyk}
 V pøedchozí kapitole jsme si uvedli vzájemný vztah formálních jazykù. Nyní se pojïme podívat podrobnìji na bezkontextové jazyky. Tyto jazyky popisujeme pomocí dvou hlavních modelù, kterými jsou bezkontextová gramatika (CFG) a koneèný zásobníkový automat (PDA).
@@ -450,7 +460,7 @@ Pro nás je ka¾dopádnì dùle¾itá zkuteènost, ¾e oba popisy jsou vzájemnì ekvivalen
 Pro lep¹í pøedstavu jaké jsou to vlastnì ty bezkontextové jazyky si nyní uvedeme pár pøíkladù. Krásným pøíkladem z praxe by mohl být jazyk závorek, tak aby odpovídal poèet levých závorek poètu závorek pravých. Slo¾itìj¹ím pøíkladem by mohl být jazyk algebraických výrazù, který se skládá z operátorù plus, mínus, krát, dìleno, symbolù 'x', 'y', 'z' a závorek. Dal¹ím pøíkladem z praxe je, ¾e velká podmno¾ina programovacích jazykù se dá popsat pomocí regulární gramatiky. 
 
 Jak je vidìt z tìchto pøíkladù, pomocí bezkontextového jazyka se dají popsat slo¾itìj¹í vìci a jejich uplatnìní mù¾eme nalézt u popisu programovacích jazykù. Existuje notace bezkontextové gramatiky, zvaná Backusova-Naurova forma, která se právì èasto pou¾ívá pro popis syntaxe programovacích jazykù. Znalost bezkontextových jazykù lze vyu¾ít pøi konstrukci pøekladaèe, nebo interpretu programovacího jazyka a také pøi poèítaèovém zpracování algebraických výrazù.
-
+\cite{CFL}
 \newtheorem{mydef}{Definice}
 
 \n{1}{Zásobníkový automat}
@@ -471,7 +481,7 @@ Koneèný zásobníkový automat \( M \) je uspoøádaná sedmice \( M = (Q, \Sigma, \Ga
 \begin{mydef}
 Definice zásobníkového automatu.
 \end{mydef}
-
+\cite{PDA} \\
 Pro lep¹í pøedstavu si uvedeme pøíklad zásobníkového automatu \(M\), který popisuje jazyk \( L = \{ 0^n 1^n \text{, kde } n \geq 0 \} \).
 
 Nech» \(M\) je definován následovnì:  
@@ -484,7 +494,6 @@ Nech» \(M\) je definován následovnì:
 \item \( z_0 = Z \) ,
 \item \( F = \{r\} \) .
 \end{itemize}
-
 Graficky znázornìný stejný zásobníkový automat by vypadal následovnì:
 
 \obr{obrazky/Pda_example.eps}{0.6}{\label{Velky} Pøíklad zásobníkového automatu}
@@ -498,12 +507,31 @@ Bezkontextová gramatika \( G \) je uspoøádaná ètvrtice \( G = (V, \Sigma, R, S) 
 \item \( V \) je koneèná mno¾ina non-terminálních symbolù,
 \item \( \Sigma \) je koneèná mno¾ina terminálních symbolù,
 \item \( R \) je koneèná mno¾ina relací z \(V\) do \( (V \cup \Sigma )^* \), takté¾ se nazývá mno¾inou pøepisovacích pravidel,
-\item \( S \in V\) se nazývá poèáteèní symbol gramatiky.,
+\item \( S \in V\) se nazývá poèáteèní non-terminální symbol gramatiky.,
 \end{itemize}
 \end{framed}
 \begin{mydef}
 Definice bezkontextové gramatiky.
 \end{mydef}
+Jednotlivé pøepisovací pravidla èasto pí¹eme pomocí \uv{¹ipkové notace}, kde na levé stranì neterminál za ním následuje ¹ipka a na pravé stranì je øetìzec non-terminálních symbolù. Pøepisovací pravidla se nazývají proto¾e, øetìzce daného jazyka, které jsou popsány gramatikou vznikají tak, ¾e na poèátku máme øetìzec skládající se z poèáteèního non-terminálního symbolu gramatiky \(S\) a na ten aplikuji jedno z pøepisovacích pravidel. Pokraèuji tím, ¾e postupnì nahrazuji non-terminální symboly v øetìzci do té doby, dokud mì v nìm nezbudou jen terminální symboly a to je pak jedno konkrétní slovo daného bezkontextového jazyka.
+
+Napøíklad gramatika \( G = (\{S, B\}, \{ a, b\}, R = \{\{S \rightarrow aBb\}, \{B \rightarrow aBb\},\{B \rightarrow \varepsilon\}\}, S \}) \) popisuje jazyk \( L = \{ a^n b^n : n >= 1 \}  \).
+
+Pøíklad konkrétního slova, které generuje tato gramatika by mohl vypadat následovnì:
+\begin{enumerate}
+  \item Na zaèátku máme slovo skládající se z poèáteèního symbolu \(S\).
+  \item Po aplikaci pøepisovacího pravidla \(S \rightarrow aBb\) dostaneme slovo \(aBb\).
+  \item Toto pravidlo aplikujeme je¹tì jednou a dostáváme slovo \(aaBbb\).
+  \item Nakonec aplikujeme pravidlo \(B \rightarrow \varepsilon \) a dostáváme slovo \(aa\varepsilon bb\).
+  \item Jeliko¾ \(\varepsilon\) znaèí prázdný øetìzec, tak výsledné slovo jazyka \(L\) je \(aabb\). Slovo se nám skládá jen z terminálních symbolù, tak¾e jsme s generováním slova u konce.
+\end{enumerate}
+\cite{CFG}
+\n{2}{Backusova-Naurova forma}
+Pro zápis bezkontextové gramatiky se pou¾ívají pøevá¾nì dvì notace a to Backusova-Naurova forma (BNF) a jako druhá v poøadí je Van Wijngaardenova gramatika. My si zde pøedstavíme pouze první z nich, proto¾e s BNF se mù¾ete setkat èastìji. Jazyky, které jsou popsány BNF a roz¹íøenou BNF jsou Algol, Paskal, C/C++, Ada 95, PL/I a dal¹í.
+
+Syntaktická pøepisovací pravidla jsou definována tak, ¾e levou stranu v¾dy tvoøí non-terminál, za kterým následuje oddìlovaè \uv{::=} (dve dvojteèny následované rovnítkem) za kterým následuje pravá strana pravidla, která se skládá z øetìzcù non-terminálù a terminálù. Pravá strana se mù¾e skládat z více øetìzcù oddìlených symbolem \uv{|} | znaèící logický operátor OR. Tento operátor byl zaveden, kvùli optimalizaci zápisu pravidle, tak aby místo zápisu, ¾e jeden non-terminální symbol se mù¾e rozepsat na \it{N} øetìzcù, co¾ by muselo být rozepsáno na \it{N} pravidel na \it{N} øádcích. Místo toho se tìchto \it{N} øetìzcù napí¹e na pravou stranu oddìlených symbolem \uv{|}. Terminální symboly jsou uvedeny v uvozovkách.
+%TODO pøidat pøíklad
+\cite{BCF}
 
 \cast{Projektová èást}
 % Pøedstavení aplikace regular konvertor
@@ -511,8 +539,6 @@ Definice bezkontextové gramatiky.
 
 \n{1}{Nadpis}
 \n{2}{Podnadpis}
-
-%Todo pøidat url na Github
 
 \nn{Závìr}
 % Ujasnit si o èem chci v diplomce psat
@@ -526,18 +552,28 @@ V této práci jsem se sna¾il k hùøe stravitelné teorii pøikládat mno¾ství pøíklad
 Nejvìt¹í pøínos této seminární práce je asi pro mì samotného. Jednak jsem byl tímto \uv{donucen} k tomu, abych napsal kus textu, který vyu¾iji v mé diplomové práci. Dále pak, ¾e jsem se seznámil s danou problematikou a s problematikou psaní práce v \LaTeX u. Pøi tvorbì této práce se ukázalo, ¾e tento jazyk se mimoøádnì hodí na sazbu matematických symbolù, znaèek, rovnic a dal¹ích technických konstrukcí. Kdy¾ jsem psal svoji bakaláøskou práci v OpenOffice, tak jsem nemìl tolik pod kontrolou výsledné vysázení a v pøípadì, ¾e bych mìl psát dal¹í odbornou technickou práci, asi bych nezvolil nic jiného ne¾ sázecí systém \LaTeX a je¹tì jednou bych tìl za tuto obrovskou mo¾nost podìkovat panu docentovi Ja¹kovi. 
 }
 
-% Cituje se pomoci prikazu \cite{chmel}
-
 \seznamlit{
-\bibitem{chmel}\it{Èeský chmel: atlas odrùd} [online]. [cit. 2004-10-15]. Dostupný z~WWW: \url{http://www.beer.cz/humulus/}.
+
 \bibitem{latex}KOPKA, Helmut, Patrick W DALY a Jan GREGOR. \it{Latex: podrobný prùvodce}. Vyd. 1. Brno: Computer Press, 2004, 576 s. ISBN 80-7226-973-9.
+
+\bibitem{Chomsky_hierarchy}\it{Chomsky hierarchy} [online]. [cit. 2015-11-16]. Dostupný z~WWW: \url{https://en.wikipedia.org/wiki/Chomsky_hierarchy}.
+
+\bibitem{CFL}\it{Context-free language} [online]. [cit. 2015-11-17]. Dostupný z~WWW: \url{https://en.m.wikipedia.org/wiki/Context-free_language}.
+
+\bibitem{PDA}\it{Pushdown automaton} [online]. [cit. 2015-11-17]. Dostupný z~WWW: \url{https://en.wikipedia.org/wiki/Pushdown_automaton}.
+
+\bibitem{CFG}\it{Context-free grammar} [online]. [cit. 2015-11-17]. Dostupný z~WWW: \url{https://en.m.wikipedia.org/wiki/Context-free_grammar}.
+
+\bibitem{BCF}\it{Backus-Naur Form} [online]. [cit. 2015-11-18]. Dostupný z~WWW: \url{https://en.wikipedia.org/wiki/Backus-Naur_Form}.
+
 }.
 
 \seznamzkr
 
 \begin{tabular}{ll}
 CFG & Context-free grammar, èesky takté¾ bezkontextová gramatika \\
-PDA & Pushdown automaton, èesky té¾ zásobníkový automat
+PDA & Pushdown automaton, èesky té¾ zásobníkový automat \\
+BNF & Backusova-Naurova forma. (Notace pro zápis bezkontextové gramatiky.) \\
 \end{tabular}
 
 \seznamobr

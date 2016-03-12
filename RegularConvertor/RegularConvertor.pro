@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets opengl
+QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,15 +15,16 @@ CODECFORTR = UTF-8
 TARGET = RegularConvertor
 TEMPLATE = app
 
-unix {
-    LIBS += -lGL
-    QT += testlib
-}
+#unix {
+#    LIBS += -lGL
+#    QT += testlib
+#}
 
-win32 {
-    #QT += testlib
-    LIBS += -lopengl32
-}
+#win32 {
+##    QT += testlib
+#    LIBS += -lopengl32
+#   QMAKE_LFLAGS += -shared
+#}
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -94,7 +95,7 @@ FORMS    += mainwindow.ui \
     algorithms/algorithmwidget.ui \
     reg_exp/regexpwidget.ui
 
-CONFIG += static
+#CONFIG += static
 
 QMAKE_CXXFLAGS += -g -gdwarf-2
 RESOURCES += \

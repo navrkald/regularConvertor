@@ -8,7 +8,7 @@
 #include "algorithms/algorithmwidget.h"
 #include <stdlib.h>
 #include <time.h>
-#include <QtTest/QTest>
+//#include <QtTest/QTest>
 
 class RegExpToFA : public Algorithm
 {

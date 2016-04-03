@@ -17,7 +17,7 @@
 % fmk  -- pro Fakutlu mutimediálních komunikací
 % uni  -- pro Univerzitní institut
 % fai  -- pro Fakultu aplikované informatiky
-\newcommand{\typ}{sem}
+\newcommand{\typ}{dip}
 % bak  -- bakaláøská práce
 % dip  -- diplomová práce
 % sem  -- semestrální práce
@@ -342,12 +342,12 @@
 \put(0,-80){\makebox(170,20){\fontsize{24}{1}\usefont{OT1}{phv}{b}{n}Konverze modelù bezkontextových jazykù}}
 \ifseminarka{
 	\put(0,-100){\makebox(155,20){\fontsize{24}{1}\usefont{OT1}{phv}{b}{n}Conversions of models of context-free languages}}
-}
+}\else{}
 \put(0,-135){\makebox(170,25){\fontsize{20}{1}\usefont{OT1}{phv}{c}{n}Bc. David Navrkal}}
 \ifseminarka{
 	\put(0,-170){\makebox(42,10){\fontsize{18}{1}\usefont{OT1}{phv}{c}{n}Obor: Informaèní technologie}}
 	\put(0,-180){\makebox(40,10){\fontsize{18}{1}\usefont{OT1}{phv}{c}{n}Email: navrkald@gmail.com}}
-}
+}\else{}
 \ifthenelse{\equal{\fakulta}{fame}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{obrazky/fame_logo_cz.ps}}}}{
 \ifthenelse{\equal{\fakulta}{ft}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{obrazky/ft_logo_cz.ps}}}}{
 \ifthenelse{\equal{\fakulta}{fmk}}{\put(82.2,-223.3){\makebox(84,16.4){\includegraphics[width=84mm]{obrazky/fmk_logo_cz.ps}}}}{
@@ -379,7 +379,7 @@
 \thispagestyle{empty}
 \nm{Abstrakt}
 \vspace{1cm}
-Tato práce je roz¹íøením mé bakaláøské práce, která se zabývala, jak didakticky prezentovat studentùm formálních jazykù jazyky regulární. Proto v této práci budu pokraèovat jazyky bezkontextovými. Na této práci budu stavìt dále mou diplomovou práci na stejné téma. 
+Tato práce je roz¹íøením mé bakaláøské práce, která se zabývala, jak didakticky prezentovat studentùm formálních jazykù jazyky regulární. Proto v této práci budu pokraèovat jazyky bezkontextovými. 
 
 Doètete se zde o teorii bezkontextových jazykù s mno¾stvím pøíkladù. Budu se zde zabývat modely bezkontextových jazykù a to zásobníkovým automatem a bezkontextovou gramatikou. U bezkontextové gramatiky bude pøedstavena i její nejpou¾ívanìj¹í forma a o je Backusova-Naurova forma. Dále v teorii budou prezentovány algoritmy pro pøevod bezkontextové gramatiky na zásobníkový automat a zpìt. Projektová èást se bude zabývat návrhem u¾ivatelského rozhraní pro pøevodní algoritmy a krátkou rekapitulací programu vyvinutého v rámci bp. práce do kterého tyto pøevodní algoritmy budu implementovat.\\
 
@@ -390,9 +390,8 @@ Bezkontextové jazyky, zásobníkový automat, bezkontextová gramatika, Backusova-Na
 
 \nns{Abstract}
 
-This work is an extension of my bachalor thesis, which deals with how the didacticly present regular languages to the students of formal languages. Therefore, this work will continue with context-free languages. Some of text of this seminar work will be used also in my master thesis.
-
-You can read here about the theory of context-free languages with plenty of examples. I will discuss models of context-free languages such as pushdown automaton and context-free grammar. For context-free grammars will be presented as well its most widely used form the Backus-Naur form. Furthermore, in the theory will be presented algorithms for conversion of context-free grammar to pushdown automata and back. Project part will deal with user interface design for the conversion algorithms and a brief overview on the program developed in bachelor theisis in which I will be these algorithms implement.
+This work is an extension of my bachalor thesis, which deals with how the didacticly present regular languages to the students of formal languages. Therefore, this work will continue with context-free languages.
+You can read here about the theory of context-free languages with plenty of examples. I will discuss models of context-free languages such as pushdown automaton and context-free grammar. For context-free grammars will be presented as well its most widely used form the Backus-Naur form. Furthermore, in the theory will be presented algorithms for conversion of context-free grammar to pushdown automata and back. Project part will deal with user interface design for the conversion algorithms and a brief overview on the program developed in bachelor theisis in which I will these algorithms implement.
 
 \vspace{1cm}
 
@@ -416,16 +415,16 @@ Tato práce pojednává o vývoji aplikace která má didakticky prezentovat studentùm
 
 Zdrojové kódy a text bakaláøské práce, na kterou tímto navazuji, jsou dostupné pod opensource licencí na internetovém serveru Github. Tato práce spoleènì se zdrojovými kódy zde bude uveøejnìna takté¾ na \url{https://github.com/navrkald/regularConvertor}.
 
-Jak ji¾ napovídá název serveru Github, práci vèetnì zdrojových kódù verzuji pomocí systémy Git. Díky tomu mám jistotu, ¾e a» se stane cokoliv svoje data mám tímto zálohovaná. Dále pak se mohu v pøípadì potøeby vracet ke star¹ím verzím. Mohu monitorovat svou práci, proto¾e vidím kolik jsem který den udìlal. Mohu také nový kód ukládat do vìtví, co¾ mi umo¾òuje mít stabilní vìtev pro koncové u¾ivatele a vývojovou vìtev, ve které si vyvíjím novou funkcionalitu. Jeliko¾ jsou zdrojové kódy veøejnì pøístupné, tak v pøípadì zájmu mù¾e kdokoliv pøispìt k v vývoji této výukové aplikace a v pøípadì potøeby mù¾e provést takzvaný pull reguest, který mohu schválit a zaèlenit jej do aplikace.
+Jak ji¾ napovídá název serveru Github, práci vèetnì zdrojových kódù verzuji pomocí systému Git. Díky tomu mám jistotu, ¾e a» se stane cokoliv svoje data mám tímto zálohovaná. Dále pak se mohu v pøípadì potøeby vracet ke star¹ím verzím. Mohu monitorovat svou práci, proto¾e vidím kolik jsem který den udìlal. Mohu také nový kód ukládat do vìtví, co¾ mi umo¾òuje mít stabilní vìtev pro koncové u¾ivatele a vývojovou vìtev, ve které si vyvíjím novou funkcionalitu. Jeliko¾ jsou zdrojové kódy veøejnì pøístupné, tak v pøípadì zájmu mù¾e kdokoliv pøispìt k v vývoji této výukové aplikace a v pøípadì potøeby mù¾e provést takzvaný pull reguest, který mohu schválit a zaèlenit jej do aplikace.
 
 Pro vývoj tohoto programu jsem si zvolil jazyk C++, proto¾e je mi velmi blízký, jeliko¾ jej pou¾ívám ve svém povolání programátora ve firmì AVG a také na tento jazyk byl kladen na mé pøedchozí ¹kole FIT VUT v Brnì. Jeliko¾ se pohybuji ve svém ¾ivotì na pomezí svìta Windows a Linuxu, tak pro mì bylo zásadní, aby aplikace fungovala na tìchto dvou operaèních systémech, tak jsem si zvolil pro vývoj grafického u¾ivatelského prostøedí knihovnu Qt verze 5, která je v souèasné dobì nejnovìj¹í.
  
-Tuto práci jsem se na rozdíl od své bakaláøské, kterou jsem psal v programu Open Office, rozhodl psát v jazyce \LaTeX. Toto rozhodnutí má hned nìkolik dùvodù. Prvním z nich je to, ¾e jsem se chtìl tento jazyk u¾ dlouho nauèit, proto¾e mi je jako programátorovi mnohem bli¾¹í. Myslím si, ¾e technické texty vypadají mnohem lépe v tomto jazyce a také mám pøi psaní v \LaTeX u vìt¹í kontrolu nad textem. Dal¹ím dùvodem, je ¾e pomocí jazyka \LaTeX mù¾u mít práci napsánu v textovém formátu, na rozdíl od programù Open Office nebo Microsoft Word, které pou¾ívají binární formát, který si nemohu otevøít v poznámkovém bloku, nebo nad ním dìlat jednodu¹e porovnání dvou verzí. Tato zkuteènost znamená i mnohem efektivnìj¹í verzování jednotlivých commitù v Gitu, ve kterém si pak mù¾u prohlí¾et a porovnávat jednotlivé verze a pøípadnì se i vrátit k nìkteré z pøedchozích verzí.
+Tuto práci jsem se na rozdíl od své bakaláøské, kterou jsem psal v programu Open Office, rozhodl psát v jazyce \LaTeX. Toto rozhodnutí má hned nìkolik dùvodù. Prvním z nich je to, ¾e jsem se chtìl tento jazyk u¾ dlouho nauèit, proto¾e mi je jako programátorovi mnohem bli¾¹í. Nejen technické texty vypadají mnohem lépe v tomto jazyce, proto¾e se za mì stará za základní typografická pravidla a také mám pøi psaní v \LaTeX u vìt¹í kontrolu nad textem. Dal¹ím dùvodem, je ¾e pomocí jazyka \LaTeX mù¾u mít práci napsánu v textovém formátu, na rozdíl od programù Open Office nebo Microsoft Word, které pou¾ívají binární formát, který si nemohu otevøít v poznámkovém bloku, nebo nad ním dìlat jednodu¹e porovnání dvou verzí. Tato zkuteènost znamená i mnohem efektivnìj¹í verzování jednotlivých commitù v Gitu, ve kterém si pak mù¾u prohlí¾et a porovnávat jednotlivé verze a pøípadnì se i vrátit k nìkteré z pøedchozích verzí.
 \ifseminarka{
 Jedna z dal¹ích výhod \LaTeX u je ta, ¾e mi dovoluje pou¾ívat pøíkazu \verb|\ifthenelse| a tak následný text snadno pou¾ít i v mé diplomové práci.
 Tímto bych chtìl také zároveò podìkovat panu docentovi Ja¹kovi, ¾e nám umo¾nil pou¾ít v rámci této seminární práce pou¾ít \LaTeX{} a tak jsem nemusel nedìlat práci dvakrát.
 \cite{latex}
-}
+}\else{}
 
 \newpage
 
@@ -436,11 +435,11 @@ Tímto bych chtìl také zároveò podìkovat panu docentovi Ja¹kovi, ¾e nám umo¾nil p
 % Definice bezkontextove gramatiky
 
 \n{1}{Chomského hierarchie}
-Abychom si mohli dát bezkontextové jazyky do souvislosti s ostatními formálními jazyky, je nutné si vyspìtlit Chomského hierarchii. Tato hierarchie byla vytvoøena panem Noamem Chomskym v roce 1956. Dává do souvislosti jazyky regulární, bezkontextové, kontextové a jazyky typu 0. Jejich vztah, mù¾ete vidìt na obrázku 1, jako vztah mno¾in.
+Abychom si mohli dát bezkontextové jazyky do souvislosti s ostatními formálními jazyky, je nutné si vysvìtlit Chomského hierarchii. Tato hierarchie byla vytvoøena panem Noamem Chomskym v roce 1956. Dává do souvislosti jazyky regulární, bezkontextové, kontextové a jazyky typu 0. Jejich vztah, mù¾ete vidìt na obrázku 1, jako vztah mno¾in.
 
 \obr{obrazky/Chomskeho_hierarchie.eps}{0.4}{\label{Velky} Chomskeho hierarchie formálních jazykù}
 
-Jak je vidìt z obrázku nejmen¹í mno¾inu, chcete-li poèet jazykù popisují jazyky regulární. Nenechte se v¹ak zmýlit pojmem  poèet jazykù, proto¾e poèet jazykù a mno¾ství øetìzcù generovaných daným jazykem jsou dvì rozdílné vìci. Napøíklad jednoduchým regulárním výrazem \( (a + b)^* \) lze popsat v¹echny slova nad abecedou \( \Sigma = {a, b} \). Av¹ak jazyk, v¹ech slov, kde první pùlka slova se skládá ze stejného poètu písmen 'a' jako druhá pùlka slova skládající se ze z písmena 'b' regulárním jazykem nepopí¹eme. Dalo by se tak øíci, ¾e èím vý¹e se jazyk nachází v Chomského hierarchii, tím pøesnìji doká¾eme jazyk popsat, jinými slovy tím více jazykù jsme schopni generovat.
+Jak je vidìt z obrázku regulární jazyky zaujímají nejmen¹í mno¾inu, nebo chcete li nejmen¹í poèet jazykù. Nenechte se v¹ak zmýlit pojmem  poèet jazykù, proto¾e poèet jazykù a mno¾ství øetìzcù generovaných daným jazykem jsou dvì rozdílné vìci. Napøíklad jednoduchým regulárním výrazem \( (a + b)^* \) lze popsat v¹echny slova nad abecedou \( \Sigma = {a, b} \). Av¹ak jazyk, v¹ech slov, kde první pùlka slova se skládá ze stejného poètu písmen 'a' jako písmen 'b' v druhé pùlce slova regulárním jazykem nepopí¹eme. Dalo by se tak øíci, ¾e èím vý¹e se jazyk nachází v Chomského hierarchii, tím pøesnìji doká¾eme jazyk popsat, jinými slovy, tím více jazykù jsme schopni generovat.
  
 Nyní si pro lep¹í pøedstavu u ka¾dého jazyku uvedeme modely, které daný jazyk popisují s jedním pøíkladem konkrétního jazyka.
 
@@ -451,7 +450,7 @@ Jazyky bezkontextové lze popsat modely jakými jsou bezkontextové gramatiky a kon
 Jazyky kontextové mù¾eme popsat lineárnì ohranièeným Turingovým strojem. Pøíkladem nech» je jazyk \( L = \{ a^n b^n c^n : n >= 1 \}  \)
 
 % TODO: Doplnit jazyk typu 0.
-Jazyk typy nula, který v sobì obsahuje v¹echny doposud zmínìné jazyky plus je¹tì jazyky navíc. Popisujeme je úplným Turingovým strojem. 
+Tøída jazykù typu nula, v sobì obsahuje v¹echny doposud zmínìné jazyky plus je¹tì jazyky navíc. Popisujeme je úplným Turingovým strojem. 
 \cite{Chomsky_hierarchy}
 
 \n{1}{Bezkontextový jazyk}
@@ -461,7 +460,7 @@ Nenechme se v¹ak zmýlit pøedstavou, ¾e pomocí obou mù¾eme generovat bezkontextov
 
 Pro nás je ka¾dopádnì dùle¾itá zkuteènost, ¾e oba popisy jsou vzájemnì ekvivalentní, tj. ¾e lze pøevést PDA na CFG a takté¾ lze pøevést CFG na PDA. Formální popis bezkontextové gramatiky a zásobníkového automatu bude uveden dále spolu s jejich vzájemnými konverzemi. 
 
-Pro lep¹í pøedstavu jaké jsou to vlastnì ty bezkontextové jazyky si nyní uvedeme pár pøíkladù. Krásným pøíkladem z praxe by mohl být jazyk závorek, tak aby odpovídal poèet levých závorek poètu závorek pravých. Slo¾itìj¹ím pøíkladem by mohl být jazyk algebraických výrazù, který se skládá z operátorù plus, mínus, krát, dìleno, symbolù 'x', 'y', 'z' a závorek. Dal¹ím pøíkladem z praxe je, ¾e velká podmno¾ina programovacích jazykù se dá popsat pomocí regulární gramatiky. 
+Pro lep¹í pøedstavu jaké jsou to vlastnì ty bezkontextové jazyky si nyní uvedeme pár pøíkladù. Krásným pøíkladem z praxe by mohl být jazyk závorek, tak aby odpovídal poèet levých závorek poètu závorek pravých. Slo¾itìj¹ím pøíkladem by mohl být jazyk matematicky správných algebraických výrazù, který se skládá z operátorù plus, mínus, krát, dìleno, symbolù 'x', 'y', 'z' a závorek. Dal¹ím pøíkladem z praxe je, ¾e velká podmno¾ina programovacích jazykù se dá popsat pomocí bezkontextové gramatiky. 
 
 Jak je vidìt z tìchto pøíkladù, pomocí bezkontextového jazyka se dají popsat slo¾itìj¹í vìci a jejich uplatnìní mù¾eme nalézt u popisu programovacích jazykù. Existuje notace bezkontextové gramatiky, zvaná Backusova-Naurova forma, která se právì èasto pou¾ívá pro popis syntaxe programovacích jazykù. Znalost bezkontextových jazykù lze vyu¾ít pøi konstrukci pøekladaèe, nebo interpretu programovacího jazyka a také pøi poèítaèovém zpracování algebraických výrazù.
 \cite{CFL}
@@ -469,7 +468,7 @@ Jak je vidìt z tìchto pøíkladù, pomocí bezkontextového jazyka se dají popsat slo
 \newtheorem{myAlgorithm}{Algoritmus}
 
 \n{1}{Zásobníkový automat}
-Nyní si definujeme definici zásobníkového automatu.
+Nyní si definujeme definici zásobníkového automatu. \cite{PDA}
 
 \begin{framed}
 Koneèný zásobníkový automat \( M \) je uspoøádaná sedmice \( M = (Q, \Sigma, \Gamma, \delta, q_0, z_0, F) \) kde:
@@ -486,7 +485,7 @@ Koneèný zásobníkový automat \( M \) je uspoøádaná sedmice \( M = (Q, \Sigma, \Ga
 \begin{mydef}
 Definice zásobníkového automatu.
 \end{mydef}
-\cite{PDA} \\
+
 Pro lep¹í pøedstavu si uvedeme pøíklad zásobníkového automatu \(M\), který popisuje jazyk \( L = \{ 0^n 1^n \text{, kde } n \geq 0 \} \).
 
 Nech» \(M\) je definován následovnì:  
@@ -531,10 +530,11 @@ Pøíklad konkrétního slova, které generuje tato gramatika by mohl vypadat následo
   \item Jeliko¾ \(\varepsilon\) znaèí prázdný øetìzec, tak výsledné slovo jazyka \(L\) je \(aabb\). Slovo se nám skládá jen z terminálních symbolù, tak¾e jsme s generováním slova u konce.
 \end{enumerate}
 \cite{CFG}
-\n{2}{Backusova-Naurova forma}
-Pro zápis bezkontextové gramatiky se pou¾ívají pøevá¾nì dvì notace a to Backusova-Naurova forma (BNF) a jako druhá v poøadí je Van Wijngaardenova gramatika. My si zde pøedstavíme pouze první z nich, proto¾e s BNF se mù¾ete setkat èastìji. Jazyky, které jsou popsány BNF a roz¹íøenou BNF jsou Algol, Paskal, C/C++, Ada 95, PL/I a dal¹í.
 
-Syntaktická pøepisovací pravidla jsou definována tak, ¾e levou stranu v¾dy tvoøí non-terminál, za kterým následuje oddìlovaè \uv{::=} (dve dvojteèny následované rovnítkem) za kterým následuje pravá strana pravidla, která se skládá z øetìzcù non-terminálù a terminálù. Pravá strana se mù¾e skládat z více øetìzcù oddìlených symbolem \uv{\textbar} znaèící logický operátor OR. Tento operátor byl zaveden, kvùli optimalizaci zápisu pravidle, tak aby místo zápisu, ¾e jeden non-terminální symbol se mù¾e rozepsat na \it{N} øetìzcù, co¾ by muselo být rozepsáno na \it{N} pravidel na \it{N} øádcích. Místo toho se tìchto \it{N} øetìzcù napí¹e na pravou stranu oddìlených symbolem \uv{\textbar}. Terminální symboly jsou uvedeny v uvozovkách.
+\n{2}{Backusova-Naurova forma}
+Pro zápis bezkontextové gramatiky se pou¾ívají pøevá¾nì dvì notace a to Backusova-Naurova forma (BNF) a jako druhá v poøadí je Van Wijngaardenova gramatika. My si zde pøedstavíme pouze první z nich, proto¾e s BNF se mù¾ete setkat èastìji. Jazyky, které jsou popsány BNF a roz¹íøenou BNF jsou Algol, Paskal, C/C++, Ada 95, PL/I a dal¹í. %TODO: Dodat citaci.
+
+Syntaktická pøepisovací pravidla jsou definována tak, ¾e levou stranu v¾dy tvoøí non-terminál, za kterým následuje oddìlovaè \uv{::=} (dve dvojteèny následované rovnítkem) za kterým následuje pravá strana pravidla, která se skládá z øetìzcù non-terminálù a terminálù. Pravá strana se mù¾e skládat z více øetìzcù oddìlených symbolem \uv{\textbar} znaèící logický operátor OR. Tento operátor byl zaveden, kvùli optimalizaci zápisu pravidel, tak aby místo zápisu, ¾e jeden non-terminální symbol se mù¾e rozepsat na \it{N} øetìzcù, co¾ by muselo být rozepsáno na \it{N} pravidel na \it{N} øádcích. Místo toho se tìchto \it{N} øetìzcù napí¹e na pravou stranu oddìlených symbolem \uv{\textbar}. Terminální symboly jsou uvedeny v uvozovkách.
 \cite{BCF}
 \\ \\
 Gramatika pro popis èíselné konstanty by mohla vypadat takto:\\
@@ -551,6 +551,9 @@ Gramatika který by popisovala základní aritmetické operace by mìla navíc tato pr
 \nonTerm{výraz} ::= \nonTerm{konstanta}\\
 
 \n{1}{Algoritmus pøevodu CFG na PDA}
+
+Nyní si pojïme ukázat algoritmus pøevodu bezkontextové gramatiky na zásobníkový automat. \cite{CFG_to_PDA}
+
 \begin{framed}
 Vstup: CFG \(G = (V,\Sigma, R, S) \)\\
 Výstup: Nedeterministický PDA \(M = (Q, \Sigma, \Gamma, \delta, q_0, z_0, F) \), který pøijímá vstupní øetìzec vyprázdnìním zásobníku. 
@@ -572,12 +575,12 @@ kde $y = reversal(x)$
 \begin{myAlgorithm}
 Pøevod CFG na PDA.
 \end{myAlgorithm}
-\cite{CFG_to_PDA} \\
+
 Po aplikaci tohoto algoritmu nám vznikne nedeterministický PDA s jedním vstupním stavem a ¾ádným ukonèovacím stavem. Tento automat pøijímá vstupní øetìzec vyprázdnìním zásobníku. Má stejnou vstupní abecedu, jako byla abeceda terminálù u pùvodní CFG. Zásobníková abeceda automatu vznikla slouèením mno¾in terminálù a non-terminálù vstupní gramatiky. Poèáteèním symbolem na zásobníku je poèáteèní non-terminální symbol gramatiky. 
 
 První èást mno¾iny pøechodových pravidel vznikla tak, ¾e pro v¹echny terminální symboly se pøidala pøechodová pravidla taková, ¾e poèáteèní i koncový stav pravidla je v¾dy poèáteèní stav automatu. Zároveò aktuální symbol na pásce a stejnì tak na vrcholu zásobníku musí být stejný terminální symbol. Znak $\varepsilon$ øíká, ¾e symbol z vrcholu zásobníku odstraním. 
 
-Zbytek pøechodových má takté¾ poèáteèní a koncový stav stejný. $\varepsilon$ zde øíká, neètu ¾ádný ze symbolù na pásce, ale pøeètu jeden non-terminál z vrcholu zásobníku a nahradím jej øetìzcem znakù z pravé èásti pravidla napsaných pozpátku.  
+Zbytek pøechodových má takté¾ poèáteèní a koncový stav stejný. $\varepsilon$ zde øíká, ¾e neètu ¾ádný ze symbolù na pásce, ale pøeètu jeden non-terminál z vrcholu zásobníku a nahradím jej øetìzcem znakù z pravé èásti pravidla napsaných pozpátku.  
  
 %\cast{Projektová èást}
 % Pøedstavení aplikace regular konvertor
@@ -591,7 +594,7 @@ Zbytek pøechodových má takté¾ poèáteèní a koncový stav stejný. $\varepsilon$ zde
 % Nauèil jsem se Latex (Pracovat se zdroji), zprovoznit na linuxu Latex a pracovat s TeXWork.
 % Naucil jsem se pracovat s programem na mocup
 % Napsal jsem kus diplomove prace zaroven (Teorie, definice)
-V této práci jsem se sna¾il k hùøe stravitelné teorii pøikládat mno¾ství pøíkladù, aby byla tato problematika pochopitelná a pøínosná pro studenta, který by si tuto práci chtìl pùjèit v univerzitní knihovnì. Z vlastní zku¹enosti vím, ¾e pro lep¹í pochopení dané problematiky je kromì suché teorie nutné pøilo¾it i pøíklady. Dával jsem je i pro to, ¾e koneèným cílem diplomové práce bude kromì textu nutné vytvoøit i funkèní aplikaci, která má slou¾it pøedev¹ím studentùm, ale samozøejmì ji mohou vyu¾ít i profesoøi na na¹í ¹kole k prezentaci pøedná¹ené látky pro lep¹í pøiblí¾ení studentùm. Chtìl jsem, aby i student nepøíli¹ seznámený s danou problematikou mohl po pøeètení této práce zaèít pou¾ívat mou aplikaci bez obtí¾í.
+V této práci jsem se sna¾il k hùøe stravitelné teorii pøikládat mno¾ství pøíkladù, aby byla tato problematika pochopitelná a pøínosná pro studenta, který by si tuto práci chtìl pùjèit v univerzitní knihovnì. Z vlastní zku¹enosti vím, ¾e pro lep¹í pochopení dané problematiky je kromì suché teorie nutné pøilo¾it i pøíklady. Dával jsem je zde i pro to, ¾e koneèným cílem diplomové práce bude kromì textu nutné vytvoøit i funkèní aplikaci, která má slou¾it pøedev¹ím studentùm, ale samozøejmì ji mohou vyu¾ít i profesoøi na na¹í ¹kole k prezentaci pøedná¹ené látky pro lep¹í pøiblí¾ení studentùm. Chtìl jsem, aby i student nepøíli¹ seznámený s danou problematikou mohl po pøeètení této práce zaèít pou¾ívat mou aplikaci bez obtí¾í.
 % Pøínos seminární práce.
 \ifthenelse{\equal{\typ}{sem}}
 {

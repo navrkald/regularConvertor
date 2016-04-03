@@ -2,21 +2,17 @@
 
 ComputationalRules::ComputationalRules()
 {
-    from = "";
-    to = "";
-    symbol= "";
+    Init("","","");
 }
 
-ComputationalRules::ComputationalRules(QString _from, QString _to, QString _symbol)
+ComputationalRules::ComputationalRules(QString from, QString to, QString symbol)
 {
-    from = _from;
-    to = _to;
-    symbol= _symbol;
+    Init(from, to, symbol);
 }
 
 ComputationalRules::ComputationalRules(QString rule)
 {
-    QRegExp ruleRegExp("^(\\w+)\\s+(\\w)\\s*->\\s*(\\w+)$");
+    const QRegExp ruleRegExp("^(\\w+)\\s+(\\w)\\s*->\\s*(\\w+)$");
     if(ruleRegExp.exactMatch(rule))
     {
         ruleRegExp.indexIn(rule);
@@ -26,18 +22,14 @@ ComputationalRules::ComputationalRules(QString rule)
     }
 }
 
-ComputationalRules::ComputationalRules(const ComputationalRules& _object)
+ComputationalRules::ComputationalRules(const ComputationalRules& r)
 {
-    this->from = _object.from;
-    this->to = _object.to;
-    this->symbol = _object.symbol;
+    Init(r.from, r.to, r.symbol);
 }
 
-ComputationalRules &ComputationalRules::operator=(const ComputationalRules& _rule)
+ComputationalRules &ComputationalRules::operator=(const ComputationalRules& r)
 {
-    this->from = _rule.from;
-    this->to = _rule.to;
-    this->symbol = _rule.symbol;
+    Init(r.from, r.to, r.symbol);
     return *this;
 }
 

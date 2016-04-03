@@ -106,7 +106,7 @@ void StateNode::setStartinState()
         myscene->startingState->prepareGeometryChange();
     }
     myscene->startingState = this;
-    FA->changeStartState(getName());
+    FA->SetStartState(getName());
     emit FA_changed(FA);
     update();
 }

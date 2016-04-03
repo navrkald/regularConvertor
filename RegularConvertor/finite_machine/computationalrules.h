@@ -17,7 +17,12 @@ public:
     ComputationalRules(const ComputationalRules& _object);//Toto je kopirovaci konstruktor
     ComputationalRules& operator=(const ComputationalRules& _rule);
     QString toString() const{return from + " " + symbol + "-> " + to;}
-
+    void Init(QString from, QString to, QString symbol)
+    {
+        this->from = from;
+        this->to = to;
+        this->symbol = symbol;
+    }
 
     QString getFrom(){return from;}
     QString getTo(){return from;}
@@ -36,15 +41,11 @@ public:
          ComputationalRules returnRule(rule.from,rule.to,rule.symbol);
         return returnRule;
     }
+
+public:
     QString from;
     QString to;
     QString symbol;
-private:
-
-//signals:
-    
-//public slots:
-    
 };
 
 bool operator<(const ComputationalRules& r1, const ComputationalRules& r2);

@@ -55,7 +55,11 @@ SOURCES += main.cpp\
     algorithms/htmldelegate.cpp \
     algorithms/algorithmview.cpp \
     algorithms/epsiloncloserwidget.cpp \
-    mytooltipqmenu.cpp
+    mytooltipqmenu.cpp \
+    finite_machine/pushdownautomata.cpp \
+    finite_machine/pdacompotutationalrules.cpp \
+    algorithms/algorithmcfgtopda.cpp \
+    CFG/contextfreegrammar.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -86,7 +90,11 @@ HEADERS  += mainwindow.h \
     algorithms/htmldelegate.h \
     algorithms/algorithmview.h \
     algorithms/epsiloncloserwidget.h \
-    mytooltipqmenu.h
+    mytooltipqmenu.h \
+    finite_machine/pushdownautomata.h \
+    finite_machine/pdacompotutationalrules.h \
+    algorithms/algorithmcfgtopda.h \
+    CFG/contextfreegrammar.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \

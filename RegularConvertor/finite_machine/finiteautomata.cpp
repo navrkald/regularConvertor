@@ -675,9 +675,14 @@ bool FiniteAutomata::renameState(QString oldStateName, QString newStateName)
     return addState(newStateName);
 }
 
-void FiniteAutomata::changeStartState(QString StateName)
+void FiniteAutomata::SetStartState(QString StateName)
 {
     this->startState = StateName;
+}
+
+QString FiniteAutomata::GetStartState()
+{
+    return startState;
 }
 
 void FiniteAutomata::addFinalState(QString StateName)
@@ -710,6 +715,14 @@ QList<QString> FiniteAutomata::get_sorted_states()
     QList<QString> states_list = states.toList();
     qSort(states_list);
     return states_list;
+}
+
+QVector<QString> FiniteAutomata::GetSortedAlphabet()
+{
+    QVector<QString> alphabetVector = states;
+    qSort(alphabetVector);
+    return alphabetVector;
+
 }
 
 bool FiniteAutomata::addRule(ComputationalRules rule)
@@ -760,6 +773,11 @@ bool FiniteAutomata::changeRule(ComputationalRules oldrule, ComputationalRules n
         rules.insert(newrule);
         return true;
     }
+}
+
+void FiniteAutomata::SetAplhabet(QSet<QString> alphabet)
+{
+    this->alphabet = alphabet;
 }
 
 bool FiniteAutomata::hasEpsilon()
@@ -850,6 +868,30 @@ QString FiniteAutomata::normalize_chooseSmallestNonprocessed(QList <QString> ren
         }
     }
     return smallest;
+}
+
+QString FiniteAutomata::PrintHtmlSet(QString variableName, QVector<QString> elements)
+{
+    QString out = "<i><b>VARIABLE</b></i> := ;
+    out.replace("VARIABLE", variableName);
+    out+=qsetToQstring(QSet<QString> set);
+    return out;
+}
+
+
+
+QString FiniteAutomata::PrintHtmlStates()
+{
+    QString out;
+    out = "<i><b>Q</b></i> := {";
+    QVector<QString> states = get_sorted_states();
+    foreach(QString state, states)
+    {
+        out += state + ", ";
+    }
+    if(out.length() > 0)
+        out.remove(out.length()-2,2); // remove last ", "
+    out +="}";
 }
 
 //helper function for method toMinFA()

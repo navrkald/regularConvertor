@@ -63,19 +63,21 @@ public:
     bool removeState(QString stateName);
     void removeStates(QSet <QString> states);
     bool renameState(QString oldStateName, QString newStateName);
-    void changeStartState(QString StateName);
+    void SetStartState(QString StateName);
+    QString GetStartState();
     void addFinalState(QString StateName);
     void removeFinalState(QString StateName);
     void addSymbol(QString symbol);
     void removeSymbol(QString symbol);
     QList<QString> get_sorted_states();
+    QVector<QString> GetSortedAlphabet();
     //TODO parametry
     bool addRule(ComputationalRules newrule);
     bool addRule(QString from, QString to, QString symbol);
     void removeRule(ComputationalRules rule);
     bool changeSymbolInRule(ComputationalRules rule, QString symbol);
     bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
-
+    void SetAplhabet(QSet<QString> alphabet);
     bool hasEpsilon();
     bool isDeterministic();
     QSet <QString> epsilonCloser(QString state);
@@ -83,6 +85,9 @@ public:
     QSet <QString> epsilonNeighbours(QString state);
     QSet <ComputationalRules> nonEpsilonRulesOf(QString state);
     QString normalize_chooseSmallestNonprocessed(QList <QString> renamed, QList <QString> processed);
+
+    QString PrintHtmlSet(QString variableName, QVector<QString> elements);
+    QString PrintHtmlStates();
 
     //
     //Variables
@@ -97,8 +102,6 @@ public:
 
 private:
     bool canDivide(FiniteAutomata FA,QString symbol, QSet< QSet <QString> > Qm, QSet<QString> X, QSet <QString>& X1, QSet <QString>& X2);
-
-
 };
 
 FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2);

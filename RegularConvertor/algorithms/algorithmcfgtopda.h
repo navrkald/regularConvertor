@@ -10,7 +10,7 @@ class CAlgorithmCFGtoPDA
 public:
     CAlgorithmCFGtoPDA() : m_actInstruction(SET_START_STATE), m_inputAlphabet(m_pda.GetSortedAlphabet()) {}
 
-enum instruction{
+enum TInstruction{
     SET_START_STATE = 0,
     SET_INPUT_ALPHABET,
     SET_STACK_ALPHABET,
@@ -20,7 +20,7 @@ enum instruction{
     END_INSTRUCTION,
 };
 
-instruction m_actInstruction;
+TInstruction m_actInstruction;
 
 void ComputeNextStep()
 {
@@ -28,19 +28,19 @@ void ComputeNextStep()
     {
         case SET_START_STATE:
         {
-            pda.SetStartState("s");
+            m_pda.SetStartState("s");
             m_actInstruction = SET_INPUT_ALPHABET;
             break;
         }
         case SET_INPUT_ALPHABET:
         {
-            pda.SetAplhabet(grammar.GetTerminalAlphabet());
+            m_pda.SetAplhabet(m_grammar.GetTerminalAlphabet());
             m_actInstruction = SET_STACK_ALPHABET;
             break;
         }
         case SET_STACK_ALPHABET:
         {
-            pda.SetStackAlphabet(GetBothTerminalAndNonterminalAlphabet());
+            m_pda.SetStackAlphabet(m_grammar.GetBothTerminalAndNonterminalAlphabet());
             m_actInstruction = SET_PDA_RULES_FROM_CFG_RULES;
             m_inputAlphabetIndex = 0;
             break;
@@ -50,6 +50,7 @@ void ComputeNextStep()
             if(m_inputAlphabet.size() >= m_inputAlphabetIndex)
             {
                 m_actInstruction = SET_PDA_RULES_FROM_CFG_RULES;
+                m_cfgRuleIndex = 0;
             }
             else
             {
@@ -61,6 +62,7 @@ void ComputeNextStep()
         }
         case SET_PDA_RULES_FROM_CFG_RULES:
         {
+
             break;
         }
         case SET_FINITE_STATE:
@@ -68,10 +70,14 @@ void ComputeNextStep()
             m_actInstruction = END_INSTRUCTION;
             break;
         }
+        case END_INSTRUCTION:
+        {
+            break;
+        }
     }
 }
 
-QString GetDebugVariablesInHtml(instruction instruction)
+QString GetDebugVariablesInHtml(TInstruction instruction)
 {
     switch(instruction)
     {
@@ -90,6 +96,7 @@ private:
     QVector<QString> m_inputAlphabet;
     QString m_pdaActInputAplhabetSymbol;
     int m_inputAlphabetIndex;
+    int\m_cfgRuleIndex;
     CPushDownAutomata m_pda;
     CContextFreeGrammar m_grammar;
 };

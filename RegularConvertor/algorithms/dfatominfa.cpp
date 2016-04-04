@@ -81,7 +81,7 @@ FiniteAutomata DFAtoMinFA::computeSolution()
     minFA.alphabet = FA.alphabet;
     minFA.states = setOfSubsetsToSet(Qm);
     QSet<QString> gg =  *findInSubsets(Qm, FA.startState).begin();
-    minFA.startState = qsetToQstring(gg);
+    minFA.startState = qSetToQString(gg);
     minFA.finalStates = setOfSubsetsToSet(findInSubsets(Qm, FA.finalStates));
     //Add new rules
     foreach(QSet <QString> from_set,Qm)
@@ -89,7 +89,7 @@ FiniteAutomata DFAtoMinFA::computeSolution()
         foreach(QString symbol, FA.alphabet)
         {
             QList <ComputationalRules> rules =  FA.findRule_FromSymbol(from_set,symbol);
-            minFA.addRule(qsetToQstring(getFroms(rules)), qsetToQstring(getTos(rules)),symbol);
+            minFA.addRule(qSetToQString(getFroms(rules)), qSetToQString(getTos(rules)),symbol);
         }
     }
 

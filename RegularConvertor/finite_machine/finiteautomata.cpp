@@ -1,6 +1,6 @@
 #include "finiteautomata.h"
 #include "algorithms/removeepsilon.h"
-
+#include "set/set_of_sets.h"
 //#define NEW_NUM_NAME
 #define NEW_COMMA_NAME
 
@@ -290,7 +290,7 @@ FiniteAutomata FiniteAutomata::toDFA(FiniteAutomata FA)
     do
     {
         act_state=*(new_states.begin());
-        QString from = qsetToQstring(act_state);
+        QString from = qSetToQString(act_state);
         new_states.remove(act_state);
         FAd.states.insert(from);                                //insert new state to FAd
         foreach (QString a, FA.alphabet)
@@ -305,7 +305,7 @@ FiniteAutomata FiniteAutomata::toDFA(FiniteAutomata FA)
             }
 
 
-            QString to = qsetToQstring(discovered_state);
+            QString to = qSetToQString(discovered_state);
             if (!discovered_state.empty())
             {
                 FAd.rules.insert(ComputationalRules(from,to,a));    //FAd insert rules
@@ -381,7 +381,7 @@ FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
     minFA.alphabet = FA.alphabet;
     minFA.states = setOfSubsetsToSet(Qm);
     QSet<QString> gg =  *findInSubsets(Qm, FA.startState).begin();
-    minFA.startState = qsetToQstring(gg);
+    minFA.startState = qSetToQString(gg);
     minFA.finalStates = setOfSubsetsToSet(findInSubsets(Qm, FA.finalStates));
     //Add new rules
     foreach(QSet <QString> from_set,Qm)
@@ -396,7 +396,7 @@ FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
                 qFatal("Fatal Eroor: Fatal error in FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)");
                 exit(-1);
             }
-            minFA.addRule(qsetToQstring(*(froms.begin())), qsetToQstring(*(tos.begin())),symbol);
+            minFA.addRule(qSetToQString(*(froms.begin())), qSetToQString(*(tos.begin())),symbol);
         }
     }
 
@@ -719,7 +719,7 @@ QList<QString> FiniteAutomata::get_sorted_states()
 
 QVector<QString> FiniteAutomata::GetSortedAlphabet()
 {
-    QVector<QString> alphabetVector = states;
+    QVector<QString> alphabetVector = states.toList().toVector();
     qSort(alphabetVector);
     return alphabetVector;
 
@@ -870,11 +870,11 @@ QString FiniteAutomata::normalize_chooseSmallestNonprocessed(QList <QString> ren
     return smallest;
 }
 
-QString FiniteAutomata::PrintHtmlSet(QString variableName, QVector<QString> elements)
+QString FiniteAutomata::PrintHtmlSet(QString variableName, QSet<QString> elements)
 {
-    QString out = "<i><b>VARIABLE</b></i> := ;
+    QString out = "<i><b>VARIABLE</b></i> := ";
     out.replace("VARIABLE", variableName);
-    out+=qsetToQstring(QSet<QString> set);
+    out+=qSetToQString(elements);
     return out;
 }
 
@@ -882,16 +882,7 @@ QString FiniteAutomata::PrintHtmlSet(QString variableName, QVector<QString> elem
 
 QString FiniteAutomata::PrintHtmlStates()
 {
-    QString out;
-    out = "<i><b>Q</b></i> := {";
-    QVector<QString> states = get_sorted_states();
-    foreach(QString state, states)
-    {
-        out += state + ", ";
-    }
-    if(out.length() > 0)
-        out.remove(out.length()-2,2); // remove last ", "
-    out +="}";
+    return PrintHtmlSet("Q", states);
 }
 
 //helper function for method toMinFA()

@@ -49,10 +49,10 @@ public:
     QSet<QString> GetBothTerminalAndNonterminalAlphabet();
 
 protected:
-    QSet<CNonTerminal> nonterminalsAlphabet;
-    QSet<CTerminal> terminalsAlphabet;
-    QSet<CCFGRule> rules;
-    CNonTerminal startNonTerminal;
+    QSet<CNonTerminal> m_nonterminalsAlphabet;
+    QSet<CTerminal> m_terminalsAlphabet;
+    QSet<CCFGRule> m_rules;
+    CNonTerminal m_startNonTerminal;
 
 
 };

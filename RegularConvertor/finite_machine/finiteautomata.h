@@ -86,7 +86,7 @@ public:
     QSet <ComputationalRules> nonEpsilonRulesOf(QString state);
     QString normalize_chooseSmallestNonprocessed(QList <QString> renamed, QList <QString> processed);
 
-    QString PrintHtmlSet(QString variableName, QVector<QString> elements);
+    QString PrintHtmlSet(QString variableName, QSet<QString> elements);
     QString PrintHtmlStates();
 
     //

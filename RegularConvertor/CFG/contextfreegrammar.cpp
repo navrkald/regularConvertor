@@ -7,7 +7,7 @@ CContextFreeGrammar::CContextFreeGrammar()
 QSet<QString> CContextFreeGrammar::GetTerminalAlphabet()
 {
     QSet<QString> outSet;
-    foreach(CNonTerminal& terminal, terminalsAlphabet)
+    foreach(CTerminal terminal, m_terminalsAlphabet)
     {
         outSet.insert(terminal.symbol);
     }
@@ -17,7 +17,7 @@ QSet<QString> CContextFreeGrammar::GetTerminalAlphabet()
 QSet<QString> CContextFreeGrammar::GetNoonTerminalAlphabet()
 {
     QSet<QString> outSet;
-    foreach(CNonTerminal& nonTerminal, nonTerminalsAlphabet)
+    foreach(CNonTerminal nonTerminal, m_nonterminalsAlphabet)
     {
         outSet.insert(nonTerminal.symbol);
     }

@@ -95,8 +95,8 @@ private:
     // to string function, using when printing variables
     //
     inline QString varToString(QString var_name, QString str){return QString("<b>%1</b> = %2").arg(var_name,str);}
-    inline QString varToString(QString var_name, QSet <QString> set){return QString("<b>%1</b> = %2").arg(var_name,qsetToQstring(set));}
-    inline QString varToString(QString var_name, QSet< QSet<QString> > set_of_sets){return QString("<b>%1</b> = %2").arg(var_name,qsetToQstring(setOfSubsetsToSet(set_of_sets)));}
+    inline QString varToString(QString var_name, QSet <QString> set){return QString("<b>%1</b> = %2").arg(var_name,qSetToQString(set));}
+    inline QString varToString(QString var_name, QSet< QSet<QString> > set_of_sets){return QString("<b>%1</b> = %2").arg(var_name,qSetToQString(setOfSubsetsToSet(set_of_sets)));}
 };
 
 #endif // FATODFA_H

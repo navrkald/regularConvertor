@@ -251,7 +251,7 @@ void FaToDFA::nextStep()
             {
                 act_state = *(Q_new.begin());
                 Q_new.remove(act_state);
-                act_state_name = qsetToQstring(act_state);
+                act_state_name = qSetToQString(act_state);
             }
             break;
         case FOREACH_A:
@@ -275,7 +275,7 @@ void FaToDFA::nextStep()
         break;
         case IF_Q_NEW:
         {
-            QString discovered_state_name = qsetToQstring(discovered_state);
+            QString discovered_state_name = qSetToQString(discovered_state);
             if( ! DFA.states.contains(QSet<QString>() << discovered_state_name) && ! discovered_state.empty())
             {
                 Q_new.insert(discovered_state);
@@ -287,7 +287,7 @@ void FaToDFA::nextStep()
         case IF_DOUBLE_PRIME_Q:
             if( ! discovered_state.empty())
             {
-                r_prime = ComputationalRules(qsetToQstring(act_state),qsetToQstring(discovered_state),a);
+                r_prime = ComputationalRules(qSetToQString(act_state),qSetToQString(discovered_state),a);
                 DFA.rules.insert(r_prime);
                 emit dfa_widget->addEdges(QSet<ComputationalRules>() << r_prime);
             }
@@ -295,8 +295,8 @@ void FaToDFA::nextStep()
         case IF_FINAL:
             if ( ! (act_state & FA.finalStates).empty())
             {
-                DFA.finalStates.insert(qsetToQstring(act_state));
-                dfa_widget->addEndingNodes(QSet<QString>() << qsetToQstring(act_state));
+                DFA.finalStates.insert(qSetToQString(act_state));
+                dfa_widget->addEndingNodes(QSet<QString>() << qSetToQString(act_state));
             }
         break;
         case WHILE_NEW:
@@ -343,7 +343,7 @@ FiniteAutomata FaToDFA::computeSolution()
     {
 
         act_state=*(new_states.begin());
-        QString from = qsetToQstring(act_state);
+        QString from = qSetToQString(act_state);
         new_states.remove(act_state);
         FAd.states.insert(from);                                //insert new state to FAd
         foreach (QString a, FA.alphabet)
@@ -358,7 +358,7 @@ FiniteAutomata FaToDFA::computeSolution()
             }
 
 
-            QString to = qsetToQstring(discovered_state);
+            QString to = qSetToQString(discovered_state);
             if (!discovered_state.empty())
             {
                 FAd.rules.insert(ComputationalRules(from,to,a));    //FAd insert rules

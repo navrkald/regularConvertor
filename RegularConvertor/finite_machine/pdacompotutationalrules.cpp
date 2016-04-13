@@ -1,5 +1,6 @@
 #include "pdacompotutationalrules.h"
 
+// TODO: Write unit tests for this method
 CPDACompotutationalRule::CPDACompotutationalRule(QString rule)
 {
     const QRegExp ruleRegExp("^(\\w+)\\s+(\\w)\\s+(\\w)\\s*->\\s*(\\w)\\s+(\\w+)$");
@@ -9,7 +10,13 @@ CPDACompotutationalRule::CPDACompotutationalRule(QString rule)
         from = ruleRegExp.cap(2);
         to = ruleRegExp.cap(5);
         symbol = ruleRegExp.cap(3);
-        pushSymbol = ruleRegExp.cap(4);
-        popSymol = ruleRegExp.cap(1);
+        QString pushSymbolsStr = ruleRegExp.cap(4);
+        QStringList pushSymbolsStrList =  pushSymbolsStr.split(",");
+        foreach (QString pushSymbol, pushSymbolsStrList)
+        {
+            m_pushSymbols.append(pushSymbol.trimmed());
+        }
+
+        m_popSymol = ruleRegExp.cap(1);
     }
 }

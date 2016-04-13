@@ -4,6 +4,7 @@
 #include "finite_machine/pushdownautomata.h"
 #include "CFG/contextfreegrammar.h"
 
+#define START_STATE "s"
 
 class CAlgorithmCFGtoPDA
 {
@@ -20,15 +21,14 @@ enum TInstruction{
     END_INSTRUCTION,
 };
 
-TInstruction m_actInstruction;
-
+public:
 void ComputeNextStep()
 {
     switch(m_actInstruction)
     {
         case SET_START_STATE:
         {
-            m_pda.SetStartState("s");
+            m_pda.SetStartState(START_STATE);
             m_actInstruction = SET_INPUT_ALPHABET;
             break;
         }
@@ -50,7 +50,7 @@ void ComputeNextStep()
             if(m_inputAlphabet.size() >= m_inputAlphabetIndex)
             {
                 m_actInstruction = SET_PDA_RULES_FROM_CFG_RULES;
-                m_cfgRuleIndex = 0;
+                m_cfgRulesIter = m_grammar.m_rules.constBegin();
             }
             else
             {
@@ -62,7 +62,16 @@ void ComputeNextStep()
         }
         case SET_PDA_RULES_FROM_CFG_RULES:
         {
-
+            if(m_cfgRulesIter != m_grammar.m_rules.constEnd())
+            {
+                m_actRule = *m_cfgRulesIter;
+                m_pda.AddPDARule(START_STATE, START_STATE, EPSILON, m_actRule.leftTerminal.m_symbol, m_actRule.GetRevertedRightRule());
+                m_cfgRulesIter++;
+            }
+            else
+            {
+                m_actInstruction = SET_FINITE_STATE;
+            }
             break;
         }
         case SET_FINITE_STATE:
@@ -81,22 +90,32 @@ QString GetDebugVariablesInHtml(TInstruction instruction)
 {
     switch(instruction)
     {
-        case SET_START_STATE:
-            return m_pda.PrintHtmlStates();
-            break;
-        case SET_INPUT_ALPHABET:
-
-            break;
+      case CAlgorithmCFGtoPDA::SET_STACK_ALPHABET:
+        break;
+      case CAlgorithmCFGtoPDA::SET_PDA_RULES_FROM_INPUT_ALPHABET:
+        break;
+      case CAlgorithmCFGtoPDA::SET_PDA_RULES_FROM_CFG_RULES:
+        break;
+      case CAlgorithmCFGtoPDA::SET_FINITE_STATE:
+        break;
+      case CAlgorithmCFGtoPDA::END_INSTRUCTION:
+        break;
+      case SET_START_STATE:
+        return m_pda.PrintHtmlStates();
+        break;
+      case SET_INPUT_ALPHABET:
+        break;
     }
 }
 
 
-
 private:
+    TInstruction m_actInstruction;
     QVector<QString> m_inputAlphabet;
     QString m_pdaActInputAplhabetSymbol;
     int m_inputAlphabetIndex;
-    int\m_cfgRuleIndex;
+    CCFGRule m_actRule;
+    QSet<CCFGRule>::const_iterator m_cfgRulesIter;
     CPushDownAutomata m_pda;
     CContextFreeGrammar m_grammar;
 };

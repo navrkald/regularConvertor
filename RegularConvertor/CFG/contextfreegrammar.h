@@ -8,7 +8,8 @@
 class CSymbol
 {
 public:
-    QString symbol;
+    CSymbol(){m_symbol="";}
+    QString m_symbol;
 };
 
 class CTerminal : public CSymbol
@@ -17,11 +18,12 @@ class CTerminal : public CSymbol
 class CNonTerminal : public CSymbol
 {};
 
-typedef QPointer<CSymbol> CSymbolPtr;
+typedef CSymbol* CSymbolPtr;
 
 class CCFGRule
 {
 public:
+    CCFGRule(){;}
     CCFGRule(CTerminal leftTerminal, QVector<CSymbolPtr> rightString)
         :leftTerminal(leftTerminal), rightString(rightString)
     {}
@@ -37,6 +39,7 @@ public:
 public:
     CTerminal leftTerminal;
     QVector<CSymbolPtr> rightString;
+    QVector<QString> GetRevertedRightRule();
 };
 
 class CContextFreeGrammar
@@ -47,11 +50,11 @@ public:
     QSet<QString> GetTerminalAlphabet();
     QSet<QString> GetNoonTerminalAlphabet();
     QSet<QString> GetBothTerminalAndNonterminalAlphabet();
-
+    int GetRulesCount();
+    QSet<CCFGRule> m_rules;
 protected:
     QSet<CNonTerminal> m_nonterminalsAlphabet;
     QSet<CTerminal> m_terminalsAlphabet;
-    QSet<CCFGRule> m_rules;
     CNonTerminal m_startNonTerminal;
 
 

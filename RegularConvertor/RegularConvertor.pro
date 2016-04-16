@@ -103,7 +103,7 @@ FORMS    += mainwindow.ui \
     algorithms/algorithmwidget.ui \
     reg_exp/regexpwidget.ui
 
-#CONFIG += static
+CONFIG += c++11 #static
 
 QMAKE_CXXFLAGS += -g -gdwarf-2
 RESOURCES += \

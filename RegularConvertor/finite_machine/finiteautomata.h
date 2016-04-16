@@ -89,6 +89,10 @@ public:
     QString PrintHtmlSet(QString variableName, QSet<QString> elements);
     QString PrintHtmlStates();
 
+// Getters and setters
+public:
+    QSet<QString> GetAlphabet() const {return alphabet;}
+
     //
     //Variables
     //

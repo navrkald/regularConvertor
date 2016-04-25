@@ -15,6 +15,8 @@
 #include "algorithms/removeepsilon.h"
 #include "algorithms/fatodfa.h"
 #include "algorithms/dfatominfa.h"
+#include <PDA/pdawidget.h>
+#include <CFG/cfgwidget.h>
 
 namespace Ui {
 class MainWindow;
@@ -28,7 +30,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QShortcut* deleteShortCut;
-    enum Conversions {none, RE_to_FA, REMOVE_EPSILON, DFA};
+    enum Conversions {none, RE_to_FA, REMOVE_EPSILON, DFA, CFG_TO_PDA};
     AlgorithmWidget* alhgorithm_widget;
     QTranslator* translator;
 
@@ -71,7 +73,7 @@ private slots:
     //
     // DFA
     //
-    void prepareDFA();
+    void PrepareDFA();
     void Determinization_example(FiniteAutomata _FA, QString example_name = "");
     void on_Determinization_example_1_triggered();
 
@@ -108,6 +110,11 @@ private slots:
     void on_actionCzech_triggered();
 
     void on_actionEnglish_triggered();
+
+    //
+    // CFG to PDA
+    //
+    void PrepareCFGtoPDA();
 
 private:
     Ui::MainWindow *ui;
@@ -164,7 +171,17 @@ private:
     QLabel* DFA_variables_widget;
     FA_widget* not_DFA_widget;
     FA_widget* DFA_widget;
-    void prepareDFA_GUI();
+    void PrepareDFA_GUI();
+
+    //
+    // CFG to PDA
+    //
+    FaToDFA* CFG_TO_PDA_algorithm;
+    QWidget* CFG_TO_PDA_central_widget;
+    QLabel* CFG_TO_PDA_variables_widget;
+    CPdaWidget* CFG_TO_PDA_widget;
+    CCfgWidget* m_cfgWidget;
+    void prepareCFG_TO_PDA_GUI();
 
 
 };

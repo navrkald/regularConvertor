@@ -21,7 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(MY_APP_NAME);
     connect(ui->action_RE_to_FA,SIGNAL(triggered()),this,SLOT(prepareREtoFA()));
     connect(ui->action_RemoveEpsilon,SIGNAL(triggered()),this,SLOT(prepareRemoveEpsilon()));
-    connect(ui->action_Determinization,SIGNAL(triggered()),this,SLOT(prepareDFA()));
+    connect(ui->action_Determinization,SIGNAL(triggered()),this,SLOT(PrepareDFA()));
+    connect(ui->actionCFGtoPDA,SIGNAL(triggered()),this,SLOT(PrepareCFGtoPDA()));
 
     QActionGroup* modesGroup = new QActionGroup(this);
     modesGroup->addAction(ui->action_check_mode);
@@ -420,39 +421,31 @@ void MainWindow::prepareRemoveEpsilon_GUI()
 }
 
 
-void MainWindow::prepareDFA()
+void MainWindow::PrepareDFA()
 {
+    activeConversion = DFA;
 
-    //if(activeConversion != DFA)
-    //{
-        activeConversion = DFA;
-
-        //basic components
-        DFA_central_widget = new QWidget(this);
-        alhgorithm_widget = new AlgorithmWidget(mode,DFA_central_widget);   // TODO nevytvaret porad novy ale zmenit parrenta a vymazat
-        not_DFA_widget = new FA_widget(DFA_central_widget);
-        DFA_widget = new FA_widget(DFA_central_widget);
-        connect(not_DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
-        connect(DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
-        DFA_variables_widget = new QLabel(DFA_central_widget);
-        DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
-        connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
-        DFA_algorithm = new FaToDFA(mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, DFA_central_widget);
-        connect(this, SIGNAL(modeChanged(Algorithm::modes)), DFA_algorithm, SLOT(setMode(Algorithm::modes)));
-        connect(DFA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
-        prepareDFA_GUI();
-    //}
-    //else
-    //{
-    //    ;
-    //}
+    //basic components
+    DFA_central_widget = new QWidget(this);
+    alhgorithm_widget = new AlgorithmWidget(mode,DFA_central_widget);   // TODO nevytvaret porad novy ale zmenit parrenta a vymazat
+    not_DFA_widget = new FA_widget(DFA_central_widget);
+    DFA_widget = new FA_widget(DFA_central_widget);
+    connect(not_DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+    connect(DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+    DFA_variables_widget = new QLabel(DFA_central_widget);
+    DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
+    connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
+    DFA_algorithm = new FaToDFA(mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, DFA_central_widget);
+    connect(this, SIGNAL(modeChanged(Algorithm::modes)), DFA_algorithm, SLOT(setMode(Algorithm::modes)));
+    connect(DFA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+    PrepareDFA_GUI();
 }
 
 
-void MainWindow::prepareDFA_GUI()
+void MainWindow::PrepareDFA_GUI()
 {
     mySetWindowTitle();
-     delete this->centralWidget();
+    delete this->centralWidget();
 
     //set central widget
     QWidget* w = DFA_central_widget;
@@ -488,6 +481,41 @@ void MainWindow::prepareDFA_GUI()
     v_spitter->addWidget(down_container);
     w->layout()->addWidget(v_spitter);
     w->show();
+}
+
+void MainWindow::PrepareCFGtoPDA()
+{
+    FaToDFA* CFG_TO_PDA_algorithm;
+    QWidget* CFG_TO_PDA_central_widget;
+    QLabel* CFG_TO_PDA_variables_widget;
+    CPdaWidget* CFG_TO_PDA_widget;
+    CCfgWidget* m_cfgWidget;
+    void prepareCFG_TO_PDA_GUI();
+
+
+
+    activeConversion = CFG_TO_PDA;
+
+    //basic components
+    CFG_TO_PDA_central_widget = new QWidget(this);
+    alhgorithm_widget = new AlgorithmWidget(mode,CFG_TO_PDA_central_widget);   // TODO nevytvaret porad novy ale zmenit parrenta a vymazat
+    not_DFA_widget = new FA_widget(CFG_TO_PDA_central_widget);
+    DFA_widget = new FA_widget(CFG_TO_PDA_central_widget);
+    connect(not_DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+    connect(DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+    DFA_variables_widget = new QLabel(CFG_TO_PDA_central_widget);
+    DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
+    connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
+    DFA_algorithm = new FaToDFA(mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, CFG_TO_PDA_central_widget);
+    connect(this, SIGNAL(modeChanged(Algorithm::modes)), DFA_algorithm, SLOT(setMode(Algorithm::modes)));
+    connect(DFA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+    PrepareDFA_GUI();
+
+}
+
+void MainWindow::prepareCFG_TO_PDA_GUI()
+{
+
 }
 
 
@@ -769,7 +797,7 @@ void MainWindow::Determinization_example(FiniteAutomata _FA, QString example_nam
     ui->action_Determinization->setChecked(true);
 
     if(activeConversion != DFA)
-        prepareDFA();
+        PrepareDFA();
     DFA_algorithm->setInputFA(_FA);
     mySetWindowTitle(example_name);
 }
@@ -1070,7 +1098,7 @@ void MainWindow::on_action_open_file_triggered()
         {
             FiniteAutomata in_FA;
             in >> in_FA;
-            prepareDFA();
+            PrepareDFA();
             DFA_algorithm->setInputFA(in_FA);
             if(mode != Algorithm::PLAY_MODE)
             {

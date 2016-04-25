@@ -59,7 +59,9 @@ SOURCES += main.cpp\
     finite_machine/pushdownautomata.cpp \
     finite_machine/pdacompotutationalrules.cpp \
     algorithms/algorithmcfgtopda.cpp \
-    CFG/contextfreegrammar.cpp
+    CFG/contextfreegrammar.cpp \
+    PDA/pdawidget.cpp \
+    CFG/cfgwidget.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -94,14 +96,17 @@ HEADERS  += mainwindow.h \
     finite_machine/pushdownautomata.h \
     finite_machine/pdacompotutationalrules.h \
     algorithms/algorithmcfgtopda.h \
-    CFG/contextfreegrammar.h
+    CFG/contextfreegrammar.h \
+    PDA/pdawidget.h \
+    CFG/cfgwidget.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \
     finite_machine/editruledialog.ui \
     finite_machine/symbolsinputdialog.ui \
     algorithms/algorithmwidget.ui \
-    reg_exp/regexpwidget.ui
+    reg_exp/regexpwidget.ui \
+    CFG/cfgwidget.ui
 
 CONFIG += c++11 #static
 

@@ -10,7 +10,7 @@
 // To test CFG to PDA
 #include "algorithms/algorithmcfgtopda.h"
 
-int main(int argc, char *argv[])
+void TestCfgToPda()
 {
   // Initialize context free grammer
   CContextFreeGrammar g;
@@ -38,7 +38,10 @@ int main(int argc, char *argv[])
     algorithm.ComputeNextStep();
   }while(algorithm.GetActInstruction() != CAlgorithmCFGtoPDA::END_INSTRUCTION);
   algorithm.ComputeNextStep();
+}
 
+int main(int argc, char *argv[])
+{
   QApplication a(argc, argv);
 
   MainWindow w;

@@ -41,9 +41,9 @@ void Algorithm::clearActInstruction()
     }
 }
 
-void Algorithm::setMode(Algorithm::modes)
+void Algorithm::setMode(Algorithm::modes mode)
 {
-
+  m_mode = mode;
 }
 
 void Algorithm::getData(QModelIndex _index)

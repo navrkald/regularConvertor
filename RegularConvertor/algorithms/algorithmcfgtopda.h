@@ -3,6 +3,7 @@
 
 #include "finite_machine/pushdownautomata.h"
 #include "CFG/contextfreegrammar.h"
+#include <algorithms/algorithm.h>
 
 #define START_STATE "s"
 
@@ -15,12 +16,21 @@
 class CAlgorithmCFGtoPDA
 {
 public:
+  CAlgorithmCFGtoPDA() {m_actInstruction = HEADER;}
   CAlgorithmCFGtoPDA(const CPushDownAutomata& pda, const CContextFreeGrammar& cfg) :
-      m_pda(pda), m_grammar(cfg), m_actInstruction(SET_START_STATE)/*, m_inputAlphabet(m_pda.GetSortedAlphabet())*/ {}
-  CAlgorithmCFGtoPDA() : m_actInstruction(SET_START_STATE)/*, m_inputAlphabet(m_pda.GetSortedAlphabet())*/ {}
+      m_pda(pda), m_grammar(cfg), m_actInstruction(SET_START_STATE)/*, m_inputAlphabet(m_pda.GetSortedAlphabet())*/
+{
+  m_actInstruction = HEADER;
+  //prewInstruction = HEADER;
+  //instruction_count = END_INSTRUCTION+1;
+  //initInstructions();
+  //initBreakpoints(instruction_count);
+}
+//  CAlgorithmCFGtoPDA() : m_actInstruction(SET_START_STATE)/*, m_inputAlphabet(m_pda.GetSortedAlphabet())*/ {}
 
 enum TInstruction{
-    SET_START_STATE = 0,
+    HEADER = 0,
+    SET_START_STATE,
     SET_INPUT_ALPHABET,
     SET_STACK_ALPHABET,
     SET_PDA_RULES_FROM_INPUT_ALPHABET,
@@ -29,11 +39,32 @@ enum TInstruction{
     END_INSTRUCTION,
 };
 
+virtual void initInstructions()
+{
+//  instructions.resize(instruction_count);
+//  instructions[HEADER] =                  tr("<b>Input:</b> FA without ε-rules <i>M</i>=(Q, Σ, R, s, F)<br><b>Output:</b> DKA M'=(Q<sub>d</sub>, Σ, R<sub>d</sub>, s<sub>d</sub>, F<sub>d</sub>)");
+//  instructions[SET_START_STATE] =                tr("s<sub>d</sub> = {s}; Q<sub>new</sub> = {s<sub>d</sub>}; R<sub>d</sub> = ∅; Q<sub>d</sub> = Q<sub>new</sub>; F<sub>d</sub> = ∅");
+//  instructions[SET_INPUT_ALPHABET] =                      tr("<b>do</b>");
+//  instructions[SET_STACK_ALPHABET] =                 INDENT     + tr("Q' ∈ Q<sub>new</sub>; Q<sub>new</sub> = Q<sub>new</sub> - {Q'};");
+//  instructions[SET_PDA_RULES_FROM_INPUT_ALPHABET] =               INDENT     + tr("<b>for each</b> a ∈ Σ <b>do</b>");
+//  instructions[SET_PDA_RULES_FROM_CFG_RULES]=      INDENT  INDENT      + tr("Q'' = ∅");
+//  instructions[SET_FINITE_STATE] =       INDENT  INDENT     + tr("<b>for each</b> r = {p a → q} <b>where</b> p ∈ Q'");
+//  instructions[END_INSTRUCTION] =          INDENT  INDENT  INDENT     + tr("Q'' ∈ Q'' ∪ {q}");
+//  instructions[IF_Q_NEW] =                INDENT  INDENT     + tr("<b>if</b> Q'' ∉ Q<sub>d</sub> ∪ {∅} <b>then</b> Q<sub>new</sub> = Q<sub>new</sub> ∪ {Q''}; Q<sub>d</sub> = Q<sub>d</sub> ∪ {Q''};");
+//  instructions[IF_DOUBLE_PRIME_Q] =       INDENT  INDENT     + tr("<b>if</b> Q'' ≠ ∅ <b>then</b> R<sub>d</sub> = R<sub>d</sub> ∪ r'={Q' a → Q''};");
+//  instructions[IF_FINAL] =                INDENT      + tr("<b>if</b> Q' ∩ F ≠ ∅ <b>then</b> F<sub>d</sub> = F<sub>d</sub> ∪ {Q'}");
+//  instructions[WHILE_NEW] =               tr("<b>until</b> Q<sub>new</sub> = ∅");
+}
+virtual void removeFuture(){;}
+
+
 public:
 void ComputeNextStep()
 {
     switch(m_actInstruction)
     {
+        case HEADER:
+          break;
         case SET_START_STATE:
         {
             m_pda.addState(START_STATE);
@@ -98,7 +129,9 @@ void ComputeNextStep()
 QString GetDebugVariablesInHtml(TInstruction instruction)
 {
     switch(instruction)
-    {
+      {
+      case CAlgorithmCFGtoPDA::HEADER:
+        break;
       case CAlgorithmCFGtoPDA::SET_STACK_ALPHABET:
         break;
       case CAlgorithmCFGtoPDA::SET_PDA_RULES_FROM_INPUT_ALPHABET:
@@ -114,7 +147,7 @@ QString GetDebugVariablesInHtml(TInstruction instruction)
         break;
       case SET_INPUT_ALPHABET:
         break;
-    }
+      }
 }
 
 TInstruction GetActInstruction() {return m_actInstruction;}

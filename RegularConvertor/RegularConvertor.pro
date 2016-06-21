@@ -61,7 +61,8 @@ SOURCES += main.cpp\
     algorithms/algorithmcfgtopda.cpp \
     CFG/contextfreegrammar.cpp \
     PDA/pdawidget.cpp \
-    CFG/cfgwidget.cpp
+    CFG/cfgwidget.cpp \
+    gui_algorithm_interface/cfgtopdaguiinterface.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -98,7 +99,9 @@ HEADERS  += mainwindow.h \
     algorithms/algorithmcfgtopda.h \
     CFG/contextfreegrammar.h \
     PDA/pdawidget.h \
-    CFG/cfgwidget.h
+    CFG/cfgwidget.h \
+    gui_algorithm_interface/cfgtopdaguiinterface.h \
+    error.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \

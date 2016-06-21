@@ -4,19 +4,35 @@
 #include <QVector>
 #include <QPointer>
 #include <QSet>
+#include <error.h>
 
 class CSymbol
 {
+
 public:
-    CSymbol(){m_symbol="";}
-    CSymbol(QString symbol) : m_symbol(symbol) {}
-    CSymbol (const CSymbol& s) { m_symbol = s.m_symbol; }
+
+  typedef enum{
+    symbol,
+    terminal,
+    nonTerminal
+  } TType;
+
+    CSymbol() : m_symbol(""), m_type(symbol) {}
+    CSymbol(QString s) : m_symbol(s), m_type(symbol) {}
+    CSymbol (const CSymbol& s) { m_symbol = s.m_symbol; m_type = s.m_type; }
     QString GetString() const {return m_symbol;}
     operator QString() const { return m_symbol; }
     static QSet<QString> CSymbolQSetToQStringQSet(const QSet<CSymbol>& csymbolSet);
     bool operator==(const CSymbol& s) const {return this->m_symbol == s.m_symbol ;}
+    CSymbol& operator=(CSymbol other) { this->m_symbol = other.m_symbol; return *this; }
+    bool IsEmpty() const {return m_symbol.isEmpty();}
+    void Trim() {m_symbol = m_symbol.trimmed();}
+    void Append(QChar charter) {m_symbol.append(charter);}
+    void Clear() {m_symbol.clear();}
+    TType GetType() {return m_type;}
 protected:
     QString m_symbol;
+    TType m_type;
 };
 
 inline uint qHash(const CSymbol& c) {return ::qHash(c.GetString());}
@@ -24,16 +40,16 @@ inline uint qHash(const CSymbol& c) {return ::qHash(c.GetString());}
 class CTerminal : public CSymbol
 {
 public:
-  CTerminal() : CSymbol() {}
-  CTerminal(QString symbol) : CSymbol(symbol) {}
+  CTerminal() : CSymbol() {m_type = terminal;}
+  CTerminal(QString symbol) : CSymbol(symbol) {m_type = terminal;}
   static QSet<QString> CTerminalQSetToQStringQSet(const QSet<CTerminal>& csymbolSet);
 };
 
 class CNonTerminal : public CSymbol
 {
 public:
-  CNonTerminal() : CSymbol() {}
-  CNonTerminal(QString symbol) : CSymbol(symbol) {}
+  CNonTerminal() : CSymbol() { m_type = nonTerminal; }
+  CNonTerminal(QString symbol) : CSymbol(symbol) { m_type = nonTerminal; }
   static QSet<QString> CNonTerminalQSetToQStringQSet(const QSet<CNonTerminal>& csymbolSet);
 };
 
@@ -87,12 +103,17 @@ public:
 //            delete symbolPtr;
 //        }
     }
-
+  static ErrorCode GetRulesFromString(QSet<CCFGRule>& rules, QString sRule);
         bool operator==(const CCFGRule &r) const {
             return ((this->m_leftNonTerminal == r.m_leftNonTerminal) && (this->m_rightString == r.m_rightString));
         }
+    void SetLeftNonTerminal(CNonTerminal leftNonTerminal) {m_leftNonTerminal = leftNonTerminal;}
+protected:
+    bool IsRightSideEmpty() {return m_rightString.isEmpty();}
+    void ClearRightSide() {m_rightString.clear();}
+    void AppendSymbolToRightSide(CSymbol symbol) {m_rightString.push_back(symbol);}
 public:
-    CTerminal m_leftNonTerminal;
+    CNonTerminal m_leftNonTerminal;
     QVector<CSymbol> m_rightString;
     QVector<QString> GetRevertedRightRule();
 };
@@ -107,21 +128,22 @@ class CContextFreeGrammar
 public:
     CContextFreeGrammar();
     QSet<CTerminal> GetTerminalAlphabet() const { return m_terminalsAlphabet; }
-    QSet<CNonTerminal> GetNoonTerminalAlphabet() const { return m_nonterminalsAlphabet; }
+    QSet<CNonTerminal> GetNoonTerminalAlphabet() const { return m_nonTerminalsAlphabet; }
     QSet<QString> GetBothTerminalAndNonterminalAlphabet();
     QSet<CCFGRule> GetRules() const { return m_rules; }
     int GetRulesCount();
-    void SetNonterminalsAlphabet(const QSet<CNonTerminal> &nonterminalsAlphabet) {m_nonterminalsAlphabet = nonterminalsAlphabet;}
+    void SetNonterminalsAlphabet(const QSet<CNonTerminal> &nonterminalsAlphabet) {m_nonTerminalsAlphabet = nonterminalsAlphabet;}
     void SetTerminalsAlphabet(const QSet<CTerminal> &terminalsAlphabet) {m_terminalsAlphabet = terminalsAlphabet;}
     void SetStartNonTerminal(const CNonTerminal &startNonTerminal) {m_startNonTerminal = startNonTerminal; }
     void SetRules(const QSet<CCFGRule> &rules) {m_rules = rules;}
-
+    ErrorCode GetFromString(QString sContextFreeGrammar);
+    bool operator==(const CContextFreeGrammar& g)const;
 protected:
-    QSet<CNonTerminal> m_nonterminalsAlphabet;
+    QSet<CNonTerminal> m_nonTerminalsAlphabet;
     QSet<CTerminal> m_terminalsAlphabet;
     CNonTerminal m_startNonTerminal;
     QSet<CCFGRule> m_rules;
 
 };
-
+//bool operator==(const CContextFreeGrammar& g1, const CContextFreeGrammar& g2);
 #endif // CONTEXTFREEGRAMMAR_H

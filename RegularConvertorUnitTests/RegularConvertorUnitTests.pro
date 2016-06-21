@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets testlib
+QT       += core gui opengl testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -14,7 +14,6 @@ INCLUDEPATH += ../RegularConvertor
 
 SOURCES +=\
     finite_machine/finiteautomata_test.cpp\
-    \
     ../RegularConvertor/finite_machine/finiteautomata.cpp\
     ../RegularConvertor/finite_machine/computationalrules.cpp\
     algorithms/regexptofa_test.cpp \
@@ -46,7 +45,9 @@ SOURCES +=\
     ../RegularConvertor/algorithms/algorithmwidget.cpp \
     ../RegularConvertor/algorithms/htmldelegate.cpp \
     ../RegularConvertor/reg_exp/regextextedit.cpp \
-    ../RegularConvertor/algorithms/epsiloncloserwidget.cpp
+    ../RegularConvertor/algorithms/epsiloncloserwidget.cpp \
+    CFG/cfg_test.cpp \
+    ../RegularConvertor/CFG/contextfreegrammar.cpp
 
 
 HEADERS  += \
@@ -83,7 +84,9 @@ HEADERS  += \
     ../RegularConvertor/algorithms/algorithmwidget.h \
     ../RegularConvertor/algorithms/htmldelegate.h \
     ../RegularConvertor/reg_exp/regextextedit.h \
-    ../RegularConvertor/algorithms/epsiloncloserwidget.h
+    ../RegularConvertor/algorithms/epsiloncloserwidget.h \
+    CFG/cfg_test.h \
+    ../RegularConvertor/CFG/contextfreegrammar.h
 
 FORMS    += \
     ../RegularConvertor/finite_machine/fa_widget.ui \
@@ -92,8 +95,8 @@ FORMS    += \
     ../RegularConvertor/finite_machine/symbolsinputdialog.ui \
     ../RegularConvertor/algorithms/algorithmwidget.ui
 
-CONFIG += static
-
+CONFIG += += c++11 #static
+QMAKE_CXXFLAGS += -g -gdwarf-2
 RESOURCES +=
 
-DEFINES += SRCDIR=\\\"$$PWD/\\\"
+#DEFINES += SRCDIR=\\\"$$PWD/\\\"

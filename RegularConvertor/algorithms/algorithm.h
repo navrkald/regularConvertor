@@ -38,7 +38,7 @@ public:
     void setActInstruction();
     void clearActInstruction();
 public slots:
-    void setMode(Algorithm::modes _mode);
+    void setMode(Algorithm::modes mode);
     void getData(QModelIndex _index);
     void runAlgorithm(int mil_sec);
     void stop();
@@ -47,6 +47,7 @@ signals:
 protected:
     QTimer *play_timer;
     QTimer *check_step_timer;
+    modes m_mode;
 };
 QDataStream& operator>>(QDataStream& in, Algorithm::modes& m);
 #endif // ALGORITHM_H

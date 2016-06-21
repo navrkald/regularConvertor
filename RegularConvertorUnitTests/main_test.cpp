@@ -4,13 +4,13 @@
 #include "algorithms/removeepsilon_test.h"
 #include "algorithms/fatodfa_test.h"
 #include "algorithms/dfatominfa_test.h"
+#include <CFG/cfg_test.h>
 int main()
 
 {
 
   FiniteAutomata_test test1;
   QTest::qExec(&test1);
-
 
   RegExpToFA_test test2;
   QTest::qExec(&test2);
@@ -24,6 +24,9 @@ int main()
   DFAtoMinFA_test test5;
   QTest::qExec(&test5);
 
+
+  CfgTest test6;
+  QTest::qExec(&test6);
   return 0;
 
 }

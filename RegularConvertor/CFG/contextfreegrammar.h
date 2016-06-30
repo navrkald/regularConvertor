@@ -128,9 +128,12 @@ class CContextFreeGrammar
 public:
     CContextFreeGrammar();
     QSet<CTerminal> GetTerminalAlphabet() const { return m_terminalsAlphabet; }
-    QSet<CNonTerminal> GetNoonTerminalAlphabet() const { return m_nonTerminalsAlphabet; }
+    QString TerminalAlphabetToString() const;
+    QString NonTerminalAlphabetToString() const;
+    QSet<CNonTerminal> GetNonTerminalAlphabet() const { return m_nonTerminalsAlphabet; }
     QSet<QString> GetBothTerminalAndNonterminalAlphabet();
     QSet<CCFGRule> GetRules() const { return m_rules; }
+    QString GetStartNonTerminal() const { return m_startNonTerminal; }
     int GetRulesCount();
     void SetNonterminalsAlphabet(const QSet<CNonTerminal> &nonterminalsAlphabet) {m_nonTerminalsAlphabet = nonterminalsAlphabet;}
     void SetTerminalsAlphabet(const QSet<CTerminal> &terminalsAlphabet) {m_terminalsAlphabet = terminalsAlphabet;}
@@ -138,6 +141,12 @@ public:
     void SetRules(const QSet<CCFGRule> &rules) {m_rules = rules;}
     ErrorCode GetFromString(QString sContextFreeGrammar);
     bool operator==(const CContextFreeGrammar& g)const;
+    void Clear(){
+      m_nonTerminalsAlphabet.clear();
+      m_terminalsAlphabet.clear();
+      m_startNonTerminal;
+      m_rules.clear();
+    }
 protected:
     QSet<CNonTerminal> m_nonTerminalsAlphabet;
     QSet<CTerminal> m_terminalsAlphabet;

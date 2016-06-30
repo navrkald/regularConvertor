@@ -23,6 +23,7 @@ ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
     {
       case start:
         if(charter == '<') state = leftStartNonTerminalTermminal;
+        else return E_PARSING_CFG_RULE;
         break;
       case leftStartNonTerminalTermminal:
         if(charter != '>')
@@ -37,6 +38,7 @@ ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
       case leftEndNonTerminal:
         if(charter.isSpace()) continue;
         else if(charter == ':') state = rightSideRuleDelimiter1;
+        else return E_PARSING_CFG_RULE;
         break;
       case rightSideRuleDelimiter1:
         if(charter == ':') state = rightSideRuleDelimiter2;
@@ -60,6 +62,7 @@ ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
           }
         }
         else if(charter.isSpace()) continue;
+        else return E_PARSING_CFG_RULE;
         break;
       case terminal:
         if(charter != '"')
@@ -94,6 +97,8 @@ ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
     rules.insert(rule);
     rule.ClearRightSide();
   }
+  if(rules.isEmpty()) return E_PARSING_CFG_RULE;
+
   return E_NO_ERROR;
 }
 
@@ -110,6 +115,28 @@ QVector<QString> CCFGRule::GetRevertedRightRule()
 
 CContextFreeGrammar::CContextFreeGrammar()
 {
+}
+
+QString CContextFreeGrammar::TerminalAlphabetToString() const
+{
+  QString result;
+  foreach(CSymbol s, m_terminalsAlphabet)
+  {
+    result.append(s.GetString());
+    result += ", ";
+  }
+  return result.left(result.length() - 2);
+}
+
+QString CContextFreeGrammar::NonTerminalAlphabetToString() const
+{
+  QString result;
+  foreach(CSymbol s, m_nonTerminalsAlphabet)
+  {
+    result.append(s.GetString());
+    result += ", ";
+  }
+  return result.left(result.length() - 2);
 }
 
 //QSet<CTerminal> CContextFreeGrammar::GetTerminalAlphabet()
@@ -135,7 +162,7 @@ CContextFreeGrammar::CContextFreeGrammar()
 QSet<QString> CContextFreeGrammar::GetBothTerminalAndNonterminalAlphabet()
 {
     QSet<QString> terninals = CTerminal::CTerminalQSetToQStringQSet(GetTerminalAlphabet());
-    QSet<QString> nonTerminals = CNonTerminal::CNonTerminalQSetToQStringQSet(GetNoonTerminalAlphabet());
+    QSet<QString> nonTerminals = CNonTerminal::CNonTerminalQSetToQStringQSet(GetNonTerminalAlphabet());
     QSet<QString> outSet = terninals + nonTerminals;
     return outSet;
 }
@@ -147,6 +174,8 @@ int CContextFreeGrammar::GetRulesCount()
 
 ErrorCode CContextFreeGrammar::GetFromString(QString sContextFreeGrammar)
 {
+  Clear();
+  ErrorCode err = E_NO_ERROR;
   QStringList lines = sContextFreeGrammar.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
   bool isLeftNonTerminalEmpty = true;
   foreach(QString line, lines)
@@ -155,7 +184,7 @@ ErrorCode CContextFreeGrammar::GetFromString(QString sContextFreeGrammar)
     QSet<CCFGRule> rules;
     if(!line.isEmpty())
     {
-      if(E_NO_ERROR == CCFGRule::GetRulesFromString(rules, line))
+      if(E_NO_ERROR == (err = CCFGRule::GetRulesFromString(rules, line)))
       {
         foreach(CCFGRule rule, rules)
         {
@@ -177,6 +206,9 @@ ErrorCode CContextFreeGrammar::GetFromString(QString sContextFreeGrammar)
           }
           m_rules.insert(rule);
         }
+      }
+      else{
+        return err;
       }
     }
   }

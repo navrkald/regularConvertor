@@ -17,6 +17,7 @@
 #include "algorithms/dfatominfa.h"
 #include <PDA/pdawidget.h>
 #include <CFG/cfgwidget.h>
+#include <gui_algorithm_interface/cfgtopdaguiinterface.h>
 
 namespace Ui {
 class MainWindow;
@@ -176,10 +177,10 @@ private:
     //
     // CFG to PDA
     //
-    FaToDFA* CFG_TO_PDA_algorithm;
+    CCfgToPdaGuiInterface* CFG_TO_PDA_algorithm;
     QWidget* CFG_TO_PDA_central_widget;
     QLabel* CFG_TO_PDA_variables_widget;
-    CPdaWidget* CFG_TO_PDA_widget;
+    CPdaWidget* m_pdaWidget;
     CCfgWidget* m_cfgWidget;
     void prepareCFG_TO_PDA_GUI();
 

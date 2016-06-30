@@ -485,37 +485,56 @@ void MainWindow::PrepareDFA_GUI()
 
 void MainWindow::PrepareCFGtoPDA()
 {
-    FaToDFA* CFG_TO_PDA_algorithm;
-    QWidget* CFG_TO_PDA_central_widget;
-    QLabel* CFG_TO_PDA_variables_widget;
-    CPdaWidget* CFG_TO_PDA_widget;
-    CCfgWidget* m_cfgWidget;
-    void prepareCFG_TO_PDA_GUI();
-
-
-
     activeConversion = CFG_TO_PDA;
 
     //basic components
     CFG_TO_PDA_central_widget = new QWidget(this);
     alhgorithm_widget = new AlgorithmWidget(mode,CFG_TO_PDA_central_widget);   // TODO nevytvaret porad novy ale zmenit parrenta a vymazat
-    not_DFA_widget = new FA_widget(CFG_TO_PDA_central_widget);
-    DFA_widget = new FA_widget(CFG_TO_PDA_central_widget);
-    connect(not_DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
-    connect(DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+    m_cfgWidget = new CCfgWidget(CFG_TO_PDA_central_widget);
+    m_pdaWidget = new CPdaWidget(/*CFG_TO_PDA_central_widget*/);
     DFA_variables_widget = new QLabel(CFG_TO_PDA_central_widget);
     DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
     connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
-    DFA_algorithm = new FaToDFA(mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, CFG_TO_PDA_central_widget);
-    connect(this, SIGNAL(modeChanged(Algorithm::modes)), DFA_algorithm, SLOT(setMode(Algorithm::modes)));
-    connect(DFA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
-    PrepareDFA_GUI();
+    CFG_TO_PDA_algorithm = new CCfgToPdaGuiInterface(/* mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, CFG_TO_PDA_central_widget*/);
+    connect(this, SIGNAL(modeChanged(Algorithm::modes)), CFG_TO_PDA_algorithm, SLOT(setMode(Algorithm::modes)));
+    connect(CFG_TO_PDA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+    prepareCFG_TO_PDA_GUI();
 
 }
 
 void MainWindow::prepareCFG_TO_PDA_GUI()
 {
+  mySetWindowTitle();
+  delete this->centralWidget();
 
+  //set central widget
+  QWidget* w = CFG_TO_PDA_central_widget;
+  this->setCentralWidget(w);
+  QLayout* layout = new QGridLayout(w);
+  layout->setMargin(0);
+
+  //algorithm container
+  QWidget* algorithm_container = prepareAlgorithnContainer(w, tr("<b>CFG to PDA</b>"), CFG_TO_PDA_algorithm);
+
+  //variables container
+  QWidget* variables_container = variablesContainer(w, tr("<b>variables</b>"), DFA_variables_widget);
+  QVBoxLayout* variables_layout = static_cast<QVBoxLayout*>(variables_container->layout());
+  variables_layout->addStretch();
+
+  //top container
+  QWidget* up_container = horizontalContainer(w, QList<QWidget *>() << m_cfgWidget << algorithm_container);
+
+  QWidget* downRightContainer = verticalContainer(w,QList<QWidget*>() << variables_container);
+
+  //down container
+  QWidget* down_container = horizontalContainer(w, QList<QWidget *>() << m_pdaWidget << downRightContainer);
+
+  //vertical splitter
+  QSplitter* v_spitter = new QSplitter(Qt::Vertical,w);
+  v_spitter->addWidget(up_container);
+  v_spitter->addWidget(down_container);
+  w->layout()->addWidget(v_spitter);
+  w->show();
 }
 
 

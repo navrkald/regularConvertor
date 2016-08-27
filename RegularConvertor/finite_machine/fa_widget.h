@@ -21,7 +21,7 @@ class FA_widget : public QWidget
 public:
     explicit FA_widget(QWidget *parent = 0);
     ~FA_widget();
-    DiagramScene *scene;
+    DiagramScene *m_scene;
     FiniteAutomata* FA;
     QShortcut* deleteShortCut;
 
@@ -29,6 +29,8 @@ public:
     void setCorrectStatus();
     void setWrongStatus();
     void clearStatus();
+protected:
+    void SetScene(DiagramScene * scene);
 
 private slots:
     //sloty na tlacitka na editaci grafu
@@ -68,7 +70,7 @@ signals:
     void removeEndingNodes(QSet <QString> nodes);
     void sendStatusBarMessage(QString message);
 
-private:
+protected:
     //properties
     Ui::FA_widget *ui;
     QLabel* status_label;

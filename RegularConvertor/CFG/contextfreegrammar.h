@@ -144,7 +144,7 @@ public:
     void Clear(){
       m_nonTerminalsAlphabet.clear();
       m_terminalsAlphabet.clear();
-      m_startNonTerminal;
+			m_startNonTerminal.Clear();
       m_rules.clear();
     }
 protected:

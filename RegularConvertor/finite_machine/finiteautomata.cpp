@@ -743,12 +743,13 @@ bool FiniteAutomata::addRule(QString from, QString to, QString symbol)
     return addRule(newRule);
 }
 
-void FiniteAutomata::removeRule(ComputationalRules rule)
+bool FiniteAutomata::removeRule(ComputationalRules rule)
 {
-    QString symbol = rule.symbol;
-    rules.remove(rule);
+		QString symbol = rule.symbol;
+		bool changed = rules.remove(rule);
     if(findRule_Symbol(symbol).count() == 0)
         alphabet.remove(symbol);
+	return changed;
 }
 
 bool FiniteAutomata::changeSymbolInRule(ComputationalRules rule, QString symbol)

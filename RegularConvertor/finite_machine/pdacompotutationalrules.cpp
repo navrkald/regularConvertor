@@ -18,5 +18,22 @@ CPDACompotutationalRule::CPDACompotutationalRule(QString rule)
         }
 
         m_popSymol = ruleRegExp.cap(1);
-    }
+		}
+}
+
+QString CPDACompotutationalRule::ToArrowText(const QSet<CPDACompotutationalRule>& pdaRules)
+{
+	QString outText;
+	foreach(CPDACompotutationalRule r, pdaRules){
+		outText.append(r.GetPopSymbol() + ", " + r.GetSymbol() + ", -> " + r.GetPushSymbols().toList().join(", ") + "\n");
+	}
+	return outText;
+}
+
+QSet<QString> CPDACompotutationalRule::GetStackSymbols()
+{
+	QSet<QString> stackSymbols;
+	stackSymbols.insert(m_popSymol);
+	stackSymbols += m_pushSymbols.toList().toSet();
+	return stackSymbols;
 }

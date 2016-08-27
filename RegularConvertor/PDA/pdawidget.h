@@ -4,11 +4,15 @@
 #include <QObject>
 #include <QWidget>
 #include <finite_machine/fa_widget.h>
+#include <finite_machine/pushdownautomata.h>
 
 class CPdaWidget : public FA_widget
 {
 public:
-    CPdaWidget();
+    CPdaWidget(QWidget *parent = 0);
+
+protected:
+  CPushDownAutomata* m_pa;
 };
 
 #endif // CPDAWIDGET_H

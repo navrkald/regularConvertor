@@ -62,7 +62,10 @@ SOURCES += main.cpp\
     CFG/contextfreegrammar.cpp \
     PDA/pdawidget.cpp \
     CFG/cfgwidget.cpp \
-    gui_algorithm_interface/cfgtopdaguiinterface.cpp
+    gui_algorithm_interface/cfgtopdaguiinterface.cpp \
+    PDA/pdadiagramscene.cpp \
+    PDA/pdaruledialog.cpp \
+    PDA/pdaarrow.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -101,7 +104,10 @@ HEADERS  += mainwindow.h \
     PDA/pdawidget.h \
     CFG/cfgwidget.h \
     gui_algorithm_interface/cfgtopdaguiinterface.h \
-    error.h
+    error.h \
+    PDA/pdadiagramscene.h \
+    PDA/pdaruledialog.h \
+    PDA/pdaarrow.h
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \
@@ -109,7 +115,8 @@ FORMS    += mainwindow.ui \
     finite_machine/symbolsinputdialog.ui \
     algorithms/algorithmwidget.ui \
     reg_exp/regexpwidget.ui \
-    CFG/cfgwidget.ui
+    CFG/cfgwidget.ui \
+    PDA/pdaruledialog.ui
 
 CONFIG += c++11 #static
 

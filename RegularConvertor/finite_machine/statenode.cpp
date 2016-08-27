@@ -38,8 +38,6 @@ StateNode::StateNode(DiagramScene* scene, FiniteAutomata* _FA)
 
     FA->addState(node_name);
     emit FA_changed(FA);
-
-
 }
 
 StateNode::StateNode(DiagramScene *scene, FiniteAutomata *_FA, QString uniqueName)
@@ -78,7 +76,6 @@ void StateNode::firstInit()
 StateNode::~StateNode()
 {
     removeArrows();
-    //FA->coordinates.remove(node_name);
 }
 
 QRectF StateNode::boundingRect() const
@@ -219,7 +216,7 @@ void StateNode::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidge
 void StateNode::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     //TODO
-    if(myscene->actMode == DiagramScene::MoveNode)
+    if(myscene->actMode == DiagramScene::MoveNodeMode)
     {
         //TODO po kliknuti na uzel se automaticky presune na popredi + snizi se vsechny hodnoty na minimun (mozna snizeni hodnot v samostatnem thredu...)
         ;
@@ -238,7 +235,7 @@ void StateNode::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void StateNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    if(myscene->actMode == DiagramScene::MoveNode)
+    if(myscene->actMode == DiagramScene::MoveNodeMode)
     {
         QString text = QInputDialog::getText(event->widget(),tr("New node name dialog"),tr("Enter unigue node name"),QLineEdit::Normal,node_name);
         if(!text.isEmpty())

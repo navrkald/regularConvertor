@@ -45,7 +45,7 @@
 
  const qreal Pi = 3.14;
 
- Arrow::Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA, QStringList symbols,
+Arrow::Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA, QStringList symbols,
           QGraphicsItem *parent, DiagramScene* _scene)
      : QGraphicsLineItem(parent)
  {
@@ -63,7 +63,11 @@
      connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
  }
 
- Arrow::~Arrow()
+Arrow::Arrow(StateNode* startItem, StateNode* endItem, QGraphicsItem* parent, DiagramScene* _scene) :
+	myStartItem(startItem), myEndItem(endItem),	QGraphicsLineItem(parent), scene(_scene)
+{}
+
+Arrow::~Arrow()
  {
     myStartItem->removeArrow(this);
     myEndItem->removeArrow(this);
@@ -83,20 +87,15 @@
  QPainterPath Arrow::shape() const
  {
      QPainterPath path;
-     //this->displayText = symbols.join(", ");
-     path.addText(textPos(),qApp->font(),displayText);
-
+	 path.addRect(GetDisplayTextRect());
      if(getStartItemPos() == getEndItemPos())
      {//jedna se o self smycku
          path.addEllipse(QPointF (getStartItemPos().x(), getStartItemPos().y() - NODE_RADIUS * 2),NODE_RADIUS *1,NODE_RADIUS *1);
-         //path.addPolygon();
-         path.addText(textPos(),qApp->font(),displayText);
      }
      else
      {//je to sipka mezi 2 ruznymi uzly
-         path = QGraphicsLineItem::shape();
-         path.addText(textPos(),qApp->font(),displayText);
-         path.addPolygon(arrowHead);
+		 path.addPath(QGraphicsLineItem::shape());
+         path.addPolygon(m_arrowHead);
      }
      return path;
  }
@@ -127,7 +126,8 @@ void Arrow::updatePosition()
     setLine(line);
 }
 
-void Arrow::editArrow()
+
+void Arrow::EditArrow()
 {
     SymbolsInputDialog inputDialog(symbols.join(", "));
     if(QDialog::Accepted == inputDialog.exec())
@@ -139,12 +139,10 @@ void Arrow::editArrow()
         foreach(QString symbol,deletedSymbols)
         {
             FA->removeRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
-            FA->removeSymbol(symbol);
         }
         foreach(QString symbol,newSymbols)
         {
             FA->addRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
-            FA->addSymbol(symbol);
         }
         //Setup this
         this->symbols  = editedSymbols;
@@ -156,16 +154,14 @@ void Arrow::editArrow()
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 QWidget *)
 {
-    //if (myStartItem != myEndItem && myStartItem->collidesWithItem(myEndItem))
-    //return;
-    painter->setRenderHint(QPainter::Antialiasing, true);
+		painter->setRenderHint(QPainter::Antialiasing, true);
     QPen myPen = pen();
     myPen.setColor(myColor);
     qreal arrowSize = 20;
     painter->setPen(myPen);
 
-    this->displayText = symbols.join(", ");
-    painter->drawText(textPos(),this->displayText);
+	QRect textRectangle = GetDisplayTextRect();
+	painter->drawText(textRectangle, Qt::AlignTop | Qt::AlignLeft,this->displayText);
 
     if (isSelected())
     {
@@ -203,10 +199,10 @@ QWidget *)
         QPointF arrowP2 = line().p1() + QPointF(sin(angle + Pi - Pi / 3) * arrowSize,
                                                 cos(angle + Pi - Pi / 3) * arrowSize);
 
-        arrowHead.clear();
-        arrowHead << line().p1() << arrowP1 << arrowP2;
+        m_arrowHead.clear();
+        m_arrowHead << line().p1() << arrowP1 << arrowP2;
         painter->drawLine(line());
-        painter->drawPolygon(arrowHead);
+        painter->drawPolygon(m_arrowHead);
         if (isSelected())
         {
             painter->setPen(QPen(myColor, 1, Qt::DashLine));
@@ -221,43 +217,48 @@ QWidget *)
 
  void Arrow::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
  {
-     editArrow();
+		 EditArrow();
  }
 
- QPointF Arrow::textPos() const
+ QRect Arrow::GetDisplayTextRect() const
  {
-     if(this->myStartItem == this->myEndItem)
+	 QSize textSize = GetDisplayTextSize();
+	 QRect textRect;
+	 textRect.setSize(textSize);
+	 if(this->myStartItem == this->myEndItem)
      {
-         return getDistancePoint();
+		 //textRect.setX(getStartItemPos().x() - textSize.height()/ 2);
+		 //textRect.setY(getStartItemPos().y() - NODE_RADIUS * 2 - 1.5 * TEXT_DISTANCE - textSize.height());
      }
      else
      {
-         QRectF text_rect = recalculateTextSpace();
-         QLineF centerLine(getStartItemPos(), getEndItemPos());
-
-         QPointF center_point =  centerLine.pointAt(0.5);
-         center_point = center_point - perpendicularDifference(QLineF(getStartItemPos(),getEndItemPos()),TEXT_DISTANCE);
-         QPointF lineVector = getEndItemPos() - getStartItemPos();
-         //          B
-         //         ^
-         // text   /
-         //      A
-         if(lineVector.x() < 0 && lineVector.y() > 0)
-         {
-             center_point.setX( center_point.x() - text_rect.width());
-             center_point.setY( center_point.y() - text_rect.height());
-         }
-         //          B
-         //         /
-         // text   v
-         //       A
-         if(lineVector.x() > 0 && lineVector.y() > 0)
-         {
-             center_point.setX( center_point.x() - text_rect.width());
-             center_point.setY( center_point.y() + text_rect.height());
-         }
-         return center_point;
+// 				 
+//          QLineF centerLine(getStartItemPos(), getEndItemPos());
+// 
+//          QPointF center_point =  centerLine.pointAt(0.5);
+// 				 center_point = center_point - perpendiucularDifference(QLineF(getStartItemPos(),getEndItemPos()),TEXT_DISTANCE);
+//          QPointF lineVector = getEndItemPos() - getStartItemPos();
+//          //          B
+//          //         ^
+//          // text   /
+//          //      A
+//          if(lineVector.x() < 0 && lineVector.y() > 0)
+//          {
+// 						 center_point.setX( center_point.x() - textSize.width());
+// 						 center_point.setY( center_point.y() - textSize.height());
+//          }
+//          //          B
+//          //         /
+//          // text   v
+//          //       A
+//          if(lineVector.x() > 0 && lineVector.y() > 0)
+//          {
+// 						 center_point.setX( center_point.x() - textSize.width());
+// 						 center_point.setY( center_point.y() + textSize.height());
+//          }
+//          return center_point;
      }
+	 return textRect;
  }
 
 
@@ -323,11 +324,10 @@ QPointF Arrow::perpendicularDifference(QLineF line, qreal distance)const
     return normalLine.p2() - line.p1();
 }
 
-QRectF Arrow::recalculateTextSpace() const
+QSize Arrow::GetDisplayTextSize() const
 {
-    //prevzato z c++ GUI programming wiht Qt 4, str. 203
     QFontMetrics metrics(qApp->font());
-    return metrics.boundingRect(displayText);
+		return metrics.size(0, displayText);
 }
 
 //QPointF Arrow::intersectionPoint1(StateNode *circle, QLineF  *line) const

@@ -46,7 +46,8 @@ public:
     FiniteAutomata toMinFA(FiniteAutomata FA);
     void toMinFA();
     FiniteAutomata normalize(FiniteAutomata FA);
-
+		QSet<QString> GetNewInputSymbols(QSet<QString> editedSymbols);
+		QSet<QString> GetDeletedInputSymbols(QSet<QString> editedSymbols);
 
 
     
@@ -74,7 +75,7 @@ public:
     //TODO parametry
     bool addRule(ComputationalRules newrule);
     bool addRule(QString from, QString to, QString symbol);
-    void removeRule(ComputationalRules rule);
+		bool removeRule(ComputationalRules rule);
     bool changeSymbolInRule(ComputationalRules rule, QString symbol);
     bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
     void SetAplhabet(QSet<QString> alphabet);

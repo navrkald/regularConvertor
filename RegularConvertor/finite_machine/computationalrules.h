@@ -24,9 +24,9 @@ public:
         this->symbol = symbol;
     }
 
-    QString getFrom(){return from;}
-    QString getTo(){return from;}
-    QString getSymbol(){return from;}
+    QString GetFrom(){return from;}
+    QString GetTo(){return from;}
+    QString GetSymbol(){return from;}
     void setFrom(QString f){from = f;}
     void setTo(QString t){to = t;}
     void setSymbol(QString s){symbol = s;}
@@ -36,11 +36,11 @@ public:
                     (this->symbol==secondRule.symbol) &&
                      this->to == secondRule.to);
         }
-    const ComputationalRules operator=(const ComputationalRules& rule) const
-    {
-         ComputationalRules returnRule(rule.from,rule.to,rule.symbol);
-        return returnRule;
-    }
+//     const ComputationalRules operator=(const ComputationalRules& rule) const
+//     {
+//          ComputationalRules returnRule(rule.from,rule.to,rule.symbol);
+//         return returnRule;
+//     }
 
 public:
     QString from;

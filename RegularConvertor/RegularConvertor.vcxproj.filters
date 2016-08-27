@@ -1,0 +1,651 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts;xlf</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts;xlf</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{18235482-bc61-4102-8e1e-4e98e26fc1cb}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{29a1cc89-099c-473c-a7d6-500c02aa2472}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="algorithms\algorithm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithms\algorithmcfgtopda.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithms\algorithmview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithms\algorithmwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finite_machine\arrow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gui_algorithm_interface\cfgtopdaguiinterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CFG\cfgwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reg_exp\charpos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finite_machine\computationalrules.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CFG\contextfreegrammar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithms\dfatominfa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finite_machine\diagramscene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finite_machine\editruledialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithms\epsiloncloserwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finite_machine\fa_widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithms\fatodfa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finite_machine\finiteautomata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithms\htmldelegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finite_machine\multiselectcompleter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mytooltipqmenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reg_exp\parserstack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PDA\pdaarrow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finite_machine\pdacompotutationalrules.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PDA\pdadiagramscene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PDA\pdaruledialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PDA\pdawidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finite_machine\pushdownautomata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reg_exp\regexp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reg_exp\regexpnode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reg_exp\regexpparser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithms\regexptofa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reg_exp\regexptreemodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reg_exp\regexpwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reg_exp\regextextedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithms\removeepsilon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="set\set_of_sets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finite_machine\statenode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finite_machine\symbolsinputdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_algorithm.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_algorithm.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_algorithmwidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_algorithmwidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_arrow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_arrow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_cfgtopdaguiinterface.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_cfgtopdaguiinterface.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_cfgwidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_cfgwidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_diagramscene.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_diagramscene.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_editruledialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_editruledialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_epsiloncloserwidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_epsiloncloserwidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_fa_widget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_fa_widget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_fatodfa.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_fatodfa.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_htmldelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_htmldelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_mainwindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_mainwindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_multiselectcompleter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_multiselectcompleter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_mytooltipqmenu.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_mytooltipqmenu.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_pdaarrow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_pdaarrow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_pdadiagramscene.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_pdadiagramscene.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_pdaruledialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_pdaruledialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_regexptofa.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_regexptofa.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_regexpwidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_regexpwidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_regextextedit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_regextextedit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_removeepsilon.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_removeepsilon.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_statenode.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_statenode.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_symbolsinputdialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_symbolsinputdialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_pictures.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_translations.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="algorithms\algorithm.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="algorithms\algorithmcfgtopda.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithms\algorithmview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="algorithms\algorithmwidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="finite_machine\arrow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui_algorithm_interface\cfgtopdaguiinterface.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CFG\cfgwidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="reg_exp\charpos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="finite_machine\computationalrules.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CFG\contextfreegrammar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithms\dfatominfa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="finite_machine\diagramscene.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="finite_machine\editruledialog.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="algorithms\epsiloncloserwidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="finite_machine\fa_widget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="algorithms\fatodfa.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="finite_machine\finiteautomata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="algorithms\htmldelegate.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mainwindow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="finite_machine\multiselectcompleter.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mytooltipqmenu.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="reg_exp\parserstack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="PDA\pdaarrow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="finite_machine\pdacompotutationalrules.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="PDA\pdadiagramscene.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="PDA\pdaruledialog.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="PDA\pdawidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="finite_machine\pushdownautomata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reg_exp\regexp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reg_exp\regexpnode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reg_exp\regexpparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="algorithms\regexptofa.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="reg_exp\regexptreemodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="reg_exp\regexpwidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="reg_exp\regextextedit.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="algorithms\removeepsilon.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="reg_exp\rules_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="set\set_of_sets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="finite_machine\statenode.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="finite_machine\symbolsinputdialog.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RegularConvertor_cs_CZ.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="algorithms\algorithmwidget.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CFG\cfgwidget.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="finite_machine\editruledialog.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="finite_machine\fa_widget.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="PDA\pdaruledialog.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="reg_exp\regexpwidget.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="finite_machine\symbolsinputdialog.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pictures\Flag_of_the_Czech_Republic.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\Flag_of_the_United_Kingdom.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="RegularConvertor_cs_CZ.qm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="finite_machine\pictures\add_arrow.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="finite_machine\pictures\add_node.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\alternate_fa.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="reg_exp\pictures\branch-closed.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="reg_exp\pictures\branch-end.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="reg_exp\pictures\branch-more.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="reg_exp\pictures\branch-open.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\concatenate_fa.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="finite_machine\pictures\cursor.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="finite_machine\pictures\delete.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\determinization_advanced_example1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\determinization_advanced_example2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\determinization_advanced_example3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\determinization_advanced_example4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\determinization_example1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\determinization_example2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\determinization_example3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\determinization_example4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\empty_fa.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\epsilon_closer.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\epsilon_closer_en.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\epsilon_fa.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\iterate_fa.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\ok.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\one_symbol_fa.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <CustomBuild Include="pictures.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <None Include="algorithms\pictures\remove_epsilon.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\remove_epsilon_advanced_example1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\remove_epsilon_advanced_example2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\remove_epsilon_advanced_example3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\remove_epsilon_advanced_example4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\remove_epsilon_en.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\remove_epsilon_example1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\remove_epsilon_example2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\remove_epsilon_example3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pictures\remove_epsilon_example4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <CustomBuild Include="translations.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <None Include="algorithms\pictures\unknown.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="reg_exp\pictures\vline.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\warning.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="algorithms\pictures\wrong.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_algorithmwidget.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_cfgwidget.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_editruledialog.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_fa_widget.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_pdaruledialog.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_regexpwidget.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_symbolsinputdialog.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

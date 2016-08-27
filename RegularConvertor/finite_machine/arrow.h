@@ -62,6 +62,11 @@ class DiagramScene;
 class Arrow : public QObject, public QGraphicsLineItem
 {
     Q_OBJECT
+protected:
+	//This constructor is usen only in CPdaArrow (implicitely)
+	Arrow(StateNode *startItem, StateNode *endItem,
+				QGraphicsItem *parent = 0, DiagramScene *scene = 0);
+
 public:
 
     ~Arrow();
@@ -79,13 +84,15 @@ public:
     void addSymbol(QString symbol);
     //return true if there are no aditonal symbols
     bool removeSymbol(QString symbol);
-    void updatePosition();
+    void updatePosition(); 
+
+public:
     StateNode *myStartItem;
     StateNode *myEndItem;
     QStringList symbols;
     DiagramScene *scene;
 
-    void editArrow();
+		virtual void EditArrow();
 signals:
     void FA_changed(FiniteAutomata* FA);
 
@@ -95,14 +102,15 @@ protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-     FiniteAutomata* FA;
+		FiniteAutomata* FA;
 
+protected:
      QString displayText;
      QColor myColor;
-     QPolygonF arrowHead;
+     QPolygonF m_arrowHead;
      QPolygonF selfArrowHead;
      long int debugCounter;
-     QPointF textPos() const;
+		 QRect GetDisplayTextRect() const;
      QPolygonF SelfArrowHead();
      QPointF getDistancePoint() const;
      //Between same nodes are arrows with oposit direction
@@ -112,7 +120,7 @@ private:
      //pro vypocet jakym smerem se ma sipka posunout, je to proto, aby se opacne sipky mezi stejnymi
      //uzly neprekrivali
      QPointF perpendicularDifference(QLineF line, qreal distance)const;
-     QRectF recalculateTextSpace() const;
+		 QSize GetDisplayTextSize() const;
      QPointF EllipseLineIntersection(QRectF elipse, QPointF p1, QPointF p2) const;
 };
 

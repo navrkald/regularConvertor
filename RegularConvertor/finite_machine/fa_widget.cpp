@@ -10,9 +10,6 @@ FA_widget::FA_widget(QWidget *parent) :
 
     FA = new FiniteAutomata();
 
-    scene = new DiagramScene(FA, ui->graphicsView);
-    connect(scene,SIGNAL(sendStatusBarMessage(QString)),this,SIGNAL(sendStatusBarMessage(QString)));
-    ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
     deleteShortCut=new QShortcut(QKeySequence::Delete, this);
 
@@ -51,8 +48,6 @@ FA_widget::FA_widget(QWidget *parent) :
 
     ui->endingStatesLineEdit->setCompleter(endingStatesCompleter); //to autocomplete ending states
 
-    connect( deleteShortCut, SIGNAL(activated()), scene, SLOT(deleteSelected()));
-
     //to connect edit buttons with slots
     connect(this->MoveNodeBut,SIGNAL(clicked()), this, SLOT(MoveNodeBut_clicked()));
     connect(this->AddNodeBut,SIGNAL(clicked()),this, SLOT(AddNodeBut_clicked()));
@@ -65,22 +60,6 @@ FA_widget::FA_widget(QWidget *parent) :
     connect(this->ui->endingStatesLineEdit,SIGNAL(editingFinished()),this,SLOT(endingStatesEdited()));
     connect(this->ui->alphabetLineEdit,SIGNAL(editingFinished()),this,SLOT(alphabetEdited()));
     connect(this->ui->alphabetLineEdit,SIGNAL(textEdited(QString)),this,SLOT(alphabetEdited()));
-
-    //add items to scene
-    connect(this,SIGNAL(addNodes(QSet<QString>)),this->scene,SLOT(addNodes(QSet<QString>)));
-    connect(this,SIGNAL(removeNodes(QSet<QString>)),this->scene,SLOT(removeNodes(QSet<QString>)));
-    connect(this,SIGNAL(setStartNode(QString)),this->scene,SLOT(setStartNode(QString)));
-    connect(this,SIGNAL(addEndingNodes(QSet<QString>)),this->scene,SLOT(addEndingNodes(QSet<QString>)));
-    connect(this,SIGNAL(removeEndingNodes(QSet<QString>)),this->scene,SLOT(removeEndingNodes(QSet<QString>)));
-    connect(this,SIGNAL(addEdges(QSet<ComputationalRules>)),this->scene,SLOT(addEdges(QSet<ComputationalRules>)));
-    connect(this,SIGNAL(removeEdges(QSet<ComputationalRules>)),this->scene,SLOT(removeEdges(QSet<ComputationalRules>)));
-
-
-    //set FA also to scene
-    connect(this,SIGNAL(setFA_signal(FiniteAutomata*)),this->scene,SLOT(setFA(FiniteAutomata*)));
-
-    // FA changed - scene notify
-    connect(scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
 
     //this code displayes edit buttons in front of graphicsView
     QVBoxLayout* vlayout = new QVBoxLayout(ui->graphicsView);
@@ -112,6 +91,8 @@ FA_widget::FA_widget(QWidget *parent) :
     setupValidators();
 
     //connect(this,SIGNAL(errorMessageSignal(QString)),this,SLOT(testingSlot(QString)));
+
+    SetScene(new DiagramScene(FA, ui->graphicsView));
 }
 
 void FA_widget::setupValidators()
@@ -157,7 +138,32 @@ void FA_widget::setWrongStatus()
 
 void FA_widget::clearStatus()
 {
-    status_label->hide();
+  status_label->hide();
+}
+
+void FA_widget::SetScene(DiagramScene* scene)
+{
+  m_scene = scene;
+  connect(m_scene,SIGNAL(sendStatusBarMessage(QString)),this,SIGNAL(sendStatusBarMessage(QString)));
+  ui->graphicsView->setScene(m_scene);
+
+  connect( deleteShortCut, SIGNAL(activated()), m_scene, SLOT(deleteSelected()));
+
+  //add items to scene
+  connect(this,SIGNAL(addNodes(QSet<QString>)),this->m_scene,SLOT(addNodes(QSet<QString>)));
+  connect(this,SIGNAL(removeNodes(QSet<QString>)),this->m_scene,SLOT(removeNodes(QSet<QString>)));
+  connect(this,SIGNAL(setStartNode(QString)),this->m_scene,SLOT(setStartNode(QString)));
+  connect(this,SIGNAL(addEndingNodes(QSet<QString>)),this->m_scene,SLOT(addEndingNodes(QSet<QString>)));
+  connect(this,SIGNAL(removeEndingNodes(QSet<QString>)),this->m_scene,SLOT(removeEndingNodes(QSet<QString>)));
+  connect(this,SIGNAL(addEdges(QSet<ComputationalRules>)),this->m_scene,SLOT(addEdges(QSet<ComputationalRules>)));
+  connect(this,SIGNAL(removeEdges(QSet<ComputationalRules>)),this->m_scene,SLOT(removeEdges(QSet<ComputationalRules>)));
+
+
+  //set FA also to scene
+  connect(this,SIGNAL(setFA_signal(FiniteAutomata*)),this->m_scene,SLOT(setFA(FiniteAutomata*)));
+
+  // FA changed - scene notify
+  connect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
 }
 
 FA_widget::~FA_widget()
@@ -168,21 +174,21 @@ FA_widget::~FA_widget()
 //sets moving mode
 void FA_widget::MoveNodeBut_clicked()
 {
-    scene->setMode(DiagramScene::MoveNode);
+    m_scene->setMode(DiagramScene::MoveNodeMode);
 }
 
 //sets adding mode
 void FA_widget::AddNodeBut_clicked()
 {
 
-    scene->setMode(DiagramScene::AddNode);
+    m_scene->setMode(DiagramScene::AddNodeMode);
 }
 
 //sets adding arrow mode
 void FA_widget::AddArrowBut_clicked()
 {
 
-    scene->setMode(DiagramScene::AddArrow);
+		m_scene->setMode(DiagramScene::AddArrowMode);
 }
 
 void FA_widget::statesEdited()
@@ -497,7 +503,7 @@ void FA_widget::on_tabWidget_currentChanged(int index)
 //vymaze selected items
 void FA_widget::delete_items()
 {
-    this->scene->deleteSelected();
+    this->m_scene->deleteSelected();
     emit FA_changed(FA);
 }
 
@@ -515,10 +521,10 @@ void FA_widget::clean()
 //nastavý nový automat
 void FA_widget::setFA(FiniteAutomata* FA)
 {
-    disconnect(scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
+    disconnect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
     clean();
     this->FA = FA;
     emit setFA_signal(FA);
-    connect(scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
+    connect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
     emit FA_changed(FA);
 }

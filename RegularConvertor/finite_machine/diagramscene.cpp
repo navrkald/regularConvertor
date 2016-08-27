@@ -8,7 +8,7 @@
 
 DiagramScene::DiagramScene(FiniteAutomata* _FA, QWidget *parent = 0) : QGraphicsScene(parent)
 {
-    this->actMode = AddNode;
+    this->actMode = AddNodeMode;
     clicked = false;
     actLine = 0;
     FA = _FA;
@@ -30,7 +30,7 @@ void DiagramScene::setMode(DiagramScene::Mode mode)
 
 
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
- {
+{
      if (mouseEvent->button() != Qt::LeftButton)
          return;
 
@@ -38,7 +38,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
      StateNode* newNode = 0;
      switch(this->actMode)
      {
-        case AddNode:
+        case AddNodeMode:
              newNode = new StateNode(this, FA);
              this->addItem(newNode);
              FA->addState(newNode->getName());
@@ -49,7 +49,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
              emit FA_changed(FA);
              break;
-        case AddArrow:
+				case AddArrowMode:
              //TODO predelat caru na sipku
              actLine = new QGraphicsLineItem(QLineF(mouseEvent->scenePos(),
                                          mouseEvent->scenePos()));
@@ -57,9 +57,9 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
              addItem(actLine);
              //emit FA_changed(FA);
              break;
-        case MoveNode:
+        case MoveNodeMode:
              break;
-        case DeleteNode:
+        case DeleteNodeMode:
             break;
      }
 
@@ -80,7 +80,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
  void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
  {
-     if (actMode == AddArrow && actLine != 0)
+		 if (actMode == AddArrowMode && actLine != 0)
      {
          actLine->setLine(actLine->line().p1().x(),actLine->line().p1().y(), mouseEvent->scenePos().x(),mouseEvent->scenePos().y());
      }
@@ -92,7 +92,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
  {
     clicked = false;
 
-     if (actLine != 0 && actMode == AddArrow)
+		 if (actLine != 0 && actMode == AddArrowMode)
      {
          QList<QGraphicsItem *> startItems = items(actLine->line().p1());
          if (startItems.count() && startItems.first() == actLine)
@@ -115,48 +115,52 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
              Arrow *arrow;
              if((arrow = startItem->hasArrowTo(endItem)) != 0)
              {
-                arrow->editArrow();
+								arrow->EditArrow();
                 return;
              }
-             SymbolsInputDialog inputDialog("");
-             QStringList symbols;
-             if(QDialog::Accepted == inputDialog.exec())
-             {
-                 symbols = inputDialog.symbols;
-                 arrow = new Arrow(startItem, endItem, FA, symbols,0,this);
-                 QStringList new_symbols;
-                 foreach(QString symbol,symbols)
-                 {
-                    if(FA->addRule(ComputationalRules(startItem->getName(),endItem->getName(),symbol)))
-                    {
-                        if(symbol != EPSILON)
-                        {
-                            FA->addSymbol(symbol);
-                            new_symbols.append(symbol);
-                        }
-                        emit FA_changed(FA);
-                    }
-                    else
-                    {
-                        emit sendStatusBarMessage(tr("WARNING: Your set existing edge."));
-                    }
-
-                 }
-                 startItem->addArrow(arrow);
-                 endItem->addArrow(arrow);
-                 arrow->setZValue(-1000.0);   //posun na pozadi
-                 addItem(arrow);
-                 arrow->updatePosition();
-             }
+						 AddArrow(startItem, endItem);
          }
      }
     QGraphicsScene::mouseReleaseEvent(mouseEvent);
  }
 
+ void DiagramScene::AddArrow(StateNode *startItem, StateNode *endItem){
+	 SymbolsInputDialog inputDialog("");
+	 QStringList symbols;
+	 if(QDialog::Accepted == inputDialog.exec())
+	 {
+			 symbols = inputDialog.symbols;
+			 Arrow* arrow = new Arrow(startItem, endItem, FA, symbols,0,this);
+			 QStringList new_symbols;
+			 foreach(QString symbol,symbols)
+			 {
+					if(FA->addRule(ComputationalRules(startItem->getName(),endItem->getName(),symbol)))
+					{
+							if(symbol != EPSILON)
+							{
+									FA->addSymbol(symbol);
+									new_symbols.append(symbol);
+							}
+							emit FA_changed(FA);
+					}
+					else
+					{
+							emit sendStatusBarMessage(tr("WARNING: Your set existing edge."));
+					}
+
+			 }
+			 startItem->addArrow(arrow);
+			 endItem->addArrow(arrow);
+			 arrow->setZValue(-1000.0);   //posun na pozadi
+			 addItem(arrow);
+			 arrow->updatePosition();
+	 }
+}
+
  //pokud jsme v modu ruseni zulu pak po oznaceni uzlu ho zrus
  void DiagramScene::changeSelected()
  {
-     if(actMode == DeleteNode && !this->selectedItems().isEmpty())
+     if(actMode == DeleteNodeMode && !this->selectedItems().isEmpty())
      {
          std::cout<<"call DeleteSelected()"<<std::endl;
          deleteSelected();
@@ -446,7 +450,7 @@ void DiagramScene::clean()
         }
         else
             qWarning("Warning: recoverable errors in diagramscene.cpp, which could not never happen.");
-    }
+		}
 }
 
 void DiagramScene::emit_FA_changed(FiniteAutomata *FA)

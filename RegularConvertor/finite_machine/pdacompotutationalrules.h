@@ -48,6 +48,8 @@ public:
 
     QString toString() const{return from + " " + m_popSymol + " " + symbol + "-> " + m_pushSymbols.toList().join(", ") + " " + to;}
 
+		static QString ToArrowText(const QSet<CPDACompotutationalRule>& pdaRules);
+
     bool operator==(const CPDACompotutationalRule& secondRule) const
         {
             return ( ComputationalRules::operator ==(secondRule) &&
@@ -62,6 +64,10 @@ public:
     }
 
 public:
+    QString GetPopSymbol() { return m_popSymol; }
+		QVector<QString> GetPushSymbols() { return m_pushSymbols; }
+		QSet<QString> GetStackSymbols();
+
     QString m_popSymol;
     QVector<QString> m_pushSymbols;
 };

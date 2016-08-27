@@ -17,14 +17,14 @@ class DiagramScene : public QGraphicsScene
    Q_OBJECT
 signals:
     //void deleteSelected();
-    void FA_changed(FiniteAutomata* FA);
+		void FA_changed(FiniteAutomata* FA);
     void sendStatusBarMessage(QString message);
 
 public:
     DiagramScene(FiniteAutomata* _FA, QWidget *parent);
     //~DiagramScene();
 
-    enum Mode { AddNode, MoveNode, DeleteNode, AddArrow};
+		enum Mode { AddNodeMode, MoveNodeMode, DeleteNodeMode, AddArrowMode};
     Mode actMode;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
@@ -48,7 +48,7 @@ public slots:
     void removeEdges(QSet <ComputationalRules> rules);
     void selectAll();
 
-private:
+protected:
     bool clicked;
     QGraphicsLineItem *actLine;
     FiniteAutomata* FA;
@@ -57,7 +57,7 @@ private:
     void addNode(QString node, QPoint point);
     StateNode* getNodeByName(QString nodeName);
     void clean();
-
+		virtual void AddArrow(StateNode *startItem, StateNode *endItem);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
 };

@@ -455,7 +455,7 @@ void DiagramScene::clean()
 
 void DiagramScene::emit_FA_changed(FiniteAutomata *FA)
 {
-    emit emit_FA_changed(FA);
+    emit FA_changed(FA);
 }
 
 void DiagramScene::setFA(FiniteAutomata* _FA)

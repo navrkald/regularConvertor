@@ -1,6 +1,24 @@
 #include "algorithmwidget.h"
 #include "ui_algorithmwidget.h"
 
+AlgorithmWidget::AlgorithmWidget(QWidget *parent) : QWidget(parent), mode(Algorithm::modes::NONE),
+    ui(new Ui::AlgorithmWidget)
+{
+    ui->setupUi(this);
+
+    showSolution = true;
+
+    connect(this->ui->nextButton,SIGNAL(clicked()),this,SIGNAL(nextPressed()));
+    connect(this->ui->prewButton,SIGNAL(clicked()),this,SIGNAL(prewPressed()));
+    connect(this->ui->playButton,SIGNAL(clicked()),this,SLOT(emitPlay()));
+    connect(this->ui->stopButton,SIGNAL(clicked()),this,SIGNAL(stopPressed()));
+    connect(this->ui->checkButton,SIGNAL(clicked()),this,SIGNAL(checkSolutionPressed()));
+    connect(this->ui->beginButton,SIGNAL(clicked()), this, SIGNAL(beginPressed()));
+    connect(this->ui->endButton,SIGNAL(clicked()),this, SIGNAL(endPressed()));
+    setWidgets(mode);
+    ui->Formal->removeTab(1);
+}
+
 AlgorithmWidget::AlgorithmWidget(Algorithm::modes _mode, QWidget *parent) :
     QWidget(parent), mode(_mode),
     ui(new Ui::AlgorithmWidget)
@@ -28,6 +46,11 @@ AlgorithmWidget::~AlgorithmWidget()
 AlgorithmView *AlgorithmWidget::getAlgorithmView()
 {
     return ui->treeView;
+}
+
+void AlgorithmWidget::SetCaption(const QString &caption)
+{
+    ui->m_algorithmWidgetCaption->setText(caption);
 }
 
 

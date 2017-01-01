@@ -4,13 +4,14 @@
 #include "algorithms/htmldelegate.h"
 #include "algorithms/algorithmview.h"
 #include "algorithms/algorithmwidget.h"
-//#include "finite_machine/finiteautomata.h"
+#include <widgets/cfgtopdawidget.h>
 
 #define MY_APP_NAME "Regular Convertor"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    m_centralWidget(NULL)
 {
 
     ui->setupUi(this);
@@ -68,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     reg_exp_algorithm = 0;
     remove_epsilon_algorithm = 0;
-    activeConversion = none;
+    m_activeConversion = none;
     mode = Algorithm::PLAY_MODE;
     ui->action_play_mode->setChecked(true);
 
@@ -114,7 +115,7 @@ void MainWindow::mySetWindowTitle(QString example_name)
 {
     QString conversion_str;
     QString mode_str;
-    switch(activeConversion)
+    switch(m_activeConversion)
     {
         case none:
             conversion_str="";
@@ -142,7 +143,7 @@ void MainWindow::mySetWindowTitle(QString example_name)
             mode_str = tr("Mode: algorithm stepping");
         break;
         case Algorithm::STEP_MODE:
-            mode_str = tr("Mode: instat checking");
+            mode_str = tr("Mode: instant checking");
         break;
     }
     QString example_str;
@@ -241,7 +242,7 @@ void MainWindow::prepareREtoFA(RegExp* _re)
 {
 //    if(activeConversion != RE_to_FA)
 //    {
-        activeConversion = RE_to_FA;
+        m_activeConversion = RE_to_FA;
 
         //basic components
         regExpToFA_central_widget = new QWidget(this);
@@ -286,9 +287,6 @@ void MainWindow::prepareREtoFA_GUI()
     QWidget* reg_exp_container = new QWidget(w);
     QVBoxLayout* reg_exp_vlayout = new QVBoxLayout(reg_exp_container);
     reg_exp_vlayout->setMargin(0);
-    QLabel* reg_exp_label = new QLabel(tr("<b>Regular expression</b>"),w);
-    reg_exp_label->setAlignment(Qt::AlignCenter);
-    reg_exp_vlayout->addWidget(reg_exp_label);
     reg_exp_vlayout->addWidget(reg_exp_widget);
 
     //algorithm
@@ -334,7 +332,7 @@ void MainWindow::prepareRemoveEpsilon()
 {
     //if(activeConversion != REMOVE_EPSILON)
     //{
-        activeConversion = REMOVE_EPSILON;
+        m_activeConversion = REMOVE_EPSILON;
 
         //basic components
         removeEpsilon_central_widget = new QWidget(this);
@@ -423,7 +421,7 @@ void MainWindow::prepareRemoveEpsilon_GUI()
 
 void MainWindow::PrepareDFA()
 {
-    activeConversion = DFA;
+    m_activeConversion = DFA;
 
     //basic components
     DFA_central_widget = new QWidget(this);
@@ -485,25 +483,34 @@ void MainWindow::PrepareDFA_GUI()
 
 void MainWindow::PrepareCFGtoPDA()
 {
-    activeConversion = CFG_TO_PDA;
+    m_activeConversion = CFG_TO_PDA;
 
     //basic components
     CFG_TO_PDA_central_widget = new QWidget(this);
-    alhgorithm_widget = new AlgorithmWidget(mode,CFG_TO_PDA_central_widget);   // TODO nevytvaret porad novy ale zmenit parrenta a vymazat
+	// TODO nevytvaret porad novy ale zmenit parrenta a vymazat
+
+    alhgorithm_widget = new AlgorithmWidget(mode,CFG_TO_PDA_central_widget);
     m_cfgWidget = new CCfgWidget(CFG_TO_PDA_central_widget);
     m_pdaWidget = new CPdaWidget(/*CFG_TO_PDA_central_widget*/);
     DFA_variables_widget = new QLabel(CFG_TO_PDA_central_widget);
     DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
-    connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
     CFG_TO_PDA_algorithm = new CCfgToPdaGuiInterface(/* mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, CFG_TO_PDA_central_widget*/);
+
+    connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
     connect(this, SIGNAL(modeChanged(Algorithm::modes)), CFG_TO_PDA_algorithm, SLOT(setMode(Algorithm::modes)));
     connect(CFG_TO_PDA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+
     prepareCFG_TO_PDA_GUI();
 
 }
 
 void MainWindow::prepareCFG_TO_PDA_GUI()
 {
+  this->setCentralWidget(new CCfgToPdaWidget(this));
+  return;
+
+
+
   mySetWindowTitle();
   delete this->centralWidget();
 
@@ -559,6 +566,34 @@ void MainWindow::on_action_step_mode_triggered()
     emit modeChanged(mode);
 }
 
+void MainWindow::PrepareConversionWidget(MainWindow::Conversions conversion)
+{
+    m_activeConversion = conversion;
+    if(m_centralWidget){
+        delete m_centralWidget;
+        m_centralWidget = NULL;
+    }
+    switch(m_activeConversion){
+        case RE_to_FA:
+            break;
+        case REMOVE_EPSILON:
+            break;
+        case DFA:
+            break;
+        case CFG_TO_PDA:
+            m_centralWidget = new CCfgToPdaWidget(this);
+            break;
+        case none:
+        defaul:
+            this->setCentralWidget(new QWidget());
+            showStatusMessage(tr("ERROR: No conversion selected!"));
+            break;
+    }
+    this->setCentralWidget(m_centralWidget);
+    //m_centralWidget->ConnectChangeMode(this, &MainWindow::modeChanged);
+    //m_centralWidget->ConnectStatusMessage(this,SLOT(showStatusMessage(QString)));
+}
+
 
 /////////////////////////////////////////
 /////////////////////////////////////////
@@ -570,7 +605,7 @@ void MainWindow::RE_FA_example(RegExp *_re, QString example_name)
 {
     on_action_check_mode_triggered();
     ui->action_RE_to_FA->setChecked(true);
-    if(activeConversion != RE_to_FA)
+    if(m_activeConversion != RE_to_FA)
         prepareREtoFA(_re);
     reg_exp_algorithm->setExample(_re);
     mySetWindowTitle(example_name);
@@ -632,7 +667,7 @@ void MainWindow::RemoveEpsilon_example(FiniteAutomata _FA, QString example_name)
     on_action_check_mode_triggered();
     ui->action_RemoveEpsilon->setChecked(true);
 
-    if(activeConversion != REMOVE_EPSILON)
+    if(m_activeConversion != REMOVE_EPSILON)
         prepareRemoveEpsilon();
     remove_epsilon_algorithm->setInputFA(_FA);
     mySetWindowTitle(example_name);
@@ -815,7 +850,7 @@ void MainWindow::Determinization_example(FiniteAutomata _FA, QString example_nam
     on_action_check_mode_triggered();
     ui->action_Determinization->setChecked(true);
 
-    if(activeConversion != DFA)
+    if(m_activeConversion != DFA)
         PrepareDFA();
     DFA_algorithm->setInputFA(_FA);
     mySetWindowTitle(example_name);
@@ -992,7 +1027,7 @@ void MainWindow::on_Determinization_advanced_example_4_triggered()
 }
 void MainWindow::on_action_save_triggered()
 {
-    if(activeConversion == none)
+    if(m_activeConversion == none)
     {
         showStatusMessage(tr("ERROR: No conversion selected!"));
         return;
@@ -1004,8 +1039,8 @@ void MainWindow::on_action_save_triggered()
     QFile file(filename);
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);   // we will serialize the data into the file
-    out << activeConversion << mode;
-    switch(activeConversion)
+    out << m_activeConversion << mode;
+    switch(m_activeConversion)
     {
         case RE_to_FA:
         {
@@ -1042,6 +1077,7 @@ void MainWindow::on_action_save_triggered()
         break;
         // This should never happend
         case none:
+            showStatusMessage(tr("ERROR: No conversion selected!"));
         break;
     }
     file.close();

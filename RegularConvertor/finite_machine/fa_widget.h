@@ -25,6 +25,7 @@ public:
     FiniteAutomata* FA;
     QShortcut* deleteShortCut;
 
+    void SetCaption(const QString& caption);
     static QStringList getSortedUniqueList(QString raw_text);
     void setCorrectStatus();
     void setWrongStatus();

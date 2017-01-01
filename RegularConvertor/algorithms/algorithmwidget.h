@@ -15,11 +15,13 @@ class AlgorithmWidget : public QWidget
     Q_OBJECT
     
 public:
+    explicit AlgorithmWidget(QWidget *parent = 0);
     explicit AlgorithmWidget(Algorithm::modes _mode, QWidget *parent = 0);
     ~AlgorithmWidget();
     AlgorithmView* getAlgorithmView();
     Algorithm::modes mode;
 
+    void SetCaption(const QString& caption);
     void hideWidgets(QList<QWidget*> widgets);
     void showWidgets(QList<QWidget*> widgets);
 

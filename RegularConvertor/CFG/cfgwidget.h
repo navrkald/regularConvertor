@@ -14,6 +14,7 @@ class CCfgWidget : public QWidget
 
 public:
     explicit CCfgWidget(QWidget *parent = 0);
+    void SetCaption(const QString& caption);
     ~CCfgWidget();
 
 private slots:

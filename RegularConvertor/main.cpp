@@ -42,10 +42,10 @@ void TestCfgToPda()
 
 int main(int argc, char *argv[])
 {
-  QApplication a(argc, argv);
-
-  MainWindow w;
-  w.show();
+    QApplication a(argc, argv);
+    a.setStyleSheet("QSplitter::handle { background: grey }");
+    MainWindow w;
+    w.show();
 
 
   return a.exec();

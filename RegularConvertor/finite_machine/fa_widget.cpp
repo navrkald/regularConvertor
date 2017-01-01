@@ -171,6 +171,11 @@ FA_widget::~FA_widget()
     delete ui;
 }
 
+void FA_widget::SetCaption(const QString &caption)
+{
+    ui->m_finiteMachineWidgetCaption->setText(caption);
+}
+
 //sets moving mode
 void FA_widget::MoveNodeBut_clicked()
 {

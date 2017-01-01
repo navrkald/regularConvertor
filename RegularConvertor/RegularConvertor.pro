@@ -65,7 +65,9 @@ SOURCES += main.cpp\
     gui_algorithm_interface/cfgtopdaguiinterface.cpp \
     PDA/pdadiagramscene.cpp \
     PDA/pdaruledialog.cpp \
-    PDA/pdaarrow.cpp
+    PDA/pdaarrow.cpp \
+    widgets/cfgtopdawidget.cpp \
+    widgets/variableswidget.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -107,7 +109,11 @@ HEADERS  += mainwindow.h \
     error.h \
     PDA/pdadiagramscene.h \
     PDA/pdaruledialog.h \
-    PDA/pdaarrow.h
+    PDA/pdaarrow.h \
+    widgets/centralwidgetinterface.h \
+    widgets/cfgtopdawidget.h \
+    widgets/variableswidget.h
+
 
 FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \
@@ -116,7 +122,9 @@ FORMS    += mainwindow.ui \
     algorithms/algorithmwidget.ui \
     reg_exp/regexpwidget.ui \
     CFG/cfgwidget.ui \
-    PDA/pdaruledialog.ui
+    PDA/pdaruledialog.ui \
+    widgets/cfgtopdawidget.ui \
+    widgets/variableswidget.ui
 
 CONFIG += c++11 #static
 

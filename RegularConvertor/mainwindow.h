@@ -18,6 +18,7 @@
 #include <PDA/pdawidget.h>
 #include <CFG/cfgwidget.h>
 #include <gui_algorithm_interface/cfgtopdaguiinterface.h>
+#include <widgets/centralwidgetinterface.h>
 
 namespace Ui {
 class MainWindow;
@@ -35,7 +36,6 @@ public:
     AlgorithmWidget* alhgorithm_widget;
     QTranslator* translator;
 
-
 signals:
     void modeChanged(Algorithm::modes mode);
 public slots:
@@ -46,6 +46,8 @@ private slots:
     void on_action_check_mode_triggered();
     void on_action_play_mode_triggered();
     void on_action_step_mode_triggered();
+
+    void PrepareConversionWidget(Conversions conversion);
 
     //
     // RegExp to FA
@@ -118,6 +120,7 @@ private slots:
     void PrepareCFGtoPDA();
 
 private:
+    using QMainWindow::setCentralWidget;
     Ui::MainWindow *ui;
     QTimer* status_timer;
     QLabel* status_label;
@@ -138,7 +141,8 @@ private:
     // General variables
     //
     Algorithm::modes mode;
-    Conversions activeConversion;
+    Conversions m_activeConversion;
+    ICentralCoversionWidget* m_centralWidget;
 
 
     //

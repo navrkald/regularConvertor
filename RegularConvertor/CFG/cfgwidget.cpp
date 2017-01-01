@@ -9,6 +9,11 @@ CCfgWidget::CCfgWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
+void CCfgWidget::SetCaption(const QString &caption)
+{
+    ui->m_cfgWidgetCaption->setText(caption);
+}
+
 CCfgWidget::~CCfgWidget()
 {
     delete ui;

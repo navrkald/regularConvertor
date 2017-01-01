@@ -128,7 +128,12 @@ FORMS    += mainwindow.ui \
 
 CONFIG += c++11 #static
 
-QMAKE_CXXFLAGS += -g -gdwarf-2
+# Gcc compiler flags
+gcc:QMAKE_CXXFLAGS += -g -gdwarf-2
+
+# Msvc compiler flags
+msvc::QMAKE_CXXFLAGS +=
+
 RESOURCES += \
     pictures.qrc \
     translations.qrc

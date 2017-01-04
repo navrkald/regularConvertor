@@ -16,7 +16,7 @@ CCfgToPdaWidget::~CCfgToPdaWidget()
     delete ui;
 }
 
-void CCfgToPdaWidget::ConnectChangeMode(const QObject *sender, void *modeChanged(Algorithm::modes))
+void CCfgToPdaWidget::ConnectChangeMode(const QObject *sender, MainWindowModeChangedMemFn modeChanged)
 {
     ;
 }

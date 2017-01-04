@@ -3,12 +3,15 @@
 
 #include <QWidget>
 #include <algorithms/algorithm.h>
+#include <mainwindow.h>
+
+typedef  void (MainWindow::*MainWindowModeChangedMemFn)(Algorithm::modes);
 
 class ICentralCoversionWidget : public QWidget{
     Q_OBJECT
 public:
     explicit ICentralCoversionWidget(QWidget *parent = 0) : QWidget(parent) {}
-    virtual void ConnectChangeMode(const QObject *sender, void *modeChanged(Algorithm::modes)) = 0;
+    virtual void ConnectChangeMode(const QObject *sender, MainWindowModeChangedMemFn modeChanged) = 0;
     virtual void ConnectStatusMessage(const QObject *receiver, const QMetaMethod &method) = 0;
 };
 

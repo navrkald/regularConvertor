@@ -590,7 +590,7 @@ void MainWindow::PrepareConversionWidget(MainWindow::Conversions conversion)
             break;
     }
     this->setCentralWidget(m_centralWidget);
-    //m_centralWidget->ConnectChangeMode(this, &MainWindow::modeChanged);
+    m_centralWidget->ConnectChangeMode(this, &MainWindow::modeChanged);
     //m_centralWidget->ConnectStatusMessage(this,SLOT(showStatusMessage(QString)));
 }
 

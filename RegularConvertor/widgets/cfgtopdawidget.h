@@ -22,7 +22,7 @@ private:
     // ICentralCoversionWidget interface
 
 public:
-    void ConnectChangeMode(const QObject *sender, void *modeChanged(Algorithm::modes));
+    void ConnectChangeMode(const QObject *sender, MainWindowModeChangedMemFn modeChanged);
     void ConnectStatusMessage(const QObject *sender, const QMetaMethod &signal);
 };
 

@@ -3,8 +3,8 @@
 
 #include <QWidget>
 #include <algorithms/algorithm.h>
-#include <mainwindow.h>
 
+class MainWindow;
 typedef  void (MainWindow::*MainWindowModeChangedMemFn)(Algorithm::modes);
 
 class ICentralCoversionWidget : public QWidget{

@@ -132,7 +132,7 @@ CONFIG += c++11 #static
 gcc:QMAKE_CXXFLAGS += -g -gdwarf-2
 
 # Msvc compiler flags
-msvc::QMAKE_CXXFLAGS +=
+msvc:QMAKE_CXXFLAGS +=
 
 RESOURCES += \
     pictures.qrc \

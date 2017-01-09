@@ -23,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->action_RE_to_FA,SIGNAL(triggered()),this,SLOT(prepareREtoFA()));
     connect(ui->action_RemoveEpsilon,SIGNAL(triggered()),this,SLOT(prepareRemoveEpsilon()));
     connect(ui->action_Determinization,SIGNAL(triggered()),this,SLOT(PrepareDFA()));
-    connect(ui->actionCFGtoPDA,SIGNAL(triggered()),this,SLOT(PrepareCFGtoPDA()));
 
     QActionGroup* modesGroup = new QActionGroup(this);
     modesGroup->addAction(ui->action_check_mode);
@@ -506,8 +505,9 @@ void MainWindow::PrepareCFGtoPDA()
 
 void MainWindow::prepareCFG_TO_PDA_GUI()
 {
-  this->setCentralWidget(new CCfgToPdaWidget(this));
-  return;
+    this->setCentralWidget(new CCfgToPdaWidget(this));
+
+    return;
 
 
 
@@ -591,7 +591,7 @@ void MainWindow::PrepareConversionWidget(MainWindow::Conversions conversion)
     }
     this->setCentralWidget(m_centralWidget);
     m_centralWidget->ConnectChangeMode(this, &MainWindow::modeChanged);
-    //m_centralWidget->ConnectStatusMessage(this,SLOT(showStatusMessage(QString)));
+    m_centralWidget->ConnectStatusMessage(this, &MainWindow::showStatusMessage);
 }
 
 
@@ -1190,4 +1190,9 @@ void MainWindow::on_actionCzech_triggered()
 void MainWindow::on_actionEnglish_triggered()
 {
     qApp->removeTranslator(translator);
+}
+
+void MainWindow::on_actionCFGtoPDA_triggered()
+{
+    PrepareConversionWidget(CFG_TO_PDA);
 }

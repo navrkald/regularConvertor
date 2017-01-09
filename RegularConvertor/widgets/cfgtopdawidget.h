@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <widgets/centralwidgetinterface.h>
+#include <gui_algorithm_interface/cfgtopdaguiinterface.h>
 
 namespace Ui {
 class CCfgToPdaWidget;
@@ -18,12 +19,13 @@ public:
 
 private:
     Ui::CCfgToPdaWidget *ui;
+    CCfgToPdaGuiInterface m_cfgToPdaGuiInterface;
 
     // ICentralCoversionWidget interface
 
 public:
-    void ConnectChangeMode(const QObject *sender, MainWindowModeChangedMemFn modeChanged);
-    void ConnectStatusMessage(const QObject *sender, const QMetaMethod &signal);
+    virtual void ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged);
+    virtual void ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage);
 };
 
 #endif // CFGTOPDAWIDGET_H

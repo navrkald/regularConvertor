@@ -584,7 +584,7 @@ void MainWindow::PrepareConversionWidget(MainWindow::Conversions conversion)
             m_centralWidget = new CCfgToPdaWidget(this);
             break;
         case none:
-        defaul:
+        default:
             this->setCentralWidget(new QWidget());
             showStatusMessage(tr("ERROR: No conversion selected!"));
             break;

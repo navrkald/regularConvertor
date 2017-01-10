@@ -127,6 +127,9 @@ private:
     QTimer* status_timer;
     QLabel* status_label;
 
+    // Add actions in menu to groups in order to be checkable only one of them
+    void SetActionsGroups();
+
     // General private function
     QWidget* prepareAlgorithnContainer(QWidget* central_w, QString str_label, Algorithm* algorithm);
     QWidget* prepareFAContainer(QWidget* central_w, QString str_label, FA_widget* fa_widget);

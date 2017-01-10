@@ -24,47 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->action_RemoveEpsilon,SIGNAL(triggered()),this,SLOT(prepareRemoveEpsilon()));
     connect(ui->action_Determinization,SIGNAL(triggered()),this,SLOT(PrepareDFA()));
 
-    QActionGroup* modesGroup = new QActionGroup(this);
-    modesGroup->addAction(ui->action_check_mode);
-    modesGroup->addAction(ui->action_play_mode);
-    modesGroup->addAction(ui->action_step_mode);
-
-    QActionGroup* conversionGroup = new QActionGroup(this);
-    conversionGroup->addAction(ui->action_RE_to_FA);
-    conversionGroup->addAction(ui->action_RemoveEpsilon);
-    conversionGroup->addAction(ui->action_Determinization);
-
-    QActionGroup* examples_group = new QActionGroup(this);
-    examples_group->addAction(ui->RE_FA_example0);
-    examples_group->addAction(ui->RE_FA_example1);
-    examples_group->addAction(ui->RE_FA_example2);
-    examples_group->addAction(ui->RE_FA_example3);
-    examples_group->addAction(ui->RE_FA_example4);
-    examples_group->addAction(ui->RE_FA_example5);
-    examples_group->addAction(ui->RE_FA_example6);
-    examples_group->addAction(ui->RE_FA_example7);
-    examples_group->addAction(ui->RE_FA_example8);
-    examples_group->addAction(ui->RE_FA_example9);
-    examples_group->addAction(ui->RemoveEpsilon_example0);
-    examples_group->addAction(ui->RemoveEpsilon_example1);
-    examples_group->addAction(ui->RemoveEpsilon_example2);
-    examples_group->addAction(ui->RemoveEpsilon_example3);
-    examples_group->addAction(ui->RemoveEpsilon_advanced_example1);
-    examples_group->addAction(ui->RemoveEpsilon_advanced_example2);
-    examples_group->addAction(ui->RemoveEpsilon_advanced_example3);
-    examples_group->addAction(ui->RemoveEpsilon_advanced_example4);
-    examples_group->addAction(ui->Determinization_example_1);
-    examples_group->addAction(ui->Determinization_example_2);
-    examples_group->addAction(ui->Determinization_example_3);
-    examples_group->addAction(ui->Determinization_example_4);
-    examples_group->addAction(ui->Determinization_advanced_example_1);
-    examples_group->addAction(ui->Determinization_advanced_example_2);
-    examples_group->addAction(ui->Determinization_advanced_example_3);
-    examples_group->addAction(ui->Determinization_advanced_example_4);
-
-    QActionGroup* language_group = new QActionGroup(this);
-    language_group->addAction(ui->actionCzech);
-    language_group->addAction(ui->actionEnglish);
+    SetActionsGroups();
 
     reg_exp_algorithm = 0;
     remove_epsilon_algorithm = 0;
@@ -1195,4 +1155,50 @@ void MainWindow::on_actionEnglish_triggered()
 void MainWindow::on_actionCFGtoPDA_triggered()
 {
     PrepareConversionWidget(CFG_TO_PDA);
+}
+
+void MainWindow::SetActionsGroups()
+{
+
+    QActionGroup* modesGroup = new QActionGroup(this);
+    modesGroup->addAction(ui->action_check_mode);
+    modesGroup->addAction(ui->action_play_mode);
+    modesGroup->addAction(ui->action_step_mode);
+
+    QActionGroup* conversionGroup = new QActionGroup(this);
+    conversionGroup->addAction(ui->action_RE_to_FA);
+    conversionGroup->addAction(ui->action_RemoveEpsilon);
+    conversionGroup->addAction(ui->action_Determinization);
+
+    QActionGroup* examples_group = new QActionGroup(this);
+    examples_group->addAction(ui->RE_FA_example0);
+    examples_group->addAction(ui->RE_FA_example1);
+    examples_group->addAction(ui->RE_FA_example2);
+    examples_group->addAction(ui->RE_FA_example3);
+    examples_group->addAction(ui->RE_FA_example4);
+    examples_group->addAction(ui->RE_FA_example5);
+    examples_group->addAction(ui->RE_FA_example6);
+    examples_group->addAction(ui->RE_FA_example7);
+    examples_group->addAction(ui->RE_FA_example8);
+    examples_group->addAction(ui->RE_FA_example9);
+    examples_group->addAction(ui->RemoveEpsilon_example0);
+    examples_group->addAction(ui->RemoveEpsilon_example1);
+    examples_group->addAction(ui->RemoveEpsilon_example2);
+    examples_group->addAction(ui->RemoveEpsilon_example3);
+    examples_group->addAction(ui->RemoveEpsilon_advanced_example1);
+    examples_group->addAction(ui->RemoveEpsilon_advanced_example2);
+    examples_group->addAction(ui->RemoveEpsilon_advanced_example3);
+    examples_group->addAction(ui->RemoveEpsilon_advanced_example4);
+    examples_group->addAction(ui->Determinization_example_1);
+    examples_group->addAction(ui->Determinization_example_2);
+    examples_group->addAction(ui->Determinization_example_3);
+    examples_group->addAction(ui->Determinization_example_4);
+    examples_group->addAction(ui->Determinization_advanced_example_1);
+    examples_group->addAction(ui->Determinization_advanced_example_2);
+    examples_group->addAction(ui->Determinization_advanced_example_3);
+    examples_group->addAction(ui->Determinization_advanced_example_4);
+
+    QActionGroup* language_group = new QActionGroup(this);
+    language_group->addAction(ui->actionCzech);
+    language_group->addAction(ui->actionEnglish);
 }

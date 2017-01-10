@@ -1,7 +1,7 @@
 #include "algorithmwidget.h"
 #include "ui_algorithmwidget.h"
 
-AlgorithmWidget::AlgorithmWidget(QWidget *parent) : QWidget(parent), mode(Algorithm::modes::NONE),
+CAlgorithmWidget::CAlgorithmWidget(QWidget *parent) : QWidget(parent), mode(Algorithm::modes::NONE),
     ui(new Ui::AlgorithmWidget)
 {
     ui->setupUi(this);
@@ -19,7 +19,7 @@ AlgorithmWidget::AlgorithmWidget(QWidget *parent) : QWidget(parent), mode(Algori
     ui->Formal->removeTab(1);
 }
 
-AlgorithmWidget::AlgorithmWidget(Algorithm::modes _mode, QWidget *parent) :
+CAlgorithmWidget::CAlgorithmWidget(Algorithm::modes _mode, QWidget *parent) :
     QWidget(parent), mode(_mode),
     ui(new Ui::AlgorithmWidget)
 {
@@ -38,36 +38,36 @@ AlgorithmWidget::AlgorithmWidget(Algorithm::modes _mode, QWidget *parent) :
     ui->Formal->removeTab(1);
 }
 
-AlgorithmWidget::~AlgorithmWidget()
+CAlgorithmWidget::~CAlgorithmWidget()
 {
     delete ui;
 }
 
-AlgorithmView *AlgorithmWidget::getAlgorithmView()
+AlgorithmView *CAlgorithmWidget::getAlgorithmView()
 {
     return ui->treeView;
 }
 
-void AlgorithmWidget::SetCaption(const QString &caption)
+void CAlgorithmWidget::SetCaption(const QString &caption)
 {
     ui->m_algorithmWidgetCaption->setText(caption);
 }
 
 
 
-void AlgorithmWidget::hideWidgets(QList<QWidget *> widgets)
+void CAlgorithmWidget::hideWidgets(QList<QWidget *> widgets)
 {
     foreach(QWidget* w,widgets)
         w->hide();
 }
 
-void AlgorithmWidget::showWidgets(QList<QWidget *> widgets)
+void CAlgorithmWidget::showWidgets(QList<QWidget *> widgets)
 {
     foreach(QWidget* w,widgets)
         w->show();
 }
 
-void AlgorithmWidget::setWidgets(Algorithm::modes mode)
+void CAlgorithmWidget::setWidgets(Algorithm::modes mode)
 {
 
     switch (mode) {
@@ -101,52 +101,52 @@ void AlgorithmWidget::setWidgets(Algorithm::modes mode)
     hideWidgets(QList<QWidget*>()  << ui->prew_stepButton << ui->next_stepButton);
 }
 
-void AlgorithmWidget::disableNext()
+void CAlgorithmWidget::disableNext()
 {
     ui->nextButton->setEnabled(false);
 }
 
-void AlgorithmWidget::enableNext()
+void CAlgorithmWidget::enableNext()
 {
     ui->nextButton->setEnabled(true);
 }
 
-void AlgorithmWidget::enablePrev()
+void CAlgorithmWidget::enablePrev()
 {
     ui->prewButton->setEnabled(true);
 }
 
-void AlgorithmWidget::disablePrev()
+void CAlgorithmWidget::disablePrev()
 {
     ui->prewButton->setEnabled(false);
 }
 
-void AlgorithmWidget::hideSpacer(QSpacerItem *s)
+void CAlgorithmWidget::hideSpacer(QSpacerItem *s)
 {
    s->changeSize(0,0, QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
-void AlgorithmWidget::showSpacer(QSpacerItem *s)
+void CAlgorithmWidget::showSpacer(QSpacerItem *s)
 {
     s->changeSize(1,1, QSizePolicy::Expanding, QSizePolicy::Fixed);
 }
 
-void AlgorithmWidget::enableShowButton()
+void CAlgorithmWidget::enableShowButton()
 {
     ui->showButton->setEnabled(true);
 }
 
-void AlgorithmWidget::disableShowButton()
+void CAlgorithmWidget::disableShowButton()
 {
     ui->showButton->setEnabled(false);
 }
 
-void AlgorithmWidget::emitPlay()
+void CAlgorithmWidget::emitPlay()
 {
     emit playPressed(this->ui->spinBox->value());
 }
 
-void AlgorithmWidget::on_showButton_clicked()
+void CAlgorithmWidget::on_showButton_clicked()
 {
     showSolution=!showSolution;
     if(showSolution)

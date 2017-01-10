@@ -15,7 +15,7 @@ class RemoveEpsilon : public Algorithm
     Q_OBJECT
 public:
     RemoveEpsilon(FiniteAutomata _FA);
-    RemoveEpsilon(modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
+    RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
     FiniteAutomata computeSolution();
     void initInstructions();
 
@@ -63,7 +63,7 @@ public slots:
 private:
     FiniteAutomata correct_FA;
     FiniteAutomata backup_FA;
-    AlgorithmWidget* algorithm_widget;
+    CAlgorithmWidget* algorithm_widget;
     modes mode;
     FA_widget* epsilon_fa_widget;
     FA_widget* not_epsilon_fa_widget;

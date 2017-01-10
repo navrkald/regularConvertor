@@ -33,7 +33,7 @@ public:
     ~MainWindow();
     QShortcut* deleteShortCut;
     enum Conversions {none, RE_to_FA, REMOVE_EPSILON, DFA, CFG_TO_PDA};
-    AlgorithmWidget* alhgorithm_widget;
+    CAlgorithmWidget* alhgorithm_widget;
     QTranslator* translator;
 
 signals:

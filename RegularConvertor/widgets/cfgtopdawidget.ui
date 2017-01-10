@@ -52,7 +52,7 @@
         </sizepolicy>
        </property>
       </widget>
-      <widget class="AlgorithmWidget" name="m_cfgToPdaAlgorithmWidget" native="true">
+      <widget class="CAlgorithmWidget" name="m_cfgToPdaAlgorithmWidget" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -109,7 +109,7 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>AlgorithmWidget</class>
+   <class>CAlgorithmWidget</class>
    <extends>QWidget</extends>
    <header location="global">algorithms/algorithmwidget.h</header>
    <container>1</container>

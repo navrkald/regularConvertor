@@ -23,7 +23,7 @@ FaToDFA::~FaToDFA()
 
 }
 
-FaToDFA::FaToDFA(modes _mode, AlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, QLabel* _var_widget, QObject* parrent)
+FaToDFA::FaToDFA(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, QLabel* _var_widget, QObject* parrent)
  : Algorithm(parrent),  mode(_mode),  algorithm_widget(_algorithm_widget), not_dfa_widget(_not_dfa_widget), dfa_widget(_dfa_widget), var_widget(_var_widget)
 {
     actInstruction = HEADER;

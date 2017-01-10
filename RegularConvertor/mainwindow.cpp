@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mode = Algorithm::PLAY_MODE;
     ui->action_play_mode->setChecked(true);
 
-    alhgorithm_widget = new AlgorithmWidget(mode);
+    alhgorithm_widget = new CAlgorithmWidget(mode);
     alhgorithm_widget->hide();
     connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
     connect(this, SIGNAL(modeChanged(Algorithm::modes)), this, SLOT(mySetWindowTitle()));
@@ -212,7 +212,7 @@ void MainWindow::prepareREtoFA(RegExp* _re)
         connect(fa_widget_center,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         connect(fa_widget_right,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         reg_exp_widget = new RegExpWidget(regExpToFA_central_widget);
-        alhgorithm_widget = new AlgorithmWidget(mode,regExpToFA_central_widget);
+        alhgorithm_widget = new CAlgorithmWidget(mode,regExpToFA_central_widget);
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
         reg_exp_algorithm = new RegExpToFA(alhgorithm_widget, mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right, _re, regExpToFA_central_widget);
         connect(this, SIGNAL(modeChanged(Algorithm::modes)), reg_exp_algorithm, SLOT(setMode(Algorithm::modes)));
@@ -295,7 +295,7 @@ void MainWindow::prepareRemoveEpsilon()
 
         //basic components
         removeEpsilon_central_widget = new QWidget(this);
-        alhgorithm_widget = new AlgorithmWidget(mode,removeEpsilon_central_widget);
+        alhgorithm_widget = new CAlgorithmWidget(mode,removeEpsilon_central_widget);
         fa_epsilon_widget = new FA_widget(removeEpsilon_central_widget);
         fa_not_epsilon_widget = new FA_widget(removeEpsilon_central_widget);
         connect(fa_epsilon_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
@@ -384,7 +384,7 @@ void MainWindow::PrepareDFA()
 
     //basic components
     DFA_central_widget = new QWidget(this);
-    alhgorithm_widget = new AlgorithmWidget(mode,DFA_central_widget);   // TODO nevytvaret porad novy ale zmenit parrenta a vymazat
+    alhgorithm_widget = new CAlgorithmWidget(mode,DFA_central_widget);   // TODO nevytvaret porad novy ale zmenit parrenta a vymazat
     not_DFA_widget = new FA_widget(DFA_central_widget);
     DFA_widget = new FA_widget(DFA_central_widget);
     connect(not_DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
@@ -448,7 +448,7 @@ void MainWindow::PrepareCFGtoPDA()
     CFG_TO_PDA_central_widget = new QWidget(this);
 	// TODO nevytvaret porad novy ale zmenit parrenta a vymazat
 
-    alhgorithm_widget = new AlgorithmWidget(mode,CFG_TO_PDA_central_widget);
+    alhgorithm_widget = new CAlgorithmWidget(mode,CFG_TO_PDA_central_widget);
     m_cfgWidget = new CCfgWidget(CFG_TO_PDA_central_widget);
     m_pdaWidget = new CPdaWidget(/*CFG_TO_PDA_central_widget*/);
     DFA_variables_widget = new QLabel(CFG_TO_PDA_central_widget);

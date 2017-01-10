@@ -10,14 +10,14 @@ namespace Ui {
 class AlgorithmWidget;
 }
 
-class AlgorithmWidget : public QWidget
+class CAlgorithmWidget : public QWidget
 {
     Q_OBJECT
     
 public:
-    explicit AlgorithmWidget(QWidget *parent = 0);
-    explicit AlgorithmWidget(Algorithm::modes _mode, QWidget *parent = 0);
-    ~AlgorithmWidget();
+    explicit CAlgorithmWidget(QWidget *parent = 0);
+    explicit CAlgorithmWidget(Algorithm::modes _mode, QWidget *parent = 0);
+    ~CAlgorithmWidget();
     AlgorithmView* getAlgorithmView();
     Algorithm::modes mode;
 

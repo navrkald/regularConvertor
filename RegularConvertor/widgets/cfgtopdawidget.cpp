@@ -18,7 +18,7 @@ CCfgToPdaWidget::~CCfgToPdaWidget()
 
 void CCfgToPdaWidget::ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged)
 {
-    connect(sender, modeChanged, this->ui->m_cfgToPdaAlgorithmWidget, &AlgorithmWidget::setWidgets);//  SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
+    connect(sender, modeChanged, this->ui->m_cfgToPdaAlgorithmWidget, &CAlgorithmWidget::setWidgets);//  SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
     connect(sender, modeChanged, &m_cfgToPdaGuiInterface, &CCfgToPdaGuiInterface::setMode);
 }
 

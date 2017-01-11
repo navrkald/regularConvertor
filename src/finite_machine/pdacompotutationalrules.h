@@ -13,7 +13,9 @@ public:
             QString symbol,
             QString popSymol,
             QVector<QString> pushSymbols)
-        : ComputationalRules(from, to, symbol), m_popSymol(popSymol), m_pushSymbols(pushSymbols) {}
+        : ComputationalRules(from, to, symbol), m_popSymol(popSymol), m_pushSymbols(pushSymbols)
+    {}
+
     CPDACompotutationalRule(
             QString from,
             QString to,
@@ -24,6 +26,7 @@ public:
     {
         QVector<QString> pushSymbols; pushSymbols.append(pushSymbol); m_pushSymbols = pushSymbols;
     }
+
     CPDACompotutationalRule(QString rule);
 
     CPDACompotutationalRule(const CPDACompotutationalRule& r) : ComputationalRules(r.from, r.to, r.symbol)
@@ -45,6 +48,7 @@ public:
 //        Init(r.from, r.to, r.pushSymbol, r.popSymol, r.symbol);
         return *this;
     }
+
 
     QString toString() const{return from + " " + m_popSymol + " " + symbol + "-> " + m_pushSymbols.toList().join(", ") + " " + to;}
 

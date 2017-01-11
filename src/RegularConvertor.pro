@@ -38,7 +38,7 @@ SOURCES += main.cpp\
     finite_machine/editruledialog.cpp \
     finite_machine/symbolsinputdialog.cpp \
     reg_exp/regexp.cpp \
-    algorithms/algorithmwidget.cpp \
+    widgets/algorithmwidget.cpp \
     algorithms/algorithm.cpp \
     algorithms/regexptofa.cpp \
     reg_exp/parserstack.cpp \
@@ -80,7 +80,7 @@ HEADERS  += mainwindow.h \
     finite_machine/editruledialog.h \
     finite_machine/symbolsinputdialog.h \
     reg_exp/regexp.h \
-    algorithms/algorithmwidget.h \
+    widgets/algorithmwidget.h \
     algorithms/algorithm.h \
     algorithms/regexptofa.h \
     reg_exp/parserstack.h \
@@ -119,7 +119,7 @@ FORMS    += mainwindow.ui \
     finite_machine/fa_widget.ui \
     finite_machine/editruledialog.ui \
     finite_machine/symbolsinputdialog.ui \
-    algorithms/algorithmwidget.ui \
+    widgets/algorithmwidget.ui \
     reg_exp/regexpwidget.ui \
     CFG/cfgwidget.ui \
     PDA/pdaruledialog.ui \

@@ -8,7 +8,7 @@
 #include "set/set_of_sets.h"
 #include "finite_machine/finiteautomata.h"
 #include "algorithm.h"
-#include "algorithms/algorithmwidget.h"
+#include "widgets/algorithmwidget.h"
 #include "finite_machine/fa_widget.h"
 
 class FaToDFA : public Algorithm

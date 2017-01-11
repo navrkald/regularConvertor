@@ -5,7 +5,7 @@
 #include "finite_machine/finiteautomata.h"
 #include "finite_machine/fa_widget.h"
 #include "reg_exp/regexpwidget.h"
-#include "algorithms/algorithmwidget.h"
+#include "widgets/algorithmwidget.h"
 #include <stdlib.h>
 #include <time.h>
 //#include <QtTest/QTest>

@@ -3,7 +3,7 @@
 #include <iostream>
 #include "algorithms/htmldelegate.h"
 #include "algorithms/algorithmview.h"
-#include "algorithms/algorithmwidget.h"
+#include "widgets/algorithmwidget.h"
 #include <widgets/cfgtopdawidget.h>
 
 #define MY_APP_NAME "Regular Convertor"

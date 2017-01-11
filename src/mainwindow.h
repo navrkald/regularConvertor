@@ -10,7 +10,7 @@
 #include "reg_exp/regextextedit.h"
 #include "reg_exp/regexpwidget.h"
 #include "algorithms/regexptofa.h"
-#include "algorithms/algorithmwidget.h"
+#include "widgets/algorithmwidget.h"
 #include "algorithms/algorithm.h"
 #include "algorithms/removeepsilon.h"
 #include "algorithms/fatodfa.h"

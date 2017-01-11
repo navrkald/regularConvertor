@@ -3,7 +3,7 @@
 
 #include "finite_machine/finiteautomata.h"
 #include "algorithm.h"
-#include "algorithms/algorithmwidget.h"
+#include "widgets/algorithmwidget.h"
 #include "finite_machine/fa_widget.h"
 #include "algorithms/epsiloncloserwidget.h"
 #include "set/set_of_sets.h"

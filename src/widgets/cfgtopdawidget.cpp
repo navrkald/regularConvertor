@@ -1,4 +1,4 @@
-#include "cfgtopdawidget.h"
+#include "cfgtopdawidget.h"4
 #include "ui_cfgtopdawidget.h"
 #include <mainwindow.h>
 CCfgToPdaWidget::CCfgToPdaWidget(QWidget *parent) :
@@ -18,7 +18,7 @@ CCfgToPdaWidget::~CCfgToPdaWidget()
 
 void CCfgToPdaWidget::ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged)
 {
-    connect(sender, modeChanged, this->ui->m_cfgToPdaAlgorithmWidget, &CAlgorithmWidget::setWidgets);//  SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
+    connect(sender, modeChanged, this->ui->m_cfgToPdaAlgorithmWidget, &CAlgorithmWidget::setWidgets);
     connect(sender, modeChanged, &m_cfgToPdaGuiInterface, &CCfgToPdaGuiInterface::setMode);
 }
 

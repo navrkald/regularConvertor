@@ -9,6 +9,8 @@ namespace Ui {
 class CCfgToPdaWidget;
 }
 
+// Class Context-free grammar to Push down automata
+// conversion widget
 class CCfgToPdaWidget : public ICentralCoversionWidget
 {
     Q_OBJECT

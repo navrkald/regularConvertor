@@ -17,6 +17,8 @@ class FaToDFA : public Algorithm
 
 public:
     FaToDFA(modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, QLabel *_var_widget, QObject *parrent);
+    FaToDFA(QObject *parrent = 0) : Algorithm(parrent) {}
+    void Init(modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, QLabel *_var_widget, QObject *parrent);
     FaToDFA(FiniteAutomata _FA);
     ~FaToDFA();
     FiniteAutomata computeSolution();
@@ -63,28 +65,28 @@ private:
         QSet<ComputationalRules> rules_prime;
     } steps;
 
-    QList<steps> history;
-    FiniteAutomata backup_FA;
-    FiniteAutomata correct_FA;
-    modes mode;
-    CAlgorithmWidget* algorithm_widget;
-    FA_widget* not_dfa_widget;
-    FA_widget* dfa_widget;
-    QLabel* var_widget;
+    QList<steps> m_history;
+    FiniteAutomata m_backup_FA;
+    FiniteAutomata m_correct_FA;
+    modes m_mode;
+    CAlgorithmWidget* m_algorithm_widget;
+    FA_widget* m_not_dfa_widget;
+    FA_widget* m_dfa_widget;
+    QLabel* m_var_widget;
 
     //internal variables
-    QSet <QString> act_state;       // = Q'
-    QString act_state_name;
-    QSet<QString> discovered_state; // = Q''
-    QSet< QSet<QString> > Q_new;
-    QString a;
-    QString p;
-    QString q;
-    ComputationalRules r;
-    ComputationalRules r_prime;
-    QStringList alphabet;
-    QSet<ComputationalRules> rules;
-    QSet<ComputationalRules> rules_prime;
+    QSet <QString> m_act_state;       // = Q'
+    QString m_act_state_name;
+    QSet<QString> m_discovered_state; // = Q''
+    QSet< QSet<QString> > m_Q_new;
+    QString m_a;
+    QString m_p;
+    QString m_q;
+    ComputationalRules m_r;
+    ComputationalRules m_r_prime;
+    QStringList m_alphabet;
+    QSet<ComputationalRules> m_rules;
+    QSet<ComputationalRules> m_rules_prime;
 
     // internal methods
     void removeFuture();

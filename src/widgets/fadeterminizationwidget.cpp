@@ -7,6 +7,9 @@ CFADeterminizationWidget::CFADeterminizationWidget(QWidget *parent) :
     ui(new Ui::CFADeterminizationWidget)
 {
     ui->setupUi(this);
+    ui->m_algorithmWidget->SetCaption("FA determinization");
+    ui->m_inputFaWidget->SetCaption("Input FA");
+    ui->m_outputFaWidget->SetCaption("Output FA");
 }
 
 CFADeterminizationWidget::~CFADeterminizationWidget()

@@ -67,7 +67,8 @@ SOURCES += main.cpp\
     PDA/pdaruledialog.cpp \
     PDA/pdaarrow.cpp \
     widgets/cfgtopdawidget.cpp \
-    widgets/variableswidget.cpp
+    widgets/variableswidget.cpp \
+    widgets/fadeterminizationwidget.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -112,7 +113,8 @@ HEADERS  += mainwindow.h \
     PDA/pdaarrow.h \
     widgets/centralwidgetinterface.h \
     widgets/cfgtopdawidget.h \
-    widgets/variableswidget.h
+    widgets/variableswidget.h \
+    widgets/fadeterminizationwidget.h
 
 
 FORMS    += mainwindow.ui \
@@ -124,7 +126,8 @@ FORMS    += mainwindow.ui \
     CFG/cfgwidget.ui \
     PDA/pdaruledialog.ui \
     widgets/cfgtopdawidget.ui \
-    widgets/variableswidget.ui
+    widgets/variableswidget.ui \
+    widgets/fadeterminizationwidget.ui
 
 CONFIG += c++11 #static
 

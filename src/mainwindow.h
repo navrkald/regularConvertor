@@ -121,6 +121,8 @@ private slots:
 
     void on_actionCFGtoPDA_triggered();
 
+    void on_action_Determinization_triggered();
+
 private:
     using QMainWindow::setCentralWidget;
     Ui::MainWindow *ui;

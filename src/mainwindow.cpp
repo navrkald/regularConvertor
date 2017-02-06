@@ -5,6 +5,7 @@
 #include "algorithms/algorithmview.h"
 #include "widgets/algorithmwidget.h"
 #include <widgets/cfgtopdawidget.h>
+#include <widgets/fadeterminizationwidget.h>
 
 #define MY_APP_NAME "Regular Convertor"
 
@@ -22,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(MY_APP_NAME);
     connect(ui->action_RE_to_FA,SIGNAL(triggered()),this,SLOT(prepareREtoFA()));
     connect(ui->action_RemoveEpsilon,SIGNAL(triggered()),this,SLOT(prepareRemoveEpsilon()));
-    connect(ui->action_Determinization,SIGNAL(triggered()),this,SLOT(PrepareDFA()));
+    // TODO: Implement all functionalyty in PrepareDFA in CFAToDFaWidget
+    //connect(ui->action_Determinization,SIGNAL(triggered()),this,SLOT(PrepareDFA()));
 
     SetActionsGroups();
 
@@ -539,6 +541,7 @@ void MainWindow::PrepareConversionWidget(MainWindow::Conversions conversion)
         case REMOVE_EPSILON:
             break;
         case DFA:
+            m_centralWidget = new CFADeterminizationWidget(this);
             break;
         case CFG_TO_PDA:
             m_centralWidget = new CCfgToPdaWidget(this);
@@ -1201,4 +1204,9 @@ void MainWindow::SetActionsGroups()
     QActionGroup* language_group = new QActionGroup(this);
     language_group->addAction(ui->actionCzech);
     language_group->addAction(ui->actionEnglish);
+}
+
+void MainWindow::on_action_Determinization_triggered()
+{
+    PrepareConversionWidget(DFA);
 }

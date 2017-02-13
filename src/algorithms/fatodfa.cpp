@@ -23,13 +23,13 @@ FaToDFA::~FaToDFA()
 
 }
 
-FaToDFA::FaToDFA(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, QLabel* _var_widget, QObject* parrent)
+FaToDFA::FaToDFA(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, CVariablesWidget* _var_widget, QObject* parrent)
  : Algorithm(parrent)
 {
     Init(_mode, _algorithm_widget, _not_dfa_widget, _dfa_widget, _var_widget, parrent);
 }
 
-void FaToDFA::Init(Algorithm::modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, QLabel *_var_widget, QObject *parrent)
+void FaToDFA::Init(Algorithm::modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent)
 {
     m_mode = _mode;
     m_algorithm_widget = _algorithm_widget;
@@ -46,7 +46,7 @@ void FaToDFA::Init(Algorithm::modes _mode, CAlgorithmWidget *_algorithm_widget, 
     this->setColumnCount(1);
     this->setRowCount(instructions.count());
 
-    m_var_widget->setText("");
+    m_var_widget->SetText("");
 
     for(int i = 0; i < instructions.count();i++)
     {
@@ -464,7 +464,7 @@ void FaToDFA::removeFuture()
 
 void FaToDFA::clearVariables()
 {
-    m_var_widget->clear();
+    m_var_widget->Clear();
 }
 
 void FaToDFA::showVariables()
@@ -475,7 +475,7 @@ void FaToDFA::showVariables()
     else
         instruction = actInstruction;
 
-    m_var_widget->clear();
+    m_var_widget->Clear();
     QString text;
     switch(instruction)
     {
@@ -561,7 +561,7 @@ void FaToDFA::showVariables()
             break;
 
     }
-    m_var_widget->setText(text);
+    m_var_widget->SetText(text);
 }
 
 void FaToDFA::setInputFA(FiniteAutomata _FA)

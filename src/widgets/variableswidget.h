@@ -13,6 +13,8 @@ class CVariablesWidget : public QWidget
 
 public:
     explicit CVariablesWidget(QWidget *parent = 0);
+    void SetText(QString text);
+    void Clear();
     ~CVariablesWidget();
 
 private:

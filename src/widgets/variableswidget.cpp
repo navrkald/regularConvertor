@@ -12,3 +12,11 @@ CVariablesWidget::~CVariablesWidget()
 {
     delete ui;
 }
+
+void CVariablesWidget::SetText(QString text){
+    ui->m_text->setText(text);
+}
+
+void CVariablesWidget::Clear(){
+    ui->m_text->clear();
+}

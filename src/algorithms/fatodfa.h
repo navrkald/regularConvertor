@@ -10,15 +10,16 @@
 #include "algorithm.h"
 #include "widgets/algorithmwidget.h"
 #include <widgets/fa_widget.h>
+#include <widgets/variableswidget.h>
 
 class FaToDFA : public Algorithm
 {
     Q_OBJECT
 
 public:
-    FaToDFA(modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, QLabel *_var_widget, QObject *parrent);
+    FaToDFA(modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent);
     FaToDFA(QObject *parrent = 0) : Algorithm(parrent) {}
-    void Init(modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, QLabel *_var_widget, QObject *parrent);
+    void Init(modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent);
     FaToDFA(FiniteAutomata _FA);
     ~FaToDFA();
     FiniteAutomata computeSolution();
@@ -72,7 +73,7 @@ private:
     CAlgorithmWidget* m_algorithm_widget;
     FA_widget* m_not_dfa_widget;
     FA_widget* m_dfa_widget;
-    QLabel* m_var_widget;
+    CVariablesWidget* m_var_widget;
 
     //internal variables
     QSet <QString> m_act_state;       // = Q'

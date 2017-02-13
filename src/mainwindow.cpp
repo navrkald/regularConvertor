@@ -385,19 +385,19 @@ void MainWindow::PrepareDFA()
     m_activeConversion = DFA;
 
     //basic components
-    DFA_central_widget = new QWidget(this);
-    alhgorithm_widget = new CAlgorithmWidget(mode,DFA_central_widget);   // TODO nevytvaret porad novy ale zmenit parrenta a vymazat
-    not_DFA_widget = new FA_widget(DFA_central_widget);
-    DFA_widget = new FA_widget(DFA_central_widget);
-    connect(not_DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
-    connect(DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
-    DFA_variables_widget = new QLabel(DFA_central_widget);
-    DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
-    connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
-    DFA_algorithm = new FaToDFA(mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, DFA_central_widget);
-    connect(this, SIGNAL(modeChanged(Algorithm::modes)), DFA_algorithm, SLOT(setMode(Algorithm::modes)));
-    connect(DFA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
-    PrepareDFA_GUI();
+//    DFA_central_widget = new QWidget(this);
+//    alhgorithm_widget = new CAlgorithmWidget(mode,DFA_central_widget);   // TODO nevytvaret porad novy ale zmenit parrenta a vymazat
+//    not_DFA_widget = new FA_widget(DFA_central_widget);
+//    DFA_widget = new FA_widget(DFA_central_widget);
+//    connect(not_DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+//    connect(DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+//    DFA_variables_widget = new QLabel(DFA_central_widget);
+//    DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
+//    connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
+//    DFA_algorithm = new FaToDFA(mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, DFA_central_widget);
+//    connect(this, SIGNAL(modeChanged(Algorithm::modes)), DFA_algorithm, SLOT(setMode(Algorithm::modes)));
+//    connect(DFA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
+//    PrepareDFA_GUI();
 }
 
 

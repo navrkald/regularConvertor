@@ -1,4 +1,4 @@
-#include "cfgtopdawidget.h"4
+#include "cfgtopdawidget.h"
 #include "ui_cfgtopdawidget.h"
 #include <mainwindow.h>
 CCfgToPdaWidget::CCfgToPdaWidget(QWidget *parent) :

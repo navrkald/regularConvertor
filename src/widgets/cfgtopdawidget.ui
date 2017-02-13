@@ -111,7 +111,7 @@
   <customwidget>
    <class>CAlgorithmWidget</class>
    <extends>QWidget</extends>
-   <header location="global">algorithms/algorithmwidget.h</header>
+   <header location="global">widgets/algorithmwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

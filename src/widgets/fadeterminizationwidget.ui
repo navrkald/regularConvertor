@@ -73,15 +73,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>CAlgorithmWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">algorithms/algorithmwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>FA_widget</class>
-   <extends>QWidget</extends>
-   <header location="global">fa_widget.h</header>
+   <extends>FA_widget</extends>
+   <header location="global">widgets/fa_widget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -33,7 +33,7 @@ SOURCES += main.cpp\
     finite_machine/arrow.cpp \
     finite_machine/finiteautomata.cpp \
     finite_machine/computationalrules.cpp \
-    finite_machine/fa_widget.cpp \
+    widgets/fa_widget.cpp \
     finite_machine/multiselectcompleter.cpp \
     finite_machine/editruledialog.cpp \
     finite_machine/symbolsinputdialog.cpp \
@@ -76,7 +76,7 @@ HEADERS  += mainwindow.h \
     finite_machine/arrow.h \
     finite_machine/finiteautomata.h \
     finite_machine/computationalrules.h \
-    finite_machine/fa_widget.h \
+    widgets/fa_widget.h \
     finite_machine/multiselectcompleter.h \
     finite_machine/editruledialog.h \
     finite_machine/symbolsinputdialog.h \
@@ -118,7 +118,7 @@ HEADERS  += mainwindow.h \
 
 
 FORMS    += mainwindow.ui \
-    finite_machine/fa_widget.ui \
+    widgets/fa_widget.ui \
     finite_machine/editruledialog.ui \
     finite_machine/symbolsinputdialog.ui \
     widgets/algorithmwidget.ui \

@@ -3,11 +3,11 @@
 
 #include <QWidget>
 #include <QDebug>
-#include "diagramscene.h"
-#include "finiteautomata.h"
+#include "finite_machine/diagramscene.h"
+#include "finite_machine/finiteautomata.h"
 #include <QtAlgorithms>
-#include "multiselectcompleter.h"
-#include "editruledialog.h"
+#include "finite_machine/multiselectcompleter.h"
+#include "finite_machine/editruledialog.h"
 
 namespace Ui
 {

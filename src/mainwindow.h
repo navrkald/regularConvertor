@@ -6,7 +6,7 @@
 #include <QToolButton>
 #include "finite_machine/diagramscene.h"
 #include <QShortcut>
-#include "finite_machine/fa_widget.h"
+#include "widgets/fa_widget.h"
 #include "reg_exp/regextextedit.h"
 #include "reg_exp/regexpwidget.h"
 #include "algorithms/regexptofa.h"

@@ -3,7 +3,7 @@
 #include "algorithm.h"
 #include "reg_exp/regexp.h"
 #include "finite_machine/finiteautomata.h"
-#include "finite_machine/fa_widget.h"
+#include "widgets/fa_widget.h"
 #include "reg_exp/regexpwidget.h"
 #include "widgets/algorithmwidget.h"
 #include <stdlib.h>

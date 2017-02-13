@@ -5,7 +5,7 @@
 #include <QtWidgets>
 #include <set/set_of_sets.h>
 #include "finite_machine/multiselectcompleter.h"
-#include "finite_machine/fa_widget.h"
+#include "widgets/fa_widget.h"
 
 class EpsilonCloserWidget : public QWidget
 {

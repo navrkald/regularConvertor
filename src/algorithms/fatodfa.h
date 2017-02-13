@@ -9,7 +9,7 @@
 #include "finite_machine/finiteautomata.h"
 #include "algorithm.h"
 #include "widgets/algorithmwidget.h"
-#include "finite_machine/fa_widget.h"
+#include <widgets/fa_widget.h>
 
 class FaToDFA : public Algorithm
 {

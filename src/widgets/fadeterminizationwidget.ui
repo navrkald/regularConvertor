@@ -78,6 +78,11 @@
    <header location="global">widgets/fa_widget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>CAlgorithmWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">widgets/algorithmwidget.h</header>
+  </customwidget>
  </customwidgets>
  <resources/>
  <connections/>

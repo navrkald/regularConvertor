@@ -10,7 +10,7 @@
 #include <time.h>
 //#include <QtTest/QTest>
 
-class RegExpToFA : public Algorithm
+class RegExpToFA : public CAlgorithm
 {
     Q_OBJECT
 
@@ -36,7 +36,7 @@ public:
 //    void setNewRegExp(RegExp* re);
 
 public slots:
-    void SetMode(Algorithm::modes _mode);
+    void SetMode(CAlgorithm::modes _mode);
 //    void setRE_old(RegExp* _re);
     void setRE(RegExp* _re);
     void selectRegExp(QModelIndex index);

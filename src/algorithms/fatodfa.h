@@ -12,13 +12,13 @@
 #include <widgets/fa_widget.h>
 #include <widgets/variableswidget.h>
 
-class FaToDFA : public Algorithm
+class FaToDFA : public CAlgorithm
 {
     Q_OBJECT
 
 public:
     FaToDFA(modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent);
-    FaToDFA(QObject *parrent = 0) : Algorithm(parrent) {}
+    FaToDFA(QObject *parrent = 0) : CAlgorithm(parrent) {}
     void Init(modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent);
     FaToDFA(FiniteAutomata _FA);
     ~FaToDFA();
@@ -34,7 +34,7 @@ public:
     FiniteAutomata DFA;
 
 public slots:
-    void SetMode(Algorithm::modes _mode);
+    void SetMode(CAlgorithm::modes _mode);
     void setFA(FiniteAutomata* _FA);
     void setDFA(FiniteAutomata* _FA);
     void prevStep();

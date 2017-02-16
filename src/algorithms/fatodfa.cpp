@@ -24,12 +24,12 @@ FaToDFA::~FaToDFA()
 }
 
 FaToDFA::FaToDFA(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, CVariablesWidget* _var_widget, QObject* parrent)
- : Algorithm(parrent)
+ : CAlgorithm(parrent)
 {
     Init(_mode, _algorithm_widget, _not_dfa_widget, _dfa_widget, _var_widget, parrent);
 }
 
-void FaToDFA::Init(Algorithm::modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent)
+void FaToDFA::Init(CAlgorithm::modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent)
 {
     parrent = parrent;
     m_mode = _mode;
@@ -53,12 +53,12 @@ void FaToDFA::Init(Algorithm::modes _mode, CAlgorithmWidget *_algorithm_widget, 
     {
         QModelIndex index = this->index(i,0,QModelIndex());
         setData(index,m_instructions[i],Qt::EditRole);
-        setData(index,true,Algorithm::hasBreakpointRole);
-        setData(index,false,Algorithm::breakpointRole);
+        setData(index,true,CAlgorithm::hasBreakpointRole);
+        setData(index,false,CAlgorithm::breakpointRole);
         switch(i)
         {
             case HEADER:
-                setData(index,false,Algorithm::hasBreakpointRole);
+                setData(index,false,CAlgorithm::hasBreakpointRole);
                 break;
         }
     }
@@ -120,7 +120,7 @@ void FaToDFA::setFA(FiniteAutomata *_FA)
     SetMode(m_mode);
 }
 
-void FaToDFA::SetMode(Algorithm::modes _mode)
+void FaToDFA::SetMode(CAlgorithm::modes _mode)
 {
     m_mode = _mode;
     m_playTimer->stop();

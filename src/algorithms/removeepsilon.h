@@ -10,7 +10,7 @@
 #include "algorithms/epsiloncloserwidget.h"
 #include "finite_machine/multiselectcompleter.h"
 
-class RemoveEpsilon : public Algorithm
+class RemoveEpsilon : public CAlgorithm
 {
     Q_OBJECT
 public:
@@ -48,7 +48,7 @@ public:
 public slots:
     void setFA(FiniteAutomata* FA);
     void set_not_epsilonFA(FiniteAutomata* FA);
-    void SetMode(Algorithm::modes _mode);
+    void SetMode(CAlgorithm::modes _mode);
     void saveStep();
     //void runAlgorithm(int mil_sec);
     void nextStep();

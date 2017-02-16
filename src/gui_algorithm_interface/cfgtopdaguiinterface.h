@@ -6,7 +6,7 @@
 #include <algorithms/algorithmcfgtopda.h>
 #include <QObject>
 
-class CCfgToPdaGuiInterface : public Algorithm
+class CCfgToPdaGuiInterface : public CAlgorithm
 {
   Q_OBJECT
 public:

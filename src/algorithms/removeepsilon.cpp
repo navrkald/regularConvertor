@@ -20,7 +20,7 @@ RemoveEpsilon::RemoveEpsilon(FiniteAutomata _FA)
 }
 
 RemoveEpsilon::RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent)
- :  Algorithm(parrent), algorithm_widget(_algorithm_widget), mode(_mode), epsilon_fa_widget(_epsilon_fa_widget), not_epsilon_fa_widget(_not_epsilon_fa_widget),  var_widget(_var_widget), epsilon_closer_list_widget(_epsilon_closer_list_widget)
+ :  CAlgorithm(parrent), algorithm_widget(_algorithm_widget), mode(_mode), epsilon_fa_widget(_epsilon_fa_widget), not_epsilon_fa_widget(_not_epsilon_fa_widget),  var_widget(_var_widget), epsilon_closer_list_widget(_epsilon_closer_list_widget)
 {
     m_actInstruction = HEADER;
     m_prewInstruction = HEADER;
@@ -43,12 +43,12 @@ RemoveEpsilon::RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, F
     {
         QModelIndex index = this->index(i,0,QModelIndex());
         setData(index,m_instructions[i],Qt::EditRole);
-        setData(index,true,Algorithm::hasBreakpointRole);
-        setData(index,false,Algorithm::breakpointRole);
+        setData(index,true,CAlgorithm::hasBreakpointRole);
+        setData(index,false,CAlgorithm::breakpointRole);
         switch(i)
         {
             case HEADER:
-                setData(index,false,Algorithm::hasBreakpointRole);
+                setData(index,false,CAlgorithm::hasBreakpointRole);
                 break;
             case EPSILONCLOSER:
                 setData(index,epsilon_closer_icon,Qt::DecorationRole);
@@ -118,7 +118,7 @@ void RemoveEpsilon::set_not_epsilonFA(FiniteAutomata *FA)
     this->non_epsilon_FA = *FA;
 }
 
-void RemoveEpsilon::SetMode(Algorithm::modes _mode)
+void RemoveEpsilon::SetMode(CAlgorithm::modes _mode)
 {
     mode = _mode;
 

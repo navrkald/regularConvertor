@@ -22,9 +22,6 @@ public:
 private:
     Ui::CCfgToPdaWidget *ui;
     CCfgToPdaGuiInterface m_cfgToPdaGuiInterface;
-
-    // ICentralCoversionWidget interface
-
 public:
     virtual void ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged);
     virtual void ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage);

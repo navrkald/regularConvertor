@@ -1,7 +1,7 @@
 #include "algorithmwidget.h"
 #include "ui_algorithmwidget.h"
 
-CAlgorithmWidget::CAlgorithmWidget(QWidget *parent) : QWidget(parent), mode(CAlgorithm::modes::NONE),
+CAlgorithmWidget::CAlgorithmWidget(QWidget *parent) : QWidget(parent), m_mode(CAlgorithm::modes::NONE),
     ui(new Ui::AlgorithmWidget)
 {
     ui->setupUi(this);
@@ -15,12 +15,12 @@ CAlgorithmWidget::CAlgorithmWidget(QWidget *parent) : QWidget(parent), mode(CAlg
     connect(this->ui->checkButton,SIGNAL(clicked()),this,SIGNAL(checkSolutionPressed()));
     connect(this->ui->beginButton,SIGNAL(clicked()), this, SIGNAL(beginPressed()));
     connect(this->ui->endButton,SIGNAL(clicked()),this, SIGNAL(endPressed()));
-    setWidgets(mode);
+    SetMode(m_mode);
     ui->Formal->removeTab(1);
 }
 
-CAlgorithmWidget::CAlgorithmWidget(CAlgorithm::modes _mode, QWidget *parent) :
-    QWidget(parent), mode(_mode),
+CAlgorithmWidget::CAlgorithmWidget(CAlgorithm::modes mode, QWidget *parent) :
+    QWidget(parent), m_mode(mode),
     ui(new Ui::AlgorithmWidget)
 {
     ui->setupUi(this);
@@ -34,7 +34,7 @@ CAlgorithmWidget::CAlgorithmWidget(CAlgorithm::modes _mode, QWidget *parent) :
     connect(this->ui->checkButton,SIGNAL(clicked()),this,SIGNAL(checkSolutionPressed()));
     connect(this->ui->beginButton,SIGNAL(clicked()), this, SIGNAL(beginPressed()));
     connect(this->ui->endButton,SIGNAL(clicked()),this, SIGNAL(endPressed()));
-    setWidgets(mode);
+    SetMode(m_mode);
     ui->Formal->removeTab(1);
 }
 
@@ -67,7 +67,7 @@ void CAlgorithmWidget::showWidgets(QList<QWidget *> widgets)
         w->show();
 }
 
-void CAlgorithmWidget::setWidgets(CAlgorithm::modes mode)
+void CAlgorithmWidget::SetMode(CAlgorithm::modes mode)
 {
 
     switch (mode) {

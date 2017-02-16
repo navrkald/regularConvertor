@@ -19,7 +19,7 @@ public:
     explicit CAlgorithmWidget(CAlgorithm::modes _mode, QWidget *parent = 0);
     ~CAlgorithmWidget();
     AlgorithmView* getAlgorithmView();
-    CAlgorithm::modes mode;
+    CAlgorithm::modes m_mode;
 
     void SetCaption(const QString& caption);
     void hideWidgets(QList<QWidget*> widgets);
@@ -45,7 +45,7 @@ signals:
 
 public slots:
     void emitPlay();
-    void setWidgets(CAlgorithm::modes mode);
+    void SetMode(CAlgorithm::modes mode);
     void disableNext();
     void enableNext();
     void disablePrev();

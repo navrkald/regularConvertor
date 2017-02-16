@@ -5,7 +5,7 @@
 #include <algorithms/algorithm.h>
 
 class MainWindow;
-typedef void (MainWindow::*MainWindowModeChangedMemFn)(Algorithm::modes);
+typedef void (MainWindow::*MainWindowModeChangedMemFn)(CAlgorithm::modes);
 typedef void (MainWindow::*MainWindowShowStatusMessageFn)(QString);
 
 class ICentralCoversionWidget : public QWidget{

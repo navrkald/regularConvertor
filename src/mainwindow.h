@@ -37,7 +37,7 @@ public:
     QTranslator* translator;
 
 signals:
-    void modeChanged(Algorithm::modes mode);
+    void modeChanged(CAlgorithm::modes mode);
 public slots:
     void showStatusMessage(QString message);
     void mySetWindowTitle(QString example_name = "");
@@ -133,7 +133,7 @@ private:
     void SetActionsGroups();
 
     // General private function
-    QWidget* prepareAlgorithnContainer(QWidget* central_w, QString str_label, Algorithm* algorithm);
+    QWidget* prepareAlgorithnContainer(QWidget* central_w, QString str_label, CAlgorithm* algorithm);
     QWidget* prepareFAContainer(QWidget* central_w, QString str_label, FA_widget* fa_widget);
     QWidget* variablesContainer(QWidget* central_w, QString str_label, QLabel* var_widget);
     QWidget* horizontalContainer(QWidget* central_w, QList<QWidget*> widgets);
@@ -147,7 +147,7 @@ private:
     //
     // General variables
     //
-    Algorithm::modes mode;
+    CAlgorithm::modes mode;
     Conversions m_activeConversion;
     ICentralCoversionWidget* m_centralWidget;
 

@@ -17,7 +17,7 @@ public:
     RemoveEpsilon(FiniteAutomata _FA);
     RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
     FiniteAutomata computeSolution();
-    void initInstructions();
+    virtual void InitInstructions();
 
 
 
@@ -48,7 +48,7 @@ public:
 public slots:
     void setFA(FiniteAutomata* FA);
     void set_not_epsilonFA(FiniteAutomata* FA);
-    void setMode(Algorithm::modes _mode);
+    void SetMode(Algorithm::modes _mode);
     void saveStep();
     //void runAlgorithm(int mil_sec);
     void nextStep();
@@ -95,7 +95,7 @@ private:
     inline QString q_toString(){return QString("<b>q</b> = %1").arg(non_epsilon_rule.to);}
     void setEpsilonCloserWidget();
     void prepareGUItoCheck();
-    void removeFuture();
+    void RemoveFuture();
     void showVariables();
     void clearVariables();
 };

@@ -31,13 +31,13 @@ MainWindow::MainWindow(QWidget *parent) :
     reg_exp_algorithm = 0;
     remove_epsilon_algorithm = 0;
     m_activeConversion = none;
-    mode = Algorithm::PLAY_MODE;
+    mode = CAlgorithm::PLAY_MODE;
     ui->action_play_mode->setChecked(true);
 
     alhgorithm_widget = new CAlgorithmWidget(mode);
     alhgorithm_widget->hide();
-    connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
-    connect(this, SIGNAL(modeChanged(Algorithm::modes)), this, SLOT(mySetWindowTitle()));
+    connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), alhgorithm_widget, SLOT(setWidgets(CAlgorithm::modes)));
+    connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), this, SLOT(mySetWindowTitle()));
     //    deleteShortCut = new QShortcut(QKeySequence::Delete, this);
     //    connect( deleteShortCut, SIGNAL(activated()), FA1_widget->scene, SLOT(deleteSelected()));
 
@@ -94,16 +94,16 @@ void MainWindow::mySetWindowTitle(QString example_name)
 
     switch(mode)
     {
-        case Algorithm::NONE:
+        case CAlgorithm::NONE:
             mode_str = "";
         break;
-        case Algorithm::CHECK_MODE:
+        case CAlgorithm::CHECK_MODE:
             mode_str = tr("Mode: individual work");
         break;
-        case Algorithm::PLAY_MODE:
+        case CAlgorithm::PLAY_MODE:
             mode_str = tr("Mode: algorithm stepping");
         break;
-        case Algorithm::STEP_MODE:
+        case CAlgorithm::STEP_MODE:
             mode_str = tr("Mode: instant checking");
         break;
     }
@@ -129,7 +129,7 @@ void MainWindow::hideStatusMessage()
     status_label->hide();
 }
 
-QWidget *MainWindow::prepareAlgorithnContainer(QWidget *central_w, QString str_label, Algorithm *algorithm)
+QWidget *MainWindow::prepareAlgorithnContainer(QWidget *central_w, QString str_label, CAlgorithm *algorithm)
 {
     QWidget* algorithm_container = new QWidget(central_w);
     QVBoxLayout* algorithm_vlayout = new QVBoxLayout(algorithm_container);
@@ -143,7 +143,7 @@ QWidget *MainWindow::prepareAlgorithnContainer(QWidget *central_w, QString str_l
     alhgorithm_widget->getAlgorithmView()->setModel(algorithm);
     alhgorithm_widget->getAlgorithmView()->setItemDelegate(delegate);
     connect(delegate,SIGNAL(dataChanged(QModelIndex)),algorithm,SLOT(getData(QModelIndex)));
-    connect(this,SIGNAL(modeChanged(Algorithm::modes)),algorithm,SLOT(setMode(Algorithm::modes)));
+    connect(this,SIGNAL(modeChanged(CAlgorithm::modes)),algorithm,SLOT(setMode(CAlgorithm::modes)));
     return algorithm_container;
 }
 
@@ -215,9 +215,9 @@ void MainWindow::prepareREtoFA(RegExp* _re)
         connect(fa_widget_right,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         reg_exp_widget = new RegExpWidget(regExpToFA_central_widget);
         alhgorithm_widget = new CAlgorithmWidget(mode,regExpToFA_central_widget);
-        connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
+        connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), alhgorithm_widget, SLOT(setWidgets(CAlgorithm::modes)));
         reg_exp_algorithm = new RegExpToFA(alhgorithm_widget, mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right, _re, regExpToFA_central_widget);
-        connect(this, SIGNAL(modeChanged(Algorithm::modes)), reg_exp_algorithm, SLOT(setMode(Algorithm::modes)));
+        connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), reg_exp_algorithm, SLOT(setMode(CAlgorithm::modes)));
         prepareREtoFA_GUI();
 //    }
 //    else
@@ -304,9 +304,9 @@ void MainWindow::prepareRemoveEpsilon()
         connect(fa_not_epsilon_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         remove_epsilon_variables_widget = new QLabel(removeEpsilon_central_widget);
         epsilon_closer_list_widget = new QListWidget(removeEpsilon_central_widget);
-        connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
+        connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), alhgorithm_widget, SLOT(setWidgets(CAlgorithm::modes)));
         remove_epsilon_algorithm = new RemoveEpsilon(mode, alhgorithm_widget, fa_epsilon_widget, fa_not_epsilon_widget, remove_epsilon_variables_widget, epsilon_closer_list_widget, removeEpsilon_central_widget);
-        connect(this, SIGNAL(modeChanged(Algorithm::modes)), remove_epsilon_algorithm, SLOT(setMode(Algorithm::modes)));
+        connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), remove_epsilon_algorithm, SLOT(setMode(CAlgorithm::modes)));
         prepareRemoveEpsilon_GUI();
     //}
     //else
@@ -457,8 +457,8 @@ void MainWindow::PrepareCFGtoPDA()
     DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
     CFG_TO_PDA_algorithm = new CCfgToPdaGuiInterface(/* mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, CFG_TO_PDA_central_widget*/);
 
-    connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
-    connect(this, SIGNAL(modeChanged(Algorithm::modes)), CFG_TO_PDA_algorithm, SLOT(setMode(Algorithm::modes)));
+    connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), alhgorithm_widget, SLOT(setWidgets(CAlgorithm::modes)));
+    connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), CFG_TO_PDA_algorithm, SLOT(setMode(CAlgorithm::modes)));
     connect(CFG_TO_PDA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
 
     prepareCFG_TO_PDA_GUI();
@@ -509,21 +509,21 @@ void MainWindow::prepareCFG_TO_PDA_GUI()
 
 void MainWindow::on_action_check_mode_triggered()
 {
-    mode = Algorithm::CHECK_MODE;
+    mode = CAlgorithm::CHECK_MODE;
     ui->action_check_mode->setChecked(true);
     emit modeChanged(mode);
 }
 
 void MainWindow::on_action_play_mode_triggered()
 {
-    mode = Algorithm::PLAY_MODE;
+    mode = CAlgorithm::PLAY_MODE;
     ui->action_play_mode->setChecked(true);
     emit modeChanged(mode);
 }
 
 void MainWindow::on_action_step_mode_triggered()
 {
-    mode = Algorithm::STEP_MODE;
+    mode = CAlgorithm::STEP_MODE;
     ui->action_step_mode->setChecked(true);
     emit modeChanged(mode);
 }
@@ -1008,7 +1008,7 @@ void MainWindow::on_action_save_triggered()
         case RE_to_FA:
         {
             // In play mode does not make sence to save output fa
-            if(mode == Algorithm::PLAY_MODE)
+            if(mode == CAlgorithm::PLAY_MODE)
             {
                 out << reg_exp_algorithm->re->regexp;
             }
@@ -1019,7 +1019,7 @@ void MainWindow::on_action_save_triggered()
         }
         break;
         case REMOVE_EPSILON:
-            if(mode == Algorithm::PLAY_MODE)
+            if(mode == CAlgorithm::PLAY_MODE)
             {
                  out << remove_epsilon_algorithm->FA;
             }
@@ -1029,7 +1029,7 @@ void MainWindow::on_action_save_triggered()
             }
         break;
         case DFA:
-            if(mode == Algorithm::PLAY_MODE)
+            if(mode == CAlgorithm::PLAY_MODE)
             {
                  out << DFA_algorithm->FA;
             }
@@ -1058,22 +1058,22 @@ void MainWindow::on_action_open_file_triggered()
     FiniteAutomata FA;
     //
     Conversions conversion = none;
-    Algorithm::modes tmp_mode = Algorithm::NONE;
+    CAlgorithm::modes tmp_mode = CAlgorithm::NONE;
 
     in >> conversion;
     in >> tmp_mode;
     switch (tmp_mode)
     {
-        case Algorithm::CHECK_MODE:
+        case CAlgorithm::CHECK_MODE:
             on_action_check_mode_triggered();
         break;
-        case Algorithm::PLAY_MODE:
+        case CAlgorithm::PLAY_MODE:
             on_action_play_mode_triggered();
         break;
-        case Algorithm::STEP_MODE:
+        case CAlgorithm::STEP_MODE:
             on_action_step_mode_triggered();
         break;
-        case Algorithm::NONE:
+        case CAlgorithm::NONE:
             showStatusMessage(tr("ERROR: Input file in wrong format!"));
             return;
         break;
@@ -1084,7 +1084,7 @@ void MainWindow::on_action_open_file_triggered()
     {
         case RE_to_FA:
         {
-            if(mode == Algorithm::PLAY_MODE)
+            if(mode == CAlgorithm::PLAY_MODE)
             {
                 QString regexp_str;
                 in >> regexp_str;
@@ -1104,7 +1104,7 @@ void MainWindow::on_action_open_file_triggered()
             in >> in_FA;
             prepareRemoveEpsilon();
             remove_epsilon_algorithm->setInputFA(in_FA);
-            if(mode != Algorithm::PLAY_MODE)
+            if(mode != CAlgorithm::PLAY_MODE)
             {
                 FiniteAutomata out_FA;
                 in >> out_FA;
@@ -1118,7 +1118,7 @@ void MainWindow::on_action_open_file_triggered()
             in >> in_FA;
             PrepareDFA();
             DFA_algorithm->setInputFA(in_FA);
-            if(mode != Algorithm::PLAY_MODE)
+            if(mode != CAlgorithm::PLAY_MODE)
             {
                 FiniteAutomata out_FA;
                 in >> out_FA;

@@ -23,7 +23,7 @@ public:
     FaToDFA(FiniteAutomata _FA);
     ~FaToDFA();
     FiniteAutomata computeSolution();
-    void initInstructions();
+    virtual void InitInstructions();
 
 
 
@@ -34,7 +34,7 @@ public:
     FiniteAutomata DFA;
 
 public slots:
-    void setMode(Algorithm::modes _mode);
+    void SetMode(Algorithm::modes _mode);
     void setFA(FiniteAutomata* _FA);
     void setDFA(FiniteAutomata* _FA);
     void prevStep();
@@ -90,7 +90,7 @@ private:
     QSet<ComputationalRules> m_rules_prime;
 
     // internal methods
-    void removeFuture();
+    void RemoveFuture();
     void clearVariables();
     void showVariables();
     void saveStep();

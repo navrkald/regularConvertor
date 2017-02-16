@@ -1,64 +1,64 @@
 #include "algorithm.h"
 
 Algorithm::Algorithm(QObject* parent)
-    : QStandardItemModel(parent), actInstructionBackroundColor(Qt::yellow), normalInstructionBackroundColor(Qt::white)
+    : QStandardItemModel(parent), m_actInstructionBackroundColor(Qt::yellow), m_normalInstructionBackroundColor(Qt::white)
 {
-    play_timer = new QTimer();
-    check_step_timer = new QTimer();
+    m_playTimer = new QTimer();
+    m_CheckStepTimer = new QTimer();
 }
 
-void Algorithm::initBreakpoints(int _num)
+void Algorithm::InitBreakpoints(int num)
 {
-    breakpoints.resize(_num);
-    for(int i = 0; i < _num; i++)
+    m_breakpoints.resize(num);
+    for(int i = 0; i < num; i++)
     {
-        breakpoints[i] = false;
+        m_breakpoints[i] = false;
     }
 }
 
-void Algorithm::setActInstruction()
+void Algorithm::SetActInstruction()
 {
-    clearActInstruction();
+    ClearActInstruction();
     QModelIndex index;
-    if(actInstruction != last_instruction)
+    if(m_actInstruction != lastInstruction)
     {
-        index = this->index(actInstruction,0,QModelIndex());
+        index = this->index(m_actInstruction,0,QModelIndex());
     }
     else
     {
-        index = this->index(prewInstruction,0,QModelIndex());
+        index = this->index(m_prewInstruction,0,QModelIndex());
     }
-    setData(index,QBrush(actInstructionBackroundColor),Qt::BackgroundRole);
+    setData(index,QBrush(m_actInstructionBackroundColor),Qt::BackgroundRole);
 }
 
 //Clear act instruction from algorithm view
-void Algorithm::clearActInstruction()
+void Algorithm::ClearActInstruction()
 {
-    for(int i = 0; i<instruction_count; i++)
+    for(int i = 0; i<m_instructionCount; i++)
     {
         QModelIndex index = this->index(i,0,QModelIndex());
-        setData(index,QBrush(normalInstructionBackroundColor),Qt::BackgroundRole);
+        setData(index,QBrush(m_normalInstructionBackroundColor),Qt::BackgroundRole);
     }
 }
 
-void Algorithm::setMode(Algorithm::modes mode)
+void Algorithm::SetMode(Algorithm::modes mode)
 {
   m_mode = mode;
 }
 
-void Algorithm::getData(QModelIndex _index)
+void Algorithm::GetData(QModelIndex _index)
 {
-    breakpoints[_index.row()] = data(_index, Algorithm::Breakpoint_Role).toBool();
+    m_breakpoints[_index.row()] = data(_index, Algorithm::breakpointRole).toBool();
 }
 
-void Algorithm::runAlgorithm(int mil_sec)
+void Algorithm::RunAlgorithm(int mil_sec)
 {
-    play_timer->start(mil_sec);
+    m_playTimer->start(mil_sec);
 }
 
-void Algorithm::stop()
+void Algorithm::Stop()
 {
-    play_timer->stop();
+    m_playTimer->stop();
 }
 
 QDataStream& operator>>(QDataStream& in, Algorithm::modes& m)

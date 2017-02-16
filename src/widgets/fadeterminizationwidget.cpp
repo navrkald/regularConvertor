@@ -21,10 +21,10 @@ CFADeterminizationWidget::~CFADeterminizationWidget()
 void CFADeterminizationWidget::ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged)
 {
     connect(sender, modeChanged, this->ui->m_algorithmWidget, &CAlgorithmWidget::setWidgets);
-    connect(sender, modeChanged, &m_DFA_algorithm, &FaToDFA::setMode);
+    connect(sender, modeChanged, &m_DFA_algorithm, &FaToDFA::SetMode);
 }
 
 void CFADeterminizationWidget::ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage)
 {
-    connect(&m_DFA_algorithm, &FaToDFA::sendStatusBarMessage, receiver, showMessage);
+    connect(&m_DFA_algorithm, &FaToDFA::SendStatusBarMessage, receiver, showMessage);
 }

@@ -32,11 +32,11 @@ public:
     QList<steps> history;
 
 
-    void initInstructions();
+    virtual void InitInstructions();
 //    void setNewRegExp(RegExp* re);
 
 public slots:
-    void setMode(Algorithm::modes _mode);
+    void SetMode(Algorithm::modes _mode);
 //    void setRE_old(RegExp* _re);
     void setRE(RegExp* _re);
     void selectRegExp(QModelIndex index);
@@ -61,7 +61,7 @@ private:
     FA_widget* right_fa_widget;
     QList<RegExpNode*> nodesToProcede;
 
-    void removeFuture();
+    void RemoveFuture();
     RegExpNode* chooseRandomNode();
     void postOrder(RegExpNode* node);
 

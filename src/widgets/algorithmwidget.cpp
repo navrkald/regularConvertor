@@ -1,7 +1,7 @@
 #include "algorithmwidget.h"
 #include "ui_algorithmwidget.h"
 
-CAlgorithmWidget::CAlgorithmWidget(QWidget *parent) : QWidget(parent), mode(Algorithm::modes::NONE),
+CAlgorithmWidget::CAlgorithmWidget(QWidget *parent) : QWidget(parent), mode(CAlgorithm::modes::NONE),
     ui(new Ui::AlgorithmWidget)
 {
     ui->setupUi(this);
@@ -19,7 +19,7 @@ CAlgorithmWidget::CAlgorithmWidget(QWidget *parent) : QWidget(parent), mode(Algo
     ui->Formal->removeTab(1);
 }
 
-CAlgorithmWidget::CAlgorithmWidget(Algorithm::modes _mode, QWidget *parent) :
+CAlgorithmWidget::CAlgorithmWidget(CAlgorithm::modes _mode, QWidget *parent) :
     QWidget(parent), mode(_mode),
     ui(new Ui::AlgorithmWidget)
 {
@@ -67,11 +67,11 @@ void CAlgorithmWidget::showWidgets(QList<QWidget *> widgets)
         w->show();
 }
 
-void CAlgorithmWidget::setWidgets(Algorithm::modes mode)
+void CAlgorithmWidget::setWidgets(CAlgorithm::modes mode)
 {
 
     switch (mode) {
-    case Algorithm::CHECK_MODE:
+    case CAlgorithm::CHECK_MODE:
         showWidgets(QList<QWidget*>() << ui->checkButton <<  ui->showButton);
         showSpacer(ui->checkSpacer);
         hideWidgets(QList<QWidget*>()
@@ -79,7 +79,7 @@ void CAlgorithmWidget::setWidgets(Algorithm::modes mode)
                     << ui->prew_stepButton << ui->next_stepButton );
         hideSpacer(ui->stepSpacer);
         break;
-    case Algorithm::PLAY_MODE:
+    case CAlgorithm::PLAY_MODE:
         showWidgets(QList<QWidget*>() << ui->prewButton << ui->nextButton << ui->playButton << ui->stopButton << ui->spinBox << ui->delay_label << ui->beginButton << ui->endButton);
         hideWidgets(QList<QWidget*>()
                     << ui->checkButton <<  ui->showButton
@@ -87,7 +87,7 @@ void CAlgorithmWidget::setWidgets(Algorithm::modes mode)
         hideSpacer(ui->stepSpacer);
         hideSpacer(ui->checkSpacer);
         break;
-    case Algorithm::STEP_MODE:
+    case CAlgorithm::STEP_MODE:
         showWidgets(QList<QWidget*>()<< ui->prew_stepButton << ui->next_stepButton);
         hideWidgets(QList<QWidget*>()
                     << ui->checkButton <<  ui->showButton

@@ -46,12 +46,12 @@ void HTMLDelegate::paint(QPainter* painter, const QStyleOptionViewItem & option,
         //Brakepoint
         //
         QRect checkBoxRect = QRect(option.rect.left(),option.rect.top(),0,0);
-        if ((index.model()->data(index, Algorithm::HasBreakpoint_Role).toBool()))
+        if ((index.model()->data(index, CAlgorithm::hasBreakpointRole).toBool()))
         {
 
                 checkBoxRect = option.rect;
                 checkBoxRect.setRight((checkBoxRect.left() + 2*myFont.pointSize()));
-                drawBrakepoint (painter, option, checkBoxRect, static_cast<bool>(index.model()->data(index, Algorithm::Breakpoint_Role).toBool()));
+                drawBrakepoint (painter, option, checkBoxRect, static_cast<bool>(index.model()->data(index, CAlgorithm::breakpointRole).toBool()));
                 text_rect.setLeft(text_rect.left() + checkBoxRect.width());
 
         }
@@ -100,7 +100,7 @@ QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem &, const QModelIndex &
 
     //brakepoin size
     QSize brakepoint_size(0,0);
-    if ((index.model()->data(index, Algorithm::HasBreakpoint_Role).toBool()))
+    if ((index.model()->data(index, CAlgorithm::hasBreakpointRole).toBool()))
     {
         brakepoint_size = QSize(myFont.pointSize()+2*my_margin,myFont.pointSize()+2*my_margin);
     }
@@ -141,8 +141,8 @@ bool HTMLDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const Q
       return false;
     }
 
-    bool checked = index.model()->data(index, Algorithm::Breakpoint_Role).toBool();
-    bool ret_val = model->setData(index, !checked, Algorithm::Breakpoint_Role);
+    bool checked = index.model()->data(index, CAlgorithm::breakpointRole).toBool();
+    bool ret_val = model->setData(index, !checked, CAlgorithm::breakpointRole);
     emit dataChanged(index);
     return ret_val;
 }

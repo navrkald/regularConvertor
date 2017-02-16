@@ -19,10 +19,10 @@ CCfgToPdaWidget::~CCfgToPdaWidget()
 void CCfgToPdaWidget::ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged)
 {
     connect(sender, modeChanged, this->ui->m_cfgToPdaAlgorithmWidget, &CAlgorithmWidget::setWidgets);
-    connect(sender, modeChanged, &m_cfgToPdaGuiInterface, &CCfgToPdaGuiInterface::setMode);
+    connect(sender, modeChanged, &m_cfgToPdaGuiInterface, &CCfgToPdaGuiInterface::SetMode);
 }
 
 void CCfgToPdaWidget::ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage)
 {
-    connect(&m_cfgToPdaGuiInterface, &CCfgToPdaGuiInterface::sendStatusBarMessage, receiver, showMessage);
+    connect(&m_cfgToPdaGuiInterface, &CCfgToPdaGuiInterface::SendStatusBarMessage, receiver, showMessage);
 }

@@ -1,14 +1,14 @@
 #include "cfgtopdaguiinterface.h"
 
-CCfgToPdaGuiInterface::CCfgToPdaGuiInterface(QObject *parent) : Algorithm(parent){
+CCfgToPdaGuiInterface::CCfgToPdaGuiInterface(QObject *parent) : CAlgorithm(parent){
 
 }
 
-void CCfgToPdaGuiInterface::initInstructions(){
+void CCfgToPdaGuiInterface::InitInstructions(){
 
 }
 
-void CCfgToPdaGuiInterface::removeFuture(){
+void CCfgToPdaGuiInterface::RemoveFuture(){
 
 }
 

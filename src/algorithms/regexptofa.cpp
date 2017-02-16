@@ -13,21 +13,21 @@
 #define ITERATE_FA 7
 
 
-RegExpToFA::RegExpToFA(RegExp* _re, modes _mode) : Algorithm()
+RegExpToFA::RegExpToFA(RegExp* _re, modes _mode) : CAlgorithm()
 {
-    setMode(_mode);
+    SetMode(_mode);
     setRE(_re);
 }
 
 RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, modes _mode, RegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re, QObject* parrent)
-    : Algorithm(parrent), algorithm_widget(_algorithm_widget), mode(_mode), re_widget(_re_widget), left_fa_widget(_left_fa_widget), center_fa_widget(_center_fa_widget), right_fa_widget(_right_fa_widget)
+    : CAlgorithm(parrent), algorithm_widget(_algorithm_widget), mode(_mode), re_widget(_re_widget), left_fa_widget(_left_fa_widget), center_fa_widget(_center_fa_widget), right_fa_widget(_right_fa_widget)
 {
-    actInstruction = HEADER;
+    m_actInstruction = HEADER;
     re = 0;
-    instruction_count = ITERATE_FA+1;
+    m_instructionCount = ITERATE_FA+1;
 
-    initInstructions();
-    initBreakpoints(instruction_count);
+    InitInstructions();
+    InitBreakpoints(m_instructionCount);
 
     QIcon empty_fa_icon = QIcon(":/algorithms/algorithms/pictures/empty_fa.png");
     QIcon epsilon_fa_icon = QIcon(":/algorithms/algorithms/pictures/epsilon_fa.png");
@@ -37,19 +37,19 @@ RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, modes _mode, RegExpW
     QIcon iterate_fa_icon = QIcon(":/algorithms/algorithms/pictures/iterate_fa.png");
 
     this->setColumnCount(1);
-    this->setRowCount(instructions.count());
+    this->setRowCount(m_instructions.count());
 
-    for(int i = 0; i < instructions.count();i++)
+    for(int i = 0; i < m_instructions.count();i++)
     {
         QModelIndex index = this->index(i,0,QModelIndex());
-        setData(index,instructions[i],Qt::EditRole);
-        setData(index,true,Algorithm::HasBreakpoint_Role);
-        setData(index,false,Algorithm::Breakpoint_Role);
+        setData(index,m_instructions[i],Qt::EditRole);
+        setData(index,true,CAlgorithm::hasBreakpointRole);
+        setData(index,false,CAlgorithm::breakpointRole);
         switch(i)
         {
             case HEADER:
             case COMPOSED_FA:
-                setData(index,false,Algorithm::HasBreakpoint_Role);
+                setData(index,false,CAlgorithm::hasBreakpointRole);
                 break;
             case EMPTY_FA:
                 setData(index,empty_fa_icon,Qt::DecorationRole);
@@ -71,13 +71,13 @@ RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, modes _mode, RegExpW
                 break;
         }
     }
-    setMode(mode);
+    SetMode(mode);
 
     //
     // Connect algorithm buttons.
     //
-    connect(this->algorithm_widget,SIGNAL(playPressed(int)),this,SLOT(runAlgorithm(int)));
-    connect(this->algorithm_widget,SIGNAL(stopPressed()),this,SLOT(stop()));
+    connect(this->algorithm_widget,SIGNAL(playPressed(int)),this,SLOT(RunAlgorithm(int)));
+    connect(this->algorithm_widget,SIGNAL(stopPressed()),this,SLOT(Stop()));
     connect(this->algorithm_widget,SIGNAL(prewPressed()),this,SLOT(prevStep()));
     connect(this->algorithm_widget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
     connect(this->algorithm_widget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
@@ -89,8 +89,8 @@ RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, modes _mode, RegExpW
     //
     // Connect timers.
     //
-    connect(play_timer, SIGNAL(timeout()), this, SLOT(nextStep()));
-    connect(check_step_timer, SIGNAL(timeout()), this, SLOT(checkSolution()));
+    connect(m_playTimer, SIGNAL(timeout()), this, SLOT(nextStep()));
+    connect(m_CheckStepTimer, SIGNAL(timeout()), this, SLOT(checkSolution()));
 
     //
     // Connect regexp widget
@@ -105,13 +105,13 @@ RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, modes _mode, RegExpW
     algorithm_widget->disableShowButton();
 }
 
-void RegExpToFA::setMode(modes _mode)
+void RegExpToFA::SetMode(modes _mode)
 {
     mode = _mode;
     nodesToProcede.clear();
     if(mode==STEP_MODE)
     {
-        check_step_timer->start(CHECK_STEP_TIMEOUT);
+        m_CheckStepTimer->start(CHECK_STEP_TIMEOUT);
     }
     else if(mode == NONE)
     {
@@ -119,14 +119,14 @@ void RegExpToFA::setMode(modes _mode)
     }
     else
     {
-        check_step_timer->stop();
+        m_CheckStepTimer->stop();
     }
 
     if(re != 0)
     {
         history.clear();
-        num = 0;
-        clearActInstruction();
+        m_num = 0;
+        ClearActInstruction();
         //checking modes
         if(mode == PLAY_MODE)
         {
@@ -174,13 +174,13 @@ void RegExpToFA::setRE(RegExp *_re)
     if(mode == PLAY_MODE)
     {
         //unselect instruction from algorithm window
-        clearActInstruction();
+        ClearActInstruction();
 
         //this is not prew step so we have to save it in history
         if(history.empty() || re->regexp !=  history.last().re->regexp)
         {
-            actPos = 0;
-            actInstruction = HEADER; //init start instruction because new regExp may appeare when pres step mode was in run
+            m_actPos = 0;
+            m_actInstruction = HEADER; //init start instruction because new regExp may appeare when pres step mode was in run
             history.clear();
             saveStep();
         }
@@ -228,10 +228,10 @@ void RegExpToFA::saveStep()
         qFatal("Fatal Error: in funcion void RegExpToFA::saveStep()");
     steps s;
     s.re = new RegExp(*re);
-    s.num = ++num;
-    s.actInstruction = actInstruction;
+    s.num = ++m_num;
+    s.actInstruction = m_actInstruction;
     history.append(s);
-    actPos = history.count() - 1;
+    m_actPos = history.count() - 1;
 }
 
 void RegExpToFA::computeSolution()
@@ -292,7 +292,7 @@ void RegExpToFA::nextStep()
     //re->rootNode->clearProcessed();
     if(!nodesToProcede.empty())
     {
-        prewInstruction = actInstruction;
+        m_prewInstruction = m_actInstruction;
 
 
         RegExpNode* processedNode = nodesToProcede.first();
@@ -305,18 +305,18 @@ void RegExpToFA::nextStep()
                 processedNode->user_FA = FiniteAutomata();
                 processedNode->user_FA.states << "0";
                 processedNode->user_FA.startState = "0";
-                actInstruction = EMPTY_FA;
+                m_actInstruction = EMPTY_FA;
             }
             else
             {
                 processedNode->user_FA.init(processedNode->str);
                 if(processedNode->str == EPSILON)
                 {
-                    actInstruction = EPSILON_FA;
+                    m_actInstruction = EPSILON_FA;
                 }
                 else
                 {
-                    actInstruction = ONE_SYMBOL_FA;
+                    m_actInstruction = ONE_SYMBOL_FA;
                 }
             }
         }
@@ -327,7 +327,7 @@ void RegExpToFA::nextStep()
                  RegExpNode* son = processedNode->children.at(0);
                  processedNode->user_FA =  FiniteAutomata::iteration(son->user_FA);
 
-                 actInstruction = ITERATE_FA;
+                 m_actInstruction = ITERATE_FA;
             }
             else
             {
@@ -337,21 +337,21 @@ void RegExpToFA::nextStep()
                 {
                     processedNode->user_FA = leftSon->user_FA + rightSon->user_FA;
 
-                    actInstruction = ALTERNATE_FA;
+                    m_actInstruction = ALTERNATE_FA;
                 }
                 else if (processedNode->str == CONCATENATION)
                 {
                      processedNode->user_FA = FiniteAutomata::concatenate(leftSon->user_FA, rightSon->user_FA);
 
-                     actInstruction = CONCATENATE_FA;
+                     m_actInstruction = CONCATENATE_FA;
                 }
             }
         }
 
-        if(breakpoints[actInstruction])
-            play_timer->stop();
+        if(m_breakpoints[m_actInstruction])
+            m_playTimer->stop();
 
-        setActInstruction();
+        SetActInstruction();
 
         //set and update node icon
         processedNode->state = RegExpNode::CORRECT;
@@ -359,34 +359,34 @@ void RegExpToFA::nextStep()
         QModelIndex index = re_widget->treeModel->indexFromNode(processedNode);
         selectRegExp(index);
 
-        removeFuture();
+        RemoveFuture();
         saveStep();
     }
     else
     {
-        play_timer->stop();
+        m_playTimer->stop();
     }
 }
 
 void RegExpToFA::prevStep()
 {
-    if (actPos > 0)
+    if (m_actPos > 0)
     {
-        actPos--;
-        num = history.at(actPos).num;
-        actInstruction = history.at(actPos).actInstruction;
-        RegExp* tmp_re = history.at(actPos).re;
+        m_actPos--;
+        m_num = history.at(m_actPos).num;
+        m_actInstruction = history.at(m_actPos).actInstruction;
+        RegExp* tmp_re = history.at(m_actPos).re;
         re_widget->setRegExp(new RegExp(*tmp_re));
 
         re_widget->modelChanged();
-        setActInstruction();
+        SetActInstruction();
     }
 }
 
-void RegExpToFA::removeFuture()
+void RegExpToFA::RemoveFuture()
 {
     int count  = history.count();
-    for(int i = actPos+1; i < count; i++)
+    for(int i = m_actPos+1; i < count; i++)
     {
         history.removeLast();
     }
@@ -443,19 +443,19 @@ void RegExpToFA::setExample(RegExp *_re)
 {
     re_widget->setRegExp(_re);
     re_widget->modelChanged();
-    setMode(CHECK_MODE);
+    SetMode(CHECK_MODE);
 }
 
 void RegExpToFA::toBegin()
 {
-    actPos=0;
-    num = history.at(actPos).num;
-    actInstruction = history.at(actPos).actInstruction;
-    RegExp* tmp_re = history.at(actPos).re;
+    m_actPos=0;
+    m_num = history.at(m_actPos).num;
+    m_actInstruction = history.at(m_actPos).actInstruction;
+    RegExp* tmp_re = history.at(m_actPos).re;
     re_widget->setRegExp(new RegExp(*tmp_re));
 
     re_widget->modelChanged();
-    setActInstruction();
+    SetActInstruction();
 }
 
 void RegExpToFA::toEnd()
@@ -520,16 +520,16 @@ QList<RegExpNode*> RegExpToFA::getAvailableNodes()
 
 
 
-void RegExpToFA::initInstructions()
+void RegExpToFA::InitInstructions()
 {
 
-    instructions.resize(instruction_count);
-    instructions[HEADER] = tr("<b>\"From inside\" RegExp <i>r</i> repeatedly use this rules <br>for construction of the finite automata<i>M</i>:</b>");
-    instructions[EMPTY_FA] = tr("For RegExp ∅ create FA <b><i>M<sub>∅</sub></i>:</b> ");
-    instructions[EPSILON_FA] = tr("For RegExp " EPSILON " create FA <b><i>M<sub>" EPSILON "</sub></i>: </b>");
-    instructions[ONE_SYMBOL_FA] = tr("For RegExp <b>a</b> ∈ Σ create FA <b>M<sub>a</sub>: </b>");
-    instructions[COMPOSED_FA] = tr("<b>Let</b> for RegExp <b><i>r</i></b> a <b><i>t</i></b>  exists FA <b><i>M<sub>r</sub></i></b> a <b><i>M<sub>t</sub></i></b> <!--<br>--><b>Then:</b>");
-    instructions[CONCATENATE_FA] = INDENT + tr("For RegExp <b>r.t</b> create FA <b><i>M<sub>r.t</sub></i>: </b>");
-    instructions[ALTERNATE_FA] = INDENT + tr("For RegExp <b>r+t</b> create FA <b><i>M<sub>r+t<sub></i>: </b>");
-    instructions[ITERATE_FA] = INDENT + tr("For RegExp <b>r*</b> create FA <b><i>M<sub>r*</sub></i>: </b>");
+    m_instructions.resize(m_instructionCount);
+    m_instructions[HEADER] = tr("<b>\"From inside\" RegExp <i>r</i> repeatedly use this rules <br>for construction of the finite automata<i>M</i>:</b>");
+    m_instructions[EMPTY_FA] = tr("For RegExp ∅ create FA <b><i>M<sub>∅</sub></i>:</b> ");
+    m_instructions[EPSILON_FA] = tr("For RegExp " EPSILON " create FA <b><i>M<sub>" EPSILON "</sub></i>: </b>");
+    m_instructions[ONE_SYMBOL_FA] = tr("For RegExp <b>a</b> ∈ Σ create FA <b>M<sub>a</sub>: </b>");
+    m_instructions[COMPOSED_FA] = tr("<b>Let</b> for RegExp <b><i>r</i></b> a <b><i>t</i></b>  exists FA <b><i>M<sub>r</sub></i></b> a <b><i>M<sub>t</sub></i></b> <!--<br>--><b>Then:</b>");
+    m_instructions[CONCATENATE_FA] = INDENT + tr("For RegExp <b>r.t</b> create FA <b><i>M<sub>r.t</sub></i>: </b>");
+    m_instructions[ALTERNATE_FA] = INDENT + tr("For RegExp <b>r+t</b> create FA <b><i>M<sub>r+t<sub></i>: </b>");
+    m_instructions[ITERATE_FA] = INDENT + tr("For RegExp <b>r*</b> create FA <b><i>M<sub>r*</sub></i>: </b>");
 }

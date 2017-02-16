@@ -11,8 +11,8 @@ class CCfgToPdaGuiInterface : public Algorithm
   Q_OBJECT
 public:
   explicit CCfgToPdaGuiInterface(QObject *parent = 0);
-  virtual void initInstructions();
-  virtual void removeFuture();
+  virtual void InitInstructions();
+  virtual void RemoveFuture();
 
 signals:
 

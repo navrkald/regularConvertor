@@ -16,10 +16,10 @@ class CAlgorithmWidget : public QWidget
     
 public:
     explicit CAlgorithmWidget(QWidget *parent = 0);
-    explicit CAlgorithmWidget(Algorithm::modes _mode, QWidget *parent = 0);
+    explicit CAlgorithmWidget(CAlgorithm::modes _mode, QWidget *parent = 0);
     ~CAlgorithmWidget();
     AlgorithmView* getAlgorithmView();
-    Algorithm::modes mode;
+    CAlgorithm::modes mode;
 
     void SetCaption(const QString& caption);
     void hideWidgets(QList<QWidget*> widgets);
@@ -45,7 +45,7 @@ signals:
 
 public slots:
     void emitPlay();
-    void setWidgets(Algorithm::modes mode);
+    void setWidgets(CAlgorithm::modes mode);
     void disableNext();
     void enableNext();
     void disablePrev();

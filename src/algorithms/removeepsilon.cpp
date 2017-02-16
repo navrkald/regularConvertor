@@ -22,33 +22,33 @@ RemoveEpsilon::RemoveEpsilon(FiniteAutomata _FA)
 RemoveEpsilon::RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent)
  :  Algorithm(parrent), algorithm_widget(_algorithm_widget), mode(_mode), epsilon_fa_widget(_epsilon_fa_widget), not_epsilon_fa_widget(_not_epsilon_fa_widget),  var_widget(_var_widget), epsilon_closer_list_widget(_epsilon_closer_list_widget)
 {
-    actInstruction = HEADER;
-    prewInstruction = HEADER;
-    instruction_count = NEW_FINAL+1;
+    m_actInstruction = HEADER;
+    m_prewInstruction = HEADER;
+    m_instructionCount = NEW_FINAL+1;
 
 
 
-    initInstructions();
-    initBreakpoints(instruction_count);
+    InitInstructions();
+    InitBreakpoints(m_instructionCount);
 
     QIcon epsilon_closer_icon = QIcon(tr(":/algorithms/algorithms/pictures/epsilon_closer_en.png"));
     QIcon remove_epsilon_icon = QIcon(tr(":/algorithms/algorithms/pictures/remove_epsilon_en.png"));
 
     this->setColumnCount(1);
-    this->setRowCount(instructions.count());
+    this->setRowCount(m_instructions.count());
 
     var_widget->setText("");
 
-    for(int i = 0; i < instructions.count();i++)
+    for(int i = 0; i < m_instructions.count();i++)
     {
         QModelIndex index = this->index(i,0,QModelIndex());
-        setData(index,instructions[i],Qt::EditRole);
-        setData(index,true,Algorithm::HasBreakpoint_Role);
-        setData(index,false,Algorithm::Breakpoint_Role);
+        setData(index,m_instructions[i],Qt::EditRole);
+        setData(index,true,Algorithm::hasBreakpointRole);
+        setData(index,false,Algorithm::breakpointRole);
         switch(i)
         {
             case HEADER:
-                setData(index,false,Algorithm::HasBreakpoint_Role);
+                setData(index,false,Algorithm::hasBreakpointRole);
                 break;
             case EPSILONCLOSER:
                 setData(index,epsilon_closer_icon,Qt::DecorationRole);
@@ -63,8 +63,8 @@ RemoveEpsilon::RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, F
     //
     // Connect algorithm buttons.
     //
-    connect(this->algorithm_widget,SIGNAL(playPressed(int)),this,SLOT(runAlgorithm(int)));
-    connect(this->algorithm_widget,SIGNAL(stopPressed()),this,SLOT(stop()));
+    connect(this->algorithm_widget,SIGNAL(playPressed(int)),this,SLOT(RunAlgorithm(int)));
+    connect(this->algorithm_widget,SIGNAL(stopPressed()),this,SLOT(Stop()));
     connect(this->algorithm_widget,SIGNAL(prewPressed()),this,SLOT(prevStep()));
     connect(this->algorithm_widget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
     connect(this->algorithm_widget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
@@ -76,8 +76,8 @@ RemoveEpsilon::RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, F
     //
     // Connect timers.
     //
-    connect(play_timer, SIGNAL(timeout()), this, SLOT(nextStep()));
-    connect(check_step_timer, SIGNAL(timeout()), this, SLOT(checkSolution()));
+    connect(m_playTimer, SIGNAL(timeout()), this, SLOT(nextStep()));
+    connect(m_CheckStepTimer, SIGNAL(timeout()), this, SLOT(checkSolution()));
 
     // Connect Finite Automata widgets
     connect(epsilon_fa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(setFA(FiniteAutomata*)));
@@ -89,28 +89,28 @@ RemoveEpsilon::RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, F
     algorithm_widget->enableShowButton();
 }
 
-void RemoveEpsilon::initInstructions()
+void RemoveEpsilon::InitInstructions()
 {
-    instructions.resize(instruction_count);
-    instructions[HEADER] =                     tr("<b>Input:</b> FA <i>M</i>=(Q,Σ,R,s,F)<br><b>Output:</b> FA without ε-rules M'=(Q,Σ,R',s,F')");
-    instructions[FOREACH_P_EPSILONCLOSER] =    tr("<b>for each</b> p ∈ Q <b>do</b>");
-    instructions[EPSILONCLOSER] =              INDENT + tr("ε-closer(p) = {q:q∈Q, p ⊢* q}");
+    m_instructions.resize(m_instructionCount);
+    m_instructions[HEADER] =                     tr("<b>Input:</b> FA <i>M</i>=(Q,Σ,R,s,F)<br><b>Output:</b> FA without ε-rules M'=(Q,Σ,R',s,F')");
+    m_instructions[FOREACH_P_EPSILONCLOSER] =    tr("<b>for each</b> p ∈ Q <b>do</b>");
+    m_instructions[EPSILONCLOSER] =              INDENT + tr("ε-closer(p) = {q:q∈Q, p ⊢* q}");
 
-    instructions[FOREACH_P] =                  tr("<b>for each</b> p ∈ Q <b>do</b>");
-    instructions[FOREACH_P_IN_CLOSER] =        INDENT     + tr("<b>for each</b> p'∈ ε-closer(p) <b>do</b>");
-    instructions[FOREACH_RULE] =               INDENT INDENT     + tr("<b>for each</b> r={p'a→q}∈ R <b>where</b> a ∈ Σ <b>do</b>");
-    instructions[NEW_RULE] =                   INDENT INDENT INDENT     + tr("R'∈ R' ∪ r'={pa→q}");
+    m_instructions[FOREACH_P] =                  tr("<b>for each</b> p ∈ Q <b>do</b>");
+    m_instructions[FOREACH_P_IN_CLOSER] =        INDENT     + tr("<b>for each</b> p'∈ ε-closer(p) <b>do</b>");
+    m_instructions[FOREACH_RULE] =               INDENT INDENT     + tr("<b>for each</b> r={p'a→q}∈ R <b>where</b> a ∈ Σ <b>do</b>");
+    m_instructions[NEW_RULE] =                   INDENT INDENT INDENT     + tr("R'∈ R' ∪ r'={pa→q}");
 
-    instructions[FOREACH_P_FINAL] =            tr("<b>for each</b> p ∈ Q <b>do</b>");
-    instructions[IF_FINAL] =                   INDENT      + tr("<b>if</b> ε-closer(p) ∩ F ≠ ∅ <b>then</b>");
-    instructions[NEW_FINAL] =                  INDENT INDENT       +tr ("F'∈ F' ∪ {p}");
+    m_instructions[FOREACH_P_FINAL] =            tr("<b>for each</b> p ∈ Q <b>do</b>");
+    m_instructions[IF_FINAL] =                   INDENT      + tr("<b>if</b> ε-closer(p) ∩ F ≠ ∅ <b>then</b>");
+    m_instructions[NEW_FINAL] =                  INDENT INDENT       +tr ("F'∈ F' ∪ {p}");
 }
 
 void RemoveEpsilon::setFA(FiniteAutomata *FA)
 {
     this->FA = *FA;
     not_epsilon_fa_widget->clearStatus();
-    setMode(mode);
+    SetMode(mode);
 }
 
 void RemoveEpsilon::set_not_epsilonFA(FiniteAutomata *FA)
@@ -118,14 +118,14 @@ void RemoveEpsilon::set_not_epsilonFA(FiniteAutomata *FA)
     this->non_epsilon_FA = *FA;
 }
 
-void RemoveEpsilon::setMode(Algorithm::modes _mode)
+void RemoveEpsilon::SetMode(Algorithm::modes _mode)
 {
     mode = _mode;
 
-    num = 0;
-    actInstruction=HEADER;
-    prewInstruction=HEADER;
-    clearActInstruction();
+    m_num = 0;
+    m_actInstruction=HEADER;
+    m_prewInstruction=HEADER;
+    ClearActInstruction();
     clearVariables();
     epsilon_closer_list_widget->clear();
     // because show correct solution break connectiom betwen user FA and user FA widget
@@ -138,10 +138,10 @@ void RemoveEpsilon::setMode(Algorithm::modes _mode)
             algorithm_widget->disablePrev();
             not_epsilon_fa_widget->setFA(new FiniteAutomata());
             //unselect instruction from algorithm window
-            clearActInstruction();
+            ClearActInstruction();
             history.clear();
-            actPos = 0;
-            actInstruction = HEADER; //init start instruction because new regExp may appeare when pres step mode was in run
+            m_actPos = 0;
+            m_actInstruction = HEADER; //init start instruction because new regExp may appeare when pres step mode was in run
             saveStep();
         break;
         case CHECK_MODE: case STEP_MODE:
@@ -152,9 +152,9 @@ void RemoveEpsilon::setMode(Algorithm::modes _mode)
     }
 
     if(mode == STEP_MODE)
-        check_step_timer->start(CHECK_STEP_TIMEOUT);
+        m_CheckStepTimer->start(CHECK_STEP_TIMEOUT);
     else
-        check_step_timer->stop();
+        m_CheckStepTimer->stop();
 
     not_epsilon_fa_widget->clearStatus();
 }
@@ -162,7 +162,7 @@ void RemoveEpsilon::setMode(Algorithm::modes _mode)
 void RemoveEpsilon::nextStep()
 {
     algorithm_widget->enablePrev();
-    switch(prewInstruction)
+    switch(m_prewInstruction)
     {
 //
 // Epsilon Closer
@@ -177,25 +177,25 @@ void RemoveEpsilon::nextStep()
             not_epsilon_fa_widget->setFA(new FiniteAutomata(non_epsilon_FA));
             p_list = FA.get_sorted_states();
             if(!p_list.empty())
-                actInstruction = FOREACH_P_EPSILONCLOSER;
+                m_actInstruction = FOREACH_P_EPSILONCLOSER;
             else
-                actInstruction = last_instruction;
+                m_actInstruction = lastInstruction;
         break;
         case FOREACH_P_EPSILONCLOSER:
-            actInstruction = EPSILONCLOSER;
+            m_actInstruction = EPSILONCLOSER;
         break;
         case EPSILONCLOSER:
             if(p_list.count()>0)
             {
-                actInstruction = FOREACH_P_EPSILONCLOSER;
+                m_actInstruction = FOREACH_P_EPSILONCLOSER;
             }
             else
             {
                 p_list = FA.get_sorted_states();
                 if(!p_list.empty())
-                    actInstruction = FOREACH_P;
+                    m_actInstruction = FOREACH_P;
                 else
-                    actInstruction = last_instruction;
+                    m_actInstruction = lastInstruction;
             }
         break;
 //
@@ -205,89 +205,89 @@ void RemoveEpsilon::nextStep()
             // alwais at leas one
             p_prime_list = FA.epsilonCloser(p).toList();
             epsilon_closer = p_prime_list;
-            actInstruction = FOREACH_P_IN_CLOSER;
+            m_actInstruction = FOREACH_P_IN_CLOSER;
         break;
         case FOREACH_P_IN_CLOSER:
              non_epsilon_rule_list = FA.nonEpsilonRulesOf(p_prime).toList();
              if(! non_epsilon_rule_list.empty())
              {
-                actInstruction = FOREACH_RULE;
+                m_actInstruction = FOREACH_RULE;
              }
              else if (!p_prime_list.empty())
              {
-                 actInstruction = FOREACH_P_IN_CLOSER;
+                 m_actInstruction = FOREACH_P_IN_CLOSER;
              }
              else if (! p_list.empty())
              {
-                 actInstruction = FOREACH_P;
+                 m_actInstruction = FOREACH_P;
              }
              else
              {
                  p_list = FA.get_sorted_states();
                  if(!p_list.empty())
-                     actInstruction = FOREACH_P_FINAL;
+                     m_actInstruction = FOREACH_P_FINAL;
                  else
-                     actInstruction = last_instruction;
+                     m_actInstruction = lastInstruction;
              }
         break;
         case FOREACH_RULE:
-            actInstruction = NEW_RULE;
+            m_actInstruction = NEW_RULE;
         break;
         case NEW_RULE:
         {
             if(!non_epsilon_rule_list.empty())
             {
-               actInstruction = FOREACH_RULE;
+               m_actInstruction = FOREACH_RULE;
             }
             else if (!p_prime_list.empty())
             {
-                actInstruction = FOREACH_P_IN_CLOSER;
+                m_actInstruction = FOREACH_P_IN_CLOSER;
             }
             else if (!p_list.empty())
             {
-                actInstruction = FOREACH_P;
+                m_actInstruction = FOREACH_P;
             }
             else
             {
                 p_list = FA.get_sorted_states();
                 if(!p_list.empty())
-                    actInstruction = FOREACH_P_FINAL;
+                    m_actInstruction = FOREACH_P_FINAL;
                 else
-                    actInstruction = last_instruction;
+                    m_actInstruction = lastInstruction;
             }
         }
         break;
         case FOREACH_P_FINAL:
             epsilon_closer = FA.epsilonCloser(p).toList();
-            actInstruction = IF_FINAL;
+            m_actInstruction = IF_FINAL;
         break;
         case IF_FINAL:
             if(!epsilon_closer.toSet().intersect(FA.finalStates).empty())
             {
-                actInstruction = NEW_FINAL;
+                m_actInstruction = NEW_FINAL;
             }
             else if (!p_list.empty())
             {
-                actInstruction = FOREACH_P_FINAL;
+                m_actInstruction = FOREACH_P_FINAL;
             }
             else
             {
-                actInstruction = last_instruction;
+                m_actInstruction = lastInstruction;
             }
         break;
         case NEW_FINAL:
             if (!p_list.empty())
             {
-                actInstruction = FOREACH_P_FINAL;
+                m_actInstruction = FOREACH_P_FINAL;
             }
             else
             {
-                actInstruction = last_instruction;
+                m_actInstruction = lastInstruction;
             }
         break;
     }
 
-    switch(actInstruction)
+    switch(m_actInstruction)
     {
         case FOREACH_P_EPSILONCLOSER:
 
@@ -348,22 +348,22 @@ void RemoveEpsilon::nextStep()
         break;
     }
 
-    removeFuture();
-    if(actInstruction != last_instruction)
+    RemoveFuture();
+    if(m_actInstruction != lastInstruction)
     {
-        prewInstruction = actInstruction;
+        m_prewInstruction = m_actInstruction;
         saveStep();
-        if(breakpoints[actInstruction])
-            play_timer->stop();
+        if(m_breakpoints[m_actInstruction])
+            m_playTimer->stop();
     }
     else
     {
         algorithm_widget->disableNext();
-        play_timer->stop();
+        m_playTimer->stop();
         not_epsilon_fa_widget->setCorrectStatus();
     }
     showVariables();
-    setActInstruction();
+    SetActInstruction();
 }
 
 //void RemoveEpsilon::runAlgorithm(int mil_sec)
@@ -374,9 +374,9 @@ void RemoveEpsilon::nextStep()
 void RemoveEpsilon::saveStep()
 {
     steps s;
-    s.num = ++num;
-    s.actInstruction = actInstruction;
-    s.prewInstruction = prewInstruction;
+    s.num = ++m_num;
+    s.actInstruction = m_actInstruction;
+    s.prewInstruction = m_prewInstruction;
     s.non_epsilon_FA = non_epsilon_FA;
     s.p = p;
     s.p_prime = p_prime;
@@ -388,19 +388,19 @@ void RemoveEpsilon::saveStep()
     s.p_prime_list = p_prime_list;
     s.non_epsilon_rule_list = non_epsilon_rule_list;
     history.append(s);
-    actPos = history.count() - 1;
+    m_actPos = history.count() - 1;
 }
 
 void RemoveEpsilon::prevStep()
 {
-    if (actPos > 0)
+    if (m_actPos > 0)
     {
         algorithm_widget->enableNext();
-        actPos--;
-        steps s = history.at(actPos);
-        num = s.num;
-        actInstruction = s.actInstruction;
-        prewInstruction = s.prewInstruction;
+        m_actPos--;
+        steps s = history.at(m_actPos);
+        m_num = s.num;
+        m_actInstruction = s.actInstruction;
+        m_prewInstruction = s.prewInstruction;
         non_epsilon_FA = s.non_epsilon_FA;
         not_epsilon_fa_widget->setFA(new FiniteAutomata(non_epsilon_FA));
         p = s.p;
@@ -413,7 +413,7 @@ void RemoveEpsilon::prevStep()
         p_prime_list = s.p_prime_list;
         non_epsilon_rule_list = s.non_epsilon_rule_list;
         showVariables();
-        setActInstruction();
+        SetActInstruction();
         setEpsilonCloserWidget();
         not_epsilon_fa_widget->clearStatus();
     }
@@ -457,10 +457,10 @@ void RemoveEpsilon::prepareGUItoCheck()
     }
 }
 
-void RemoveEpsilon::removeFuture()
+void RemoveEpsilon::RemoveFuture()
 {
     int count  = history.count();
-    for(int i = actPos+1; i < count; i++)
+    for(int i = m_actPos+1; i < count; i++)
     {
         history.removeLast();
     }
@@ -487,10 +487,10 @@ void RemoveEpsilon::showVariables()
 {
 
     int instruction;
-    if(actInstruction == last_instruction)
-        instruction = prewInstruction;
+    if(m_actInstruction == lastInstruction)
+        instruction = m_prewInstruction;
     else
-        instruction = actInstruction;
+        instruction = m_actInstruction;
 
     var_widget->clear();
     QString text;
@@ -579,11 +579,11 @@ void RemoveEpsilon::showUserSolution()
 void RemoveEpsilon::toBegin()
 {
     algorithm_widget->enableNext();
-    actPos = 0;
-    steps s = history.at(actPos);
-    num = s.num;
-    actInstruction = s.actInstruction;
-    prewInstruction = s.prewInstruction;
+    m_actPos = 0;
+    steps s = history.at(m_actPos);
+    m_num = s.num;
+    m_actInstruction = s.actInstruction;
+    m_prewInstruction = s.prewInstruction;
     non_epsilon_FA = s.non_epsilon_FA;
     not_epsilon_fa_widget->setFA(new FiniteAutomata(non_epsilon_FA));
     p = s.p;
@@ -596,7 +596,7 @@ void RemoveEpsilon::toBegin()
     p_prime_list = s.p_prime_list;
     non_epsilon_rule_list = s.non_epsilon_rule_list;
     showVariables();
-    setActInstruction();
+    SetActInstruction();
     setEpsilonCloserWidget();
     not_epsilon_fa_widget->clearStatus();
     algorithm_widget->disablePrev();
@@ -604,7 +604,7 @@ void RemoveEpsilon::toBegin()
 
 void RemoveEpsilon::toEnd()
 {
-    while(actInstruction != last_instruction)
+    while(m_actInstruction != lastInstruction)
         nextStep();
 }
 

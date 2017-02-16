@@ -13,7 +13,7 @@
 #define IF_FINAL            10
 #define WHILE_NEW           11
 
-FaToDFA::FaToDFA(FiniteAutomata _FA) : FA(_FA)
+FaToDFA::FaToDFA(FiniteAutomata _FA) : FA(_FA), m_mode(modes::NONE)
 {
     ;
 }
@@ -23,16 +23,15 @@ FaToDFA::~FaToDFA()
 
 }
 
-FaToDFA::FaToDFA(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, CVariablesWidget* _var_widget, QObject* parrent)
- : CAlgorithm(parrent)
+FaToDFA::FaToDFA(modes mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, CVariablesWidget* _var_widget, QObject* parrent)
+ : CAlgorithm(parrent), m_mode(mode)
 {
-    Init(_mode, _algorithm_widget, _not_dfa_widget, _dfa_widget, _var_widget, parrent);
+    Init(_algorithm_widget, _not_dfa_widget, _dfa_widget, _var_widget, parrent);
 }
 
-void FaToDFA::Init(CAlgorithm::modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent)
+void FaToDFA::Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent)
 {
     parrent = parrent;
-    m_mode = _mode;
     m_algorithm_widget = _algorithm_widget;
     m_not_dfa_widget = _not_dfa_widget;
     m_dfa_widget = _dfa_widget;

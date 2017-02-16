@@ -555,6 +555,7 @@ void MainWindow::PrepareConversionWidget(MainWindow::Conversions conversion)
     this->setCentralWidget(m_centralWidget);
     m_centralWidget->ConnectChangeMode(this, &MainWindow::modeChanged);
     m_centralWidget->ConnectStatusMessage(this, &MainWindow::showStatusMessage);
+    emit modeChanged(mode);
 }
 
 

@@ -816,7 +816,9 @@ void MainWindow::Determinization_example(FiniteAutomata _FA, QString example_nam
 
     if(m_activeConversion != DFA)
         PrepareDFA();
-    DFA_algorithm->setInputFA(_FA);
+    //DFA_algorithm->setInputFA(_FA);
+    ((CFADeterminizationWidget*)m_centralWidget)->SetFA(_FA);
+    faDeterminizationWidget->SetFA(_FA);
     mySetWindowTitle(example_name);
 }
 

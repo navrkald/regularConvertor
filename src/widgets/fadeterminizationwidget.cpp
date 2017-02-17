@@ -10,7 +10,7 @@ CFADeterminizationWidget::CFADeterminizationWidget(QWidget *parent) :
     ui->m_algorithmWidget->SetCaption("FA determinization");
     ui->m_inputFaWidget->SetCaption("Input FA");
     ui->m_outputFaWidget->SetCaption("Output FA");
-    m_DFA_algorithm.Init(ui->m_algorithmWidget, ui->m_inputFaWidget, ui->m_outputFaWidget, ui->m_variablesWidget, parent);
+    m_dfaAlgorithm.Init(ui->m_algorithmWidget, ui->m_inputFaWidget, ui->m_outputFaWidget, ui->m_variablesWidget, parent);
 }
 
 CFADeterminizationWidget::~CFADeterminizationWidget()
@@ -21,10 +21,15 @@ CFADeterminizationWidget::~CFADeterminizationWidget()
 void CFADeterminizationWidget::ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged)
 {
     connect(sender, modeChanged, this->ui->m_algorithmWidget, &CAlgorithmWidget::SetMode);
-    connect(sender, modeChanged, &m_DFA_algorithm, &FaToDFA::SetMode);
+    connect(sender, modeChanged, &m_dfaAlgorithm, &FaToDFA::SetMode);
 }
 
 void CFADeterminizationWidget::ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage)
 {
-    connect(&m_DFA_algorithm, &FaToDFA::SendStatusBarMessage, receiver, showMessage);
+    connect(&m_dfaAlgorithm, &FaToDFA::SendStatusBarMessage, receiver, showMessage);
+}
+
+void CFADeterminizationWidget::SetFA(FiniteAutomata &FA)
+{
+    m_dfaAlgorithm.setInputFA(FA);
 }

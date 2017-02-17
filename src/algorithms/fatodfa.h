@@ -27,7 +27,7 @@ public:
 
 
 
-    void setInputFA(FiniteAutomata _FA);
+    void setInputFA(FiniteAutomata& _FA);
     void setOutputFA(FiniteAutomata out_FA);
 
     FiniteAutomata FA;

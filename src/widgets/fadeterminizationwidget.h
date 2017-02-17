@@ -18,10 +18,10 @@ public:
     ~CFADeterminizationWidget();
     virtual void ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged);
     virtual void ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage);
-
+    void SetFA(FiniteAutomata& FA);
 private:
     Ui::CFADeterminizationWidget *ui;
-    FaToDFA m_DFA_algorithm;
+    FaToDFA m_dfaAlgorithm;
     CAlgorithm::modes m_mode;
 };
 

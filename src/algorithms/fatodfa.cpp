@@ -564,7 +564,7 @@ void FaToDFA::showVariables()
     m_var_widget->SetText(text);
 }
 
-void FaToDFA::setInputFA(FiniteAutomata _FA)
+void FaToDFA::setInputFA(FiniteAutomata& _FA)
 {
     m_not_dfa_widget->setFA(new FiniteAutomata(_FA));
 }

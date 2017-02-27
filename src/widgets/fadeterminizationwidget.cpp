@@ -29,7 +29,22 @@ void CFADeterminizationWidget::ConnectStatusMessage(const MainWindow *receiver, 
     connect(&m_dfaAlgorithm, &FaToDFA::SendStatusBarMessage, receiver, showMessage);
 }
 
-void CFADeterminizationWidget::SetFA(FiniteAutomata &FA)
+void CFADeterminizationWidget::SetInputFA(FiniteAutomata &FA)
 {
     m_dfaAlgorithm.setInputFA(FA);
+}
+
+void CFADeterminizationWidget::SetOutputFA(FiniteAutomata &FA)
+{
+    m_dfaAlgorithm.setOutputFA(FA);
+}
+
+const FiniteAutomata &CFADeterminizationWidget::GetInputFA()
+{
+    return m_dfaAlgorithm.GetInputFA();
+}
+
+const FiniteAutomata &CFADeterminizationWidget::GetOutputFA()
+{
+    return m_dfaAlgorithm.GetOutputFA();
 }

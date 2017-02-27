@@ -30,6 +30,10 @@ public:
     void setInputFA(FiniteAutomata& _FA);
     void setOutputFA(FiniteAutomata out_FA);
 
+    const FiniteAutomata& GetInputFA();
+    const FiniteAutomata& GetOutputFA();
+
+
     FiniteAutomata FA;
     FiniteAutomata DFA;
 

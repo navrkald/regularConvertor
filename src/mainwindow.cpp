@@ -815,10 +815,8 @@ void MainWindow::Determinization_example(FiniteAutomata _FA, QString example_nam
     ui->action_Determinization->setChecked(true);
 
     if(m_activeConversion != DFA)
-        PrepareDFA();
-    //DFA_algorithm->setInputFA(_FA);
-    ((CFADeterminizationWidget*)m_centralWidget)->SetFA(_FA);
-    faDeterminizationWidget->SetFA(_FA);
+        PrepareConversionWidget(Conversions::DFA);
+    ((CFADeterminizationWidget*)m_centralWidget)->SetInputFA(_FA);
     mySetWindowTitle(example_name);
 }
 
@@ -1034,11 +1032,11 @@ void MainWindow::on_action_save_triggered()
         case DFA:
             if(mode == CAlgorithm::PLAY_MODE)
             {
-                 out << DFA_algorithm->FA;
+                out << ((CFADeterminizationWidget*)m_centralWidget)->GetInputFA();
             }
             else
             {
-                out << DFA_algorithm->FA << DFA_algorithm->DFA;
+                out <<  ((CFADeterminizationWidget*)m_centralWidget)->GetOutputFA();
             }
         break;
         // This should never happend
@@ -1119,13 +1117,12 @@ void MainWindow::on_action_open_file_triggered()
         {
             FiniteAutomata in_FA;
             in >> in_FA;
-            PrepareDFA();
-            DFA_algorithm->setInputFA(in_FA);
+            Determinization_example(in_FA);
             if(mode != CAlgorithm::PLAY_MODE)
             {
-                FiniteAutomata out_FA;
-                in >> out_FA;
-                DFA_algorithm->setOutputFA(out_FA);
+                FiniteAutomata outputFA;
+                in >> outputFA;
+                ((CFADeterminizationWidget*)m_centralWidget)->SetOutputFA(outputFA);
             }
         }
         break;

@@ -68,7 +68,9 @@ SOURCES += main.cpp\
     PDA/pdaarrow.cpp \
     widgets/cfgtopdawidget.cpp \
     widgets/variableswidget.cpp \
-    widgets/fadeterminizationwidget.cpp
+    widgets/fadeterminizationwidget.cpp \
+    widgets/regexptofa.cpp \
+    widgets/removeepsilonrules.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -114,7 +116,9 @@ HEADERS  += mainwindow.h \
     widgets/centralwidgetinterface.h \
     widgets/cfgtopdawidget.h \
     widgets/variableswidget.h \
-    widgets/fadeterminizationwidget.h
+    widgets/fadeterminizationwidget.h \
+    widgets/regexptofa.h \
+    widgets/removeepsilonrules.h
 
 
 FORMS    += mainwindow.ui \
@@ -127,7 +131,9 @@ FORMS    += mainwindow.ui \
     PDA/pdaruledialog.ui \
     widgets/cfgtopdawidget.ui \
     widgets/variableswidget.ui \
-    widgets/fadeterminizationwidget.ui
+    widgets/fadeterminizationwidget.ui \
+    widgets/regexptofa.ui \
+    widgets/removeepsilonrules.ui
 
 CONFIG += c++11 #static
 

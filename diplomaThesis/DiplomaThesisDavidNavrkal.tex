@@ -122,12 +122,12 @@
 
 \def\tab#1#2#3{% styl \tab pro tabulky
 	\begin{table}[h]
-	\caption{#1}
 	\begin{center}
 	\begin{tabular}{#2}
 	#3
 	\end{tabular}
 	\end{center}
+	\caption{#1}
 	\end{table}
 	}
 	
@@ -588,6 +588,66 @@ Zbytek pøechodových má takté¾ poèáteèní a koncový stav stejný. $\varepsilon$ zde
 
 %\n{1}{Nadpis}
 %\n{2}{Podnadpis}
+
+\cast{Implementace}
+
+\n{1}{Refaktor existujícího kódu}
+
+Refaktoring je èinnost pøi, které se zlep¹uje kvalita kódu bez pøímého vlivu na u¾ivatele aplikace.
+
+Nerefaktorovaný kód vede k tomu, ¾e jen obtí¾nì mohou programátoøi rozumnìt kódu a to vede k èastým chybám a prodlou¾ením vývoje.
+
+Kód by mìl být pokud po¾no homogení a mìl by v nìm být dod¾ován systém pojmenovávaní. 
+
+\n{2}{Konvence pojmenování èástí kódu}
+
+Pro pojmenovávaní promìných, tøíd a typù jsem pou¾il systém pou¾ívaný ve firmì AVG.
+V¹e popisuje následující tabulka.
+
+
+\tab{Konvence pro pojmenovávání tøíd a promìnných}{|c|c|c|}{  
+\hline
+konvence & popis & poznámka \\
+\hline
+\hline
+m\_\textless název èlenské promìnné\textgreater & Název èlenské promìnné. & Písmeno \textit{m} podle anglického slova member. \\
+\hline
+C\_\textless Název tøídy\textgreater & Název tøídy. & Písmeno \textit{C} Podle anglického slova Class. \\
+\hline
+I\_\textless Název rozhraní\textgreater & Název rozhraní. & Písmeno \textit{I} podle anglického slova Interface. \\ 
+\hline
+\hline
+}
+
+Dal¹ími konvencemi jsou pojenovávání pomocí "CammelCase". To zamená, ¾e pokud se nìjaký název zkládá z více slov, tak jsou jednotlivá slova od sebe graficky oddìlena pomocí toho, ¾e ka¾dé dal¹í slovo je od pøechozího oddìleno velkým písmenem.
+
+Pøi pojmenovávání souborù jsem se sna¾il dodr¾et konvenci, ¾e názez souboru se skládá pouze z malých písmen následovaný pøíponou souboru.
+
+\n{2}{Pøepsání tøídy hlavního okna na nìkolik malých}
+
+Pøíli¹ velké metody nebo tøídy nejsou tolik pøehledné a udr¾ovatelné. Proto jsem se rozhodl pøepsat moji tøídy hlavního okna do více modulù, chcete-li tøíd.
+
+V mém pùvodním návrhu bakaláøské práce jsem neumìl techniky zvanou \textit{Promoting}. Je to technika v Qt Designeru, kde si navrhnu vzhled widgetu, tak ¾e se skládá, podobnì jako stavebnice z ostatních u¾ivatelských widgetù. Toto je mo¾né, proto¾e ka¾dý grafický prvek musí mít za pøedka QWidget.
+
+\obr{obrazky/PromotingOfWidgets.eps}{0.9}{\label{Velky} Pøíklad Promoting na widgetu pro konverzi bezkontextové gramatyky na zásobníkový automat.}
+
+Na obrázku mù¾ete vidìt widget pro konverzi bezkontextové gramatiky na zásobníkový automat. Tato konverze se zkládá ze 4 widgetù (od levého horního rohu k pravému dolnímu rohu): widget pro bezkontextovou gramatiku, widget wizualizující konvezi, widget pro zásobníkový automat a v pravo dóle widget, kde se ukazují aktuální hodnoty promìnných pou¾itých v konverzním widgetu.
+
+Pùvodnì vytváøení grafického rozvr¾ení widgetù jsem mìl pro v¹echny konverze implementované v tøídì hlavního okna. Naopak nyní jsou v¹echny konverze popsány graficky v souborech s koncovkou \textit{*.ui} a logika konverzí v asociovaných zdrojových souborech s koncovkami \textit{*.cpp} a \textit{*.h}. Toto jsem dìlal ve jménu jedné z hlavních my¹lenek zapouzdøení.
+
+%TODO: Diagram tøíd pro vICentralCoversionWidget a popis method 
+
+%\begin{tabular}{}
+%	\hline
+%	\bfseries \bfseries konvence pro pojmenování & \bfseries popis \\
+%	mìsto M & 15/7 \\
+%	mìsto N & 21/7 \\
+%	mìsto XYZ & 3/8\\ 
+%\end{tabular}
+
+
+\vskip 0.25cm % vytvoøí vertikální mezeru
+
 
 \nn{Závìr}
 % Ujasnit si o èem chci v diplomce psat

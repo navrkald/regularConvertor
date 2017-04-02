@@ -4,21 +4,21 @@
 #include <QWidget>
 #include <widgets/centralwidgetinterface.h>
 namespace Ui {
-class CRemoveEpsilonRules;
+class CRemoveEpsilonRulesWidget;
 }
 
-class CRemoveEpsilonRules : public ICentralCoversionWidget
+class CRemoveEpsilonRulesWidget : public ICentralCoversionWidget
 {
     Q_OBJECT
 
 public:
-    explicit CRemoveEpsilonRules(QWidget *parent = 0);
+    explicit CRemoveEpsilonRulesWidget(QWidget *parent = 0);
     virtual void ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged) = 0;
     virtual void ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage) = 0;
-    ~CRemoveEpsilonRules();
+    ~CRemoveEpsilonRulesWidget();
 
 private:
-    Ui::CRemoveEpsilonRules *ui;
+    Ui::CRemoveEpsilonRulesWidget *ui;
 };
 
 #endif // REMOVEEPSILONRULES_H

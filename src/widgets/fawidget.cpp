@@ -1,5 +1,5 @@
-#include "fa_widget.h"
-#include "ui_fa_widget.h"
+#include "ui_fawidget.h"
+#include "widgets/fawidget.h"
 #include <QRegExpValidator>
 //#include "graphviz.h"
 FA_widget::FA_widget(QWidget *parent) :

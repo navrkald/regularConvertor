@@ -89,7 +89,7 @@ HEADERS  += \
     ../RegularConvertor/CFG/contextfreegrammar.h
 
 FORMS    += \
-    ../RegularConvertor/finite_machine/fa_widget.ui \
+    ../RegularConvertor/finite_machine/fawidget.ui \
     ../RegularConvertor/reg_exp/regexpwidget.ui \
     ../RegularConvertor/finite_machine/editruledialog.ui \
     ../RegularConvertor/finite_machine/symbolsinputdialog.ui \

@@ -1,6 +1,7 @@
 #include "pdawidget.h"
 #include <PDA/pdadiagramscene.h>
-#include <ui_fa_widget.h>
+#include <widgets/fawidget.h>
+#include "ui_fawidget.h"
 
 CPdaWidget::CPdaWidget(QWidget *parent) : FA_widget(parent)
 {

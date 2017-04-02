@@ -33,7 +33,7 @@ SOURCES += main.cpp\
     finite_machine/arrow.cpp \
     finite_machine/finiteautomata.cpp \
     finite_machine/computationalrules.cpp \
-    widgets/fa_widget.cpp \
+    widgets/fawidget.cpp \
     finite_machine/multiselectcompleter.cpp \
     finite_machine/editruledialog.cpp \
     finite_machine/symbolsinputdialog.cpp \
@@ -69,8 +69,8 @@ SOURCES += main.cpp\
     widgets/cfgtopdawidget.cpp \
     widgets/variableswidget.cpp \
     widgets/fadeterminizationwidget.cpp \
-    widgets/regexptofa.cpp \
-    widgets/removeepsilonrules.cpp
+    widgets/removeepsilonruleswidget.cpp \
+    widgets/regexptofawidget.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -78,7 +78,7 @@ HEADERS  += mainwindow.h \
     finite_machine/arrow.h \
     finite_machine/finiteautomata.h \
     finite_machine/computationalrules.h \
-    widgets/fa_widget.h \
+    widgets/fawidget.h \
     finite_machine/multiselectcompleter.h \
     finite_machine/editruledialog.h \
     finite_machine/symbolsinputdialog.h \
@@ -117,12 +117,12 @@ HEADERS  += mainwindow.h \
     widgets/cfgtopdawidget.h \
     widgets/variableswidget.h \
     widgets/fadeterminizationwidget.h \
-    widgets/regexptofa.h \
-    widgets/removeepsilonrules.h
+    widgets/removeepsilonruleswidget.h \
+    widgets/regexptofawidget.h
 
 
 FORMS    += mainwindow.ui \
-    widgets/fa_widget.ui \
+    widgets/fawidget.ui \
     finite_machine/editruledialog.ui \
     finite_machine/symbolsinputdialog.ui \
     widgets/algorithmwidget.ui \
@@ -132,8 +132,8 @@ FORMS    += mainwindow.ui \
     widgets/cfgtopdawidget.ui \
     widgets/variableswidget.ui \
     widgets/fadeterminizationwidget.ui \
-    widgets/regexptofa.ui \
-    widgets/removeepsilonrules.ui
+    widgets/regexptofawidget.ui \
+    widgets/removeepsilonruleswidget.ui
 
 CONFIG += c++11 #static
 

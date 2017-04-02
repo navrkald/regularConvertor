@@ -5,19 +5,19 @@
 #include <widgets/centralwidgetinterface.h>
 
 namespace Ui {
-class CRegExpToFA;
+class CRegExpToFaWidget;
 }
 
-class CRegExpToFA : public ICentralCoversionWidget
+class CRegExpToFaWidget : public ICentralCoversionWidget
 {
     Q_OBJECT
 
 public:
-    explicit CRegExpToFA(QWidget *parent = 0);
-    ~CRegExpToFA();
+    explicit CRegExpToFaWidget(QWidget *parent = 0);
+    ~CRegExpToFaWidget();
 
 private:
-    Ui::CRegExpToFA *ui;
+    Ui::CRegExpToFaWidget *ui;
 
     // ICentralCoversionWidget interface
 public:

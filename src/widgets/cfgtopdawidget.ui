@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>558</width>
-    <height>501</height>
+    <width>240</width>
+    <height>182</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -97,12 +97,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CPdaWidget</class>
-   <extends>QWidget</extends>
-   <header>PDA/pdawidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>CVariablesWidget</class>
    <extends>QWidget</extends>
    <header location="global">widgets/variableswidget.h</header>
@@ -112,6 +106,12 @@
    <class>CAlgorithmWidget</class>
    <extends>QWidget</extends>
    <header location="global">widgets/algorithmwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CPdaWidget</class>
+   <extends>QWidget</extends>
+   <header>PDA/pdawidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

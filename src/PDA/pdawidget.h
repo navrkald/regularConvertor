@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QWidget>
-#include <widgets/fa_widget.h>
+#include <widgets/fawidget.h>
 #include <finite_machine/pushdownautomata.h>
 
 class CPdaWidget : public FA_widget

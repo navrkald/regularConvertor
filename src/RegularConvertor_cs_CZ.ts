@@ -76,65 +76,65 @@
 <context>
     <name>FA_widget</name>
     <message>
-        <location filename="widgets/fa_widget.ui" line="20"/>
+        <location filename="widgets/fawidget.ui" line="20"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/fa_widget.ui" line="45"/>
+        <location filename="widgets/fawidget.ui" line="45"/>
         <source>KA - graphic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/fa_widget.ui" line="79"/>
+        <location filename="widgets/fawidget.ui" line="79"/>
         <source>KA - formal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/fa_widget.ui" line="85"/>
+        <location filename="widgets/fawidget.ui" line="85"/>
         <source>KA = (Q,Σ,R,s,F)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/fa_widget.ui" line="94"/>
+        <location filename="widgets/fawidget.ui" line="94"/>
         <source>Q = {</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/fa_widget.ui" line="104"/>
-        <location filename="widgets/fa_widget.ui" line="125"/>
-        <location filename="widgets/fa_widget.ui" line="184"/>
-        <location filename="widgets/fa_widget.ui" line="226"/>
+        <location filename="widgets/fawidget.ui" line="104"/>
+        <location filename="widgets/fawidget.ui" line="125"/>
+        <location filename="widgets/fawidget.ui" line="184"/>
+        <location filename="widgets/fawidget.ui" line="226"/>
         <source>}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/fa_widget.ui" line="115"/>
+        <location filename="widgets/fawidget.ui" line="115"/>
         <source>Σ = {</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/fa_widget.ui" line="152"/>
+        <location filename="widgets/fawidget.ui" line="152"/>
         <source>+</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/fa_widget.ui" line="159"/>
+        <location filename="widgets/fawidget.ui" line="159"/>
         <source>-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/fa_widget.ui" line="170"/>
+        <location filename="widgets/fawidget.ui" line="170"/>
         <source>R = {</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/fa_widget.ui" line="195"/>
+        <location filename="widgets/fawidget.ui" line="195"/>
         <source>s =   </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/fa_widget.ui" line="216"/>
+        <location filename="widgets/fawidget.ui" line="216"/>
         <source>F =  {</source>
         <translation type="unfinished"></translation>
     </message>

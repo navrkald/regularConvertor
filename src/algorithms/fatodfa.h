@@ -17,9 +17,9 @@ class FaToDFA : public CAlgorithm
     Q_OBJECT
 
 public:
-    FaToDFA(modes mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent);
     FaToDFA(QObject *parrent = 0) : CAlgorithm(parrent) {}
-    void Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent);
+    FaToDFA(modes mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent);
+    void Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget);
     FaToDFA(FiniteAutomata _FA);
     ~FaToDFA();
     FiniteAutomata computeSolution();

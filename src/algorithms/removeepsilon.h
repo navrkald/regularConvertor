@@ -14,8 +14,10 @@ class RemoveEpsilon : public CAlgorithm
 {
     Q_OBJECT
 public:
-    RemoveEpsilon(FiniteAutomata _FA);
-    RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
+    explicit RemoveEpsilon(QObject *parrent = 0) : CAlgorithm(parrent) {}
+    explicit RemoveEpsilon(FiniteAutomata _FA);
+    explicit RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
+    void Init(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget);
     FiniteAutomata computeSolution();
     virtual void InitInstructions();
 
@@ -41,8 +43,11 @@ public:
     } steps;
 
     QList<steps> history;
-    void setInputFA(FiniteAutomata _FA);
-    void setOutputFA(FiniteAutomata out_FA);
+    void SetInputFA(FiniteAutomata _FA);
+    void SetOutputFA(FiniteAutomata out_FA);
+    const FiniteAutomata& GetInputFA();
+    const FiniteAutomata& GetOutputFA();
+
     FiniteAutomata FA;
     FiniteAutomata non_epsilon_FA;
 public slots:

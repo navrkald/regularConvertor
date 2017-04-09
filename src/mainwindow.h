@@ -9,12 +9,12 @@
 #include "widgets/fawidget.h"
 #include "reg_exp/regextextedit.h"
 #include "reg_exp/regexpwidget.h"
-#include "algorithms/regexptofa.h"
 #include "widgets/algorithmwidget.h"
 #include "algorithms/algorithm.h"
 #include "algorithms/removeepsilon.h"
 #include "algorithms/fatodfa.h"
 #include "algorithms/dfatominfa.h"
+#include <algorithms/regexptofa.h>
 #include <PDA/pdawidget.h>
 #include <CFG/cfgwidget.h>
 #include <gui_algorithm_interface/cfgtopdaguiinterface.h>

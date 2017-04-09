@@ -633,7 +633,7 @@ void MainWindow::RemoveEpsilon_example(FiniteAutomata _FA, QString example_name)
 
     if(m_activeConversion != REMOVE_EPSILON)
         prepareRemoveEpsilon();
-    remove_epsilon_algorithm->setInputFA(_FA);
+    remove_epsilon_algorithm->SetInputFA(_FA);
     mySetWindowTitle(example_name);
 }
 
@@ -1104,12 +1104,12 @@ void MainWindow::on_action_open_file_triggered()
             FiniteAutomata in_FA;
             in >> in_FA;
             prepareRemoveEpsilon();
-            remove_epsilon_algorithm->setInputFA(in_FA);
+            remove_epsilon_algorithm->SetInputFA(in_FA);
             if(mode != CAlgorithm::PLAY_MODE)
             {
                 FiniteAutomata out_FA;
                 in >> out_FA;
-                remove_epsilon_algorithm->setOutputFA(out_FA);
+                remove_epsilon_algorithm->SetOutputFA(out_FA);
             }
         }
         break;

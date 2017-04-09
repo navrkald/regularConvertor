@@ -1,7 +1,8 @@
-#ifndef REGEXPTOFA_H
-#define REGEXPTOFA_H
+#ifndef REGEXPTOFAWIDGET_H
+#define REGEXPTOFAWIDGET_H
 
 #include <QWidget>
+#include <algorithms/regexptofa.h>
 #include <widgets/centralwidgetinterface.h>
 
 namespace Ui {
@@ -18,11 +19,11 @@ public:
 
 private:
     Ui::CRegExpToFaWidget *ui;
+    RegExpToFA m_regExpToFaAlgorithm;
 
-    // ICentralCoversionWidget interface
 public:
     virtual void ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged) override;
     virtual void ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage) override;
 };
 
-#endif // REGEXPTOFA_H
+#endif // REGEXPTOFAWIDGET_H

@@ -10,7 +10,7 @@ CFADeterminizationWidget::CFADeterminizationWidget(QWidget *parent) :
     ui->m_algorithmWidget->SetCaption("FA determinization");
     ui->m_inputFaWidget->SetCaption("Input FA");
     ui->m_outputFaWidget->SetCaption("Output FA");
-    m_dfaAlgorithm.Init(ui->m_algorithmWidget, ui->m_inputFaWidget, ui->m_outputFaWidget, ui->m_variablesWidget, parent);
+    m_dfaAlgorithm.Init(ui->m_algorithmWidget, ui->m_inputFaWidget, ui->m_outputFaWidget, ui->m_variablesWidget);
 }
 
 CFADeterminizationWidget::~CFADeterminizationWidget()

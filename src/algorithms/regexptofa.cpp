@@ -19,8 +19,19 @@ RegExpToFA::RegExpToFA(RegExp* _re, modes _mode) : CAlgorithm()
     setRE(_re);
 }
 
+void RegExpToFA::Init(CAlgorithmWidget *_algorithm_widget, CAlgorithm::modes _mode, RegExpWidget *_re_widget, FA_widget *_left_fa_widget, FA_widget *_center_fa_widget, FA_widget *_right_fa_widget, RegExp *_re)
+{
+    algorithm_widget = _algorithm_widget;
+    mode = _mode;
+    re_widget = _re_widget;
+    left_fa_widget = _left_fa_widget;
+    center_fa_widget = _center_fa_widget;
+    right_fa_widget = _right_fa_widget;
+    re = _re;
+}
+
 RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, modes _mode, RegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re, QObject* parrent)
-    : CAlgorithm(parrent), algorithm_widget(_algorithm_widget), mode(_mode), re_widget(_re_widget), left_fa_widget(_left_fa_widget), center_fa_widget(_center_fa_widget), right_fa_widget(_right_fa_widget)
+    : CAlgorithm(parrent)
 {
     m_actInstruction = HEADER;
     re = 0;

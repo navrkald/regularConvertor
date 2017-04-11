@@ -3,6 +3,9 @@
 /RegularConvertor-build-desktop-Qt_4_8_5__4_8_5__Debug/
 /RegularConvertor-build-desktop-Qt_4_8_5__4_8_5__Release/
 /build*
+/src/x64
+/src/debug
+/src/GeneratedFiles
 
 # User build settings #
 #######################
@@ -21,3 +24,11 @@ flatt/
 Zdrojove kody.tar.gz
 regularConvertor.zip
 src/RegularConvertor.pro.user
+
+# Visual studio mess #
+*.suo
+*.VC.db
+*.VC.opendb
+*.vcxproj.filters
+*.vcxproj.user
+*.pro.user.*

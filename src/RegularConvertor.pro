@@ -118,7 +118,8 @@ HEADERS  += mainwindow.h \
     widgets/variableswidget.h \
     widgets/fadeterminizationwidget.h \
     widgets/removeepsilonruleswidget.h \
-    widgets/regexptofawidget.h
+    widgets/regexptofawidget.h \
+    algorithms/algorithmodes.h
 
 
 FORMS    += mainwindow.ui \

@@ -16,23 +16,18 @@
 RegExpToFA::RegExpToFA(RegExp* _re, modes _mode) : CAlgorithm()
 {
     SetMode(_mode);
-    setRE(_re);
+    SetRegExp(_re);
 }
 
-void RegExpToFA::Init(CAlgorithmWidget *_algorithm_widget, CAlgorithm::modes _mode, RegExpWidget *_re_widget, FA_widget *_left_fa_widget, FA_widget *_center_fa_widget, FA_widget *_right_fa_widget, RegExp *_re)
+void RegExpToFA::Init(CAlgorithmWidget *_algorithm_widget, CRegExpWidget *_re_widget, FA_widget *_left_fa_widget, FA_widget *_center_fa_widget, FA_widget *_right_fa_widget, RegExp *_re)
 {
     algorithm_widget = _algorithm_widget;
-    mode = _mode;
     re_widget = _re_widget;
     left_fa_widget = _left_fa_widget;
     center_fa_widget = _center_fa_widget;
     right_fa_widget = _right_fa_widget;
     re = _re;
-}
 
-RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, modes _mode, RegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re, QObject* parrent)
-    : CAlgorithm(parrent)
-{
     m_actInstruction = HEADER;
     re = 0;
     m_instructionCount = ITERATE_FA+1;
@@ -106,7 +101,7 @@ RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, modes _mode, RegExpW
     //
     // Connect regexp widget
     //
-    connect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(setRE(RegExp*))); //get RegExp when changed
+    connect(this->re_widget,SIGNAL(newRegExp(RegExp*)),this,SLOT(SetRegExp(RegExp*))); //get RegExp when changed
     connect(this->re_widget,SIGNAL(itemClicked(QModelIndex)),this,SLOT(selectRegExp(QModelIndex)));
 
     re_widget->setRegExp(_re);
@@ -114,6 +109,12 @@ RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, modes _mode, RegExpW
 
     // because not implemented
     algorithm_widget->disableShowButton();
+}
+
+RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, modes _mode, CRegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re, QObject* parrent)
+    : CAlgorithm(parrent), mode(_mode)
+{
+    Init(_algorithm_widget, _re_widget, _left_fa_widget, _center_fa_widget, _right_fa_widget, _re);
 }
 
 void RegExpToFA::SetMode(modes _mode)
@@ -158,7 +159,7 @@ void RegExpToFA::SetMode(modes _mode)
 
 }
 
-void RegExpToFA::setRE(RegExp *_re)
+void RegExpToFA::SetRegExp(RegExp *_re)
 {
     //Has impact to computeSolution() and nextStep()
     nodesToProcede.clear();
@@ -450,11 +451,12 @@ void RegExpToFA::showUserSolution()
 
 }
 
-void RegExpToFA::setExample(RegExp *_re)
+void RegExpToFA::SetInputRegExp(RegExp *_re)
 {
     re_widget->setRegExp(_re);
     re_widget->modelChanged();
     SetMode(CHECK_MODE);
+    re = _re;
 }
 
 void RegExpToFA::toBegin()

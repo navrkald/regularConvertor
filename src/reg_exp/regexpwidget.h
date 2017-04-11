@@ -10,13 +10,13 @@ namespace Ui {
 class RegExpWidget;
 }
 
-class RegExpWidget : public QWidget
+class CRegExpWidget : public QWidget
 {
     Q_OBJECT
     
 public:
-    explicit RegExpWidget(QWidget *parent = 0);
-    ~RegExpWidget();
+    explicit CRegExpWidget(QWidget *parent = 0);
+    ~CRegExpWidget();
     RegExp* re;
      QItemSelectionModel *selectionModel;
 

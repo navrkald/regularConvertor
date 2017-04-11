@@ -123,6 +123,10 @@ private slots:
 
     void on_action_Determinization_triggered();
 
+    void on_actionTestRefactoredRemoveEpsilon_triggered();
+
+    void on_action_RE_to_FA_triggered();
+
 private:
     using QMainWindow::setCentralWidget;
     Ui::MainWindow *ui;
@@ -135,7 +139,7 @@ private:
     // General private function
     QWidget* prepareAlgorithnContainer(QWidget* central_w, QString str_label, CAlgorithm* algorithm);
     QWidget* prepareFAContainer(QWidget* central_w, QString str_label, FA_widget* fa_widget);
-    QWidget* variablesContainer(QWidget* central_w, QString str_label, QLabel* var_widget);
+    QWidget* variablesContainer(QWidget* central_w, QString str_label, CVariablesWidget* var_widget);
     QWidget* horizontalContainer(QWidget* central_w, QList<QWidget*> widgets);
     QWidget* verticalContainer(QWidget* central_w, QList<QWidget*> widgets);
 
@@ -157,11 +161,11 @@ private:
     //
     RegExpToFA* reg_exp_algorithm;
     QWidget* regExpToFA_central_widget;
-    RegExpWidget* regExpWidget;
+    CRegExpWidget* regExpWidget;
     FA_widget* fa_widget_left;
     FA_widget* fa_widget_center;
     FA_widget* fa_widget_right;
-    RegExpWidget* reg_exp_widget;
+    CRegExpWidget* reg_exp_widget;
     void prepareREtoFA_GUI();
 
     //
@@ -169,7 +173,7 @@ private:
     //
     RemoveEpsilon* remove_epsilon_algorithm;
     QWidget* removeEpsilon_central_widget;
-    QLabel* remove_epsilon_variables_widget;
+    CVariablesWidget* remove_epsilon_variables_widget;
     QListWidget* epsilon_closer_list_widget;
     FA_widget* fa_epsilon_widget;
     FA_widget* fa_not_epsilon_widget;
@@ -180,7 +184,7 @@ private:
     //
     FaToDFA* DFA_algorithm;
     QWidget* DFA_central_widget;
-    QLabel* DFA_variables_widget;
+    CVariablesWidget* DFA_variables_widget;
     FA_widget* not_DFA_widget;
     FA_widget* DFA_widget;
     void PrepareDFA_GUI();

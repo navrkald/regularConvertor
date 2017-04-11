@@ -1,7 +1,7 @@
 #include "regexpwidget.h"
 #include "ui_regexpwidget.h"
 
-RegExpWidget::RegExpWidget(QWidget *parent) :
+CRegExpWidget::CRegExpWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::RegExpWidget)
 {
@@ -17,17 +17,17 @@ RegExpWidget::RegExpWidget(QWidget *parent) :
     treeView = ui->treeView;
 }
 
-RegExpWidget::~RegExpWidget()
+CRegExpWidget::~CRegExpWidget()
 {
     delete ui;
 }
 
-void RegExpWidget::updateView()
+void CRegExpWidget::updateView()
 {
     ui->treeView->update();
 }
 
-void RegExpWidget::deselectAll()
+void CRegExpWidget::deselectAll()
 {
     QModelIndexList indexList = treeView->selectionModel()->selectedIndexes();
     foreach(QModelIndex index, indexList)
@@ -36,20 +36,20 @@ void RegExpWidget::deselectAll()
     }
 }
 
-void RegExpWidget::setRegExp(RegExp *_re)
+void CRegExpWidget::setRegExp(RegExp *_re)
 {
     ui->regExpTextEdit->setRegExp(_re);
     re = _re;
 }
 
-void RegExpWidget::modelChanged()
+void CRegExpWidget::modelChanged()
 {
     treeModel->setRootNode(re->rootNode);
     ui->treeView->expandAll();
     emit newRegExp(re);
 }
 
-void RegExpWidget::on_pushButton_clicked()
+void CRegExpWidget::on_pushButton_clicked()
 {
     //ui->regExpTextEdit->moveCursor (QTextCursor::End);
     ui->regExpTextEdit->insertPlainText (EPSILON);

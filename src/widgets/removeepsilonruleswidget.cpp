@@ -7,11 +7,17 @@ CRemoveEpsilonRulesWidget::CRemoveEpsilonRulesWidget(QWidget *parent) :
     ui(new Ui::CRemoveEpsilonRulesWidget)
 {
     ui->setupUi(this);
+    ui->m_inputFaWidget->SetCaption("Input FA");
+    ui->m_outputFaWidget->SetCaption("Output FA");
+    ui->m_algorithWidget->SetCaption("Algorithm: Remove epsilon rules");
+    m_removeEpsilonAlgorithm.Init(ui->m_algorithWidget, ui->m_inputFaWidget, ui->m_outputFaWidget, ui->m_variablesWidget, ui->m_epsilonClosuresWidget);
 }
 
 void CRemoveEpsilonRulesWidget::ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage)
 {
     connect(&m_removeEpsilonAlgorithm, &RemoveEpsilon::SendStatusBarMessage, receiver, showMessage);
+    connect(ui->m_inputFaWidget, &FA_widget::SendStatusBarMessage, receiver, showMessage);
+    connect(ui->m_outputFaWidget, &FA_widget::SendStatusBarMessage, receiver, showMessage);
 }
 
 void CRemoveEpsilonRulesWidget::ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged)

@@ -19,15 +19,14 @@ RemoveEpsilon::RemoveEpsilon(FiniteAutomata _FA)
     this->FA = _FA;
 }
 
-RemoveEpsilon::RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent)
- :  CAlgorithm(parrent)
+RemoveEpsilon::RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, CVariablesWidget* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent)
+ :  CAlgorithm(parrent), mode(_mode)
 {
-    Init(_mode, _algorithm_widget, _epsilon_fa_widget, _not_epsilon_fa_widget, _var_widget, _epsilon_closer_list_widget);
+    Init(_algorithm_widget, _epsilon_fa_widget, _not_epsilon_fa_widget, _var_widget, _epsilon_closer_list_widget);
 }
 
-void RemoveEpsilon::Init(CAlgorithm::modes _mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_epsilon_fa_widget, FA_widget *_not_epsilon_fa_widget, QLabel *_var_widget, QListWidget *_epsilon_closer_list_widget)
+void RemoveEpsilon::Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_epsilon_fa_widget, FA_widget *_not_epsilon_fa_widget, CVariablesWidget *_var_widget, QListWidget *_epsilon_closer_list_widget)
 {
-    m_mode = _mode;
     algorithm_widget = _algorithm_widget;
     epsilon_fa_widget = _epsilon_fa_widget;
     not_epsilon_fa_widget = _not_epsilon_fa_widget;
@@ -49,7 +48,7 @@ void RemoveEpsilon::Init(CAlgorithm::modes _mode, CAlgorithmWidget *_algorithm_w
     this->setColumnCount(1);
     this->setRowCount(m_instructions.count());
 
-    var_widget->setText("");
+    var_widget->SetText("");
 
     for(int i = 0; i < m_instructions.count();i++)
     {
@@ -482,7 +481,7 @@ void RemoveEpsilon::RemoveFuture()
 
 void RemoveEpsilon::clearVariables()
 {
-    var_widget->clear();
+    var_widget->Clear();
 }
 
 void RemoveEpsilon::SetInputFA(FiniteAutomata _FA)
@@ -514,7 +513,7 @@ void RemoveEpsilon::showVariables()
     else
         instruction = m_actInstruction;
 
-    var_widget->clear();
+    var_widget->Clear();
     QString text;
     switch(instruction)
     {
@@ -575,7 +574,7 @@ void RemoveEpsilon::showVariables()
             text += F_prime_toString();                 // F'=
         break;
     }
-    var_widget->setText(text);
+    var_widget->SetText(text);
 }
 
 

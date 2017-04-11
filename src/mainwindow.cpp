@@ -6,6 +6,8 @@
 #include "widgets/algorithmwidget.h"
 #include <widgets/cfgtopdawidget.h>
 #include <widgets/fadeterminizationwidget.h>
+#include <widgets/removeepsilonruleswidget.h>
+#include <widgets/regexptofawidget.h>
 
 #define MY_APP_NAME "Regular Convertor"
 
@@ -21,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     statusBarTimeout = 5000; //5 second
     setWindowTitle(MY_APP_NAME);
-    connect(ui->action_RE_to_FA,SIGNAL(triggered()),this,SLOT(prepareREtoFA()));
     connect(ui->action_RemoveEpsilon,SIGNAL(triggered()),this,SLOT(prepareRemoveEpsilon()));
     // TODO: Implement all functionalyty in PrepareDFA in CFAToDFaWidget
     //connect(ui->action_Determinization,SIGNAL(triggered()),this,SLOT(PrepareDFA()));
@@ -159,7 +160,7 @@ QWidget *MainWindow::prepareFAContainer(QWidget *central_w, QString str_label, F
     return fa_container;
 }
 
-QWidget *MainWindow::variablesContainer(QWidget* central_w, QString str_label, QLabel *var_widget)
+QWidget *MainWindow::variablesContainer(QWidget* central_w, QString str_label, CVariablesWidget *var_widget)
 {
     QWidget* variables_container = new QWidget(central_w);
     QVBoxLayout* variables_vlayout = new QVBoxLayout(variables_container);
@@ -213,7 +214,7 @@ void MainWindow::prepareREtoFA(RegExp* _re)
         connect(fa_widget_left,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         connect(fa_widget_center,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         connect(fa_widget_right,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
-        reg_exp_widget = new RegExpWidget(regExpToFA_central_widget);
+        reg_exp_widget = new CRegExpWidget(regExpToFA_central_widget);
         alhgorithm_widget = new CAlgorithmWidget(mode,regExpToFA_central_widget);
         connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), alhgorithm_widget, SLOT(setWidgets(CAlgorithm::modes)));
         reg_exp_algorithm = new RegExpToFA(alhgorithm_widget, mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right, _re, regExpToFA_central_widget);
@@ -302,7 +303,7 @@ void MainWindow::prepareRemoveEpsilon()
         fa_not_epsilon_widget = new FA_widget(removeEpsilon_central_widget);
         connect(fa_epsilon_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         connect(fa_not_epsilon_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
-        remove_epsilon_variables_widget = new QLabel(removeEpsilon_central_widget);
+        remove_epsilon_variables_widget = new CVariablesWidget(removeEpsilon_central_widget);
         epsilon_closer_list_widget = new QListWidget(removeEpsilon_central_widget);
         connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), alhgorithm_widget, SLOT(setWidgets(CAlgorithm::modes)));
         remove_epsilon_algorithm = new RemoveEpsilon(mode, alhgorithm_widget, fa_epsilon_widget, fa_not_epsilon_widget, remove_epsilon_variables_widget, epsilon_closer_list_widget, removeEpsilon_central_widget);
@@ -453,7 +454,7 @@ void MainWindow::PrepareCFGtoPDA()
     alhgorithm_widget = new CAlgorithmWidget(mode,CFG_TO_PDA_central_widget);
     m_cfgWidget = new CCfgWidget(CFG_TO_PDA_central_widget);
     m_pdaWidget = new CPdaWidget(/*CFG_TO_PDA_central_widget*/);
-    DFA_variables_widget = new QLabel(CFG_TO_PDA_central_widget);
+    DFA_variables_widget = new CVariablesWidget(CFG_TO_PDA_central_widget);
     DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
     CFG_TO_PDA_algorithm = new CCfgToPdaGuiInterface(/* mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, CFG_TO_PDA_central_widget*/);
 
@@ -532,13 +533,15 @@ void MainWindow::PrepareConversionWidget(MainWindow::Conversions conversion)
 {
     m_activeConversion = conversion;
     if(m_centralWidget){
-        delete m_centralWidget;
+         delete m_centralWidget;
         m_centralWidget = NULL;
     }
     switch(m_activeConversion){
         case RE_to_FA:
+            m_centralWidget = new CRegExpToFaWidget(this);
             break;
         case REMOVE_EPSILON:
+            m_centralWidget = new CRemoveEpsilonRulesWidget(this);
             break;
         case DFA:
             m_centralWidget = new CFADeterminizationWidget(this);
@@ -570,8 +573,8 @@ void MainWindow::RE_FA_example(RegExp *_re, QString example_name)
     on_action_check_mode_triggered();
     ui->action_RE_to_FA->setChecked(true);
     if(m_activeConversion != RE_to_FA)
-        prepareREtoFA(_re);
-    reg_exp_algorithm->setExample(_re);
+        PrepareConversionWidget(Conversions::RE_to_FA);
+    ((CRegExpToFaWidget*)m_centralWidget)->SetRegExp(_re);
     mySetWindowTitle(example_name);
 
 }
@@ -1089,13 +1092,13 @@ void MainWindow::on_action_open_file_triggered()
             {
                 QString regexp_str;
                 in >> regexp_str;
-                prepareREtoFA(new RegExp(regexp_str));
+                //prepareREtoFA(new RegExp(regexp_str));
             }
             else
             {
                 RegExp re;
                 in >> re;
-                prepareREtoFA(new RegExp(re));
+                //prepareREtoFA(new RegExp(re));
             }
         }
         break;
@@ -1209,4 +1212,14 @@ void MainWindow::SetActionsGroups()
 void MainWindow::on_action_Determinization_triggered()
 {
     PrepareConversionWidget(DFA);
+}
+
+void MainWindow::on_actionTestRefactoredRemoveEpsilon_triggered()
+{
+    PrepareConversionWidget(MainWindow::Conversions::REMOVE_EPSILON);
+}
+
+void MainWindow::on_action_RE_to_FA_triggered()
+{
+    PrepareConversionWidget(MainWindow::Conversions::RE_to_FA);
 }

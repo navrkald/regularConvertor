@@ -16,8 +16,8 @@ class CRemoveEpsilonRulesWidget : public ICentralCoversionWidget
 
 public:
     explicit CRemoveEpsilonRulesWidget(QWidget *parent = 0);
-    virtual void ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged) = 0;
-    virtual void ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage) = 0;
+    virtual void ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged);
+    virtual void ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage);
     void SetInputFA(FiniteAutomata& FA);
     void SetOutputFA(FiniteAutomata& FA);
     const FiniteAutomata& GetInputFA();

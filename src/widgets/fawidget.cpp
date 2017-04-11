@@ -144,7 +144,7 @@ void FA_widget::clearStatus()
 void FA_widget::SetScene(DiagramScene* scene)
 {
   m_scene = scene;
-  connect(m_scene,SIGNAL(sendStatusBarMessage(QString)),this,SIGNAL(sendStatusBarMessage(QString)));
+  connect(m_scene,SIGNAL(SendStatusBarMessage(QString)),this,SIGNAL(SendStatusBarMessage(QString)));
   ui->graphicsView->setScene(m_scene);
 
   connect( deleteShortCut, SIGNAL(activated()), m_scene, SLOT(deleteSelected()));
@@ -376,7 +376,7 @@ void FA_widget::on_addRuleToolButton_clicked()
     if(FA->states.isEmpty())
     {
         QString message = tr("WARNING: Can not add edges. First you have to add some nodes.");
-        emit sendStatusBarMessage(message);
+        emit SendStatusBarMessage(message);
         emit FA_changed(FA);
         return;
     }
@@ -402,7 +402,7 @@ void FA_widget::on_addRuleToolButton_clicked()
         }
         else
         {
-            emit sendStatusBarMessage(tr("WARNING: Your set edge existing."));
+            emit SendStatusBarMessage(tr("WARNING: Your set edge existing."));
         }
     }
     emit FA_changed(FA);

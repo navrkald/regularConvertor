@@ -6,40 +6,41 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>330</width>
-    <height>248</height>
+    <width>634</width>
+    <height>499</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QSplitter" name="splitter_3">
+   <item row="0" column="0" colspan="2">
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="FA_widget" name="m_inputFaWidget" native="true"/>
+     <widget class="CAlgorithmWidget" name="m_algorithWidget" native="true"/>
+    </widget>
+   </item>
+   <item row="1" column="0" rowspan="2">
+    <widget class="FA_widget" name="m_outputFaWidget" native="true"/>
+   </item>
+   <item row="2" column="1">
+    <widget class="QSplitter" name="splitter_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QSplitter" name="splitter">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+     <widget class="CVariablesWidget" name="m_variablesWidget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <widget class="FA_widget" name="m_inputFaWidget" native="true"/>
-      <widget class="CAlgorithmWidget" name="m_algorithWidget" native="true"/>
+      <zorder>m_epsilonClosuresWidget</zorder>
      </widget>
-     <widget class="QSplitter" name="splitter_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <widget class="FA_widget" name="m_outputFaWidget" native="true"/>
-      <widget class="CVariablesWidget" name="m_variablesWidget" native="true">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </widget>
+     <widget class="QListWidget" name="m_epsilonClosuresWidget"/>
     </widget>
    </item>
   </layout>

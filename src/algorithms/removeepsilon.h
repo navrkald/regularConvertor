@@ -9,6 +9,7 @@
 #include "set/set_of_sets.h"
 #include "algorithms/epsiloncloserwidget.h"
 #include "finite_machine/multiselectcompleter.h"
+#include <widgets/variableswidget.h>
 
 class RemoveEpsilon : public CAlgorithm
 {
@@ -16,8 +17,8 @@ class RemoveEpsilon : public CAlgorithm
 public:
     explicit RemoveEpsilon(QObject *parrent = 0) : CAlgorithm(parrent) {}
     explicit RemoveEpsilon(FiniteAutomata _FA);
-    explicit RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
-    void Init(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, QLabel* _var_widget, QListWidget* _epsilon_closer_list_widget);
+    explicit RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, CVariablesWidget* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
+    void Init(CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, CVariablesWidget* _var_widget, QListWidget* _epsilon_closer_list_widget);
     FiniteAutomata computeSolution();
     virtual void InitInstructions();
 
@@ -72,7 +73,7 @@ private:
     modes mode;
     FA_widget* epsilon_fa_widget;
     FA_widget* not_epsilon_fa_widget;
-    QLabel* var_widget;
+    CVariablesWidget* var_widget;
     QListWidget* epsilon_closer_list_widget;
 
     //internal variables

@@ -69,7 +69,7 @@ signals:
     void setStartNode(QString n);
     void addEndingNodes(QSet <QString> nodes);
     void removeEndingNodes(QSet <QString> nodes);
-    void sendStatusBarMessage(QString message);
+    void SendStatusBarMessage(QString message);
 
 protected:
     //properties

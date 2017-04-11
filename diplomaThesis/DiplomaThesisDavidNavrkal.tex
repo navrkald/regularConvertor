@@ -597,6 +597,8 @@ Refaktoring je èinnost pøi, které se zlep¹uje kvalita kódu bez pøímého vlivu na 
 
 Nerefaktorovaný kód vede k tomu, ¾e jen obtí¾nì mohou programátoøi rozumnìt kódu a to vede k èastým chybám a prodlou¾ením vývoje.
 
+V¹echny zdrojové soubory nutné pro úpsì¹nou kompilaci kódu jsem pøesunul do samostatné slo¾ky standartnì pojmenované \textit{src}, podle anglického slova \textit{sources}.
+
 Kód by mìl být pokud po¾no homogení a mìl by v nìm být dod¾ován systém pojmenovávaní. 
 
 \n{2}{Konvence pojmenování èástí kódu}
@@ -627,13 +629,17 @@ Pøi pojmenovávání souborù jsem se sna¾il dodr¾et konvenci, ¾e názez souboru se s
 
 Pøíli¹ velké metody nebo tøídy nejsou tolik pøehledné a udr¾ovatelné. Proto jsem se rozhodl pøepsat moji tøídy hlavního okna do více modulù, chcete-li tøíd.
 
-V mém pùvodním návrhu bakaláøské práce jsem neumìl techniky zvanou \textit{Promoting}. Je to technika v Qt Designeru, kde si navrhnu vzhled widgetu, tak ¾e se skládá, podobnì jako stavebnice z ostatních u¾ivatelských widgetù. Toto je mo¾né, proto¾e ka¾dý grafický prvek musí mít za pøedka QWidget.
+V mém pùvodním návrhu bakaláøské práce jsem neumìl techniku zvanou \textit{Promoting}. Je to technika v Qt Designeru, kde si navrhnu vzhled widgetu, tak ¾e se skládá, podobnì jako stavebnice z ostatních u¾ivatelských widgetù. Toto je mo¾né, proto¾e ka¾dý grafický prvek musí mít za pøedka QWidget.
 
 \obr{obrazky/PromotingOfWidgets.eps}{0.9}{\label{Velky} Pøíklad Promoting na widgetu pro konverzi bezkontextové gramatyky na zásobníkový automat.}
 
-Na obrázku mù¾ete vidìt widget pro konverzi bezkontextové gramatiky na zásobníkový automat. Tato konverze se zkládá ze 4 widgetù (od levého horního rohu k pravému dolnímu rohu): widget pro bezkontextovou gramatiku, widget wizualizující konvezi, widget pro zásobníkový automat a v pravo dóle widget, kde se ukazují aktuální hodnoty promìnných pou¾itých v konverzním widgetu.
+Na obrázku mù¾ete vidìt widget pro konverzi bezkontextové gramatiky na zásobníkový automat. Tato konverze se zkládá ze 4 widgetù (od levého horního rohu k pravému dolnímu rohu): widget pro bezkontextovou gramatiku, widget vizualizující konvezi, widget pro zásobníkový automat a v pravo dóle widget, kde se ukazují aktuální hodnoty promìnných pou¾itých v konverzním widgetu.
 
 Pùvodnì vytváøení grafického rozvr¾ení widgetù jsem mìl pro v¹echny konverze implementované v tøídì hlavního okna. Naopak nyní jsou v¹echny konverze popsány graficky v souborech s koncovkou \textit{*.ui} a logika konverzí v asociovaných zdrojových souborech s koncovkami \textit{*.cpp} a \textit{*.h}. Toto jsem dìlal ve jménu jedné z hlavních my¹lenek zapouzdøení.
+
+%TODO obrázek konverze s popiskami
+
+Pro widgety u kterých se mìní popisek jsem pøidal metodu \textit{SetCaption()}, která jim nastaví správný text.
 
 %TODO: Diagram tøíd pro vICentralCoversionWidget a popis method 
 

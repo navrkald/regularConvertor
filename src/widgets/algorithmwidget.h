@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include "algorithms/algorithmview.h"
-#include "algorithms/algorithm.h"
+#include "algorithms/algorithmodes.h"
 #include <QSpacerItem>
 
 namespace Ui {
@@ -16,10 +16,10 @@ class CAlgorithmWidget : public QWidget
     
 public:
     explicit CAlgorithmWidget(QWidget *parent = 0);
-    explicit CAlgorithmWidget(CAlgorithm::modes _mode, QWidget *parent = 0);
+    explicit CAlgorithmWidget(AlgorithmModes _mode, QWidget *parent = 0);
     ~CAlgorithmWidget();
     AlgorithmView* getAlgorithmView();
-    CAlgorithm::modes m_mode;
+    AlgorithmModes m_mode;
 
     void SetCaption(const QString& caption);
     void hideWidgets(QList<QWidget*> widgets);
@@ -45,7 +45,7 @@ signals:
 
 public slots:
     void emitPlay();
-    void SetMode(CAlgorithm::modes mode);
+    void SetMode(AlgorithmModes mode);
     void disableNext();
     void enableNext();
     void disablePrev();

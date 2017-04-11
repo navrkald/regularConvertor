@@ -27,7 +27,7 @@ public:
 private:
     Ui::CRemoveEpsilonRulesWidget *ui;
     RemoveEpsilon m_removeEpsilonAlgorithm;
-    CAlgorithm::modes m_mode;
+    AlgorithmModes m_mode;
 };
 
 #endif // REMOVEEPSILONRULESWIDGET_H

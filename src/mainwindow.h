@@ -37,7 +37,7 @@ public:
     QTranslator* translator;
 
 signals:
-    void modeChanged(CAlgorithm::modes mode);
+    void modeChanged(AlgorithmModes mode);
 public slots:
     void showStatusMessage(QString message);
     void mySetWindowTitle(QString example_name = "");
@@ -151,7 +151,7 @@ private:
     //
     // General variables
     //
-    CAlgorithm::modes mode;
+    AlgorithmModes mode;
     Conversions m_activeConversion;
     ICentralCoversionWidget* m_centralWidget;
 

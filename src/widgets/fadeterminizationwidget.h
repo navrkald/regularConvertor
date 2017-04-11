@@ -25,7 +25,7 @@ public:
 private:
     Ui::CFADeterminizationWidget *ui;
     FaToDFA m_dfaAlgorithm;
-    CAlgorithm::modes m_mode;
+    AlgorithmModes m_mode;
 };
 
 #endif // FADETERMINIZATIONWIDGET_H

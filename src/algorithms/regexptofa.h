@@ -16,8 +16,8 @@ class RegExpToFA : public CAlgorithm
 
 public:
     explicit RegExpToFA(QObject* parrent = 0) : CAlgorithm(parrent) {}
-    explicit RegExpToFA(RegExp* _re, modes _mode = NONE);
-    explicit RegExpToFA(CAlgorithmWidget* _algorithm_widget,modes _mode, CRegExpWidget* _re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re = new RegExp(), QObject* parrent = 0);
+    explicit RegExpToFA(RegExp* _re, AlgorithmModes _mode = NONE);
+    explicit RegExpToFA(CAlgorithmWidget* _algorithm_widget,AlgorithmModes _mode, CRegExpWidget* _re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re = new RegExp(), QObject* parrent = 0);
     void Init(CAlgorithmWidget* _algorithm_widget, CRegExpWidget* _re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re = new RegExp());
     void computeSolution();
 
@@ -38,7 +38,7 @@ public:
 //    void setNewRegExp(RegExp* re);
 
 public slots:
-    void SetMode(CAlgorithm::modes _mode);
+    void SetMode(AlgorithmModes _mode);
 //    void setRE_old(RegExp* _re);
     void SetRegExp(RegExp* _re);
     void selectRegExp(QModelIndex index);
@@ -56,7 +56,7 @@ public slots:
 
 private:
     CAlgorithmWidget* algorithm_widget;
-    modes mode;
+    AlgorithmModes mode;
     CRegExpWidget* re_widget;
     FA_widget* left_fa_widget;
     FA_widget* center_fa_widget;

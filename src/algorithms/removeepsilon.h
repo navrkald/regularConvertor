@@ -17,7 +17,7 @@ class RemoveEpsilon : public CAlgorithm
 public:
     explicit RemoveEpsilon(QObject *parrent = 0) : CAlgorithm(parrent) {}
     explicit RemoveEpsilon(FiniteAutomata _FA);
-    explicit RemoveEpsilon(modes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, CVariablesWidget* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
+    explicit RemoveEpsilon(AlgorithmModes _mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, CVariablesWidget* _var_widget, QListWidget* _epsilon_closer_list_widget, QObject* parrent = 0);
     void Init(CAlgorithmWidget* _algorithm_widget, FA_widget* _epsilon_fa_widget, FA_widget* _not_epsilon_fa_widget, CVariablesWidget* _var_widget, QListWidget* _epsilon_closer_list_widget);
     FiniteAutomata computeSolution();
     virtual void InitInstructions();
@@ -54,7 +54,7 @@ public:
 public slots:
     void setFA(FiniteAutomata* FA);
     void set_not_epsilonFA(FiniteAutomata* FA);
-    void SetMode(CAlgorithm::modes _mode);
+    void SetMode(AlgorithmModes _mode);
     void saveStep();
     //void runAlgorithm(int mil_sec);
     void nextStep();
@@ -70,7 +70,7 @@ private:
     FiniteAutomata correct_FA;
     FiniteAutomata backup_FA;
     CAlgorithmWidget* algorithm_widget;
-    modes mode;
+    AlgorithmModes mode;
     FA_widget* epsilon_fa_widget;
     FA_widget* not_epsilon_fa_widget;
     CVariablesWidget* var_widget;

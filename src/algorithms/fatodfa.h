@@ -18,7 +18,7 @@ class FaToDFA : public CAlgorithm
 
 public:
     FaToDFA(QObject *parrent = 0) : CAlgorithm(parrent) {}
-    FaToDFA(modes mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent);
+    FaToDFA(AlgorithmModes mode, CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget, QObject *parrent);
     void Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget);
     FaToDFA(FiniteAutomata _FA);
     ~FaToDFA();
@@ -38,7 +38,7 @@ public:
     FiniteAutomata DFA;
 
 public slots:
-    void SetMode(CAlgorithm::modes _mode);
+    void SetMode(AlgorithmModes _mode);
     void setFA(FiniteAutomata* _FA);
     void setDFA(FiniteAutomata* _FA);
     void prevStep();
@@ -73,7 +73,7 @@ private:
     QList<steps> m_history;
     FiniteAutomata m_backup_FA;
     FiniteAutomata m_correct_FA;
-    modes m_mode;
+    AlgorithmModes m_mode;
     CAlgorithmWidget* m_algorithm_widget;
     FA_widget* m_not_dfa_widget;
     FA_widget* m_dfa_widget;

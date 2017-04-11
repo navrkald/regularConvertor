@@ -12,7 +12,7 @@ void CCfgToPdaGuiInterface::RemoveFuture(){
 
 }
 
-//void CCfgToPdaGuiInterface::setMode(Algorithm::modes _mode){
+//void CCfgToPdaGuiInterface::setMode(Algorithm::AlgorithmModes _mode){
 
 //}
 

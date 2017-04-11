@@ -13,7 +13,7 @@
 #define ITERATE_FA 7
 
 
-RegExpToFA::RegExpToFA(RegExp* _re, modes _mode) : CAlgorithm()
+RegExpToFA::RegExpToFA(RegExp* _re, AlgorithmModes _mode) : CAlgorithm()
 {
     SetMode(_mode);
     SetRegExp(_re);
@@ -111,13 +111,13 @@ void RegExpToFA::Init(CAlgorithmWidget *_algorithm_widget, CRegExpWidget *_re_wi
     algorithm_widget->disableShowButton();
 }
 
-RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, modes _mode, CRegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re, QObject* parrent)
+RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, AlgorithmModes _mode, CRegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re, QObject* parrent)
     : CAlgorithm(parrent), mode(_mode)
 {
     Init(_algorithm_widget, _re_widget, _left_fa_widget, _center_fa_widget, _right_fa_widget, _re);
 }
 
-void RegExpToFA::SetMode(modes _mode)
+void RegExpToFA::SetMode(AlgorithmModes _mode)
 {
     mode = _mode;
     nodesToProcede.clear();
@@ -139,7 +139,7 @@ void RegExpToFA::SetMode(modes _mode)
         history.clear();
         m_num = 0;
         ClearActInstruction();
-        //checking modes
+        //checking AlgorithmModes
         if(mode == PLAY_MODE)
         {
             //this clears regexp tree, this by the way indirectly calls void RegExpToFA::setRE(RegExp *_re)
@@ -182,7 +182,7 @@ void RegExpToFA::SetRegExp(RegExp *_re)
     this->re  = _re;
 
 
-    //checking modes
+    //checking AlgorithmModes
     if(mode == PLAY_MODE)
     {
         //unselect instruction from algorithm window

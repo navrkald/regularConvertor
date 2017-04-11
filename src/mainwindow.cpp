@@ -32,13 +32,13 @@ MainWindow::MainWindow(QWidget *parent) :
     reg_exp_algorithm = 0;
     remove_epsilon_algorithm = 0;
     m_activeConversion = none;
-    mode = CAlgorithm::PLAY_MODE;
+    mode = AlgorithmModes::PLAY_MODE;
     ui->action_play_mode->setChecked(true);
 
     alhgorithm_widget = new CAlgorithmWidget(mode);
     alhgorithm_widget->hide();
-    connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), alhgorithm_widget, SLOT(setWidgets(CAlgorithm::modes)));
-    connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), this, SLOT(mySetWindowTitle()));
+    connect(this, SIGNAL(modeChanged(AlgorithmModes)), alhgorithm_widget, SLOT(setWidgets(AlgorithmModes)));
+    connect(this, SIGNAL(modeChanged(AlgorithmModes)), this, SLOT(mySetWindowTitle()));
     //    deleteShortCut = new QShortcut(QKeySequence::Delete, this);
     //    connect( deleteShortCut, SIGNAL(activated()), FA1_widget->scene, SLOT(deleteSelected()));
 
@@ -95,16 +95,16 @@ void MainWindow::mySetWindowTitle(QString example_name)
 
     switch(mode)
     {
-        case CAlgorithm::NONE:
+        case AlgorithmModes::NONE:
             mode_str = "";
         break;
-        case CAlgorithm::CHECK_MODE:
+        case AlgorithmModes::CHECK_MODE:
             mode_str = tr("Mode: individual work");
         break;
-        case CAlgorithm::PLAY_MODE:
+        case AlgorithmModes::PLAY_MODE:
             mode_str = tr("Mode: algorithm stepping");
         break;
-        case CAlgorithm::STEP_MODE:
+        case AlgorithmModes::STEP_MODE:
             mode_str = tr("Mode: instant checking");
         break;
     }
@@ -144,7 +144,7 @@ QWidget *MainWindow::prepareAlgorithnContainer(QWidget *central_w, QString str_l
     alhgorithm_widget->getAlgorithmView()->setModel(algorithm);
     alhgorithm_widget->getAlgorithmView()->setItemDelegate(delegate);
     connect(delegate,SIGNAL(dataChanged(QModelIndex)),algorithm,SLOT(getData(QModelIndex)));
-    connect(this,SIGNAL(modeChanged(CAlgorithm::modes)),algorithm,SLOT(setMode(CAlgorithm::modes)));
+    connect(this,SIGNAL(modeChanged(AlgorithmModes)),algorithm,SLOT(setMode(AlgorithmModes)));
     return algorithm_container;
 }
 
@@ -216,9 +216,9 @@ void MainWindow::prepareREtoFA(RegExp* _re)
         connect(fa_widget_right,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         reg_exp_widget = new CRegExpWidget(regExpToFA_central_widget);
         alhgorithm_widget = new CAlgorithmWidget(mode,regExpToFA_central_widget);
-        connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), alhgorithm_widget, SLOT(setWidgets(CAlgorithm::modes)));
+        connect(this, SIGNAL(modeChanged(AlgorithmModes)), alhgorithm_widget, SLOT(setWidgets(AlgorithmModes)));
         reg_exp_algorithm = new RegExpToFA(alhgorithm_widget, mode, reg_exp_widget, fa_widget_left, fa_widget_center, fa_widget_right, _re, regExpToFA_central_widget);
-        connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), reg_exp_algorithm, SLOT(setMode(CAlgorithm::modes)));
+        connect(this, SIGNAL(modeChanged(AlgorithmModes)), reg_exp_algorithm, SLOT(setMode(AlgorithmModes)));
         prepareREtoFA_GUI();
 //    }
 //    else
@@ -305,9 +305,9 @@ void MainWindow::prepareRemoveEpsilon()
         connect(fa_not_epsilon_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
         remove_epsilon_variables_widget = new CVariablesWidget(removeEpsilon_central_widget);
         epsilon_closer_list_widget = new QListWidget(removeEpsilon_central_widget);
-        connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), alhgorithm_widget, SLOT(setWidgets(CAlgorithm::modes)));
+        connect(this, SIGNAL(modeChanged(AlgorithmModes)), alhgorithm_widget, SLOT(setWidgets(AlgorithmModes)));
         remove_epsilon_algorithm = new RemoveEpsilon(mode, alhgorithm_widget, fa_epsilon_widget, fa_not_epsilon_widget, remove_epsilon_variables_widget, epsilon_closer_list_widget, removeEpsilon_central_widget);
-        connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), remove_epsilon_algorithm, SLOT(setMode(CAlgorithm::modes)));
+        connect(this, SIGNAL(modeChanged(AlgorithmModes)), remove_epsilon_algorithm, SLOT(setMode(AlgorithmModes)));
         prepareRemoveEpsilon_GUI();
     //}
     //else
@@ -394,9 +394,9 @@ void MainWindow::PrepareDFA()
 //    connect(DFA_widget,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
 //    DFA_variables_widget = new QLabel(DFA_central_widget);
 //    DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
-//    connect(this, SIGNAL(modeChanged(Algorithm::modes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::modes)));
+//    connect(this, SIGNAL(modeChanged(Algorithm::AlgorithmModes)), alhgorithm_widget, SLOT(setWidgets(Algorithm::AlgorithmModes)));
 //    DFA_algorithm = new FaToDFA(mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, DFA_central_widget);
-//    connect(this, SIGNAL(modeChanged(Algorithm::modes)), DFA_algorithm, SLOT(setMode(Algorithm::modes)));
+//    connect(this, SIGNAL(modeChanged(Algorithm::AlgorithmModes)), DFA_algorithm, SLOT(setMode(Algorithm::AlgorithmModes)));
 //    connect(DFA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
 //    PrepareDFA_GUI();
 }
@@ -458,8 +458,8 @@ void MainWindow::PrepareCFGtoPDA()
     DFA_variables_widget->setStyleSheet("QLabel { background-color : white; color : black; }");
     CFG_TO_PDA_algorithm = new CCfgToPdaGuiInterface(/* mode, alhgorithm_widget, not_DFA_widget, DFA_widget, DFA_variables_widget, CFG_TO_PDA_central_widget*/);
 
-    connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), alhgorithm_widget, SLOT(setWidgets(CAlgorithm::modes)));
-    connect(this, SIGNAL(modeChanged(CAlgorithm::modes)), CFG_TO_PDA_algorithm, SLOT(setMode(CAlgorithm::modes)));
+    connect(this, SIGNAL(modeChanged(AlgorithmModes)), alhgorithm_widget, SLOT(setWidgets(AlgorithmModes)));
+    connect(this, SIGNAL(modeChanged(AlgorithmModes)), CFG_TO_PDA_algorithm, SLOT(setMode(AlgorithmModes)));
     connect(CFG_TO_PDA_algorithm,SIGNAL(sendStatusBarMessage(QString)),this,SLOT(showStatusMessage(QString)));
 
     prepareCFG_TO_PDA_GUI();
@@ -510,21 +510,21 @@ void MainWindow::prepareCFG_TO_PDA_GUI()
 
 void MainWindow::on_action_check_mode_triggered()
 {
-    mode = CAlgorithm::CHECK_MODE;
+    mode = AlgorithmModes::CHECK_MODE;
     ui->action_check_mode->setChecked(true);
     emit modeChanged(mode);
 }
 
 void MainWindow::on_action_play_mode_triggered()
 {
-    mode = CAlgorithm::PLAY_MODE;
+    mode = AlgorithmModes::PLAY_MODE;
     ui->action_play_mode->setChecked(true);
     emit modeChanged(mode);
 }
 
 void MainWindow::on_action_step_mode_triggered()
 {
-    mode = CAlgorithm::STEP_MODE;
+    mode = AlgorithmModes::STEP_MODE;
     ui->action_step_mode->setChecked(true);
     emit modeChanged(mode);
 }
@@ -1012,7 +1012,7 @@ void MainWindow::on_action_save_triggered()
         case RE_to_FA:
         {
             // In play mode does not make sence to save output fa
-            if(mode == CAlgorithm::PLAY_MODE)
+            if(mode == AlgorithmModes::PLAY_MODE)
             {
                 out << reg_exp_algorithm->re->regexp;
             }
@@ -1023,7 +1023,7 @@ void MainWindow::on_action_save_triggered()
         }
         break;
         case REMOVE_EPSILON:
-            if(mode == CAlgorithm::PLAY_MODE)
+            if(mode == AlgorithmModes::PLAY_MODE)
             {
                  out << remove_epsilon_algorithm->FA;
             }
@@ -1033,7 +1033,7 @@ void MainWindow::on_action_save_triggered()
             }
         break;
         case DFA:
-            if(mode == CAlgorithm::PLAY_MODE)
+            if(mode == AlgorithmModes::PLAY_MODE)
             {
                 out << ((CFADeterminizationWidget*)m_centralWidget)->GetInputFA();
             }
@@ -1062,22 +1062,22 @@ void MainWindow::on_action_open_file_triggered()
     FiniteAutomata FA;
     //
     Conversions conversion = none;
-    CAlgorithm::modes tmp_mode = CAlgorithm::NONE;
+    AlgorithmModes tmp_mode = AlgorithmModes::NONE;
 
     in >> conversion;
     in >> tmp_mode;
     switch (tmp_mode)
     {
-        case CAlgorithm::CHECK_MODE:
+        case AlgorithmModes::CHECK_MODE:
             on_action_check_mode_triggered();
         break;
-        case CAlgorithm::PLAY_MODE:
+        case AlgorithmModes::PLAY_MODE:
             on_action_play_mode_triggered();
         break;
-        case CAlgorithm::STEP_MODE:
+        case AlgorithmModes::STEP_MODE:
             on_action_step_mode_triggered();
         break;
-        case CAlgorithm::NONE:
+        case AlgorithmModes::NONE:
             showStatusMessage(tr("ERROR: Input file in wrong format!"));
             return;
         break;
@@ -1088,7 +1088,7 @@ void MainWindow::on_action_open_file_triggered()
     {
         case RE_to_FA:
         {
-            if(mode == CAlgorithm::PLAY_MODE)
+            if(mode == AlgorithmModes::PLAY_MODE)
             {
                 QString regexp_str;
                 in >> regexp_str;
@@ -1108,7 +1108,7 @@ void MainWindow::on_action_open_file_triggered()
             in >> in_FA;
             prepareRemoveEpsilon();
             remove_epsilon_algorithm->SetInputFA(in_FA);
-            if(mode != CAlgorithm::PLAY_MODE)
+            if(mode != AlgorithmModes::PLAY_MODE)
             {
                 FiniteAutomata out_FA;
                 in >> out_FA;
@@ -1121,7 +1121,7 @@ void MainWindow::on_action_open_file_triggered()
             FiniteAutomata in_FA;
             in >> in_FA;
             Determinization_example(in_FA);
-            if(mode != CAlgorithm::PLAY_MODE)
+            if(mode != AlgorithmModes::PLAY_MODE)
             {
                 FiniteAutomata outputFA;
                 in >> outputFA;
@@ -1166,10 +1166,10 @@ void MainWindow::on_actionCFGtoPDA_triggered()
 void MainWindow::SetActionsGroups()
 {
 
-    QActionGroup* modesGroup = new QActionGroup(this);
-    modesGroup->addAction(ui->action_check_mode);
-    modesGroup->addAction(ui->action_play_mode);
-    modesGroup->addAction(ui->action_step_mode);
+    QActionGroup* AlgorithmModesGroup = new QActionGroup(this);
+    AlgorithmModesGroup->addAction(ui->action_check_mode);
+    AlgorithmModesGroup->addAction(ui->action_play_mode);
+    AlgorithmModesGroup->addAction(ui->action_step_mode);
 
     QActionGroup* conversionGroup = new QActionGroup(this);
     conversionGroup->addAction(ui->action_RE_to_FA);

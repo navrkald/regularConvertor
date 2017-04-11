@@ -41,7 +41,7 @@ void CAlgorithm::ClearActInstruction()
     }
 }
 
-void CAlgorithm::SetMode(CAlgorithm::modes mode)
+void CAlgorithm::SetMode(AlgorithmModes mode)
 {
   m_mode = mode;
 }
@@ -61,10 +61,10 @@ void CAlgorithm::Stop()
     m_playTimer->stop();
 }
 
-QDataStream& operator>>(QDataStream& in, CAlgorithm::modes& m)
+QDataStream& operator>>(QDataStream& in, AlgorithmModes& m)
 {
     quint32 tmp;
     in >> tmp;
-    m = (CAlgorithm::modes)tmp;
+    m = (AlgorithmModes)tmp;
     return in;
 }

@@ -13,7 +13,7 @@
 #define IF_FINAL            10
 #define WHILE_NEW           11
 
-FaToDFA::FaToDFA(FiniteAutomata _FA) : FA(_FA), m_mode(modes::NONE)
+FaToDFA::FaToDFA(FiniteAutomata _FA) : FA(_FA), m_mode(AlgorithmModes::NONE)
 {
     ;
 }
@@ -23,7 +23,7 @@ FaToDFA::~FaToDFA()
 
 }
 
-FaToDFA::FaToDFA(modes mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, CVariablesWidget* _var_widget, QObject* parrent)
+FaToDFA::FaToDFA(AlgorithmModes mode, CAlgorithmWidget* _algorithm_widget, FA_widget* _not_dfa_widget, FA_widget* _dfa_widget, CVariablesWidget* _var_widget, QObject* parrent)
  : CAlgorithm(parrent), m_mode(mode)
 {
     Init(_algorithm_widget, _not_dfa_widget, _dfa_widget, _var_widget);
@@ -118,7 +118,7 @@ void FaToDFA::setFA(FiniteAutomata *_FA)
     SetMode(m_mode);
 }
 
-void FaToDFA::SetMode(CAlgorithm::modes _mode)
+void FaToDFA::SetMode(AlgorithmModes _mode)
 {
     m_mode = _mode;
     m_playTimer->stop();

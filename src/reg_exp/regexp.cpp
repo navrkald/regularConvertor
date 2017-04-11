@@ -10,35 +10,35 @@
 
 RegExp::RegExp()
 {
-    rootNode = new RegExpNode(emptyString);
+    m_rootNode = new RegExpNode(emptyString);
 }
 
 RegExp::RegExp(QString _regexp,QObject*)
 {
-    regexp = _regexp;
-    init(regexp);
+    m_regExpStr = _regexp;
+    Init(m_regExpStr);
 }
 
 RegExp::RegExp(const RegExp &_regexp)
 {
-    this->rootNode = new RegExpNode(_regexp.rootNode);
-    regexp = _regexp.regexp;
+    this->m_rootNode = new RegExpNode(_regexp.m_rootNode);
+    m_regExpStr = _regexp.m_regExpStr;
 }
 
-bool RegExp::init(QString _strToVal)
+bool RegExp::Init(QString _strToVal)
 {
     //init();
-    regexp = _strToVal;
-    regexp.replace(" ", "");
-    if(regexp=="")
+    m_regExpStr = _strToVal;
+    m_regExpStr.replace(" ", "");
+    if(m_regExpStr=="")
     {
         CharPos emptyString (EMPTYSET,0,true);
-        rootNode = new RegExpNode(emptyString);
+        m_rootNode = new RegExpNode(emptyString);
         return true;
     }
-    if(parser.parse(regexp))
+    if(m_parser.parse(m_regExpStr))
     {
-        rootNode = parser.rootNode;
+        m_rootNode = m_parser.rootNode;
         return true;
     }
     else
@@ -119,15 +119,15 @@ bool RegExp::init(QString _strToVal)
 //}
 
 
-bool RegExp::isAlphabetChar(QString symbol)
+bool RegExp::IsAlphabetChar(QString symbol)
 {
     return symbol != "(" && symbol != ")" && symbol != "+" && symbol != "*";
 }
 
-void RegExp::clean()
+void RegExp::Clean()
 {
-    delete rootNode;
-    rootNode = 0;
+    delete m_rootNode;
+    m_rootNode = 0;
 }
 
 //doplni explicitne tecku jako konkatenaci tam kam patri
@@ -155,14 +155,14 @@ void RegExp::clean()
 
 QDataStream &operator<<(QDataStream &out, const RegExp &reg_exp)
 {
-    out << reg_exp.regexp;
-    RegExpNode::save(reg_exp.rootNode, out);
+    out << reg_exp.m_regExpStr;
+    RegExpNode::save(reg_exp.m_rootNode, out);
     return out;
 }
 
 QDataStream &operator>>(QDataStream &in, RegExp &reg_exp)
 {
-    in  >> reg_exp.regexp;
-    reg_exp.rootNode =  RegExpNode::load(in);
+    in  >> reg_exp.m_regExpStr;
+    reg_exp.m_rootNode =  RegExpNode::load(in);
     return in;
 }

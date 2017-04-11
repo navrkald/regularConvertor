@@ -24,10 +24,16 @@ void CRegExpToFaWidget::ConnectStatusMessage(const MainWindow *receiver, MainWin
     connect(&m_regExpToFaAlgorithm, &RegExpToFA::SendStatusBarMessage, receiver, showMessage);
 }
 
-void CRegExpToFaWidget::SetRegExp(RegExp *re)
+void CRegExpToFaWidget::SetInputRegExp(RegExp *re)
 {
     m_regExpToFaAlgorithm.SetInputRegExp(re);
 }
+
+RegExp* CRegExpToFaWidget::GetInputRegExp()
+{
+   return m_regExpToFaAlgorithm.GetInputRegExp();
+}
+
 
 void CRegExpToFaWidget::ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged)
 {

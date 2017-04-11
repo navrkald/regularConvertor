@@ -577,12 +577,12 @@ void FaToDFA::setOutputFA(FiniteAutomata out_FA)
 
 const FiniteAutomata &FaToDFA::GetInputFA()
 {
-    return *(m_not_dfa_widget->FA);
+    return *(m_not_dfa_widget->m_finiteAutomata);
 }
 
 const FiniteAutomata &FaToDFA::GetOutputFA()
 {
-    return *(m_dfa_widget->FA);
+    return *(m_dfa_widget->m_finiteAutomata);
 }
 
 void FaToDFA::saveStep()

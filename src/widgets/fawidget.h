@@ -22,7 +22,7 @@ public:
     explicit FA_widget(QWidget *parent = 0);
     ~FA_widget();
     DiagramScene *m_scene;
-    FiniteAutomata* FA;
+    FiniteAutomata* m_finiteAutomata;
     QShortcut* deleteShortCut;
 
     void SetCaption(const QString& caption);
@@ -53,15 +53,15 @@ private slots:
     void clean();
 
 public slots:
-    void setFA(FiniteAutomata* FA);
+    void setFA(FiniteAutomata* m_finiteAutomata);
     void updateStates(); // Update formal FA
 
     void emitAddEdge(ComputationalRules rule);
     void emitAddEndingNode(QString node);
 
 signals:
-    void FA_changed(FiniteAutomata* FA);
-    void setFA_signal(FiniteAutomata* FA); // update graphic FA
+    void FA_changed(FiniteAutomata* m_finiteAutomata);
+    void setFA_signal(FiniteAutomata* m_finiteAutomata); // update graphic FA
     void addNodes(QSet <QString> nodes);
     void removeNodes(QSet <QString> nodes);
     void addEdges(QSet <ComputationalRules> rules);

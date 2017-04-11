@@ -20,7 +20,7 @@ void RegExpTextEdit::setRegExp(RegExp *_re)
     re = _re;
 
     disconnect(this,SIGNAL(textChanged()),this,SLOT(validateText()));
-    setText(re->regexp);
+    setText(re->m_regExpStr);
     connect(this,SIGNAL(textChanged()),this,SLOT(validateText()));
 }
 
@@ -46,7 +46,7 @@ QSize RegExpTextEdit::sizeHint() const
 void RegExpTextEdit::validateText()
 {
     QString text = this->toPlainText();
-    if(re->init(text))
+    if(re->Init(text))
     {
         this->setStyleSheet("#" + this->objectName() + "{background: white;}");
         emit regExpChanged();

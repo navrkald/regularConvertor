@@ -15,13 +15,13 @@ public:
     explicit RegExp(QString _regexp, QObject *parent = 0);
     explicit RegExp(const RegExp& _regexp);
 
-    bool init(QString _strToVal);
+    bool Init(QString _strToVal);
     QList<CharPos> addConcOperator(QString _reqExp);
 
 
-    RegExpParser parser;
-    RegExpNode* rootNode;
-    QString regexp;
+    RegExpParser m_parser;
+    RegExpNode* m_rootNode;
+    QString m_regExpStr;
 private:
 
 
@@ -35,9 +35,9 @@ private:
 //    static bool isControlChar();
 //    static void movePos(const QString& str);
 //    static void movePos(int lenth);
-    static bool isAlphabetChar(QString symbol);
-    static QString precedenceTable[7][7];
-    void clean();
+    static bool IsAlphabetChar(QString symbol);
+    static QString m_precedenceTable[7][7];
+    void Clean();
 };
 
 QDataStream &operator<<(QDataStream &out, const RegExp &reg_exp);

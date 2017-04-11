@@ -497,12 +497,12 @@ void RemoveEpsilon::SetOutputFA(FiniteAutomata out_FA)
 
 const FiniteAutomata &RemoveEpsilon::GetInputFA()
 {
-    return *(epsilon_fa_widget->FA);
+    return *(epsilon_fa_widget->m_finiteAutomata);
 }
 
 const FiniteAutomata &RemoveEpsilon::GetOutputFA()
 {
-    return *(not_epsilon_fa_widget->FA);
+    return *(not_epsilon_fa_widget->m_finiteAutomata);
 }
 
 void RemoveEpsilon::showVariables()

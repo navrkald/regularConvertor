@@ -24,7 +24,8 @@ private:
 public:
     virtual void ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged) override;
     virtual void ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage) override;
-    void SetRegExp(RegExp* re);
+    void SetInputRegExp(RegExp* re);
+    RegExp* GetInputRegExp();
 };
 
 #endif // REGEXPTOFAWIDGET_H

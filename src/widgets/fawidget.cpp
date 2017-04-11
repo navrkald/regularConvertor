@@ -8,7 +8,7 @@ FA_widget::FA_widget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    FA = new FiniteAutomata();
+    m_finiteAutomata = new FiniteAutomata();
 
     ui->graphicsView->show();
     deleteShortCut=new QShortcut(QKeySequence::Delete, this);
@@ -92,7 +92,7 @@ FA_widget::FA_widget(QWidget *parent) :
 
     //connect(this,SIGNAL(errorMessageSignal(QString)),this,SLOT(testingSlot(QString)));
 
-    SetScene(new DiagramScene(FA, ui->graphicsView));
+    SetScene(new DiagramScene(m_finiteAutomata, ui->graphicsView));
 }
 
 void FA_widget::setupValidators()
@@ -201,22 +201,22 @@ void FA_widget::statesEdited()
     //pokud je radek prazdny pak jsme zrejme smazali vsechny uzly
     if(ui->statesLineEdit->text() == "")
     {
-        emit removeNodes(FA->states);
-        FA->removeStates(FA->states);
+        emit removeNodes(m_finiteAutomata->states);
+        m_finiteAutomata->removeStates(m_finiteAutomata->states);
         //FA->states.clear();
 
-        emit FA_changed(FA);
+        emit FA_changed(m_finiteAutomata);
         return;
     }
 
     QStringList unique_list_of_states = getSortedUniqueList(ui->statesLineEdit->text());
     ui->statesLineEdit->setText(unique_list_of_states.join(", "));
     QSet <QString> setOfStatesLineEdit = unique_list_of_states.toSet();
-    QSet <QString> statesToDel = FA->states - setOfStatesLineEdit;
-    QSet <QString> statesToAdd = setOfStatesLineEdit - FA->states;
-    FA->removeStates(statesToDel);
+    QSet <QString> statesToDel = m_finiteAutomata->states - setOfStatesLineEdit;
+    QSet <QString> statesToAdd = setOfStatesLineEdit - m_finiteAutomata->states;
+    m_finiteAutomata->removeStates(statesToDel);
     foreach(QString state_to_add, statesToAdd)
-        FA->addState(state_to_add);
+        m_finiteAutomata->addState(state_to_add);
     if(!statesToDel.empty())
     {
         //remove nodes emits in scene FA_changed()
@@ -238,7 +238,7 @@ void FA_widget::statesEdited()
     if(!statesToAdd.empty())
     {
         emit addNodes(statesToAdd);
-        emit FA_changed(FA);
+        emit FA_changed(m_finiteAutomata);
     }
     updateStates();
     // not needed  emit FA_changed(FA)(emit only if there is some changes (add or nemove nodes));
@@ -247,13 +247,13 @@ void FA_widget::statesEdited()
 void FA_widget::endingStatesEdited()
 {
     QStringList SortedUniqueList = getSortedUniqueList(ui->endingStatesLineEdit->text());
-    QSet <QString> setOfEndigStates = SortedUniqueList.toSet().intersect(FA->states);
+    QSet <QString> setOfEndigStates = SortedUniqueList.toSet().intersect(m_finiteAutomata->states);
     QStringList listOfEndingStates = setOfEndigStates.toList();
     listOfEndingStates.sort();
     ui->endingStatesLineEdit->setText(listOfEndingStates.join(", "));
-    QSet <QString> endingStatesToDel = FA->finalStates - setOfEndigStates;
-    QSet <QString> endingStatesToAdd = setOfEndigStates - FA->finalStates;
-    FA->finalStates = setOfEndigStates;
+    QSet <QString> endingStatesToDel = m_finiteAutomata->finalStates - setOfEndigStates;
+    QSet <QString> endingStatesToAdd = setOfEndigStates - m_finiteAutomata->finalStates;
+    m_finiteAutomata->finalStates = setOfEndigStates;
     if(!endingStatesToDel.empty())
     {
         emit removeEndingNodes(endingStatesToDel);
@@ -277,8 +277,8 @@ void FA_widget::alphabetEdited()
 
 
         QSet <QString> setOfAlphabet =  SortedUniqueList.toSet();
-        QSet <QString> symbolsToDel = FA->alphabet - setOfAlphabet;
-        QSet <QString> symbolsToAdd = setOfAlphabet - FA->alphabet;
+        QSet <QString> symbolsToDel = m_finiteAutomata->alphabet - setOfAlphabet;
+        QSet <QString> symbolsToAdd = setOfAlphabet - m_finiteAutomata->alphabet;
         if(!symbolsToDel.empty())
         {
             foreach(QString symbol, symbolsToDel)
@@ -291,19 +291,19 @@ void FA_widget::alphabetEdited()
                     ui->rulesListWidget->takeItem(ui->rulesListWidget->row(item));
                     delete item;
                 }
-                emit removeEdges(FA->findRule_Symbol(symbol).toSet());
-                FA->removeSymbol(symbol);
+                emit removeEdges(m_finiteAutomata->findRule_Symbol(symbol).toSet());
+                m_finiteAutomata->removeSymbol(symbol);
             }
-            emit FA_changed(FA);
+            emit FA_changed(m_finiteAutomata);
         }
 
         if(!symbolsToAdd.empty())
         {
             foreach(QString symbol, symbolsToAdd)
             {
-                FA->addSymbol(symbol);
+                m_finiteAutomata->addSymbol(symbol);
             }
-            emit FA_changed(FA);
+            emit FA_changed(m_finiteAutomata);
         }
     }
     //TODO! osetrit kdyz se vyskytuji symboly abecedy v prechodech
@@ -313,16 +313,16 @@ void FA_widget::updateStates()
 {
     //This blok of code update combobox with start state
     ui->startStateComboBox->clear();    
-    QList <QString> items = FA->states.toList();
+    QList <QString> items = m_finiteAutomata->states.toList();
     qSort(items.begin(),items.end());
     ui->startStateComboBox->addItems(items);
-    int indexOfCombobox = ui->startStateComboBox->findText(FA->startState);
+    int indexOfCombobox = ui->startStateComboBox->findText(m_finiteAutomata->startState);
     ui->startStateComboBox->setCurrentIndex(indexOfCombobox);
-    if(FA->startState == "")
+    if(m_finiteAutomata->startState == "")
     {//if start state wasn't defined define it
         ui->startStateComboBox->setCurrentIndex(0);
-        FA->startState = ui->startStateComboBox->itemText(0);
-        emit setStartNode(FA->startState);
+        m_finiteAutomata->startState = ui->startStateComboBox->itemText(0);
+        emit setStartNode(m_finiteAutomata->startState);
     }
 
     //update ending state validator and completer
@@ -331,7 +331,7 @@ void FA_widget::updateStates()
     QStringList items_string_list = items;
     QString awailableStates = "(" + items_string_list.join( "|" ) + ")";
     endingStatesValidator->setRegExp(QRegExp("^" + awailableStates + "+(,\\s*" + awailableStates + ")*,?$")); // RegExp: ^\\w+(,\\s*\\w+)*,?$
-    QStringList endingStates = FA->finalStates.toList();
+    QStringList endingStates = m_finiteAutomata->finalStates.toList();
     ui->endingStatesLineEdit->setText(endingStates.join(", "));
 }
 
@@ -358,10 +358,10 @@ void FA_widget::on_startStateComboBox_activated(const QString &arg1)
     ui->startStateComboBox->setCurrentIndex(index);
     if(arg1 != "")
     {
-        FA->startState = QString(arg1);
+        m_finiteAutomata->startState = QString(arg1);
         emit setStartNode(arg1);
     }
-    emit FA_changed(FA);
+    emit FA_changed(m_finiteAutomata);
 }
 
 //DOTO kdyz jsou prazdne uzly tak vyhodit pri pokusu pridavat prechody error message
@@ -373,17 +373,17 @@ void FA_widget::on_addRuleToolButton_clicked()
     statesEdited();
     alphabetEdited();
 
-    if(FA->states.isEmpty())
+    if(m_finiteAutomata->states.isEmpty())
     {
         QString message = tr("WARNING: Can not add edges. First you have to add some nodes.");
         emit SendStatusBarMessage(message);
-        emit FA_changed(FA);
+        emit FA_changed(m_finiteAutomata);
         return;
     }
 
     //Predavani serazenych listu
-    QStringList states_list = FA->states.toList();
-    QStringList alphabet_list = FA->alphabet.toList();
+    QStringList states_list = m_finiteAutomata->states.toList();
+    QStringList alphabet_list = m_finiteAutomata->alphabet.toList();
     states_list.sort();
     alphabet_list.sort();
     editRuleDialog* ruleEditWindow = new editRuleDialog(states_list,alphabet_list,this);
@@ -393,7 +393,7 @@ void FA_widget::on_addRuleToolButton_clicked()
         QString from = ruleEditWindow->getFrom();
         QString symbol = ruleEditWindow->getSymbol();
         QString to = ruleEditWindow->getTo();
-        if(FA->addRule(ComputationalRules(from,to, symbol)))
+        if(m_finiteAutomata->addRule(ComputationalRules(from,to, symbol)))
         {
             ui->rulesListWidget->addItem(from + " " + symbol + " -> " + to);
             QSet <ComputationalRules> rules_set;
@@ -405,7 +405,7 @@ void FA_widget::on_addRuleToolButton_clicked()
             emit SendStatusBarMessage(tr("WARNING: Your set edge existing."));
         }
     }
-    emit FA_changed(FA);
+    emit FA_changed(m_finiteAutomata);
 }
 
 //TODO vypisovat warningy na statusbar
@@ -425,11 +425,11 @@ void FA_widget::on_removeRuleToolButton_clicked()
     {
         ComputationalRules rule_to_del(i->text());
         rules_to_del.insert(rule_to_del);
-        FA->removeRule(rule_to_del);
+        m_finiteAutomata->removeRule(rule_to_del);
     }
     emit removeEdges(rules_to_del);
     qDeleteAll(ui->rulesListWidget->selectedItems());
-    emit FA_changed(FA);
+    emit FA_changed(m_finiteAutomata);
 
 }
 
@@ -443,8 +443,8 @@ void FA_widget::on_rulesListWidget_itemDoubleClicked(QListWidgetItem *item)
     ComputationalRules oldrule(item->text());
 
     //Predavani serazenych listu
-    QStringList states_list = FA->states.toList();
-    QStringList alphabet_list = FA->alphabet.toList();
+    QStringList states_list = m_finiteAutomata->states.toList();
+    QStringList alphabet_list = m_finiteAutomata->alphabet.toList();
     states_list.sort();
     alphabet_list.sort();
 
@@ -456,7 +456,7 @@ void FA_widget::on_rulesListWidget_itemDoubleClicked(QListWidgetItem *item)
     {
         ComputationalRules newrule(ruleEditWindow->getFrom(),ruleEditWindow->getTo(),ruleEditWindow->getSymbol());
         //pokud se jedna o nove pravidlo
-        if(FA->changeRule(oldrule,newrule))
+        if(m_finiteAutomata->changeRule(oldrule,newrule))
         {
             //remove old rule
             QSet <ComputationalRules> delete_rules_set;
@@ -476,7 +476,7 @@ void FA_widget::on_rulesListWidget_itemDoubleClicked(QListWidgetItem *item)
             ;//TODO item se nezmenil
         }
     }
-    emit FA_changed(FA);
+    emit FA_changed(m_finiteAutomata);
 }
 
 //preklopi se formalni popis do grafu
@@ -484,18 +484,18 @@ void FA_widget::on_tabWidget_currentChanged(int index)
 {
     if(index == 1)
     {
-        QStringList states = FA->states.toList();
-        QStringList alphabet = FA->alphabet.toList();
+        QStringList states = m_finiteAutomata->states.toList();
+        QStringList alphabet = m_finiteAutomata->alphabet.toList();
         //QList <ComputationalRules> rules = FA->rules.toList();
         //QString startState = FA->starState;
-        QStringList endingStates = FA->finalStates.toList();
+        QStringList endingStates = m_finiteAutomata->finalStates.toList();
 
 
         ui->statesLineEdit->setText(states.join(", "));
         updateStates(); //also set start state too
         ui->alphabetLineEdit->setText(alphabet.join(", "));
         ui->rulesListWidget->clear();
-        foreach(ComputationalRules r,FA->rules)
+        foreach(ComputationalRules r,m_finiteAutomata->rules)
         {
             ui->rulesListWidget->addItem(r.from + " " + r.symbol + " -> " + r.to);
         }
@@ -509,7 +509,7 @@ void FA_widget::on_tabWidget_currentChanged(int index)
 void FA_widget::delete_items()
 {
     this->m_scene->deleteSelected();
-    emit FA_changed(FA);
+    emit FA_changed(m_finiteAutomata);
 }
 
 //vymaze formalni popis FA
@@ -528,7 +528,7 @@ void FA_widget::setFA(FiniteAutomata* FA)
 {
     disconnect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
     clean();
-    this->FA = FA;
+    this->m_finiteAutomata = FA;
     emit setFA_signal(FA);
     connect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
     emit FA_changed(FA);

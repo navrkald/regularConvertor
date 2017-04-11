@@ -145,15 +145,15 @@ void RegExpToFA::SetMode(AlgorithmModes _mode)
         {
             //this clears regexp tree, this by the way indirectly calls void RegExpToFA::setRE(RegExp *_re)
             //this will cause to call setRE and there saveStep() function is called
-            re_widget->setRegExp(new RegExp(re->regexp));
+            re_widget->setRegExp(new RegExp(re->m_regExpStr));
             re_widget->modelChanged();
 
             nodesToProcede.clear();
-            postOrder(re->rootNode);
+            postOrder(re->m_rootNode);
         }
         else if(mode == CHECK_MODE || mode == STEP_MODE)
         {
-            this->re->rootNode->clearProcessed();
+            this->re->m_rootNode->clearProcessed();
             computeSolution();
         }
     }
@@ -190,7 +190,7 @@ void RegExpToFA::SetRegExp(RegExp *_re)
         ClearActInstruction();
 
         //this is not prew step so we have to save it in history
-        if(history.empty() || re->regexp !=  history.last().re->regexp)
+        if(history.empty() || re->m_regExpStr !=  history.last().re->m_regExpStr)
         {
             m_actPos = 0;
             m_actInstruction = HEADER; //init start instruction because new regExp may appeare when pres step mode was in run
@@ -198,12 +198,12 @@ void RegExpToFA::SetRegExp(RegExp *_re)
             saveStep();
         }
         //aby se naplnily nodestoprocese po tom co jsme se vrátili v hystorii
-        postOrder(re->rootNode);
+        postOrder(re->m_rootNode);
     }
     else if(mode == CHECK_MODE || mode == STEP_MODE)
     {
         computeSolution();
-        postOrder(re->rootNode);
+        postOrder(re->m_rootNode);
     }
 }
 
@@ -237,7 +237,7 @@ void RegExpToFA::selectRegExp(QModelIndex index)
 
 void RegExpToFA::saveStep()
 {
-    if(re->rootNode->str == "")
+    if(re->m_rootNode->str == "")
         qFatal("Fatal Error: in funcion void RegExpToFA::saveStep()");
     steps s;
     s.re = new RegExp(*re);
@@ -250,8 +250,8 @@ void RegExpToFA::saveStep()
 void RegExpToFA::computeSolution()
 {
     nodesToProcede.clear();
-    re->rootNode->clearProcessed();
-    postOrder(re->rootNode);
+    re->m_rootNode->clearProcessed();
+    postOrder(re->m_rootNode);
     if(nodesToProcede.count() == 1 && nodesToProcede.first()->str == EMPTYSET)
     {
         RegExpNode* processedNode = nodesToProcede.first();
@@ -419,7 +419,7 @@ void RegExpToFA::RemoveFuture()
 void RegExpToFA::checkSolution()
 {
     nodesToProcede.clear();
-    postOrder(re->rootNode);
+    postOrder(re->m_rootNode);
     QList<RegExpNode*> nodes_to_check(nodesToProcede);
     while(!nodes_to_check.empty())
     {
@@ -458,6 +458,10 @@ void RegExpToFA::SetInputRegExp(RegExp *_re)
     re_widget->modelChanged();
     SetMode(CHECK_MODE);
     re = _re;
+}
+
+RegExp* RegExpToFA::GetInputRegExp(){
+    return re;
 }
 
 void RegExpToFA::toBegin()
@@ -513,7 +517,7 @@ QList<RegExpNode*> RegExpToFA::getAvailableNodes()
 {
     QList<RegExpNode*> availableNodes;
     QList<RegExpNode*> nodes_to_visit;
-    nodes_to_visit.append(re->rootNode);
+    nodes_to_visit.append(re->m_rootNode);
     while(!nodes_to_visit.empty())
     {
         RegExpNode* node = nodes_to_visit.first();

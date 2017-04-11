@@ -37,6 +37,7 @@ public:
     virtual void InitInstructions();
 //    void setNewRegExp(RegExp* re);
 
+    RegExp *GetInputRegExp();
 public slots:
     void SetMode(AlgorithmModes _mode);
 //    void setRE_old(RegExp* _re);

@@ -574,7 +574,7 @@ void MainWindow::RE_FA_example(RegExp *_re, QString example_name)
     ui->action_RE_to_FA->setChecked(true);
     if(m_activeConversion != RE_to_FA)
         PrepareConversionWidget(Conversions::RE_to_FA);
-    ((CRegExpToFaWidget*)m_centralWidget)->SetRegExp(_re);
+    ((CRegExpToFaWidget*)m_centralWidget)->SetInputRegExp(_re);
     mySetWindowTitle(example_name);
 
 }
@@ -1011,41 +1011,26 @@ void MainWindow::on_action_save_triggered()
     {
         case RE_to_FA:
         {
-            // In play mode does not make sence to save output fa
-            if(mode == AlgorithmModes::PLAY_MODE)
-            {
-                out << reg_exp_algorithm->re->regexp;
-            }
-            else
-            {
-                out << *reg_exp_algorithm->re;
-            }
+            out << ((CRegExpToFaWidget*)m_centralWidget)->GetInputRegExp()->m_regExpStr;
         }
         break;
         case REMOVE_EPSILON:
-            if(mode == AlgorithmModes::PLAY_MODE)
-            {
-                 out << remove_epsilon_algorithm->FA;
-            }
-            else
-            {
-                out << remove_epsilon_algorithm->FA << remove_epsilon_algorithm->non_epsilon_FA;
-            }
-        break;
+            out << ((CFADeterminizationWidget*)m_centralWidget)->GetInputFA();
+            // In play mode does not make sence to save output fa
+            if(mode != AlgorithmModes::PLAY_MODE)
+                out << ((CFADeterminizationWidget*)m_centralWidget)->GetOutputFA();
+            break;
         case DFA:
-            if(mode == AlgorithmModes::PLAY_MODE)
-            {
-                out << ((CFADeterminizationWidget*)m_centralWidget)->GetInputFA();
-            }
-            else
+            out << ((CFADeterminizationWidget*)m_centralWidget)->GetInputFA();
+            if(mode != AlgorithmModes::PLAY_MODE)
             {
                 out <<  ((CFADeterminizationWidget*)m_centralWidget)->GetOutputFA();
             }
-        break;
+            break;
         // This should never happend
         case none:
             showStatusMessage(tr("ERROR: No conversion selected!"));
-        break;
+            break;
     }
     file.close();
 }
@@ -1092,13 +1077,7 @@ void MainWindow::on_action_open_file_triggered()
             {
                 QString regexp_str;
                 in >> regexp_str;
-                //prepareREtoFA(new RegExp(regexp_str));
-            }
-            else
-            {
-                RegExp re;
-                in >> re;
-                //prepareREtoFA(new RegExp(re));
+                ((CRegExpToFaWidget*)m_centralWidget)->SetInputRegExp(new RegExp(regexp_str));
             }
         }
         break;
@@ -1106,13 +1085,12 @@ void MainWindow::on_action_open_file_triggered()
         {
             FiniteAutomata in_FA;
             in >> in_FA;
-            prepareRemoveEpsilon();
-            remove_epsilon_algorithm->SetInputFA(in_FA);
+            RemoveEpsilon_example(in_FA);
             if(mode != AlgorithmModes::PLAY_MODE)
             {
                 FiniteAutomata out_FA;
                 in >> out_FA;
-                remove_epsilon_algorithm->SetOutputFA(out_FA);
+                ((CRemoveEpsilonRulesWidget*)m_centralWidget)->SetOutputFA(out_FA);
             }
         }
         break;

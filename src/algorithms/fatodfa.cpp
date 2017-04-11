@@ -31,10 +31,12 @@ FaToDFA::FaToDFA(AlgorithmModes mode, CAlgorithmWidget* _algorithm_widget, FA_wi
 
 void FaToDFA::Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widget, FA_widget *_dfa_widget, CVariablesWidget *_var_widget)
 {
-    m_algorithm_widget = _algorithm_widget;
+    m_algorithmWidget = _algorithm_widget;
     m_not_dfa_widget = _not_dfa_widget;
     m_dfa_widget = _dfa_widget;
     m_var_widget = _var_widget;
+    SetupAlgorithmWidget(m_algorithmWidget);
+
 
     m_actInstruction = HEADER;
     m_prewInstruction = HEADER;
@@ -65,15 +67,15 @@ void FaToDFA::Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widg
     //
     // Connect algorithm buttons.
     //
-    connect(this->m_algorithm_widget,SIGNAL(playPressed(int)),this,SLOT(RunAlgorithm(int)));
-    connect(this->m_algorithm_widget,SIGNAL(stopPressed()),this,SLOT(Stop()));
-    connect(this->m_algorithm_widget,SIGNAL(prewPressed()),this,SLOT(prevStep()));
-    connect(this->m_algorithm_widget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
-    connect(this->m_algorithm_widget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
-    connect(this->m_algorithm_widget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
-    connect(this->m_algorithm_widget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
-    connect(this->m_algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
-    connect(this->m_algorithm_widget, SIGNAL(endPressed()), this, SLOT(toEnd()));
+    connect(this->m_algorithmWidget,SIGNAL(playPressed(int)),this,SLOT(RunAlgorithm(int)));
+    connect(this->m_algorithmWidget,SIGNAL(stopPressed()),this,SLOT(Stop()));
+    connect(this->m_algorithmWidget,SIGNAL(prewPressed()),this,SLOT(prevStep()));
+    connect(this->m_algorithmWidget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
+    connect(this->m_algorithmWidget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
+    connect(this->m_algorithmWidget, SIGNAL(endPressed()), this, SLOT(toEnd()));
 
     //
     // Connect timers.
@@ -87,7 +89,7 @@ void FaToDFA::Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widg
 
     m_not_dfa_widget->setFA(new FiniteAutomata());
 
-    m_algorithm_widget->enableShowButton();
+    m_algorithmWidget->enableShowButton();
 }
 
 
@@ -134,8 +136,8 @@ void FaToDFA::SetMode(AlgorithmModes _mode)
     switch (m_mode)
     {
         case PLAY_MODE:
-            m_algorithm_widget->enableNext();
-            m_algorithm_widget->disablePrev();
+            m_algorithmWidget->enableNext();
+            m_algorithmWidget->disablePrev();
             m_dfa_widget->setFA(new FiniteAutomata());
             //unselect instruction from algorithm window
             ClearActInstruction();
@@ -179,7 +181,7 @@ void FaToDFA::nextStep()
         return;
     }
 
-    m_algorithm_widget->enablePrev();
+    m_algorithmWidget->enablePrev();
     switch(m_prewInstruction)
     {
         case HEADER:
@@ -324,7 +326,7 @@ void FaToDFA::nextStep()
     }
     else
     {
-        m_algorithm_widget->disableNext();
+        m_algorithmWidget->disableNext();
         m_playTimer->stop();
         m_dfa_widget->setCorrectStatus();
     }
@@ -419,7 +421,7 @@ void FaToDFA::showUserSolution()
 
 void FaToDFA::toBegin()
 {
-     m_algorithm_widget->enableNext();
+     m_algorithmWidget->enableNext();
      m_actPos=0;
      steps s = m_history.at(m_actPos);
 
@@ -443,7 +445,7 @@ void FaToDFA::toBegin()
      showVariables();
      SetActInstruction();
      m_dfa_widget->clearStatus();
-     m_algorithm_widget->disablePrev();
+     m_algorithmWidget->disablePrev();
 }
 
 void FaToDFA::toEnd()
@@ -611,7 +613,7 @@ void FaToDFA::prevStep()
 {
     if (m_actPos > 0)
     {
-        m_algorithm_widget->enableNext();
+        m_algorithmWidget->enableNext();
         m_actPos--;
         steps s = m_history.at(m_actPos);
 
@@ -639,6 +641,6 @@ void FaToDFA::prevStep()
     }
     else
     {
-        m_algorithm_widget->disablePrev();
+        m_algorithmWidget->disablePrev();
     }
 }

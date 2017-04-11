@@ -27,11 +27,12 @@ RemoveEpsilon::RemoveEpsilon(AlgorithmModes _mode, CAlgorithmWidget* _algorithm_
 
 void RemoveEpsilon::Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_epsilon_fa_widget, FA_widget *_not_epsilon_fa_widget, CVariablesWidget *_var_widget, QListWidget *_epsilon_closer_list_widget)
 {
-    algorithm_widget = _algorithm_widget;
+    m_algorithmWidget = _algorithm_widget;
     epsilon_fa_widget = _epsilon_fa_widget;
     not_epsilon_fa_widget = _not_epsilon_fa_widget;
     var_widget = _var_widget;
     epsilon_closer_list_widget = _epsilon_closer_list_widget;
+    SetupAlgorithmWidget(m_algorithmWidget);
 
     m_actInstruction = HEADER;
     m_prewInstruction = HEADER;
@@ -74,15 +75,15 @@ void RemoveEpsilon::Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_epsilo
     //
     // Connect algorithm buttons.
     //
-    connect(this->algorithm_widget,SIGNAL(playPressed(int)),this,SLOT(RunAlgorithm(int)));
-    connect(this->algorithm_widget,SIGNAL(stopPressed()),this,SLOT(Stop()));
-    connect(this->algorithm_widget,SIGNAL(prewPressed()),this,SLOT(prevStep()));
-    connect(this->algorithm_widget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
-    connect(this->algorithm_widget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
-    connect(this->algorithm_widget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
-    connect(this->algorithm_widget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
-    connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
-    connect(this->algorithm_widget, SIGNAL(endPressed()), this, SLOT(toEnd()));
+    connect(this->m_algorithmWidget,SIGNAL(playPressed(int)),this,SLOT(RunAlgorithm(int)));
+    connect(this->m_algorithmWidget,SIGNAL(stopPressed()),this,SLOT(Stop()));
+    connect(this->m_algorithmWidget,SIGNAL(prewPressed()),this,SLOT(prevStep()));
+    connect(this->m_algorithmWidget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
+    connect(this->m_algorithmWidget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
+    connect(this->m_algorithmWidget, SIGNAL(endPressed()), this, SLOT(toEnd()));
 
     //
     // Connect timers.
@@ -97,7 +98,7 @@ void RemoveEpsilon::Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_epsilo
     epsilon_fa_widget->setFA(new FiniteAutomata());
     not_epsilon_fa_widget->setFA(new FiniteAutomata());
     //here is implemented
-    algorithm_widget->enableShowButton();
+    m_algorithmWidget->enableShowButton();
 }
 
 void RemoveEpsilon::InitInstructions()
@@ -145,8 +146,8 @@ void RemoveEpsilon::SetMode(AlgorithmModes _mode)
     switch (mode)
     {
         case PLAY_MODE:
-            algorithm_widget->enableNext();
-            algorithm_widget->disablePrev();
+            m_algorithmWidget->enableNext();
+            m_algorithmWidget->disablePrev();
             not_epsilon_fa_widget->setFA(new FiniteAutomata());
             //unselect instruction from algorithm window
             ClearActInstruction();
@@ -172,7 +173,7 @@ void RemoveEpsilon::SetMode(AlgorithmModes _mode)
 
 void RemoveEpsilon::nextStep()
 {
-    algorithm_widget->enablePrev();
+    m_algorithmWidget->enablePrev();
     switch(m_prewInstruction)
     {
 //
@@ -369,7 +370,7 @@ void RemoveEpsilon::nextStep()
     }
     else
     {
-        algorithm_widget->disableNext();
+        m_algorithmWidget->disableNext();
         m_playTimer->stop();
         not_epsilon_fa_widget->setCorrectStatus();
     }
@@ -406,7 +407,7 @@ void RemoveEpsilon::prevStep()
 {
     if (m_actPos > 0)
     {
-        algorithm_widget->enableNext();
+        m_algorithmWidget->enableNext();
         m_actPos--;
         steps s = history.at(m_actPos);
         m_num = s.num;
@@ -430,7 +431,7 @@ void RemoveEpsilon::prevStep()
     }
     else
     {
-        algorithm_widget->disablePrev();
+        m_algorithmWidget->disablePrev();
     }
 }
 
@@ -599,7 +600,7 @@ void RemoveEpsilon::showUserSolution()
 
 void RemoveEpsilon::toBegin()
 {
-    algorithm_widget->enableNext();
+    m_algorithmWidget->enableNext();
     m_actPos = 0;
     steps s = history.at(m_actPos);
     m_num = s.num;
@@ -620,7 +621,7 @@ void RemoveEpsilon::toBegin()
     SetActInstruction();
     setEpsilonCloserWidget();
     not_epsilon_fa_widget->clearStatus();
-    algorithm_widget->disablePrev();
+    m_algorithmWidget->disablePrev();
 }
 
 void RemoveEpsilon::toEnd()

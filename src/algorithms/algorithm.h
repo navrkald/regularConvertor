@@ -45,6 +45,7 @@ protected:
 
     void SetActInstruction();
     void ClearActInstruction();
+	void SetupAlgorithmWidget(CAlgorithmWidget* algorithmWidget);
 
 public slots:
     void SetMode(AlgorithmModes mode);

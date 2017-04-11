@@ -1,4 +1,5 @@
 #include "algorithm.h"
+#include <algorithms/htmldelegate.h>
 
 CAlgorithm::CAlgorithm(QObject* parent)
     : QStandardItemModel(parent), m_actInstructionBackroundColor(Qt::yellow), m_normalInstructionBackroundColor(Qt::white)
@@ -39,6 +40,14 @@ void CAlgorithm::ClearActInstruction()
         QModelIndex index = this->index(i,0,QModelIndex());
         setData(index,QBrush(m_normalInstructionBackroundColor),Qt::BackgroundRole);
     }
+}
+
+void CAlgorithm::SetupAlgorithmWidget(CAlgorithmWidget * algorithmWidget)
+{
+	HTMLDelegate* htmlDelegate = new HTMLDelegate();
+	algorithmWidget->getAlgorithmView()->setModel(this);
+	algorithmWidget->getAlgorithmView()->setItemDelegate(htmlDelegate);
+	connect(htmlDelegate, SIGNAL(dataChanged(QModelIndex)), this, SLOT(getData(QModelIndex)));
 }
 
 void CAlgorithm::SetMode(AlgorithmModes mode)

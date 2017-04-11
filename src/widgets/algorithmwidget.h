@@ -2,8 +2,8 @@
 #define ALGORITHMWIDGET_H
 
 #include <QWidget>
-#include "algorithms/algorithmview.h"
-#include "algorithms/algorithmodes.h"
+#include <algorithms/algorithmview.h>
+#include <algorithms/algorithmodes.h>
 #include <QSpacerItem>
 
 namespace Ui {

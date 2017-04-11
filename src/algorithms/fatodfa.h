@@ -74,7 +74,7 @@ private:
     FiniteAutomata m_backup_FA;
     FiniteAutomata m_correct_FA;
     AlgorithmModes m_mode;
-    CAlgorithmWidget* m_algorithm_widget;
+    CAlgorithmWidget* m_algorithmWidget;
     FA_widget* m_not_dfa_widget;
     FA_widget* m_dfa_widget;
     CVariablesWidget* m_var_widget;

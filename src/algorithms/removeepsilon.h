@@ -69,7 +69,7 @@ public slots:
 private:
     FiniteAutomata correct_FA;
     FiniteAutomata backup_FA;
-    CAlgorithmWidget* algorithm_widget;
+    CAlgorithmWidget* m_algorithmWidget;
     AlgorithmModes mode;
     FA_widget* epsilon_fa_widget;
     FA_widget* not_epsilon_fa_widget;

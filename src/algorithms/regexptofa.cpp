@@ -21,12 +21,13 @@ RegExpToFA::RegExpToFA(RegExp* _re, AlgorithmModes _mode) : CAlgorithm()
 
 void RegExpToFA::Init(CAlgorithmWidget *_algorithm_widget, CRegExpWidget *_re_widget, FA_widget *_left_fa_widget, FA_widget *_center_fa_widget, FA_widget *_right_fa_widget, RegExp *_re)
 {
-    algorithm_widget = _algorithm_widget;
+    m_algorithmWidget = _algorithm_widget;
     re_widget = _re_widget;
     left_fa_widget = _left_fa_widget;
     center_fa_widget = _center_fa_widget;
     right_fa_widget = _right_fa_widget;
     re = _re;
+    SetupAlgorithmWidget(m_algorithmWidget);
 
     m_actInstruction = HEADER;
     re = 0;
@@ -82,15 +83,15 @@ void RegExpToFA::Init(CAlgorithmWidget *_algorithm_widget, CRegExpWidget *_re_wi
     //
     // Connect algorithm buttons.
     //
-    connect(this->algorithm_widget,SIGNAL(playPressed(int)),this,SLOT(RunAlgorithm(int)));
-    connect(this->algorithm_widget,SIGNAL(stopPressed()),this,SLOT(Stop()));
-    connect(this->algorithm_widget,SIGNAL(prewPressed()),this,SLOT(prevStep()));
-    connect(this->algorithm_widget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
-    connect(this->algorithm_widget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
-    connect(this->algorithm_widget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
-    connect(this->algorithm_widget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
-    connect(this->algorithm_widget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
-    connect(this->algorithm_widget, SIGNAL(endPressed()), this, SLOT(toEnd()));
+    connect(this->m_algorithmWidget,SIGNAL(playPressed(int)),this,SLOT(RunAlgorithm(int)));
+    connect(this->m_algorithmWidget,SIGNAL(stopPressed()),this,SLOT(Stop()));
+    connect(this->m_algorithmWidget,SIGNAL(prewPressed()),this,SLOT(prevStep()));
+    connect(this->m_algorithmWidget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
+    connect(this->m_algorithmWidget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
+    connect(this->m_algorithmWidget, SIGNAL(endPressed()), this, SLOT(toEnd()));
 
     //
     // Connect timers.
@@ -108,7 +109,7 @@ void RegExpToFA::Init(CAlgorithmWidget *_algorithm_widget, CRegExpWidget *_re_wi
     re_widget->modelChanged();
 
     // because not implemented
-    algorithm_widget->disableShowButton();
+    m_algorithmWidget->disableShowButton();
 }
 
 RegExpToFA::RegExpToFA(CAlgorithmWidget* _algorithm_widget, AlgorithmModes _mode, CRegExpWidget *_re_widget, FA_widget* _left_fa_widget, FA_widget* _center_fa_widget, FA_widget* _right_fa_widget, RegExp* _re, QObject* parrent)

@@ -55,7 +55,7 @@ public slots:
     void toEnd();
 
 private:
-    CAlgorithmWidget* algorithm_widget;
+    CAlgorithmWidget* m_algorithmWidget;
     AlgorithmModes mode;
     CRegExpWidget* re_widget;
     FA_widget* left_fa_widget;

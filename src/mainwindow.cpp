@@ -667,6 +667,12 @@ void MainWindow::on_action_open_file_triggered()
     }
     mode = tmp_mode;
 
+    // Check that m_centralWidget was created and that if was created for actual conversion
+    if(!m_centralWidget || m_activeConversion != conversion)
+    {
+        PrepareConversionWidget(conversion);
+    }
+
     switch(conversion)
     {
         case RE_to_FA:

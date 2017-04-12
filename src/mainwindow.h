@@ -52,7 +52,6 @@ private slots:
     //
     // RegExp to FA
     //
-    void prepareREtoFA(RegExp* _re = new RegExp());
     void RE_FA_example(RegExp* _re, QString example_name = "");
     void on_RE_FA_example0_triggered();
     void on_RE_FA_example1_triggered();
@@ -68,7 +67,6 @@ private slots:
     //
     // Remove Epsilon
     //
-    void prepareRemoveEpsilon();
     void RemoveEpsilon_example(FiniteAutomata _FA, QString example_name = "");
     void on_RemoveEpsilon_example0_triggered();
     void on_RemoveEpsilon_advanced_example1_triggered();
@@ -76,7 +74,6 @@ private slots:
     //
     // DFA
     //
-    void PrepareDFA();
     void Determinization_example(FiniteAutomata _FA, QString example_name = "");
     void on_Determinization_example_1_triggered();
 
@@ -117,8 +114,6 @@ private slots:
     //
     // CFG to PDA
     //
-    void PrepareCFGtoPDA();
-
     void on_actionCFGtoPDA_triggered();
 
     void on_action_Determinization_triggered();
@@ -136,69 +131,15 @@ private:
     // Add actions in menu to groups in order to be checkable only one of them
     void SetActionsGroups();
 
-    // General private function
-    QWidget* prepareAlgorithnContainer(QWidget* central_w, QString str_label, CAlgorithm* algorithm);
-    QWidget* prepareFAContainer(QWidget* central_w, QString str_label, FA_widget* fa_widget);
-    QWidget* variablesContainer(QWidget* central_w, QString str_label, CVariablesWidget* var_widget);
-    QWidget* horizontalContainer(QWidget* central_w, QList<QWidget*> widgets);
-    QWidget* verticalContainer(QWidget* central_w, QList<QWidget*> widgets);
-
     //old thinks to delete
     QList<QGraphicsItem*> itemsToDelete;
     int statusBarTimeout;
-    //void deleteSelected(QGraphicsScene *scene);
-
     //
     // General variables
     //
     AlgorithmModes mode;
     Conversions m_activeConversion;
     ICentralCoversionWidget* m_centralWidget;
-
-
-    //
-    // regExp to FA
-    //
-    RegExpToFA* reg_exp_algorithm;
-    QWidget* regExpToFA_central_widget;
-    CRegExpWidget* regExpWidget;
-    FA_widget* fa_widget_left;
-    FA_widget* fa_widget_center;
-    FA_widget* fa_widget_right;
-    CRegExpWidget* reg_exp_widget;
-    void prepareREtoFA_GUI();
-
-    //
-    // Remove epsilon
-    //
-    RemoveEpsilon* remove_epsilon_algorithm;
-    QWidget* removeEpsilon_central_widget;
-    CVariablesWidget* remove_epsilon_variables_widget;
-    QListWidget* epsilon_closer_list_widget;
-    FA_widget* fa_epsilon_widget;
-    FA_widget* fa_not_epsilon_widget;
-    void prepareRemoveEpsilon_GUI();
-
-    //
-    // Determinization
-    //
-    FaToDFA* DFA_algorithm;
-    QWidget* DFA_central_widget;
-    CVariablesWidget* DFA_variables_widget;
-    FA_widget* not_DFA_widget;
-    FA_widget* DFA_widget;
-    void PrepareDFA_GUI();
-
-    //
-    // CFG to PDA
-    //
-    CCfgToPdaGuiInterface* CFG_TO_PDA_algorithm;
-    QWidget* CFG_TO_PDA_central_widget;
-    QLabel* CFG_TO_PDA_variables_widget;
-    CPdaWidget* m_pdaWidget;
-    CCfgWidget* m_cfgWidget;
-    void prepareCFG_TO_PDA_GUI();
-
 
 };
     QDataStream& operator>>(QDataStream& in, MainWindow::Conversions& e);

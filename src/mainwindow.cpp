@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     statusBarTimeout = 5000; //5 second
     setWindowTitle(MY_APP_NAME);
-    connect(ui->action_RemoveEpsilon,SIGNAL(triggered()),this,SLOT(prepareRemoveEpsilon()));
+    //connect(ui->action_RemoveEpsilon,SIGNAL(triggered()),this,SLOT(prepareRemoveEpsilon()));
     // TODO: Implement all functionalyty in PrepareDFA in CFAToDFaWidget
     //connect(ui->action_Determinization,SIGNAL(triggered()),this,SLOT(PrepareDFA()));
 
@@ -635,8 +635,8 @@ void MainWindow::RemoveEpsilon_example(FiniteAutomata _FA, QString example_name)
     ui->action_RemoveEpsilon->setChecked(true);
 
     if(m_activeConversion != REMOVE_EPSILON)
-        prepareRemoveEpsilon();
-    remove_epsilon_algorithm->SetInputFA(_FA);
+        PrepareConversionWidget(REMOVE_EPSILON);
+    ((CRemoveEpsilonRulesWidget*)m_centralWidget)->SetInputFA(_FA);
     mySetWindowTitle(example_name);
 }
 
@@ -1192,12 +1192,12 @@ void MainWindow::on_action_Determinization_triggered()
     PrepareConversionWidget(DFA);
 }
 
-void MainWindow::on_actionTestRefactoredRemoveEpsilon_triggered()
-{
-    PrepareConversionWidget(MainWindow::Conversions::REMOVE_EPSILON);
-}
-
 void MainWindow::on_action_RE_to_FA_triggered()
 {
     PrepareConversionWidget(MainWindow::Conversions::RE_to_FA);
+}
+
+void MainWindow::on_action_RemoveEpsilon_triggered()
+{
+    PrepareConversionWidget(MainWindow::Conversions::REMOVE_EPSILON);
 }

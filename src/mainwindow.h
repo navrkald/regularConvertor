@@ -123,9 +123,9 @@ private slots:
 
     void on_action_Determinization_triggered();
 
-    void on_actionTestRefactoredRemoveEpsilon_triggered();
-
     void on_action_RE_to_FA_triggered();
+
+    void on_action_RemoveEpsilon_triggered();
 
 private:
     using QMainWindow::setCentralWidget;

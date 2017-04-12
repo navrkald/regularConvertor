@@ -790,7 +790,7 @@ void MainWindow::SetActionsGroups()
 
 void MainWindow::on_action_Determinization_triggered()
 {
-    PrepareConversionWidget(DFA);
+    PrepareConversionWidget(MainWindow::Conversions::DFA);
 }
 
 void MainWindow::on_action_RE_to_FA_triggered()

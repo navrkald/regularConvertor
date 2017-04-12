@@ -677,14 +677,11 @@ void MainWindow::on_action_open_file_triggered()
     {
         case RE_to_FA:
         {
-            if(mode == AlgorithmModes::PLAY_MODE)
-            {
-                QString regexp_str;
-                in >> regexp_str;
-                ((CRegExpToFaWidget*)m_centralWidget)->SetInputRegExp(new RegExp(regexp_str));
-            }
+            QString regexp_str;
+            in >> regexp_str;
+            ((CRegExpToFaWidget*)m_centralWidget)->SetInputRegExp(new RegExp(regexp_str));
+            break;
         }
-        break;
         case REMOVE_EPSILON:
         {
             FiniteAutomata in_FA;

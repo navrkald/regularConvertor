@@ -224,40 +224,43 @@ QWidget *)
  {
 	 QSize textSize = GetDisplayTextSize();
 	 QRect textRect;
-	 textRect.setSize(textSize);
      if(this->m_myStartItem == this->m_myEndItem)
      {
-		 //textRect.setX(getStartItemPos().x() - textSize.height()/ 2);
-		 //textRect.setY(getStartItemPos().y() - NODE_RADIUS * 2 - 1.5 * TEXT_DISTANCE - textSize.height());
+        textRect.setX(GetStartItemPos().x() - textSize.width()/ 2);
+        textRect.setY(GetStartItemPos().y() - NODE_RADIUS * 2 - 1.5 * TEXT_DISTANCE - textSize.height());
      }
      else
      {
-// 				 
-//          QLineF centerLine(getStartItemPos(), getEndItemPos());
-// 
-//          QPointF center_point =  centerLine.pointAt(0.5);
-// 				 center_point = center_point - perpendiucularDifference(QLineF(getStartItemPos(),getEndItemPos()),TEXT_DISTANCE);
-//          QPointF lineVector = getEndItemPos() - getStartItemPos();
-//          //          B
-//          //         ^
-//          // text   /
-//          //      A
-//          if(lineVector.x() < 0 && lineVector.y() > 0)
-//          {
-// 						 center_point.setX( center_point.x() - textSize.width());
-// 						 center_point.setY( center_point.y() - textSize.height());
-//          }
-//          //          B
-//          //         /
-//          // text   v
-//          //       A
-//          if(lineVector.x() > 0 && lineVector.y() > 0)
-//          {
-// 						 center_point.setX( center_point.x() - textSize.width());
-// 						 center_point.setY( center_point.y() + textSize.height());
-//          }
-//          return center_point;
+        QLineF centerLine(GetStartItemPos(), GetEndItemPos());
+
+        QPointF centerPoint =  centerLine.pointAt(0.5);
+        centerPoint -= PerpendicularDifference(QLineF(GetStartItemPos(),GetEndItemPos()),TEXT_DISTANCE);
+        QPointF lineVector = GetEndItemPos() - GetStartItemPos();
+        //          B
+        //         ^
+        // text   /
+        //      A
+        if(lineVector.x() < 0 && lineVector.y() > 0)
+        {
+         centerPoint.setX( centerPoint.x() - textSize.width());
+         centerPoint.setY( centerPoint.y() - textSize.height());
+        }
+        //          B
+        //         /
+        // text   v
+        //       A
+        if(lineVector.x() > 0 && lineVector.y() > 0)
+        {
+         centerPoint.setX( centerPoint.x() - textSize.width());
+         centerPoint.setY( centerPoint.y() + textSize.height());
+        }
+        textRect.setTopLeft(centerPoint.toPoint());
      }
+     textRect.setSize(textSize);
+     qDebug() << "Start item pos: " << startItem()->pos()
+              << " End Item pos: " << endItem()->pos()
+              << " Text rect :" << textRect
+              << " Text rect size: " << textRect.size();
 	 return textRect;
  }
 
@@ -328,7 +331,7 @@ QPointF Arrow::PerpendicularDifference(QLineF line, qreal distance)const
 QSize Arrow::GetDisplayTextSize() const
 {
     QFontMetrics metrics(qApp->font());
-        return metrics.size(0, m_displayText);
+    return metrics.size(0, m_displayText);
 }
 
 //QPointF Arrow::intersectionPoint1(StateNode *circle, QLineF  *line) const

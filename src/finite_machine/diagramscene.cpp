@@ -209,7 +209,7 @@ void DiagramScene::deleteSelected()
         {
             removeItem(arrow);
             items.removeOne(arrow);
-            foreach(QString symbol,arrow->symbols)
+            foreach(QString symbol,arrow->m_symbols)
                 FA->removeRule(ComputationalRules(arrow->startItem()->getName(),arrow->endItem()->getName(),symbol));
             delete arrow;
         }
@@ -406,7 +406,7 @@ Arrow* DiagramScene::getArrow(StateNode *from, StateNode* to)
     foreach(item,this->items())
     {
          Arrow* arrow = dynamic_cast<Arrow*>(item);
-         if(arrow && arrow->myStartItem == from && arrow->myEndItem == to)
+         if(arrow && arrow->m_myStartItem == from && arrow->m_myEndItem == to)
          {
              return arrow;
          }

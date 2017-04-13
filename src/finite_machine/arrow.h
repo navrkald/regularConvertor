@@ -64,8 +64,7 @@ class Arrow : public QObject, public QGraphicsLineItem
     Q_OBJECT
 protected:
 	//This constructor is usen only in CPdaArrow (implicitely)
-	Arrow(StateNode *startItem, StateNode *endItem,
-                QGraphicsItem *parent = 0, DiagramScene *m_scene = 0);
+    Arrow(StateNode *startItem, StateNode *endItem, QGraphicsItem *parent = 0, DiagramScene *m_scene = 0);
 
 public:
 
@@ -92,7 +91,7 @@ public:
     QStringList m_symbols;
     DiagramScene *m_scene;
 
-		virtual void EditArrow();
+    virtual void EditArrow();
 signals:
     void FA_changed(FiniteAutomata* m_FA);
 
@@ -105,23 +104,23 @@ private:
         FiniteAutomata* m_FA;
 
 protected:
-     QString m_displayText;
-     QColor m_myColor;
-     QPolygonF m_arrowHead;
-     QPolygonF m_selfArrowHead;
-     long int m_debugCounter;
-		 QRect GetDisplayTextRect() const;
-     QPolygonF SelfArrowHead();
-     QPointF GetDistancePoint() const;
-     //Between same nodes are arrows with oposit direction
-     bool ArrowHasSibling() const;
-     QPointF getStartItemPos() const;
-     QPointF getEndItemPos() const;
-     //pro vypocet jakym smerem se ma sipka posunout, je to proto, aby se opacne sipky mezi stejnymi
-     //uzly neprekrivali
-     QPointF perpendicularDifference(QLineF line, qreal distance)const;
-		 QSize GetDisplayTextSize() const;
-     QPointF EllipseLineIntersection(QRectF elipse, QPointF p1, QPointF p2) const;
+    QString m_displayText;
+    QColor m_myColor;
+    QPolygonF m_arrowHead;
+    QPolygonF m_selfArrowHead;
+    long int m_debugCounter;
+    virtual QRect GetDisplayTextRect() const;
+    QPolygonF SelfArrowHead();
+    QPointF GetDistancePoint() const;
+    //Between same nodes are arrows with oposit direction
+    bool ArrowHasSibling() const;
+    QPointF GetStartItemPos() const;
+    QPointF GetEndItemPos() const;
+    //pro vypocet jakym smerem se ma sipka posunout, je to proto, aby se opacne sipky mezi stejnymi
+    //uzly neprekrivali
+    QPointF PerpendicularDifference(QLineF line, qreal distance)const;
+    QSize GetDisplayTextSize() const;
+    QPointF EllipseLineIntersection(QRectF elipse, QPointF p1, QPointF p2) const;
 };
 
 #endif

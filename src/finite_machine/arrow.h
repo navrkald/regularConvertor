@@ -65,7 +65,7 @@ class Arrow : public QObject, public QGraphicsLineItem
 protected:
 	//This constructor is usen only in CPdaArrow (implicitely)
 	Arrow(StateNode *startItem, StateNode *endItem,
-				QGraphicsItem *parent = 0, DiagramScene *scene = 0);
+                QGraphicsItem *parent = 0, DiagramScene *m_scene = 0);
 
 public:
 
@@ -73,28 +73,28 @@ public:
     enum { Type = UserType + 2 };
 
     Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA, QStringList symbol,
-    QGraphicsItem *parent = 0, DiagramScene *scene = 0);
+    QGraphicsItem *parent = 0, DiagramScene *m_scene = 0);
 
     int type() const { return Type; }
     QRectF boundingRect() const;
     QPainterPath shape() const;
-    void setColor(const QColor &color) { myColor = color; }
-    StateNode *startItem() const { return myStartItem; }
-    StateNode *endItem() const { return myEndItem; }
+    void setColor(const QColor &color) { m_myColor = color; }
+    StateNode *startItem() const { return m_myStartItem; }
+    StateNode *endItem() const { return m_myEndItem; }
     void addSymbol(QString symbol);
     //return true if there are no aditonal symbols
     bool removeSymbol(QString symbol);
     void updatePosition(); 
 
 public:
-    StateNode *myStartItem;
-    StateNode *myEndItem;
-    QStringList symbols;
-    DiagramScene *scene;
+    StateNode *m_myStartItem;
+    StateNode *m_myEndItem;
+    QStringList m_symbols;
+    DiagramScene *m_scene;
 
 		virtual void EditArrow();
 signals:
-    void FA_changed(FiniteAutomata* FA);
+    void FA_changed(FiniteAutomata* m_FA);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -102,19 +102,19 @@ protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-		FiniteAutomata* FA;
+        FiniteAutomata* m_FA;
 
 protected:
-     QString displayText;
-     QColor myColor;
+     QString m_displayText;
+     QColor m_myColor;
      QPolygonF m_arrowHead;
-     QPolygonF selfArrowHead;
-     long int debugCounter;
+     QPolygonF m_selfArrowHead;
+     long int m_debugCounter;
 		 QRect GetDisplayTextRect() const;
      QPolygonF SelfArrowHead();
-     QPointF getDistancePoint() const;
+     QPointF GetDistancePoint() const;
      //Between same nodes are arrows with oposit direction
-     bool arrowHasSibling() const;
+     bool ArrowHasSibling() const;
      QPointF getStartItemPos() const;
      QPointF getEndItemPos() const;
      //pro vypocet jakym smerem se ma sipka posunout, je to proto, aby se opacne sipky mezi stejnymi

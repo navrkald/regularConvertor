@@ -49,28 +49,28 @@ Arrow::Arrow(StateNode *startItem, StateNode *endItem, FiniteAutomata* _FA, QStr
           QGraphicsItem *parent, DiagramScene* _scene)
      : QGraphicsLineItem(parent)
  {
-     this->symbols = symbols;
-     this->displayText = this->symbols.join(", ");
-     scene = _scene;
-     FA = _FA;
-     myStartItem = startItem;
-     myEndItem = endItem;
+     m_symbols = symbols;
+     m_displayText = this->m_symbols.join(", ");
+     m_scene = _scene;
+     m_FA = _FA;
+     m_myStartItem = startItem;
+     m_myEndItem = endItem;
      setFlag(QGraphicsItem::ItemIsSelectable, true);
-     myColor = Qt::black;
-     setPen(QPen(myColor, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-     debugCounter = 0;
+     m_myColor = Qt::black;
+     setPen(QPen(m_myColor, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+     m_debugCounter = 0;
 
-     connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
+     connect(this,SIGNAL(FA_changed(FiniteAutomata*)),m_scene,SIGNAL(FA_changed(FiniteAutomata*)));
  }
 
 Arrow::Arrow(StateNode* startItem, StateNode* endItem, QGraphicsItem* parent, DiagramScene* _scene) :
-	myStartItem(startItem), myEndItem(endItem),	QGraphicsLineItem(parent), scene(_scene)
+    m_myStartItem(startItem), m_myEndItem(endItem),	QGraphicsLineItem(parent), m_scene(_scene)
 {}
 
 Arrow::~Arrow()
  {
-    myStartItem->removeArrow(this);
-    myEndItem->removeArrow(this);
+    m_myStartItem->removeArrow(this);
+    m_myEndItem->removeArrow(this);
  }
 
  QRectF Arrow::boundingRect() const
@@ -88,9 +88,9 @@ Arrow::~Arrow()
  {
      QPainterPath path;
 	 path.addRect(GetDisplayTextRect());
-     if(getStartItemPos() == getEndItemPos())
+     if(GetStartItemPos() == GetEndItemPos())
      {//jedna se o self smycku
-         path.addEllipse(QPointF (getStartItemPos().x(), getStartItemPos().y() - NODE_RADIUS * 2),NODE_RADIUS *1,NODE_RADIUS *1);
+         path.addEllipse(QPointF (GetStartItemPos().x(), GetStartItemPos().y() - NODE_RADIUS * 2),NODE_RADIUS *1,NODE_RADIUS *1);
      }
      else
      {//je to sipka mezi 2 ruznymi uzly
@@ -102,17 +102,17 @@ Arrow::~Arrow()
 
  void Arrow::addSymbol(QString symbol)
  {
-     QSet <QString> symbolsSet = symbols.toSet();
+     QSet <QString> symbolsSet = m_symbols.toSet();
      symbolsSet.insert(symbol);
-     symbols = symbolsSet.toList();
-     symbols.sort();
+     m_symbols = symbolsSet.toList();
+     m_symbols.sort();
  }
 
  bool Arrow::removeSymbol(QString symbol)
  {
-     symbols.removeOne(symbol);
+     m_symbols.removeOne(symbol);
      update();
-     if(symbols.empty())
+     if(m_symbols.empty())
          return true;
      else
          return false;
@@ -122,61 +122,61 @@ Arrow::~Arrow()
 
 void Arrow::updatePosition()
 {
-    QLineF line(mapFromItem(myStartItem, 0, 0), mapFromItem(myEndItem, 0, 0));
+    QLineF line(mapFromItem(m_myStartItem, 0, 0), mapFromItem(m_myEndItem, 0, 0));
     setLine(line);
 }
 
 
 void Arrow::EditArrow()
 {
-    SymbolsInputDialog inputDialog(symbols.join(", "));
+    SymbolsInputDialog inputDialog(m_symbols.join(", "));
     if(QDialog::Accepted == inputDialog.exec())
     {
         //Setup FA
         QStringList editedSymbols = inputDialog.symbols;
-        QSet<QString> deletedSymbols = this->symbols.toSet() -  editedSymbols.toSet();
-        QSet<QString> newSymbols = editedSymbols.toSet() - this->symbols.toSet();
+        QSet<QString> deletedSymbols = this->m_symbols.toSet() -  editedSymbols.toSet();
+        QSet<QString> newSymbols = editedSymbols.toSet() - this->m_symbols.toSet();
         foreach(QString symbol,deletedSymbols)
         {
-            FA->removeRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
+            m_FA->removeRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
         }
         foreach(QString symbol,newSymbols)
         {
-            FA->addRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
+            m_FA->addRule(ComputationalRules(startItem()->getName(),endItem()->getName(),symbol));
         }
         //Setup this
-        this->symbols  = editedSymbols;
-        this->displayText = this->symbols.join(", ");
-        emit FA_changed(FA);
+        m_symbols  = editedSymbols;
+        m_displayText = this->m_symbols.join(", ");
+        emit FA_changed(m_FA);
     }
 }
 
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 QWidget *)
 {
-		painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setRenderHint(QPainter::Antialiasing, true);
     QPen myPen = pen();
-    myPen.setColor(myColor);
+    myPen.setColor(m_myColor);
     qreal arrowSize = 20;
     painter->setPen(myPen);
 
 	QRect textRectangle = GetDisplayTextRect();
-	painter->drawText(textRectangle, Qt::AlignTop | Qt::AlignLeft,this->displayText);
+    painter->drawText(textRectangle, Qt::AlignTop | Qt::AlignLeft,this->m_displayText);
 
     if (isSelected())
     {
-        painter->setPen(QPen(myColor, 1, Qt::DashLine));
+        painter->setPen(QPen(m_myColor, 1, Qt::DashLine));
     }
 
-    if(getStartItemPos() == getEndItemPos())
+    if(GetStartItemPos() == GetEndItemPos())
     {//jedna se o self smycku
 
-        painter->drawEllipse(QPointF (getStartItemPos().x(), getStartItemPos().y() - NODE_RADIUS * 2),NODE_RADIUS *1,NODE_RADIUS * 1);
+        painter->drawEllipse(QPointF (GetStartItemPos().x(), GetStartItemPos().y() - NODE_RADIUS * 2),NODE_RADIUS *1,NODE_RADIUS * 1);
     }
     else
     {//je to sipka mezi 2 ruznymi uzly
-        painter->setBrush(myColor);
-        QLineF centerLine(getStartItemPos(), getEndItemPos());
+        painter->setBrush(m_myColor);
+        QLineF centerLine(GetStartItemPos(), GetEndItemPos());
 
 
 
@@ -185,7 +185,7 @@ QWidget *)
         QPointF endPoint = centerLine.p2();
         QPointF startPoint = centerLine.p1();
         centerLine.setPoints(endPoint, startPoint);
-        centerLine.setLength ( centerLine.length ()  - myEndItem->getRadius());
+        centerLine.setLength ( centerLine.length ()  - m_myEndItem->getRadius());
 
 
         setLine(centerLine);
@@ -205,7 +205,7 @@ QWidget *)
         painter->drawPolygon(m_arrowHead);
         if (isSelected())
         {
-            painter->setPen(QPen(myColor, 1, Qt::DashLine));
+            painter->setPen(QPen(m_myColor, 1, Qt::DashLine));
             QLineF myLine = line();
             myLine.translate(0, 4.0);
             painter->drawLine(myLine);
@@ -225,7 +225,7 @@ QWidget *)
 	 QSize textSize = GetDisplayTextSize();
 	 QRect textRect;
 	 textRect.setSize(textSize);
-	 if(this->myStartItem == this->myEndItem)
+     if(this->m_myStartItem == this->m_myEndItem)
      {
 		 //textRect.setX(getStartItemPos().x() - textSize.height()/ 2);
 		 //textRect.setY(getStartItemPos().y() - NODE_RADIUS * 2 - 1.5 * TEXT_DISTANCE - textSize.height());
@@ -262,19 +262,19 @@ QWidget *)
  }
 
 
-QPointF Arrow::getDistancePoint() const
+QPointF Arrow::GetDistancePoint() const
 {
-    if(this->myStartItem == this->myEndItem)
+    if(this->m_myStartItem == this->m_myEndItem)
     {
-        return QPointF(getStartItemPos().x(), getStartItemPos().y() - NODE_RADIUS * 2 - 1.5 * TEXT_DISTANCE);
+        return QPointF(GetStartItemPos().x(), GetStartItemPos().y() - NODE_RADIUS * 2 - 1.5 * TEXT_DISTANCE);
     }
     else
     {
-        QLineF centerLine(getStartItemPos(), getEndItemPos());
+        QLineF centerLine(GetStartItemPos(), GetEndItemPos());
         QPointF center_point =  centerLine.pointAt(0.5);
         QLineF tmpLine(center_point ,centerLine.p2());
         QLineF normalLine = tmpLine.normalVector();
-        if(getStartItemPos().y() > getEndItemPos().y())
+        if(GetStartItemPos().y() > GetEndItemPos().y())
             normalLine.setLength(-TEXT_DISTANCE);
         else
             normalLine.setLength(TEXT_DISTANCE);
@@ -282,9 +282,9 @@ QPointF Arrow::getDistancePoint() const
     }
 }
 
-bool Arrow::arrowHasSibling()const
+bool Arrow::ArrowHasSibling()const
 {
-    foreach(Arrow* arrow,this->myStartItem->arrows)
+    foreach(Arrow* arrow,this->m_myStartItem->arrows)
     {
         if(arrow->startItem() == this->endItem() && arrow->endItem() == this->startItem())
             return true;
@@ -292,23 +292,24 @@ bool Arrow::arrowHasSibling()const
     return false;
 }
 
-QPointF Arrow::getStartItemPos() const
+QPointF Arrow::GetStartItemPos() const
 {
-    if(arrowHasSibling())
-        return startItem()->pos() - perpendicularDifference(QLineF(startItem()->pos(),endItem()->pos()),LINES_DISTANCE);
+    // If there is another arrow with oposite direction
+    if(ArrowHasSibling())
+        return startItem()->pos() - PerpendicularDifference(QLineF(startItem()->pos(),endItem()->pos()),LINES_DISTANCE);
     else
         return startItem()->pos();
 }
 
-QPointF Arrow::getEndItemPos() const
+QPointF Arrow::GetEndItemPos() const
 {
     if(endItem() == startItem())
     {
         return startItem()->sceneBoundingRect().center();
     }
-    else if(arrowHasSibling())
+    else if(ArrowHasSibling())
     {
-        return EllipseLineIntersection(endItem()->mapRectToScene(endItem()->elipseBoundingRect()), startItem()->sceneBoundingRect().center(), endItem()->mapRectToScene(endItem()->elipseBoundingRect()).center() - perpendicularDifference(QLineF(startItem()->pos(),endItem()->pos()),LINES_DISTANCE));
+        return EllipseLineIntersection(endItem()->mapRectToScene(endItem()->elipseBoundingRect()), startItem()->sceneBoundingRect().center(), endItem()->mapRectToScene(endItem()->elipseBoundingRect()).center() - PerpendicularDifference(QLineF(startItem()->pos(),endItem()->pos()),LINES_DISTANCE));
     }
     else
     {
@@ -316,8 +317,8 @@ QPointF Arrow::getEndItemPos() const
     }
 }
 
-
-QPointF Arrow::perpendicularDifference(QLineF line, qreal distance)const
+// Perpendicular == kolmá
+QPointF Arrow::PerpendicularDifference(QLineF line, qreal distance)const
 {
     QLineF normalLine = line.normalVector();
     normalLine.setLength(distance);
@@ -327,7 +328,7 @@ QPointF Arrow::perpendicularDifference(QLineF line, qreal distance)const
 QSize Arrow::GetDisplayTextSize() const
 {
     QFontMetrics metrics(qApp->font());
-		return metrics.size(0, displayText);
+        return metrics.size(0, m_displayText);
 }
 
 //QPointF Arrow::intersectionPoint1(StateNode *circle, QLineF  *line) const

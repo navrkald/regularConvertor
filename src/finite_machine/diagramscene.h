@@ -24,7 +24,7 @@ public:
     DiagramScene(FiniteAutomata* _FA, QWidget *parent);
     //~DiagramScene();
 
-		enum Mode { AddNodeMode, MoveNodeMode, DeleteNodeMode, AddArrowMode};
+    enum Mode { AddNodeMode, MoveNodeMode, DeleteNodeMode, AddArrowMode};
     Mode actMode;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
@@ -57,7 +57,7 @@ protected:
     void addNode(QString node, QPoint point);
     StateNode* getNodeByName(QString nodeName);
     void clean();
-		virtual void AddArrow(StateNode *startItem, StateNode *endItem);
+    virtual void AddArrow(StateNode *startItem, StateNode *endItem);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
 };

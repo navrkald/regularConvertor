@@ -92,35 +92,35 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
  {
     clicked = false;
 
-		 if (actLine != 0 && actMode == AddArrowMode)
-     {
-         QList<QGraphicsItem *> startItems = items(actLine->line().p1());
-         if (startItems.count() && startItems.first() == actLine)
-             startItems.removeFirst();
+    if (actLine != 0 && actMode == AddArrowMode)
+    {
+        QList<QGraphicsItem *> startItems = items(actLine->line().p1());
+        if (startItems.count() && startItems.first() == actLine)
+            startItems.removeFirst();
 
-         QList<QGraphicsItem *> endItems = items(actLine->line().p2());
-         if (endItems.count() && endItems.first() == actLine)
-             endItems.removeFirst();
+        QList<QGraphicsItem *> endItems = items(actLine->line().p2());
+        if (endItems.count() && endItems.first() == actLine)
+         endItems.removeFirst();
 
-         removeItem(actLine);
-         delete actLine;
-         actLine = 0;
+        removeItem(actLine);
+        delete actLine;
+        actLine = 0;
 
-         if (startItems.count() > 0 && endItems.count() > 0
-            && 0 != qgraphicsitem_cast<StateNode *>(startItems.first())
-            && 0 != qgraphicsitem_cast<StateNode *>(endItems.first()))
-         {
-             StateNode *startItem = qgraphicsitem_cast<StateNode *>(startItems.first());
-             StateNode *endItem = qgraphicsitem_cast<StateNode *>(endItems.first());
-             Arrow *arrow;
-             if((arrow = startItem->hasArrowTo(endItem)) != 0)
-             {
-								arrow->EditArrow();
-                return;
-             }
-						 AddArrow(startItem, endItem);
-         }
-     }
+        if (startItems.count() > 0 && endItems.count() > 0
+        && 0 != qgraphicsitem_cast<StateNode *>(startItems.first())
+        && 0 != qgraphicsitem_cast<StateNode *>(endItems.first()))
+        {
+        StateNode *startItem = qgraphicsitem_cast<StateNode *>(startItems.first());
+        StateNode *endItem = qgraphicsitem_cast<StateNode *>(endItems.first());
+        Arrow *arrow;
+        if((arrow = startItem->hasArrowTo(endItem)) != 0)
+        {
+            arrow->EditArrow();
+            return;
+        }
+        AddArrow(startItem, endItem);
+    }
+}
     QGraphicsScene::mouseReleaseEvent(mouseEvent);
  }
 
@@ -129,31 +129,30 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	 QStringList symbols;
 	 if(QDialog::Accepted == inputDialog.exec())
 	 {
-			 symbols = inputDialog.symbols;
-			 Arrow* arrow = new Arrow(startItem, endItem, FA, symbols,0,this);
-			 QStringList new_symbols;
-			 foreach(QString symbol,symbols)
-			 {
-					if(FA->addRule(ComputationalRules(startItem->getName(),endItem->getName(),symbol)))
-					{
-							if(symbol != EPSILON)
-							{
-									FA->addSymbol(symbol);
-									new_symbols.append(symbol);
-							}
-							emit FA_changed(FA);
-					}
-					else
-					{
-							emit sendStatusBarMessage(tr("WARNING: Your set existing edge."));
-					}
-
-			 }
-			 startItem->addArrow(arrow);
-			 endItem->addArrow(arrow);
-			 arrow->setZValue(-1000.0);   //posun na pozadi
-			 addItem(arrow);
-			 arrow->updatePosition();
+         symbols = inputDialog.symbols;
+         Arrow* arrow = new Arrow(startItem, endItem, FA, symbols,0,this);
+         QStringList new_symbols;
+         foreach(QString symbol,symbols)
+         {
+            if(FA->addRule(ComputationalRules(startItem->getName(),endItem->getName(),symbol)))
+            {
+                if(symbol != EPSILON)
+                {
+                    FA->addSymbol(symbol);
+                    new_symbols.append(symbol);
+                }
+                emit FA_changed(FA);
+            }
+            else
+            {
+                emit sendStatusBarMessage(tr("WARNING: Your set existing edge."));
+            }
+         }
+         startItem->addArrow(arrow);
+         endItem->addArrow(arrow);
+         arrow->setZValue(-1000.0);   //posun na pozadi
+         addItem(arrow);
+         arrow->updatePosition();
 	 }
 }
 

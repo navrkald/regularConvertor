@@ -12,7 +12,7 @@ class CPdaArrow : public Arrow
 public:
 	explicit CPdaArrow();
 	CPdaArrow(StateNode *startItem, StateNode *endItem, CPushDownAutomata* pa, QSet<CPDACompotutationalRule> pdaRules,
-	QGraphicsItem *parent = 0, CPDADiagramScene *scene = 0);
+	QGraphicsItem *parent = 0, CPDADiagramScene *m_scene = 0);
 
 protected:
 	StateNode* m_startItem;

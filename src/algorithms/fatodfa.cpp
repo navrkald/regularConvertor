@@ -69,23 +69,23 @@ void FaToDFA::Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widg
     //
     connect(this->m_algorithmWidget,SIGNAL(playPressed(int)),this,SLOT(RunAlgorithm(int)));
     connect(this->m_algorithmWidget,SIGNAL(stopPressed()),this,SLOT(Stop()));
-    connect(this->m_algorithmWidget,SIGNAL(prewPressed()),this,SLOT(prevStep()));
-    connect(this->m_algorithmWidget,SIGNAL(nextPressed()),this,SLOT(nextStep()));
-    connect(this->m_algorithmWidget, SIGNAL(checkSolutionPressed()), this, SLOT(checkSolution()));
-    connect(this->m_algorithmWidget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(showCorrectSolution()));
-    connect(this->m_algorithmWidget, SIGNAL(showUserSolutionPressed()), this, SLOT(showUserSolution()));
-    connect(this->m_algorithmWidget, SIGNAL(beginPressed()), this, SLOT(toBegin()));
-    connect(this->m_algorithmWidget, SIGNAL(endPressed()), this, SLOT(toEnd()));
+    connect(this->m_algorithmWidget,SIGNAL(prewPressed()),this,SLOT(PrevStep()));
+    connect(this->m_algorithmWidget,SIGNAL(nextPressed()),this,SLOT(NextStep()));
+    connect(this->m_algorithmWidget, SIGNAL(checkSolutionPressed()), this, SLOT(CheckSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(showCorrectSolutionPressed()), this, SLOT(ShowCorrectSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(showUserSolutionPressed()), this, SLOT(ShowUserSolution()));
+    connect(this->m_algorithmWidget, SIGNAL(beginPressed()), this, SLOT(ToBegin()));
+    connect(this->m_algorithmWidget, SIGNAL(endPressed()), this, SLOT(ToEnd()));
 
     //
     // Connect timers.
     //
-    connect(m_playTimer, SIGNAL(timeout()), this, SLOT(nextStep()));
-    connect(m_CheckStepTimer, SIGNAL(timeout()), this, SLOT(checkSolution()));
+    connect(m_playTimer, SIGNAL(timeout()), this, SLOT(NextStep()));
+    connect(m_CheckStepTimer, SIGNAL(timeout()), this, SLOT(CheckSolution()));
 
     // Connect Finite Automata widgets
-    connect(m_not_dfa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(setFA(FiniteAutomata*)));
-    connect(m_dfa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(setDFA(FiniteAutomata*)));
+    connect(m_not_dfa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(SetFA(FiniteAutomata*)));
+    connect(m_dfa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(SetDFA(FiniteAutomata*)));
 
     m_not_dfa_widget->setFA(new FiniteAutomata());
 
@@ -111,7 +111,7 @@ void FaToDFA::InitInstructions()
     m_instructions[WHILE_NEW] =               tr("<b>until</b> Q<sub>new</sub> = ∅");
 }
 
-void FaToDFA::setFA(FiniteAutomata *_FA)
+void FaToDFA::SetFA(FiniteAutomata *_FA)
 {
     this->FA = *_FA;
     if(this->FA.hasEpsilon())
@@ -131,7 +131,7 @@ void FaToDFA::SetMode(AlgorithmModes _mode)
     ClearActInstruction();
     clearVariables();
     // because show correct solution break connectiom betwen user FA and user FA widget
-    connect(m_dfa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(setDFA(FiniteAutomata*)));
+    connect(m_dfa_widget,SIGNAL(FA_changed(FiniteAutomata*)),this,SLOT(SetDFA(FiniteAutomata*)));
 
     switch (m_mode)
     {
@@ -161,14 +161,14 @@ void FaToDFA::SetMode(AlgorithmModes _mode)
     m_dfa_widget->clearStatus();
 }
 
-void FaToDFA::setDFA(FiniteAutomata *_FA)
+void FaToDFA::SetDFA(FiniteAutomata *_FA)
 {
     this->DFA = *_FA;
 }
 
 
 
-void FaToDFA::nextStep()
+void FaToDFA::NextStep()
 {
     if(FA.startState == "")
     {
@@ -389,7 +389,7 @@ FiniteAutomata FaToDFA::computeSolution()
     return FAd;
 }
 
-void FaToDFA::checkSolution()
+void FaToDFA::CheckSolution()
 {
     if(FA.hasEpsilon())
     {
@@ -408,18 +408,18 @@ void FaToDFA::checkSolution()
     }
 }
 
-void FaToDFA::showCorrectSolution()
+void FaToDFA::ShowCorrectSolution()
 {
     m_backup_FA = DFA;
     m_dfa_widget->setFA(new FiniteAutomata(m_correct_FA));
 }
 
-void FaToDFA::showUserSolution()
+void FaToDFA::ShowUserSolution()
 {
     m_dfa_widget->setFA(new FiniteAutomata(m_backup_FA));
 }
 
-void FaToDFA::toBegin()
+void FaToDFA::ToBegin()
 {
      m_algorithmWidget->enableNext();
      m_actPos=0;
@@ -448,10 +448,10 @@ void FaToDFA::toBegin()
      m_algorithmWidget->disablePrev();
 }
 
-void FaToDFA::toEnd()
+void FaToDFA::ToEnd()
 {
     while(m_actInstruction != lastInstruction)
-        nextStep();
+        NextStep();
 }
 
 void FaToDFA::RemoveFuture()
@@ -609,7 +609,7 @@ void FaToDFA::saveStep()
     m_actPos = m_history.count() - 1;
 }
 
-void FaToDFA::prevStep()
+void FaToDFA::PrevStep()
 {
     if (m_actPos > 0)
     {

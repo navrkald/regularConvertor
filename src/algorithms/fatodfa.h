@@ -39,15 +39,15 @@ public:
 
 public slots:
     void SetMode(AlgorithmModes _mode);
-    void setFA(FiniteAutomata* _FA);
-    void setDFA(FiniteAutomata* _FA);
-    void prevStep();
-    void nextStep();
-    void checkSolution();
-    void showCorrectSolution();
-    void showUserSolution();
-    void toBegin();
-    void toEnd();
+    void SetFA(FiniteAutomata* _FA);
+    void SetDFA(FiniteAutomata* _FA);
+    void PrevStep();
+    void NextStep();
+    void CheckSolution();
+    void ShowCorrectSolution();
+    void ShowUserSolution();
+    void ToBegin();
+    void ToEnd();
 
 private:
 

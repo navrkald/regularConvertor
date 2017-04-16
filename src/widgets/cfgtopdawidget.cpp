@@ -9,6 +9,7 @@ CCfgToPdaWidget::CCfgToPdaWidget(QWidget *parent) :
     ui->m_pdaWidget->SetCaption("Output: Push-Down Automata");
     ui->m_cfgWidget->SetCaption("Input: Contex-free Grammar");
     ui->m_cfgToPdaAlgorithmWidget->SetCaption("Conversion of CFG to PushdownAutomata");
+    m_cfgToPdaAlgorithm.Init(ui->m_cfgToPdaAlgorithmWidget, ui->m_cfgWidget, ui->m_pdaWidget, ui->m_variablesWidget);
 }
 
 CCfgToPdaWidget::~CCfgToPdaWidget()
@@ -19,10 +20,10 @@ CCfgToPdaWidget::~CCfgToPdaWidget()
 void CCfgToPdaWidget::ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged)
 {
     connect(sender, modeChanged, this->ui->m_cfgToPdaAlgorithmWidget, &CAlgorithmWidget::SetMode);
-    connect(sender, modeChanged, &m_cfgToPdaGuiInterface, &CCfgToPdaGuiInterface::SetMode);
+    connect(sender, modeChanged, &m_cfgToPdaAlgorithm, &CAlgorithmCFGtoPDA::SetMode);
 }
 
 void CCfgToPdaWidget::ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage)
 {
-    connect(&m_cfgToPdaGuiInterface, &CCfgToPdaGuiInterface::SendStatusBarMessage, receiver, showMessage);
+    connect(&m_cfgToPdaAlgorithm, &CAlgorithmCFGtoPDA::SendStatusBarMessage, receiver, showMessage);
 }

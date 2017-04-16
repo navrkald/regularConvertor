@@ -11,6 +11,9 @@ class CPdaWidget : public FA_widget
 public:
     CPdaWidget(QWidget *parent = 0);
 
+public slots:
+    void SetPda(CPushDownAutomata* pda);
+
 protected:
   CPushDownAutomata* m_pa;
 };

@@ -21,7 +21,7 @@ public:
 
 private:
     Ui::CCfgToPdaWidget *ui;
-    CCfgToPdaGuiInterface m_cfgToPdaGuiInterface;
+    CAlgorithmCFGtoPDA m_cfgToPdaAlgorithm;
 public:
     virtual void ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged);
     virtual void ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage);

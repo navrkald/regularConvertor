@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(status_timer,SIGNAL(timeout()),this,SLOT(hideStatusMessage()));
 
     ui->menuLanguages->menuAction()->setVisible(false);
+    PrepareConversionWidget(CFG_TO_PDA);
 }
 
 MainWindow::~MainWindow()

@@ -7,4 +7,5 @@ CPdaWidget::CPdaWidget(QWidget *parent) : FA_widget(parent)
 {
   m_pa = new CPushDownAutomata();
   SetScene(new CPDADiagramScene(m_pa, ui->graphicsView));
+  ui->tabWidget->removeTab(1);
 }

@@ -27,13 +27,14 @@ private slots:
 	void on_m_addEpsilonBut_clicked();
 
 protected:
-  void SetBackgroundColor(const Qt::GlobalColor &color);
   static const QRegExp m_pdaRuleRegExp;
 protected:
-  const QString m_defaultUiText;
-  QString m_startState;
-  QString m_endState;
-	QSet<CPDACompotutationalRule> m_pdaRules;
+    QString m_defaultUiText;
+    QString m_startState;
+    QString m_endState;
+    QSet<CPDACompotutationalRule> m_pdaRules;
+    const QString m_backgroundYellowStr = "background-color:yellow ";
+    const QString m_backgroundTransparentStr = "background-color:transparent ";
 
 private:
   Ui::CPdaRuleDialog *ui;

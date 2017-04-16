@@ -6,12 +6,15 @@ const QRegExp CPdaRuleDialog::m_pdaRuleRegExp("^\\s*(\\S+)\\s*,\\s*(\\S+)\\s*->\
 CPdaRuleDialog::CPdaRuleDialog(QString startState, QString endState, QSet<CPDACompotutationalRule> pdaRules, QWidget *parent) :
 	m_startState(startState), m_endState(endState), m_pdaRules(pdaRules), QDialog(parent), ui(new Ui::CPdaRuleDialog)
 {
+    ui->setupUi(this);
+
+    // Fill rules edit box if there are any rules
+    if(!m_pdaRules.isEmpty()){
+        ui->m_ruleEdit->setText(CPDACompotutationalRule::ToArrowText(m_pdaRules));
+    }
+    ui->m_okButton->setEnabled(false);
     m_defaultUiText = ui->m_ruleEdit->toHtml();
-	// Fill rules edit box if there are any rules
-	if(!m_pdaRules.isEmpty()){
-		ui->m_ruleEdit->setText(CPDACompotutationalRule::ToArrowText(m_pdaRules));
-  }
-  ui->setupUi(this);
+    ui->m_ruleEdit->setTextBackgroundColor(Qt::yellow);
 }
 
 CPdaRuleDialog::~CPdaRuleDialog()
@@ -21,8 +24,6 @@ CPdaRuleDialog::~CPdaRuleDialog()
 
 void CPdaRuleDialog::on_m_ruleEdit_textChanged()
 {
-
-
     // Parse rules
     foreach(QString line, ui->m_ruleEdit->toPlainText().split('\n',QString::SkipEmptyParts))
     {
@@ -32,7 +33,7 @@ void CPdaRuleDialog::on_m_ruleEdit_textChanged()
         int pos = m_pdaRuleRegExp.indexIn(line);//, ddd, eee");
         bool isTextValid = pos > -1;
         ui->m_okButton->setEnabled(isTextValid);
-        SetBackgroundColor(isTextValid ? Qt::transparent : Qt::yellow);
+        ui->m_ruleEdit->setStyleSheet(isTextValid ? m_backgroundTransparentStr : m_backgroundYellowStr);
         ui->m_okButton->setEnabled(isTextValid);
         if (isTextValid)
         {
@@ -47,13 +48,10 @@ void CPdaRuleDialog::on_m_ruleEdit_textChanged()
             break;
         }
     }
-}
 
-void CPdaRuleDialog::SetBackgroundColor(const Qt::GlobalColor &color)
-{
-  QPalette palette = ui->m_ruleEdit->palette();
-  palette.setColor(QPalette::Base, color);
-  ui->m_ruleEdit->setPalette(palette);
+    if(m_pdaRules.isEmpty()){
+         ui->m_okButton->setEnabled(false);
+    }
 }
 
 void CPdaRuleDialog::on_m_cancelBut_clicked()

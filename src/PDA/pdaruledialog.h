@@ -30,6 +30,7 @@ protected:
   void SetBackgroundColor(const Qt::GlobalColor &color);
   static const QRegExp m_pdaRuleRegExp;
 protected:
+  const QString m_defaultUiText;
   QString m_startState;
   QString m_endState;
 	QSet<CPDACompotutationalRule> m_pdaRules;

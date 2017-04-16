@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     m_centralWidget(NULL)
 {
-
     ui->setupUi(this);
     this->setAttribute(Qt::WA_AlwaysShowToolTips,true);
 

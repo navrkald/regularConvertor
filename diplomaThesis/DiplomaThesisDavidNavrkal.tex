@@ -589,6 +589,35 @@ Zbytek pøechodových má takté¾ poèáteèní a koncový stav stejný. $\varepsilon$ zde
 %\n{1}{Nadpis}
 %\n{2}{Podnadpis}
 
+\n{1}{Základy Qt frameworku}
+
+Qt framework je multiplatformí, to znamená, ¾e programátor napí¹e jeden kód, který pak zkompiluje na více cílových systémù. Konkretnì \textit{Regular Convertor} jsem uspì¹nì zkou¹el na platformách Windows a Linux. Tento framefork je urèen pøedev¹ím pro jazyk C++. Obsahuje také IDE pojmenované QtCreator, ve kterém je i integrován nástroj Qt Designer pro tvorbu u¾ivatelského rozhraní vyzuální formou a ne jenom pomocí kódu. 
+
+\n{2}{QWidget} 
+
+QWidget je základní stavební element a zároveò pøedek v hierarchii tøíd v¹ech grafických elementù u¾ivatelského rozhraní. Napøíklad widget je pøedek v¹ech tlaèítek, oken, kontrolních prvkù, dialogù, prostì v¹eho. Samotný widget sám o sobì nemá význam, ale definuje a za¹tituje spoleènou mnou¾inu vlastností pro v¹echny od nìj odvozené tøídy
+
+\n{2}{Popis u¾ivatelského rozhraní pomocí ui souborù}
+
+TODO: Popsat jak funguje system UI souborù. Jak se znich deneruje exekutivní kód. Obrázek jak vipadá Qt designer.
+
+\n{2}{Promoting} 
+
+Spolu s tím, ¾e QWidget je pùvodní pøedek v¹ech grafických elementù a proto je pøedek i v¹ech mých u¾ivatelkých elementù jsem mohl v QtDesigneru pou¾ít pro mì novou techniku \textit{promoting}. Volnì do èe¹tiny by se to dalo pøelo¾it jako povy¹ování widgetù. Pro v¹echny konverze jsem si následnì vytvoøil widgety, které se skládají z jiných také mnou vytvoøených widgetù. Proto jsem si vytvoøil rozlo¾ení widgetù, které jsem následnì pový¹il na mnou skuteènì pøedem vytvoøené widgety.
+Má to tu nespornou výhodu, ¾e jsem se zbavil v¹ude v kódu, programového vytváøení obrazovky pro jednotlivé konverze, které jsou novì definovány jako samostatné tøídy, které zapouzdøují z grafického klediska v¹echny konverze. Tímto, ¾e se popis UI pøesunul do samostatných souborù, se zna¹nì ulevilo tøíde pro popis hlavního akna aplikace. Tato objektovì orientované technika rozdìlení aplikace do více men¹ích èástí a rozdìlení pravomocí zvaná zapouzdøení.
+
+\n{2}{Signály a sloty}
+
+Signály a sloty se podobá jiné programovací technice zvaná \textit{callbacks}, kde se pøedává ukazatel na funkci nebo metodu. 
+
+Slot je metoda tøídy, která se vykoná pokud nìkdo emitoval signál se kterým je spojená pomocí funkce \textit{connect()}. Stejnì jako mù¾eme propojit emitování signálu s vykonáváním urèité metody zvané slot, mù¾eme pozdìji zavolat i opaènou metodu \textit{disconnect()} , která toto spojení zru¹í. 
+
+K jednomu signálu mù¾e být propojeno i více slotù. Tak jsem napøíklad implementoval, ¾e koneèný automat má více grafických reprezentací, tak aby se na základì emitování signálu o zmìnì koneèného automatu zmìnily obì jeho vizuální reprezentace.
+
+Slot musí mít definováné svoje tìlo, které se vykonává pøi emitování signálu, pokud jsou propojeni. Naopak tìlo signálu nesmí být nikdy definováno.
+
+Signály a sloty si mohou vymìòovat informace pomocí parametrù. V ni¾¹ích verzích Qt fungovalo propojení na základì maker \textit{SIGNAL} a \textit{SLOT}. V aktuální verzi Qt se mù¾e pou¾ít i systém ukazatelù na funkce, které jsem pou¾il na propojení konverzních widgetù s hlavním oknem aplikace.
+
 \cast{Implementace}
 
 \n{1}{Refaktor existujícího kódu}
@@ -646,6 +675,31 @@ Pro widgety u kterých se mìní popisek jsem pøidal metodu \textit{SetCaption()}, 
 \n{1}{Drobné vylep¹ení existujícího kódu}
 
 Pro ulo¾ení existujících konverzí do souboru jsem pøidal klávesovou zkratku \texttt{CTRL+S} podle anglického \textit{Save} a pro ulo¾ení \texttt{CTRL+L}, podle anglického \textit{Load}.
+
+\n{1}{Analýza nástrojù vytváøení vyzualizací z existujícího kódu}
+
+Pøi hledání nástrojù pro visualizaci a dokumenataci existujícího kódu jsem mìl následují po¾adavky:
+
+ * V¹echny nástroje mují být bezplatné.
+ * Musejí umìl vyzualizovat diagram tøíd a propojení tøíd pomocí Qt mechanizmu Signálù a slotù.
+ * Musí umìt ideálnì vygenerovat po¾adované vizualizace automaticky, tak aby se pøi zmìnì kódu automaticky aktualizovali a nemuseli se vytváøet poka¾dé ruènì.
+
+\n{2}{Qt ModelEditor}
+ 
+Prvním nástrojem je \textit{ModelEditor}. Tento nástroj jsem zkusil jako první proto¾e je ve formì pluginu do IDE \textit{QtCreator}, který jsem pou¾íval pro programování této diplomové práce. \textit{ModelEditor} umo¾nuje dìlat sice jednoduché, ale pøehledné UML diagramy. Zásadní nedostatek, je ¾e umo¾nuje napøíklad diagram tøíd generovat jenom èásteènì a to tak, ¾e se pøetáhne zdrojový soubor do modelovacího editoru, kde se vytvoøí element s názvem tøídy, ale metody a èlenské se musí dopisovat ruènì. Na domovské stránce (https://wiki.qt.io/ModelEditor) tohoto nástroje jsem se nikde nedoèetl, ¾e by se na této funkcionalitì mìlo nìkdy pracovat, proto jsem tento nástroj prozatím zavrhl.
+
+\n{2}{Doxygen a Graphviz}
+
+Druhým nástrojem je \textit{Doxygen}, který je urèen na automatickou tvorbu dokumentace. Tento nástroj byl ve svém poèátku urèen právì pro C++/Qt. \textit{Doxygen} pro tvorbu pokroèilých grafù potøebuje doinstalovat \textit{Graphviz} a nastavit systémovou promìnnou PATH na cestu ke spustitelným souborùm \textit{Graphviz}. Funguje to tak, ¾e \textit{Doxygen} vytvoøí textový popis grafu a \textit{Graphviz} pomocí spustitelého programu \textit{Dot} umí vytvoøit grafickou podobu jak ve vektrorových, tak v rastrových formátech. Aby bylo generování co nejjednodu¹¹í vytvoøil jsem si konfiguraèní soubor pojmenovaný "Doxyfile" v adresáøi "src". Následnì se celá dokumentace vygeneruje automaticky pomocí zavolání pøíkazu doxygen ve stejném adresáøi ve kterém se nachází "Doxyfile". \textit{Doxygen} umí vytvoøit UML diagram tøíd. U ka¾dé tøídy uká¾e od kterých tøíd dìdí a také názvy promìnných a metod spolu s jejich modifikátorem vyditelností (public, protected, private). Zásadním problémem je, ¾e neukazuje názvy typù èlenských promìnných, ani návratové typy a typy parametrù metod. 
+Pro automatické generování dokumentace z kódu je tento nástroj ideální, ale já chtìl v této diplomové práci mít kompletní diagram tøíd vèetnì typù a návratových hodnot proto jsem zkou¹el je¹tì tøetí nástroj.
+
+\n{2}{Diagram tøíd ve Visual studio Express 2015}
+
+Tøetím nástrojem, který uspokojil v¹echny po¾adavky na diagram tøíd se nacházel v IDE \textit{Visual Studio}. Diagram konkrétní tøídy se ná vygenerovat tak, ¾e se pravým tlaèítkem klikne na hlavièkový soubor tøídy a následnì vybere mo¾nost "zobrazit diagram tøídy". Po kliku kamkoliv do volného místa se dá vyvolat nabýdka na export do rùzných formátù. Dá se i zvolit jestli chceme zobrazit celou signaturu, tj. návratové typy, jména a typy parametrù a typy èlenských promìnných. Jediná drobná výtka by mohla být, ¾e modifikátor viditelnosti je a zda se jedná o metodu nebo promìnnou je znaèen z hlediska UML nestandartní ikonou. Zasadní je, ¾e diagram tøíd vygenerovaný tímto nástrojem obsahuje v¹echnu podstatné informace, proto jej pou¾iji pro generovaní obrázkù tøíd do této diplomové práce.
+
+\n{2}{Simple tool to visualize connections between signals and slots in Qt }
+
+Pro vizualizaci propojení pomocí Qt slotù a signálù jsem akorát na¹el jednoduchý nástroj, jeho¾ zdrojový text je uveden na adrese http://hackatool.blogspot.cz/2013/05/simple-tool-to-visualize-connections.html . Tento nástroj pracuje na principu prohledání zdojových souborù na základì regulárního výrazu a následnì vygeneruje textový popis grafu propojení ve formátu, kterému rozumí program Graphviz zmínìný vý¹e. 
 
 %\begin{tabular}{}
 %	\hline

@@ -32,6 +32,8 @@ public:
     void clearStatus();
 protected:
     void SetScene(DiagramScene * scene);
+    void SetSceneGeneral(DiagramScene * scene);
+    virtual void SetSceneSpecific(DiagramScene * scene);
 
 private slots:
     //sloty na tlacitka na editaci grafu

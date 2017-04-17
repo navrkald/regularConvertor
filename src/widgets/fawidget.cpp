@@ -141,29 +141,38 @@ void FA_widget::clearStatus()
   status_label->hide();
 }
 
+void FA_widget::SetSceneGeneral(DiagramScene* scene){
+    m_scene = scene;
+    connect(m_scene,SIGNAL(SendStatusBarMessage(QString)),this,SIGNAL(SendStatusBarMessage(QString)));
+    ui->graphicsView->setScene(m_scene);
+
+    connect( deleteShortCut, SIGNAL(activated()), m_scene, SLOT(deleteSelected()));
+
+    //add items to scene
+    connect(this,SIGNAL(addNodes(QSet<QString>)),this->m_scene,SLOT(addNodes(QSet<QString>)));
+    connect(this,SIGNAL(removeNodes(QSet<QString>)),this->m_scene,SLOT(removeNodes(QSet<QString>)));
+    connect(this,SIGNAL(setStartNode(QString)),this->m_scene,SLOT(setStartNode(QString)));
+    connect(this,SIGNAL(addEndingNodes(QSet<QString>)),this->m_scene,SLOT(addEndingNodes(QSet<QString>)));
+    connect(this,SIGNAL(removeEndingNodes(QSet<QString>)),this->m_scene,SLOT(removeEndingNodes(QSet<QString>)));
+
+}
+
+void FA_widget::SetSceneSpecific(DiagramScene* scene){
+    // Connect rules
+    connect(this,SIGNAL(addEdges(QSet<ComputationalRules>)),this->m_scene,SLOT(addEdges(QSet<ComputationalRules>)));
+    connect(this,SIGNAL(removeEdges(QSet<ComputationalRules>)),this->m_scene,SLOT(removeEdges(QSet<ComputationalRules>)));
+
+    //set FA also to scene
+    connect(this,SIGNAL(setFA_signal(FiniteAutomata*)),this->m_scene,SLOT(setFA(FiniteAutomata*)));
+
+    // FA changed - scene notify
+    connect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
+}
+
 void FA_widget::SetScene(DiagramScene* scene)
 {
-  m_scene = scene;
-  connect(m_scene,SIGNAL(SendStatusBarMessage(QString)),this,SIGNAL(SendStatusBarMessage(QString)));
-  ui->graphicsView->setScene(m_scene);
-
-  connect( deleteShortCut, SIGNAL(activated()), m_scene, SLOT(deleteSelected()));
-
-  //add items to scene
-  connect(this,SIGNAL(addNodes(QSet<QString>)),this->m_scene,SLOT(addNodes(QSet<QString>)));
-  connect(this,SIGNAL(removeNodes(QSet<QString>)),this->m_scene,SLOT(removeNodes(QSet<QString>)));
-  connect(this,SIGNAL(setStartNode(QString)),this->m_scene,SLOT(setStartNode(QString)));
-  connect(this,SIGNAL(addEndingNodes(QSet<QString>)),this->m_scene,SLOT(addEndingNodes(QSet<QString>)));
-  connect(this,SIGNAL(removeEndingNodes(QSet<QString>)),this->m_scene,SLOT(removeEndingNodes(QSet<QString>)));
-  connect(this,SIGNAL(addEdges(QSet<ComputationalRules>)),this->m_scene,SLOT(addEdges(QSet<ComputationalRules>)));
-  connect(this,SIGNAL(removeEdges(QSet<ComputationalRules>)),this->m_scene,SLOT(removeEdges(QSet<ComputationalRules>)));
-
-
-  //set FA also to scene
-  connect(this,SIGNAL(setFA_signal(FiniteAutomata*)),this->m_scene,SLOT(setFA(FiniteAutomata*)));
-
-  // FA changed - scene notify
-  connect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
+    SetSceneGeneral(scene);
+    SetSceneSpecific(scene);
 }
 
 FA_widget::~FA_widget()

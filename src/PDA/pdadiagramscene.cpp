@@ -2,6 +2,21 @@
 #include <PDA/pdaarrow.h>
 #include <PDA/pdaruledialog.h>
 
+void CPDADiagramScene::AddEdgesSlot(QSet<CPDACompotutationalRule> pdaRules)
+{
+    // TODO: Implement
+}
+
+void CPDADiagramScene::RemoveEdgesSlot(QSet<CPDACompotutationalRule> pdaRules)
+{
+    // TODO: Implement
+}
+
+void CPDADiagramScene::SetPdaSlot(QSet<CPDACompotutationalRule> pdaRules)
+{
+    // TODO: Implement
+}
+
 void CPDADiagramScene::AddArrow(StateNode *startItem, StateNode *endItem){
 	CPdaRuleDialog inputDialog(startItem->getName(), endItem->getName(), QSet<CPDACompotutationalRule>());
 	if(QDialog::Accepted == inputDialog.exec())

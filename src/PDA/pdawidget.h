@@ -15,7 +15,10 @@ public slots:
     void SetPda(CPushDownAutomata* pda);
 
 protected:
-  CPushDownAutomata* m_pa;
+  CPushDownAutomata* m_pda;
+
+protected:
+    void SetSceneSpecific(DiagramScene * scene) override;
 };
 
 #endif // CPDAWIDGET_H

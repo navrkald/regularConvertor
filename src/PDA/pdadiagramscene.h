@@ -10,8 +10,16 @@ class CPDADiagramScene : public DiagramScene
 public:
   CPDADiagramScene(CPushDownAutomata* pa, QWidget *parent) :
     DiagramScene(pa, parent),
-    m_pa(pa)
-  {}
+    m_pa(pa) {}
+
+public slots:
+    void AddEdgesSlot(QSet<CPDACompotutationalRule> pdaRules);
+    void RemoveEdgesSlot(QSet<CPDACompotutationalRule> pdaRules);
+    void SetPdaSlot(QSet<CPDACompotutationalRule> pdaRules);
+
+signals:
+    void PdaChangedSignal(CPushDownAutomata* pda);
+
 protected:
   CPushDownAutomata* m_pa;
 

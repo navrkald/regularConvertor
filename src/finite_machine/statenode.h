@@ -29,12 +29,9 @@ public:
 
     int type() const;
 
-    //StateNode();
-    Arrow* hasArrowTo(StateNode* node_to);
-    StateNode(DiagramScene* scene, FiniteAutomata* _FA);
-    //tento konstruktor se pouziva pri pri automatickem vytvareni uzlu, nikdy nepouzivat rucne
-    StateNode(DiagramScene* scene, FiniteAutomata* _FA, QString uniqueName);
+    StateNode(DiagramScene* scene, QString uniqueName);
     ~StateNode();
+    Arrow* hasArrowTo(StateNode* node_to);
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -45,7 +42,7 @@ public:
     void removeArrows();
     void removeArrow(Arrow *arrow);
     bool changeName(QString new_name);
-    void setNameWithoutCheck(QString node_name);
+    void setNameWithoutCheck(QString m_nodeName);
     QRectF elipseBoundingRect() const;
     QList<Arrow *> arrows;
     QString getName();
@@ -58,10 +55,9 @@ protected:
 signals:
     void deleteItem();
     void sendStatusBarMessage(QString message);
-    void FA_changed(FiniteAutomata* FA);
 //    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 public slots:
-    void setStartinState();
+    void setStartingState();
     void setEndingState(bool _endingState);
 private slots:
     void positionChanged();
@@ -69,16 +65,13 @@ private:
     //methods
     void firstInit();
     QRectF recalculateTextSpace() const;
-
-    bool isNameUnique(QString s);
     QStringList getAllNodenames();
 
 
     //properties
-    FiniteAutomata* FA;
     static unsigned int ID_counter;
     static const int padding = 8;
-    QString node_name;
+    QString m_nodeName;
 
     //QGraphicsTextItem* text;
     DiagramScene* myscene;

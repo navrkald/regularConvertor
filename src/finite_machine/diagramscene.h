@@ -16,8 +16,7 @@ class DiagramScene : public QGraphicsScene
 {
    Q_OBJECT
 signals:
-    //void deleteSelected();
-		void FA_changed(FiniteAutomata* FA);
+    void FA_changed(FiniteAutomata* m_fa);
     void sendStatusBarMessage(QString message);
 
 public:
@@ -32,26 +31,33 @@ public:
     StateNode* startingState;
     Arrow* getArrow(StateNode* from, StateNode* to);
     //clean scene but not delete or change FA
-    void emit_FA_changed(FiniteAutomata* FA);
+    void emit_FA_changed(FiniteAutomata* m_fa);
 
+    void SetStartState(QString nodeName);
+    void SetEndingState(QString nodeName, bool isEnding);
+    void SetNodeCoordinates(QString nodeName, QPoint position);
+    bool CanSetNodeName(QString newName);
+    void RenameNode(QString oldName, QString newName);
 public slots:
-    void setFA(FiniteAutomata* FA);
-    void setMode(Mode mode);
-    void changeSelected();
-    void deleteSelected();
-    void addNodes(QSet<QString> nodes, QMap<QString,QPoint> coordinates = QMap<QString,QPoint>());
-    void removeNodes(QSet<QString> nodes);
-    void setStartNode(QString nodeName);
-    void addEndingNodes(QSet <QString> nodes);
-    void removeEndingNodes(QSet <QString> nodes);
-    void addEdges(QSet <ComputationalRules> rules);
-    void removeEdges(QSet <ComputationalRules> rules);
-    void selectAll();
+    void SetFa(FiniteAutomata* m_fa);
+    void SetMode(Mode mode);
+    void ChangeSelected();
+    void DeleteSelected();
+    void AddNodes(QSet<QString> nodes, QMap<QString,QPoint> coordinates = QMap<QString,QPoint>());
+    void RemoveNodes(QSet<QString> nodes);
+    void SetStartNode(QString nodeName);
+    void AddEndingNodes(QSet <QString> nodes);
+    void RemoveEndingNodes(QSet <QString> nodes);
+    void AddEdges(QSet <ComputationalRules> rules);
+    void RemoveEdges(QSet <ComputationalRules> rules);
+    void SelectAll();
+
+private:
+    FiniteAutomata* m_fa;
 
 protected:
     bool clicked;
     QGraphicsLineItem *actLine;
-    FiniteAutomata* FA;
     QPoint randGeneratePos();
     //automaticaly place new node
     void addNode(QString node, QPoint point);
@@ -60,6 +66,7 @@ protected:
     virtual void AddArrow(StateNode *startItem, StateNode *endItem);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    StateNode *CreateStateNode(QString nodeName = "");
 };
 
 #endif // MYQGRAPHICSSCENE_H

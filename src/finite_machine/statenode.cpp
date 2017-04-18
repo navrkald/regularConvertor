@@ -5,6 +5,18 @@
 
 unsigned int StateNode::ID_counter = 1;
 
+StateNode::StateNode(DiagramScene *scene, QString uniqueName)
+{
+    myscene = scene;
+    m_nodeName = uniqueName;
+    firstInit();
+
+    connect(this,SIGNAL(sendStatusBarMessage(QString)),scene,SIGNAL(sendStatusBarMessage(QString)));
+    connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
+    connect(this,SIGNAL(xChanged()),this,SLOT(positionChanged()));
+    connect(this,SIGNAL(yChanged()),this,SLOT(positionChanged()));
+}
+
 int StateNode::type() const
 {
         // Enable the use of qgraphicsitem_cast with this item.
@@ -22,41 +34,6 @@ Arrow* StateNode::hasArrowTo(StateNode *node_to)
     return 0;
 }
 
-StateNode::StateNode(DiagramScene* scene, FiniteAutomata* _FA)
-{
-
-    FA = _FA;
-    myscene = scene;
-    node_name = FA->createUniqueName();
-    firstInit();
-
-    connect(this,SIGNAL(sendStatusBarMessage(QString)),scene,SIGNAL(sendStatusBarMessage(QString)));
-    connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
-    connect(this,SIGNAL(xChanged()),this,SLOT(positionChanged()));
-    connect(this,SIGNAL(yChanged()),this,SLOT(positionChanged()));
-
-
-    FA->addState(node_name);
-    emit FA_changed(FA);
-}
-
-StateNode::StateNode(DiagramScene *scene, FiniteAutomata *_FA, QString uniqueName)
-{
-    FA = _FA;
-    myscene = scene;
-    node_name = uniqueName;
-    firstInit();
-
-    connect(this,SIGNAL(sendStatusBarMessage(QString)),scene,SIGNAL(sendStatusBarMessage(QString)));
-    connect(this,SIGNAL(FA_changed(FiniteAutomata*)),scene,SIGNAL(FA_changed(FiniteAutomata*)));
-    connect(this,SIGNAL(xChanged()),this,SLOT(positionChanged()));
-    connect(this,SIGNAL(yChanged()),this,SLOT(positionChanged()));
-
-    FA->addState(node_name);
-    emit FA_changed(FA);
-
-
-}
 
 void StateNode::firstInit()
 {
@@ -96,35 +73,29 @@ void StateNode::removeArrow(Arrow *arrow)
         arrows.removeAt(index);
 }
 
-void StateNode::setStartinState()
+void StateNode::setStartingState()
 {
     if(myscene->startingState != NULL)
     {
         myscene->startingState->prepareGeometryChange();
     }
     myscene->startingState = this;
-    FA->SetStartState(getName());
-    emit FA_changed(FA);
+    myscene->SetStartState(getName());
+    myscene->SetStartNode(getName());
     update();
 }
 
 void StateNode::setEndingState(bool _endingState)
 {
-    //setup FA
-    if(_endingState)
-        FA->addFinalState(getName());
-    else
-        FA->removeFinalState(getName());
-
     endingState = _endingState;
     update();
-    emit FA_changed(FA);
+    myscene->SetEndingState(m_nodeName, _endingState);
 }
 
 void StateNode::positionChanged()
 {
-    FA->coordinates[node_name] = this->pos().toPoint();
-    qDebug() << node_name << ":" << this->pos().toPoint();
+    myscene->SetNodeCoordinates(m_nodeName, pos().toPoint());
+    qDebug() << m_nodeName << ":" << this->pos().toPoint();
 }
 
 void StateNode::removeArrows()
@@ -187,7 +158,7 @@ void StateNode::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidge
         painter->setPen(nodePen);
     }
     painter->drawEllipse(elipseBoundingRect());
-    painter->drawText(elipseBoundingRect(), Qt::AlignCenter, node_name);
+    painter->drawText(elipseBoundingRect(), Qt::AlignCenter, m_nodeName);
     if(this->endingState)
     {
         QRectF smalerRect = elipseBoundingRect();
@@ -237,13 +208,13 @@ void StateNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     if(myscene->actMode == DiagramScene::MoveNodeMode)
     {
-        QString text = QInputDialog::getText(event->widget(),tr("New node name dialog"),tr("Enter unigue node name"),QLineEdit::Normal,node_name);
-        if(!text.isEmpty())
+        QString m_newName = QInputDialog::getText(event->widget(),tr("New node name dialog"),tr("Enter unigue node name"),QLineEdit::Normal,m_nodeName);
+        if(!m_newName.isEmpty())
         {
-            if(FA->renameState(this->node_name,text))
+            if(myscene->CanSetNodeName(m_newName))
             {
-                changeName(text);
-                emit FA_changed(FA);
+                changeName(m_newName);
+                myscene->RenameNode(m_nodeName, m_newName);
             }
             else
             {
@@ -269,7 +240,7 @@ void StateNode::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     setStartStateCheckbox->setChecked(myscene->startingState == this);
     setFinalStateCheckbox->setChecked(endingState);
 
-    connect(setStartStateCheckbox, SIGNAL(toggled(bool)), this,SLOT(setStartinState()));
+    connect(setStartStateCheckbox, SIGNAL(toggled(bool)), this,SLOT(setStartingState()));
     connect(setFinalStateCheckbox, SIGNAL(toggled(bool)), this,SLOT(setEndingState(bool)));
 
     //create QWidgetAction
@@ -306,7 +277,7 @@ QRectF StateNode::recalculateTextSpace() const
 {
     //prevzato z c++ GUI programming wiht Qt 4, str. 203
     QFontMetrics metrics(qApp->font());
-    QRectF rect = metrics.boundingRect(node_name);
+    QRectF rect = metrics.boundingRect(m_nodeName);
     //aby byli kolecka a elipsy stejne vysoke
     if(rect.height()<2*radius)
         rect.setHeight(2*radius);
@@ -338,25 +309,20 @@ bool StateNode::changeName(QString new_name)
     //    return false;
     //}
 
-    node_name = new_name;
+    m_nodeName = new_name;
     update();
     return true;
 }
 
 void StateNode::setNameWithoutCheck(QString node_name)
 {
-    this->node_name = node_name;
+    this->m_nodeName = node_name;
     update();
 }
 
 QString StateNode::getName()
 {
-    return node_name;
-}
-
-bool StateNode::isNameUnique(QString s)
-{
-    return FA->isStateUnique(s);
+    return m_nodeName;
 }
 
 

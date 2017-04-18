@@ -11,9 +11,9 @@ DiagramScene::DiagramScene(FiniteAutomata* _FA, QWidget *parent = 0) : QGraphics
     this->actMode = AddNodeMode;
     clicked = false;
     actLine = 0;
-    FA = _FA;
+    m_fa = _FA;
     startingState = NULL;
-    connect(this, SIGNAL(selectionChanged()), this, SLOT(changeSelected()));
+    connect(this, SIGNAL(selectionChanged()), this, SLOT(ChangeSelected()));
 
     //for future random generate
     QTime time = QTime::currentTime();
@@ -21,13 +21,21 @@ DiagramScene::DiagramScene(FiniteAutomata* _FA, QWidget *parent = 0) : QGraphics
 }
 
 
-void DiagramScene::setMode(DiagramScene::Mode mode)
+void DiagramScene::SetMode(DiagramScene::Mode mode)
 {
     this->actMode = mode;
-
 }
 
+StateNode* DiagramScene::CreateStateNode(QString nodeName){
+    if(nodeName.isEmpty()){
+        nodeName = m_fa->createUniqueName();
+    }
 
+    m_fa->addState(nodeName);
+    emit FA_changed(m_fa);
+
+    return new StateNode(this, nodeName);
+}
 
 void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
@@ -39,15 +47,15 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
      switch(this->actMode)
      {
         case AddNodeMode:
-             newNode = new StateNode(this, FA);
+             newNode = CreateStateNode();
              this->addItem(newNode);
-             FA->addState(newNode->getName());
+             m_fa->addState(newNode->getName());
              newNode->setPos(mouseEvent->scenePos());
-             FA->coordinates[newNode->getName()] = mouseEvent->scenePos().toPoint();
+             m_fa->m_coordinates[newNode->getName()] = mouseEvent->scenePos().toPoint();
              if(newNode->getName() == "0" && startingState == NULL)
-                 newNode->setStartinState();
+                 newNode->setStartingState();
 
-             emit FA_changed(FA);
+             emit FA_changed(m_fa);
              break;
 				case AddArrowMode:
              //TODO predelat caru na sipku
@@ -63,19 +71,7 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             break;
      }
 
-//         QBrush redBrush(Qt::red);
-//         QPen   bluePen(Qt::blue);
-//         QPointF pos = mouseEvent->scenePos();
-//         QGraphicsEllipseItem* elipse = this->addEllipse(pos.x()-25.0,pos.y()-25.0,50,50,bluePen,redBrush);
-//         elipse->setFlag(QGraphicsItem::ItemIsMovable, true);
-//         elipse->setFlag(QGraphicsItem::ItemIsSelectable, true);
-//         elipse->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
      QGraphicsScene::mousePressEvent(mouseEvent);
-
-     //cant unselect node because selection set also mouse release event :(
-//     // Unselect node
-//     if(newNode != 0)
-//         newNode->setSelected(false);
  }
 
  void DiagramScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -130,18 +126,18 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	 if(QDialog::Accepted == inputDialog.exec())
 	 {
          symbols = inputDialog.symbols;
-         Arrow* arrow = new Arrow(startItem, endItem, FA, symbols,0,this);
+         Arrow* arrow = new Arrow(startItem, endItem, m_fa, symbols,0,this);
          QStringList new_symbols;
          foreach(QString symbol,symbols)
          {
-            if(FA->addRule(ComputationalRules(startItem->getName(),endItem->getName(),symbol)))
+            if(m_fa->addRule(ComputationalRules(startItem->getName(),endItem->getName(),symbol)))
             {
                 if(symbol != EPSILON)
                 {
-                    FA->addSymbol(symbol);
+                    m_fa->addSymbol(symbol);
                     new_symbols.append(symbol);
                 }
-                emit FA_changed(FA);
+                emit FA_changed(m_fa);
             }
             else
             {
@@ -157,16 +153,16 @@ void DiagramScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 }
 
  //pokud jsme v modu ruseni zulu pak po oznaceni uzlu ho zrus
- void DiagramScene::changeSelected()
+ void DiagramScene::ChangeSelected()
  {
      if(actMode == DeleteNodeMode && !this->selectedItems().isEmpty())
      {
          std::cout<<"call DeleteSelected()"<<std::endl;
-         deleteSelected();
+         DeleteSelected();
      }
  }
 
-void DiagramScene::addNodes(QSet<QString> nodes, QMap<QString,QPoint> coordinates)
+void DiagramScene::AddNodes(QSet<QString> nodes, QMap<QString,QPoint> coordinates)
 {
     QString node;
     foreach(node,nodes)
@@ -178,7 +174,7 @@ void DiagramScene::addNodes(QSet<QString> nodes, QMap<QString,QPoint> coordinate
     }
 }
 
-void DiagramScene::removeNodes(QSet<QString> nodes)
+void DiagramScene::RemoveNodes(QSet<QString> nodes)
 {
     foreach(QString nodeName,nodes)
     {
@@ -187,16 +183,16 @@ void DiagramScene::removeNodes(QSet<QString> nodes)
         if(node == startingState)
         {
             startingState = NULL;
-            FA->startState = "";
+            m_fa->m_startState = "";
         }
         foreach(Arrow* arrowToRemove,node->arrows)
             removeItem(arrowToRemove);
         delete node;
     }
-    emit FA_changed(FA);
+    emit FA_changed(m_fa);
 }
 
-void DiagramScene::deleteSelected()
+void DiagramScene::DeleteSelected()
 {
     QList<QGraphicsItem*> items = this->selectedItems();
 
@@ -210,7 +206,7 @@ void DiagramScene::deleteSelected()
             removeItem(arrow);
             items.removeOne(arrow);
             foreach(QString symbol,arrow->m_symbols)
-                FA->removeRule(ComputationalRules(arrow->startItem()->getName(),arrow->endItem()->getName(),symbol));
+                m_fa->removeRule(ComputationalRules(arrow->startItem()->getName(),arrow->endItem()->getName(),symbol));
             delete arrow;
         }
     }
@@ -223,7 +219,7 @@ void DiagramScene::deleteSelected()
         StateNode* node = dynamic_cast<StateNode*>(item);
         if (node)
         {
-            FA->removeState(node->getName());
+            m_fa->removeState(node->getName());
             removeItem(node);
             if(node == startingState)
             {
@@ -236,19 +232,19 @@ void DiagramScene::deleteSelected()
         else
             qWarning("Warning: recoverable errors in diagramscene.cpp, which could not never happen.");
     }
-    emit FA_changed(FA);
+    emit FA_changed(m_fa);
 
 }
 
-void DiagramScene::setStartNode(QString nodeName)
+void DiagramScene::SetStartNode(QString nodeName)
 {
     StateNode* node = getNodeByName(nodeName);
     startingState = node;
     if(node != NULL)
-        node->setStartinState();
+        node->setStartingState();
 }
 
-void DiagramScene::addEndingNodes(QSet<QString> nodes)
+void DiagramScene::AddEndingNodes(QSet<QString> nodes)
 {
     QString nodeName;
     foreach(nodeName,nodes)
@@ -259,7 +255,7 @@ void DiagramScene::addEndingNodes(QSet<QString> nodes)
     }
 }
 
-void DiagramScene::removeEndingNodes(QSet<QString> nodes)
+void DiagramScene::RemoveEndingNodes(QSet<QString> nodes)
 {
     QString nodeName;
     foreach(nodeName,nodes)
@@ -270,7 +266,7 @@ void DiagramScene::removeEndingNodes(QSet<QString> nodes)
     }
 }
 
-void DiagramScene::addEdges(QSet<ComputationalRules> rules)
+void DiagramScene::AddEdges(QSet<ComputationalRules> rules)
 {
     foreach(ComputationalRules rule,rules)
     {
@@ -282,7 +278,7 @@ void DiagramScene::addEdges(QSet<ComputationalRules> rules)
         {
             QStringList symbolList;
             symbolList.append(symbol);
-            Arrow *newArrow = new Arrow(from, to, FA, symbolList,0,this);
+            Arrow *newArrow = new Arrow(from, to, m_fa, symbolList,0,this);
             from->addArrow(newArrow);
             to->addArrow(newArrow);
             newArrow->setZValue(-1000.0);   //posun na pozadi
@@ -294,12 +290,12 @@ void DiagramScene::addEdges(QSet<ComputationalRules> rules)
             arrow->addSymbol(symbol);
             arrow->updatePosition();
         }
-        FA->addRule(rule);
+        m_fa->addRule(rule);
     }
-    emit FA_changed(FA);
+    emit FA_changed(m_fa);
 }
 
-void DiagramScene::removeEdges(QSet<ComputationalRules> rules)
+void DiagramScene::RemoveEdges(QSet<ComputationalRules> rules)
 {
     ComputationalRules rule;
     foreach(rule,rules)
@@ -315,7 +311,7 @@ void DiagramScene::removeEdges(QSet<ComputationalRules> rules)
     }
 }
 
-void DiagramScene::selectAll()
+void DiagramScene::SelectAll()
 {
     foreach(QGraphicsItem* item,this->items())
     {
@@ -344,7 +340,7 @@ QPoint DiagramScene::randGeneratePos()
 //add node to qgraphic scene
 void DiagramScene::addNode(QString node_name, QPoint point)
 {
-    StateNode* newNode = new StateNode(this, this->FA, node_name);
+    StateNode* newNode = CreateStateNode(node_name);
     this->addItem(newNode);
     if(point != QPoint(-1,-1))
     {
@@ -361,7 +357,7 @@ void DiagramScene::addNode(QString node_name, QPoint point)
             QList<QGraphicsItem *> colide_items = newNode->collidingItems();
             if(0 == colide_items.count())
             {
-                FA->coordinates[node_name] = new_point;
+                m_fa->m_coordinates[node_name] = new_point;
                 return;
             }
             else
@@ -374,7 +370,7 @@ void DiagramScene::addNode(QString node_name, QPoint point)
             }
         }
         newNode->setPos(best_point);
-        FA->coordinates[node_name] = best_point;
+        m_fa->m_coordinates[node_name] = best_point;
     }
 }
 
@@ -445,7 +441,6 @@ void DiagramScene::clean()
             foreach(Arrow* arrowToRemove,node->arrows)
                 removeItem(arrowToRemove);
             delete node;
-            //FA->removeState(node->)
         }
         else
             qWarning("Warning: recoverable errors in diagramscene.cpp, which could not never happen.");
@@ -457,18 +452,46 @@ void DiagramScene::emit_FA_changed(FiniteAutomata *FA)
     emit FA_changed(FA);
 }
 
-void DiagramScene::setFA(FiniteAutomata* _FA)
+void DiagramScene::SetFa(FiniteAutomata* _FA)
 {
     clean();
     clear();
     clearFocus();
     clearSelection();
-    this->FA = _FA;
-    addNodes(FA->states, FA->coordinates);
-    setStartNode(FA->startState);
-    addEdges(FA->rules);
-    addEndingNodes(FA->finalStates);
-    emit FA_changed(FA);
+    m_fa = _FA;
+    AddNodes(m_fa->m_states, m_fa->m_coordinates);
+    SetStartNode(m_fa->m_startState);
+    AddEdges(m_fa->m_rules);
+    AddEndingNodes(m_fa->m_finalStates);
+    emit FA_changed(m_fa);
 }
 
+void DiagramScene::SetStartState(QString nodeName){
+    m_fa->SetStartState(nodeName);
+    emit FA_changed(m_fa);
+}
 
+void DiagramScene::SetEndingState(QString nodeName, bool isEnding){
+    //setup FA
+    if(isEnding)
+        m_fa->addFinalState(nodeName);
+    else
+        m_fa->removeFinalState(nodeName);
+
+    emit FA_changed(m_fa);
+}
+
+void DiagramScene::SetNodeCoordinates(QString nodeName, QPoint position){
+    m_fa->m_coordinates[nodeName] = position;
+}
+
+bool DiagramScene::CanSetNodeName(QString newName){
+    return m_fa->isStateUnique(newName);
+}
+
+void DiagramScene::RenameNode(QString oldName, QString newName){
+    if(CanSetNodeName(newName)){
+        m_fa->renameState(oldName, newName);
+        emit FA_changed(m_fa);
+    }
+}

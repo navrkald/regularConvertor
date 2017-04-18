@@ -35,7 +35,7 @@ void CPushDownAutomata::AddPdaRules(QSet<CPDACompotutationalRule> rulesToAdd)
 	}
 
 	// Add stack and input symbols
-	alphabet += inputSymbols;
+	m_alphabet += inputSymbols;
 	m_stackAlphabet += stackSymbols;
 }
 
@@ -55,7 +55,7 @@ void CPushDownAutomata::RemovePdaRules(QSet<CPDACompotutationalRule> rulesToDele
 	// Remove unused input symbols
 	foreach(QString inputSymbol, inputSymbols){
 		if(GetRulesWithInputSymbol(inputSymbol).isEmpty()){
-			alphabet.remove(inputSymbol);
+			m_alphabet.remove(inputSymbol);
 		}
 	}
 

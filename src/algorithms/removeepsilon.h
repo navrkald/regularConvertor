@@ -95,8 +95,8 @@ private:
     inline QString non_epsilon_rule_toString() {return QString("<b>r</b> = {%1}").arg(non_epsilon_rule.toString());}
     inline QString non_epsilon_prime_rule_toString() {return QString("<b>r'</b> = {%1}").arg(non_epsilon_prime_rule.toString());}
     inline QString epsilon_closer_toString() {return QString(tr("ε-closer(<b>%1</b>) = %2")).arg(p,qSetToQString(epsilon_closer.toSet()));}
-    inline QString F_toString(){return QString("<b>F</b> = %1").arg(qSetToQString(FA.finalStates));}
-    inline QString F_prime_toString(){return QString("<b>F'</b> = %1").arg(qSetToQString(non_epsilon_FA.finalStates));}
+    inline QString F_toString(){return QString("<b>F</b> = %1").arg(qSetToQString(FA.m_finalStates));}
+    inline QString F_prime_toString(){return QString("<b>F'</b> = %1").arg(qSetToQString(non_epsilon_FA.m_finalStates));}
     inline QString symbol_toString(){return QString("<b>a</b> = %1").arg(non_epsilon_rule.symbol);}
     inline QString q_toString(){return QString("<b>q</b> = %1").arg(non_epsilon_rule.to);}
     void setEpsilonCloserWidget();

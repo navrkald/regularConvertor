@@ -62,7 +62,7 @@ public:
     //Nemuzu odstaranit stav pokud do nej vede sipka
     //Pokud ostranim stav, do ktereho vede sipka muzu ukazat uzivateli varovani
     bool removeState(QString stateName);
-    void removeStates(QSet <QString> states);
+    void removeStates(QSet <QString> m_states);
     bool renameState(QString oldStateName, QString newStateName);
     void SetStartState(QString StateName);
     QString GetStartState();
@@ -78,7 +78,7 @@ public:
 		bool removeRule(ComputationalRules rule);
     bool changeSymbolInRule(ComputationalRules rule, QString symbol);
     bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
-    void SetAplhabet(QSet<QString> alphabet);
+    void SetAplhabet(QSet<QString> m_alphabet);
     bool hasEpsilon();
     bool isDeterministic();
     QSet <QString> epsilonCloser(QString state);
@@ -92,18 +92,18 @@ public:
 
 // Getters and setters
 public:
-    QSet<QString> GetAlphabet() const {return alphabet;}
+    QSet<QString> GetAlphabet() const {return m_alphabet;}
 
     //
     //Variables
     //
-    QSet <QString>  states;
-    QSet <QString> alphabet;
-    QSet <ComputationalRules> rules;
-    QString startState;
-    QSet <QString> finalStates;
-    QMap<QString, QPoint> coordinates;
-    int nextId;
+    QSet <QString>  m_states;
+    QSet <QString> m_alphabet;
+    QSet <ComputationalRules> m_rules;
+    QString m_startState;
+    QSet <QString> m_finalStates;
+    QMap<QString, QPoint> m_coordinates;
+    int m_nextId;
 
 private:
     bool canDivide(FiniteAutomata FA,QString symbol, QSet< QSet <QString> > Qm, QSet<QString> X, QSet <QString>& X1, QSet <QString>& X2);

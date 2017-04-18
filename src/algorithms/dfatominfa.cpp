@@ -54,14 +54,14 @@ FiniteAutomata DFAtoMinFA::computeSolution()
     this->FA.makeWellDefined();
 
     QSet< QSet <QString> > Qm;
-    Qm.insert(FA.finalStates);
-    Qm.insert(FA.states - FA.finalStates);
+    Qm.insert(FA.m_finalStates);
+    Qm.insert(FA.m_states - FA.m_finalStates);
     bool divided = false;
     do
     {
         foreach(QSet<QString> X, Qm)
         {
-            foreach(QString symbol,FA.alphabet)
+            foreach(QString symbol,FA.m_alphabet)
             {
                 QSet <QString> X1;
                 QSet <QString> X2;
@@ -78,15 +78,15 @@ FiniteAutomata DFAtoMinFA::computeSolution()
 
     //Lets create new minFA
     FiniteAutomata minFA;
-    minFA.alphabet = FA.alphabet;
-    minFA.states = setOfSubsetsToSet(Qm);
-    QSet<QString> gg =  *findInSubsets(Qm, FA.startState).begin();
-    minFA.startState = qSetToQString(gg);
-    minFA.finalStates = setOfSubsetsToSet(findInSubsets(Qm, FA.finalStates));
+    minFA.m_alphabet = FA.m_alphabet;
+    minFA.m_states = setOfSubsetsToSet(Qm);
+    QSet<QString> gg =  *findInSubsets(Qm, FA.m_startState).begin();
+    minFA.m_startState = qSetToQString(gg);
+    minFA.m_finalStates = setOfSubsetsToSet(findInSubsets(Qm, FA.m_finalStates));
     //Add new rules
     foreach(QSet <QString> from_set,Qm)
     {
-        foreach(QString symbol, FA.alphabet)
+        foreach(QString symbol, FA.m_alphabet)
         {
             QList <ComputationalRules> rules =  FA.findRule_FromSymbol(from_set,symbol);
             minFA.addRule(qSetToQString(getFroms(rules)), qSetToQString(getTos(rules)),symbol);

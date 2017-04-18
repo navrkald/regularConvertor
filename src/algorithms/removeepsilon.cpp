@@ -182,10 +182,10 @@ void RemoveEpsilon::nextStep()
         case HEADER:
             // non_epsilon_FA initialization
             non_epsilon_FA = FiniteAutomata();
-            non_epsilon_FA.states = FA.states;
-            non_epsilon_FA.startState = FA.startState;
-            non_epsilon_FA.alphabet = FA.alphabet;
-            non_epsilon_FA.coordinates = FA.coordinates;
+            non_epsilon_FA.m_states = FA.m_states;
+            non_epsilon_FA.m_startState = FA.m_startState;
+            non_epsilon_FA.m_alphabet = FA.m_alphabet;
+            non_epsilon_FA.m_coordinates = FA.m_coordinates;
             not_epsilon_fa_widget->setFA(new FiniteAutomata(non_epsilon_FA));
             p_list = FA.get_sorted_states();
             if(!p_list.empty())
@@ -274,7 +274,7 @@ void RemoveEpsilon::nextStep()
             m_actInstruction = IF_FINAL;
         break;
         case IF_FINAL:
-            if(!epsilon_closer.toSet().intersect(FA.finalStates).empty())
+            if(!epsilon_closer.toSet().intersect(FA.m_finalStates).empty())
             {
                 m_actInstruction = NEW_FINAL;
             }
@@ -316,7 +316,7 @@ void RemoveEpsilon::nextStep()
             epsilon_closers.append(e_closer);
             QListWidgetItem * item = new QListWidgetItem(epsilon_closer_list_widget);
             EpsilonCloserWidget* epsilon_widget = new EpsilonCloserWidget(p,epsilon_closer, epsilon_closer, epsilon_closer_list_widget);
-            QStringList statesList = FA.states.toList();
+            QStringList statesList = FA.m_states.toList();
             epsilon_widget->setCompleter(new MultiSelectCompleter(statesList));
             epsilon_widget->setCorrectness(true);
             epsilon_closer_list_widget->setItemWidget(item,epsilon_widget);
@@ -353,7 +353,7 @@ void RemoveEpsilon::nextStep()
 
         break;
         case NEW_FINAL:
-            non_epsilon_FA.finalStates.insert(p);
+            non_epsilon_FA.m_finalStates.insert(p);
             not_epsilon_fa_widget->emitAddEndingNode(p);
         break;
         case LAST_INSTRUCTION:
@@ -443,7 +443,7 @@ void RemoveEpsilon::setEpsilonCloserWidget()
     {
         QListWidgetItem * item = new QListWidgetItem(epsilon_closer_list_widget);
         EpsilonCloserWidget* epsilon_widget = new EpsilonCloserWidget(par.first, par.second, par.second, epsilon_closer_list_widget);
-        QStringList statesList = FA.states.toList();
+        QStringList statesList = FA.m_states.toList();
         epsilon_widget->setCompleter(new MultiSelectCompleter(statesList));
         epsilon_widget->setCorrectness(true);
         epsilon_closer_list_widget->setItemWidget(item,epsilon_widget);
@@ -453,17 +453,17 @@ void RemoveEpsilon::setEpsilonCloserWidget()
 
 void RemoveEpsilon::prepareGUItoCheck()
 {
-    QStringList states = FA.states.toList();
+    QStringList states = FA.m_states.toList();
     states.sort();
     epsilon_closer_list_widget->clear();
-    foreach(QString state, FA.states)
+    foreach(QString state, FA.m_states)
     {
         QStringList closer = FA.epsilonCloser(state).toList();
         closer.sort();
         QListWidgetItem * item = new QListWidgetItem(epsilon_closer_list_widget);
         QStringList emptyList;
         EpsilonCloserWidget* epsilon_widget = new EpsilonCloserWidget(state, emptyList, closer, epsilon_closer_list_widget);
-        epsilon_widget->setCompleter(new MultiSelectCompleter(FA.states.toList()));
+        epsilon_widget->setCompleter(new MultiSelectCompleter(FA.m_states.toList()));
         epsilon_closer_list_widget->setItemWidget(item,epsilon_widget);
         item->setSizeHint(epsilon_widget->sizeHint());
     }
@@ -645,12 +645,12 @@ void RemoveEpsilon::checkSolution()
 FiniteAutomata RemoveEpsilon::computeSolution()
 {
     FiniteAutomata FA_not_epsilon;
-    FA_not_epsilon.states = FA.states;
-    FA_not_epsilon.alphabet = FA.alphabet;
-    FA_not_epsilon.startState = FA.startState;
+    FA_not_epsilon.m_states = FA.m_states;
+    FA_not_epsilon.m_alphabet = FA.m_alphabet;
+    FA_not_epsilon.m_startState = FA.m_startState;
 
     //epsilon closers
-    QStringList states = FA.states.toList();
+    QStringList states = FA.m_states.toList();
     states.sort();
     foreach(QString p,states)
     {
@@ -660,7 +660,7 @@ FiniteAutomata RemoveEpsilon::computeSolution()
     }
 
     //Rules
-    foreach(QString state,FA.states)
+    foreach(QString state,FA.m_states)
     {
         QSet <QString> epsilon_closer = FA.epsilonCloser(state);
         foreach(QString state1,epsilon_closer)
@@ -676,12 +676,12 @@ FiniteAutomata RemoveEpsilon::computeSolution()
     }
 
     //Final states
-    foreach(QString state,FA.states)
+    foreach(QString state,FA.m_states)
     {
         QSet <QString> epsilon_closer = FA.epsilonCloser(state);
         foreach(QString state1, epsilon_closer)
         {
-            if(FA.finalStates.contains(state1))
+            if(FA.m_finalStates.contains(state1))
             {
                 FA_not_epsilon.addFinalState(state);
             }

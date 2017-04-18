@@ -170,7 +170,7 @@ void FaToDFA::SetDFA(FiniteAutomata *_FA)
 
 void FaToDFA::NextStep()
 {
-    if(FA.startState == "")
+    if(FA.m_startState == "")
     {
         emit SendStatusBarMessage("WARNING: Input FA has not start state.");
         return;
@@ -194,7 +194,7 @@ void FaToDFA::NextStep()
             m_actInstruction = DO_INIT;
         break;
         case DO_INIT:
-            m_alphabet = FA.alphabet.toList();
+            m_alphabet = FA.m_alphabet.toList();
             m_alphabet.sort();
             if( ! m_alphabet.empty())
                 m_actInstruction = FOREACH_A;
@@ -248,11 +248,11 @@ void FaToDFA::NextStep()
     {
         case VAR_INIT:
             {
-                DFA.startState = "{" + FA.startState + "}";
-                DFA.alphabet = FA.alphabet;
-                DFA.states.insert(DFA.startState);
+                DFA.m_startState = "{" + FA.m_startState + "}";
+                DFA.m_alphabet = FA.m_alphabet;
+                DFA.m_states.insert(DFA.m_startState);
                 m_dfa_widget->setFA(new FiniteAutomata(DFA));         //display start state
-                QSet<QString> tmp_set; tmp_set.insert(FA.startState);
+                QSet<QString> tmp_set; tmp_set.insert(FA.m_startState);
                 m_Q_new.insert(tmp_set);
             }
             break;
@@ -288,10 +288,10 @@ void FaToDFA::NextStep()
         case IF_Q_NEW:
         {
             QString discovered_state_name = qSetToQString(m_discovered_state);
-            if( ! DFA.states.contains(QSet<QString>() << discovered_state_name) && ! m_discovered_state.empty())
+            if( ! DFA.m_states.contains(QSet<QString>() << discovered_state_name) && ! m_discovered_state.empty())
             {
                 m_Q_new.insert(m_discovered_state);
-                DFA.states.insert(discovered_state_name);
+                DFA.m_states.insert(discovered_state_name);
                 m_dfa_widget->addNodes(QSet<QString>() << discovered_state_name);
             }
         }
@@ -300,14 +300,14 @@ void FaToDFA::NextStep()
             if( ! m_discovered_state.empty())
             {
                 m_r_prime = ComputationalRules(qSetToQString(m_act_state),qSetToQString(m_discovered_state),m_a);
-                DFA.rules.insert(m_r_prime);
+                DFA.m_rules.insert(m_r_prime);
                 emit m_dfa_widget->addEdges(QSet<ComputationalRules>() << m_r_prime);
             }
         break;
         case IF_FINAL:
-            if ( ! (m_act_state & FA.finalStates).empty())
+            if ( ! (m_act_state & FA.m_finalStates).empty())
             {
-                DFA.finalStates.insert(qSetToQString(m_act_state));
+                DFA.m_finalStates.insert(qSetToQString(m_act_state));
                 m_dfa_widget->addEndingNodes(QSet<QString>() << qSetToQString(m_act_state));
             }
         break;
@@ -343,13 +343,13 @@ FiniteAutomata FaToDFA::computeSolution()
     }
 
     FiniteAutomata FAd;
-    FAd.alphabet = FA.alphabet;                                 //FAd alphabet
+    FAd.m_alphabet = FA.m_alphabet;                                 //FAd alphabet
 
     QSet< QSet<QString> > new_states;
     QSet<QString> act_state;
 
-    FAd.startState = "{" + FA.startState + "}";                 //FAd start state
-    QSet<QString> tmp_set; tmp_set.insert(FA.startState);
+    FAd.m_startState = "{" + FA.m_startState + "}";                 //FAd start state
+    QSet<QString> tmp_set; tmp_set.insert(FA.m_startState);
     new_states.insert(tmp_set);
     do
     {
@@ -357,11 +357,11 @@ FiniteAutomata FaToDFA::computeSolution()
         act_state=*(new_states.begin());
         QString from = qSetToQString(act_state);
         new_states.remove(act_state);
-        FAd.states.insert(from);                                //insert new state to FAd
-        foreach (QString a, FA.alphabet)
+        FAd.m_states.insert(from);                                //insert new state to FAd
+        foreach (QString a, FA.m_alphabet)
         {
             QSet<QString> discovered_state;
-            foreach(ComputationalRules rule,FA.rules)
+            foreach(ComputationalRules rule,FA.m_rules)
             {
                 if(act_state.contains(rule.from)  && rule.symbol == a)
                 {
@@ -373,16 +373,16 @@ FiniteAutomata FaToDFA::computeSolution()
             QString to = qSetToQString(discovered_state);
             if (!discovered_state.empty())
             {
-                FAd.rules.insert(ComputationalRules(from,to,a));    //FAd insert rules
-                if(!FAd.states.contains(to))
+                FAd.m_rules.insert(ComputationalRules(from,to,a));    //FAd insert rules
+                if(!FAd.m_states.contains(to))
                     new_states.insert(discovered_state);
                 //FAd.states.insert(to);
             }
         }
         //new finite states
-        if(!act_state.intersect(FA.finalStates).empty())
+        if(!act_state.intersect(FA.m_finalStates).empty())
         {
-            FAd.finalStates.insert(from);                           //insert final states to FAd
+            FAd.m_finalStates.insert(from);                           //insert final states to FAd
         }
     }while (!new_states.empty());
 
@@ -485,11 +485,11 @@ void FaToDFA::showVariables()
             break;
 
         case VAR_INIT:
-            text = varToString("s<sub>d</sub>",DFA.startState) + "<br>" ;                 // s_d =
+            text = varToString("s<sub>d</sub>",DFA.m_startState) + "<br>" ;                 // s_d =
             text += varToString("Q<sub>new</sub>", m_Q_new) + "<br>";
             text += varToString("R<sub>d</sub>","∅")+ "<br>";                                  // R_d = ∅
-            text += varToString("Q<sub>d</sub>",DFA.states)+ "<br>";                                  // Q_d = ∅
-            text += varToString("F<sub>d</sub>",DFA.finalStates);                                  // F_d = ∅
+            text += varToString("Q<sub>d</sub>",DFA.m_states)+ "<br>";                                  // Q_d = ∅
+            text += varToString("F<sub>d</sub>",DFA.m_finalStates);                                  // F_d = ∅
             break;
         case DO:
             text = "";
@@ -497,25 +497,25 @@ void FaToDFA::showVariables()
         case DO_INIT:
             text = varToString("Q'",m_act_state)+ "<br>";
             text += varToString("Q<sub>new</sub>",m_Q_new)+ "<br>";
-            text += varToString("Q<sub>d</sub>",DFA.states);
+            text += varToString("Q<sub>d</sub>",DFA.m_states);
             break;
         case FOREACH_A:
             text = varToString("Q'",m_act_state)+ "<br>";
             text += varToString("Q<sub>new</sub>",m_Q_new)+ "<br>";
-            text += varToString("Q<sub>d</sub>",DFA.states)+ "<br>";
+            text += varToString("Q<sub>d</sub>",DFA.m_states)+ "<br>";
             text += varToString("a",m_a);
             break;
         case INIT_DOUBLE_PRIME_Q:
             text = varToString("Q'",m_act_state)+ "<br>";
             text += varToString("Q<sub>new</sub>",m_Q_new)+ "<br>";
-            text += varToString("Q<sub>d</sub>",DFA.states)+ "<br>";
+            text += varToString("Q<sub>d</sub>",DFA.m_states)+ "<br>";
             text += varToString("a",m_a)+ "<br>";
             text += varToString("Q''",m_discovered_state);
             break;
         case FOREACH_RULE_IN_Q:
             text = varToString("Q'",m_act_state)+ "<br>";
             text += varToString("Q<sub>new</sub>",m_Q_new)+ "<br>";
-            text += varToString("Q<sub>d</sub>",DFA.states)+ "<br>";
+            text += varToString("Q<sub>d</sub>",DFA.m_states)+ "<br>";
             text += varToString("a",m_a)+ "<br>";
             text += varToString("Q''",m_discovered_state)+ "<br>";
             text += varToString("p",m_p)+ "<br>";
@@ -525,7 +525,7 @@ void FaToDFA::showVariables()
         case DOUBLE_PRIME_Q:
             text = varToString("Q'",m_act_state)+ "<br>";
             text += varToString("Q<sub>new</sub>",m_Q_new)+ "<br>";
-            text += varToString("Q<sub>d</sub>",DFA.states)+ "<br>";
+            text += varToString("Q<sub>d</sub>",DFA.m_states)+ "<br>";
             text += varToString("a",m_a)+ "<br>";
             text += varToString("Q''",m_discovered_state)+ "<br>";
             text += varToString("q",m_q) + "<br>";
@@ -535,7 +535,7 @@ void FaToDFA::showVariables()
         case IF_DOUBLE_PRIME_Q:
             text = varToString("Q'",m_act_state) + "<br>";
             text += varToString("Q<sub>new</sub>",m_Q_new) + "<br>";
-            text += varToString("Q<sub>d</sub>",DFA.states) + "<br>";
+            text += varToString("Q<sub>d</sub>",DFA.m_states) + "<br>";
             text += varToString("a",m_a) + "<br>";
             text += varToString("Q''",m_discovered_state) + "<br>";
             text += varToString("r",m_r.toString()) + "<br>";
@@ -544,18 +544,18 @@ void FaToDFA::showVariables()
         case IF_Q_NEW:
             text = varToString("Q'",m_act_state) + "<br>";
             text += varToString("Q<sub>new</sub>",m_Q_new) + "<br>";
-            text += varToString("Q<sub>d</sub>",DFA.states) + "<br>";
+            text += varToString("Q<sub>d</sub>",DFA.m_states) + "<br>";
             text += varToString("a",m_a) + "<br>";
             text += varToString("Q''",m_discovered_state);
             break;
         case IF_FINAL:
             text = varToString("Q'",m_act_state) + "<br>";
             text += varToString("Q<sub>new</sub>",m_Q_new) + "<br>";
-            text += varToString("Q<sub>d</sub>",DFA.states) + "<br>";
+            text += varToString("Q<sub>d</sub>",DFA.m_states) + "<br>";
             text += varToString("a",m_a) + "<br>";
             text += varToString("Q''",m_discovered_state) + "<br>";
-            text += varToString("F",FA.finalStates) + "<br>";
-            text += varToString("F<sub>d</sub>",DFA.finalStates);
+            text += varToString("F",FA.m_finalStates) + "<br>";
+            text += varToString("F<sub>d</sub>",DFA.m_finalStates);
             break;
         case WHILE_NEW:
             text = varToString("Q<sub>new</sub>",m_Q_new);

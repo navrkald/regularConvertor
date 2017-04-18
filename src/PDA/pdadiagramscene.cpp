@@ -23,8 +23,8 @@ void CPDADiagramScene::AddArrow(StateNode *startItem, StateNode *endItem){
 	{
 		QSet<CPDACompotutationalRule> rules = inputDialog.GetPdaRules();
         if(!rules.isEmpty()){
-            CPdaArrow* arrow = new CPdaArrow(startItem, endItem, m_pa, rules, 0, this);
-            m_pa->AddPdaRules(rules);
+            CPdaArrow* arrow = new CPdaArrow(startItem, endItem, m_pda, rules, 0, this);
+            m_pda->AddPdaRules(rules);
             startItem->addArrow(arrow);
             endItem->addArrow(arrow);
             arrow->setZValue(-1000.0);   //posun na pozadi

@@ -256,8 +256,8 @@ void RegExpToFA::computeSolution()
     {
         RegExpNode* processedNode = nodesToProcede.first();
         processedNode->correct_FA = FiniteAutomata();
-        processedNode->correct_FA.states << "0";
-        processedNode->correct_FA.startState = "0";
+        processedNode->correct_FA.m_states << "0";
+        processedNode->correct_FA.m_startState = "0";
     }
     else
     {
@@ -316,8 +316,8 @@ void RegExpToFA::nextStep()
             if(history.count() == 1 && nodesToProcede.empty() && processedNode->str == EMPTYSET)
             {
                 processedNode->user_FA = FiniteAutomata();
-                processedNode->user_FA.states << "0";
-                processedNode->user_FA.startState = "0";
+                processedNode->user_FA.m_states << "0";
+                processedNode->user_FA.m_startState = "0";
                 m_actInstruction = EMPTY_FA;
             }
             else

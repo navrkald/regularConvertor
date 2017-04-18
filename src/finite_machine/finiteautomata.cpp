@@ -6,8 +6,8 @@
 
 FiniteAutomata::FiniteAutomata()
 {
-    nextId = 0;
-    startState = "";
+    m_nextId = 0;
+    m_startState = "";
 }
 
 //create finite automata from primitive reg expression
@@ -18,18 +18,18 @@ FiniteAutomata::FiniteAutomata(QString symbol)
 
 FiniteAutomata::FiniteAutomata(const FiniteAutomata& _FA)
 {
-    this->nextId = _FA.nextId;
-    states = _FA.states;
-    alphabet = _FA.alphabet;
-    rules = _FA.rules;
-    startState = _FA.startState;
-    finalStates = _FA.finalStates;
-    coordinates = _FA.coordinates;
+    this->m_nextId = _FA.m_nextId;
+    m_states = _FA.m_states;
+    m_alphabet = _FA.m_alphabet;
+    m_rules = _FA.m_rules;
+    m_startState = _FA.m_startState;
+    m_finalStates = _FA.m_finalStates;
+    m_coordinates = _FA.m_coordinates;
 }
 
 void FiniteAutomata::init(QString symbol)
 {
-    nextId = 0;
+    m_nextId = 0;
 
     //stavy
     QString newStartState =  this->createUniqueName();
@@ -45,7 +45,7 @@ void FiniteAutomata::init(QString symbol)
     //pravidlo
     this->addRule(ComputationalRules(newStartState, newEndState, symbol));
     //startovni stav
-    this->startState = newStartState;
+    this->m_startState = newStartState;
     //koncovy stav
     this->addFinalState(newEndState);
 }
@@ -53,15 +53,15 @@ void FiniteAutomata::init(QString symbol)
 QString FiniteAutomata::createUniqueName()
 {
     //TODO overit zda v definici KA muze/nesmi byt abeceda a stavy disjunktni, pokud nesmi, pak udelat kontrolu zda novy unikatni stav nekoliduje s abecedou
-    while(!isStateUnique(QString::number(nextId)))
-       nextId++;
-    return QString::number(nextId);
+    while(!isStateUnique(QString::number(m_nextId)))
+       m_nextId++;
+    return QString::number(m_nextId);
 }
 
 QList<ComputationalRules> FiniteAutomata::findRule_Symbol(QString symbol)
 {
     QList <ComputationalRules> rules;
-    foreach (ComputationalRules rule, this->rules)
+    foreach (ComputationalRules rule, this->m_rules)
     {
         if(rule.symbol == symbol)
             rules.append(rule);
@@ -72,7 +72,7 @@ QList<ComputationalRules> FiniteAutomata::findRule_Symbol(QString symbol)
 QList<ComputationalRules> FiniteAutomata::findRule_FromSymbol(QString from, QString symbol)
 {
     QList <ComputationalRules> rules;
-    foreach (ComputationalRules rule, this->rules)
+    foreach (ComputationalRules rule, this->m_rules)
     {
         if(rule.from == from && rule.symbol == symbol)
             rules.append(rule);
@@ -83,7 +83,7 @@ QList<ComputationalRules> FiniteAutomata::findRule_FromSymbol(QString from, QStr
 QList<ComputationalRules> FiniteAutomata::findRule_FromSymbol(QSet<QString> from, QString symbol)
 {
     QList <ComputationalRules> rules;
-    foreach (ComputationalRules rule, this->rules)
+    foreach (ComputationalRules rule, this->m_rules)
     {
         foreach(QString f,from)
         {
@@ -97,7 +97,7 @@ QList<ComputationalRules> FiniteAutomata::findRule_FromSymbol(QSet<QString> from
 QList<ComputationalRules> FiniteAutomata::findRule_From(QString from)
 {
     QList <ComputationalRules> rules;
-    foreach (ComputationalRules rule, this->rules)
+    foreach (ComputationalRules rule, this->m_rules)
     {
         if(rule.from == from)
             rules.append(rule);
@@ -108,7 +108,7 @@ QList<ComputationalRules> FiniteAutomata::findRule_From(QString from)
 QList<QString> FiniteAutomata::findState_from(QString from)
 {
     QList<QString> neighbours;
-    foreach(ComputationalRules rule, this->rules)
+    foreach(ComputationalRules rule, this->m_rules)
     {
         if (rule.from == from)
             neighbours.append(rule.to);
@@ -119,7 +119,7 @@ QList<QString> FiniteAutomata::findState_from(QString from)
 QList<QString> FiniteAutomata::findState_to(QString to)
 {
     QList<QString> neighbours;
-    foreach(ComputationalRules rule, this->rules)
+    foreach(ComputationalRules rule, this->m_rules)
     {
         if (rule.to == to)
             neighbours.append(rule.from);
@@ -132,7 +132,7 @@ QList<QString> FiniteAutomata::getReachableStates()
     QString act_state;
     QList <QString> availableStates;
     QList <QString> visitedStates;
-    availableStates.append(this->startState);
+    availableStates.append(this->m_startState);
     do
     {
         act_state = availableStates.first();
@@ -154,7 +154,7 @@ QList<QString> FiniteAutomata::getReverseReachableStates()
     QString act_state;
     QList <QString> availableStates;
     QList <QString> visitedStates;
-    availableStates.append(this->finalStates.toList());
+    availableStates.append(this->m_finalStates.toList());
     if(!availableStates.empty())
     {
         do
@@ -191,9 +191,9 @@ FiniteAutomata FiniteAutomata::makeWellDefined(FiniteAutomata FA)
     wellDefinedFA.removeUnreachableStates();
     wellDefinedFA.removeNonTerminatingStates();
     QString uniqName = wellDefinedFA.createUniqueName();
-    foreach (QString state, wellDefinedFA.states)
+    foreach (QString state, wellDefinedFA.m_states)
     {
-        foreach (QString symbol, wellDefinedFA.alphabet)
+        foreach (QString symbol, wellDefinedFA.m_alphabet)
         {
              QList <ComputationalRules> rules = wellDefinedFA.findRule_From(state);
              bool searched = false;
@@ -206,7 +206,7 @@ FiniteAutomata FiniteAutomata::makeWellDefined(FiniteAutomata FA)
              {
                  wellDefinedFA.addState(uniqName);
                  wellDefinedFA.addRule(state,uniqName,symbol);
-                 foreach(QString s,FA.alphabet)
+                 foreach(QString s,FA.m_alphabet)
                      wellDefinedFA.addRule(uniqName,uniqName,s);
              }
         }
@@ -225,12 +225,12 @@ FiniteAutomata FiniteAutomata::removeEpsilon(FiniteAutomata FA)
         return FA;
 
     FiniteAutomata FA_not_epsilon;
-    FA_not_epsilon.states = FA.states;
-    FA_not_epsilon.alphabet = FA.alphabet;
-    FA_not_epsilon.startState = FA.startState;
+    FA_not_epsilon.m_states = FA.m_states;
+    FA_not_epsilon.m_alphabet = FA.m_alphabet;
+    FA_not_epsilon.m_startState = FA.m_startState;
 
     //Rules
-    foreach(QString state,FA.states)
+    foreach(QString state,FA.m_states)
     {
         QSet <QString> epsilon_closer = FA.epsilonCloser(state);
         foreach(QString state1,epsilon_closer)
@@ -246,12 +246,12 @@ FiniteAutomata FiniteAutomata::removeEpsilon(FiniteAutomata FA)
     }
 
     //Final states
-    foreach(QString state,FA.states)
+    foreach(QString state,FA.m_states)
     {
         QSet <QString> epsilon_closer = FA.epsilonCloser(state);
         foreach(QString state1, epsilon_closer)
         {
-            if(FA.finalStates.contains(state1))
+            if(FA.m_finalStates.contains(state1))
             {
                 FA_not_epsilon.addFinalState(state);
             }
@@ -272,31 +272,31 @@ FiniteAutomata FiniteAutomata::toDFA(FiniteAutomata FA)
         FA.removeEpsilon();
     }
 
-    if(FA.startState == "")
+    if(FA.m_startState == "")
     {
         qWarning("WARNING: FA has no start state, returning original FA.");
         return FA;
     }
 
     FiniteAutomata FAd;
-    FAd.alphabet = FA.alphabet;                                 //FAd alphabet
+    FAd.m_alphabet = FA.m_alphabet;                                 //FAd alphabet
 
     QSet< QSet<QString> > new_states;
     QSet<QString> act_state;
 
-    FAd.startState = "{" + FA.startState + "}";                 //FAd start state
-    QSet<QString> tmp_set; tmp_set.insert(FA.startState);
+    FAd.m_startState = "{" + FA.m_startState + "}";                 //FAd start state
+    QSet<QString> tmp_set; tmp_set.insert(FA.m_startState);
     new_states.insert(tmp_set);
     do
     {
         act_state=*(new_states.begin());
         QString from = qSetToQString(act_state);
         new_states.remove(act_state);
-        FAd.states.insert(from);                                //insert new state to FAd
-        foreach (QString a, FA.alphabet)
+        FAd.m_states.insert(from);                                //insert new state to FAd
+        foreach (QString a, FA.m_alphabet)
         {
             QSet<QString> discovered_state;
-            foreach(ComputationalRules rule,FA.rules)
+            foreach(ComputationalRules rule,FA.m_rules)
             {
                 if(act_state.contains(rule.from)  && rule.symbol == a)
                 {
@@ -308,16 +308,16 @@ FiniteAutomata FiniteAutomata::toDFA(FiniteAutomata FA)
             QString to = qSetToQString(discovered_state);
             if (!discovered_state.empty())
             {
-                FAd.rules.insert(ComputationalRules(from,to,a));    //FAd insert rules
-                if(!FAd.states.contains(to))
+                FAd.m_rules.insert(ComputationalRules(from,to,a));    //FAd insert rules
+                if(!FAd.m_states.contains(to))
                     new_states.insert(discovered_state);
                 //FAd.states.insert(to);
             }
         }
         //new finite states
-        if(!act_state.intersect(FA.finalStates).empty())
+        if(!act_state.intersect(FA.m_finalStates).empty())
         {
-            FAd.finalStates.insert(from);                           //insert final states to FAd
+            FAd.m_finalStates.insert(from);                           //insert final states to FAd
         }
     }while (!new_states.empty());
 
@@ -331,12 +331,12 @@ void FiniteAutomata::toDFA()
 
 FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
 {
-    if(FA.startState == "")
+    if(FA.m_startState == "")
     {
         qWarning("WARNING: FA has no start state, returning original FA.");
         return FA;
     }
-    if(FA.finalStates.empty())
+    if(FA.m_finalStates.empty())
     {
         qWarning("WARNING: FA has not any final states, returning original FA.");
         return FA;
@@ -345,15 +345,15 @@ FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
     FA.makeWellDefined();
 
     QSet< QSet <QString> > Qm;
-    Qm.insert(FA.finalStates);
-    if(FA.states != FA.finalStates)
-            Qm.insert(FA.states - FA.finalStates);
+    Qm.insert(FA.m_finalStates);
+    if(FA.m_states != FA.m_finalStates)
+            Qm.insert(FA.m_states - FA.m_finalStates);
     bool divided;
     QSet< QSet<QString> >::iterator X = Qm.begin();
     while (X != Qm.end())
     {
         divided = false;
-        foreach(QString symbol,FA.alphabet)
+        foreach(QString symbol,FA.m_alphabet)
         {
             QSet <QString> X1;
             QSet <QString> X2;
@@ -378,15 +378,15 @@ FiniteAutomata FiniteAutomata::toMinFA(FiniteAutomata FA)
 
     //Lets create new minFA
     FiniteAutomata minFA;
-    minFA.alphabet = FA.alphabet;
-    minFA.states = setOfSubsetsToSet(Qm);
-    QSet<QString> gg =  *findInSubsets(Qm, FA.startState).begin();
-    minFA.startState = qSetToQString(gg);
-    minFA.finalStates = setOfSubsetsToSet(findInSubsets(Qm, FA.finalStates));
+    minFA.m_alphabet = FA.m_alphabet;
+    minFA.m_states = setOfSubsetsToSet(Qm);
+    QSet<QString> gg =  *findInSubsets(Qm, FA.m_startState).begin();
+    minFA.m_startState = qSetToQString(gg);
+    minFA.m_finalStates = setOfSubsetsToSet(findInSubsets(Qm, FA.m_finalStates));
     //Add new rules
     foreach(QSet <QString> from_set,Qm)
     {
-        foreach(QString symbol, FA.alphabet)
+        foreach(QString symbol, FA.m_alphabet)
         {
             QList <ComputationalRules> rules =  FA.findRule_FromSymbol(from_set,symbol);
             QSet < QSet<QString> > froms = findInSubsets(Qm,getFroms(rules));
@@ -410,7 +410,7 @@ void FiniteAutomata::toMinFA()
 
 FiniteAutomata FiniteAutomata::normalize(FiniteAutomata FA)
 {
-    if(FA.startState == "")
+    if(FA.m_startState == "")
     {
         qWarning("WARNING: FA has no start state, returning original FA.");
         return FA;
@@ -423,20 +423,20 @@ FiniteAutomata FiniteAutomata::normalize(FiniteAutomata FA)
 
     //renaming states for sure that
     //intersect new naming and old names will be empty set
-    foreach(QString state, FA.states)
+    foreach(QString state, FA.m_states)
     {
         normalizedFA.renameState(state,state+"'");
     }
 
-    QList<QString> sorted_alphabet = FA.alphabet.toList();
+    QList<QString> sorted_alphabet = FA.m_alphabet.toList();
     qSort(sorted_alphabet);
 
     QList <QString> renamed_nodes;
     QList <QString> processed_nodes;
     int counter = 0;
-    normalizedFA.renameState(normalizedFA.startState,QString::number(counter));
+    normalizedFA.renameState(normalizedFA.m_startState,QString::number(counter));
     counter++;
-    renamed_nodes.append(normalizedFA.startState);
+    renamed_nodes.append(normalizedFA.m_startState);
     do
     {
         QString q = normalize_chooseSmallestNonprocessed(renamed_nodes,processed_nodes);
@@ -469,7 +469,7 @@ FiniteAutomata FiniteAutomata::removeUnreachableStates(FiniteAutomata FA)
 {
     FiniteAutomata clean_FA = FA;
     QSet<QString> reachableStates = FA.getReachableStates().toSet();
-    QSet<QString> unReachableStates = FA.states - reachableStates;
+    QSet<QString> unReachableStates = FA.m_states - reachableStates;
     clean_FA.removeStates(unReachableStates);
     return clean_FA;
 }
@@ -477,10 +477,10 @@ FiniteAutomata FiniteAutomata::removeUnreachableStates(FiniteAutomata FA)
 FiniteAutomata FiniteAutomata::removeNonTerminatingStates(FiniteAutomata FA)
 {
     FiniteAutomata clean_FA = FA;
-    if(clean_FA.finalStates.count() > 0)
+    if(clean_FA.m_finalStates.count() > 0)
     {
         QSet <QString> terminating_states = FA.getReverseReachableStates().toSet();
-        QSet <QString> non_terminating_states = FA.states - terminating_states;
+        QSet <QString> non_terminating_states = FA.m_states - terminating_states;
         clean_FA.removeStates(non_terminating_states);
     }
     return clean_FA;
@@ -493,10 +493,10 @@ FiniteAutomata FiniteAutomata::concatenate(FiniteAutomata FA1, FiniteAutomata FA
     //stavy
     FiniteAutomata FA2_uniq_states = FA2;
 
-    FA.states = FA1.states + FA2.states;
+    FA.m_states = FA1.m_states + FA2.m_states;
 
     //prejmenovani stavu
-    QSet <QString> same_states = FA1.states & FA2.states; //prunik názvů stavů
+    QSet <QString> same_states = FA1.m_states & FA2.m_states; //prunik názvů stavů
     if(same_states.size() != 0)
     {
         foreach (QString str, same_states)
@@ -523,19 +523,19 @@ FiniteAutomata FiniteAutomata::concatenate(FiniteAutomata FA1, FiniteAutomata FA
 
 
     // abeceda
-    FA.alphabet = FA1.alphabet + FA2.alphabet;
+    FA.m_alphabet = FA1.m_alphabet + FA2.m_alphabet;
 
     //koncove stavy
-    FA.finalStates = FA2_uniq_states.finalStates;
+    FA.m_finalStates = FA2_uniq_states.m_finalStates;
 
     //Pocatecni stav
-    FA.startState = FA1.startState;
+    FA.m_startState = FA1.m_startState;
 
     //pravidla
-    FA.rules = FA1.rules + FA2_uniq_states.rules;
-    foreach(QString end_state,FA1.finalStates)
+    FA.m_rules = FA1.m_rules + FA2_uniq_states.m_rules;
+    foreach(QString end_state,FA1.m_finalStates)
     {
-        ComputationalRules bridge(end_state, FA2_uniq_states.startState, EPSILON);
+        ComputationalRules bridge(end_state, FA2_uniq_states.m_startState, EPSILON);
         FA.addRule(bridge);
     }
 
@@ -547,28 +547,28 @@ FiniteAutomata FiniteAutomata::iteration(FiniteAutomata FA1)
     FiniteAutomata FA;
 
     //stavy
-    FA.states = FA1.states;
+    FA.m_states = FA1.m_states;
     QString newStartState = FA.createUniqueName();
-    FA.states.insert(newStartState);
+    FA.m_states.insert(newStartState);
     QString newEndState = FA.createUniqueName();
-    FA.states.insert(newEndState);
+    FA.m_states.insert(newEndState);
 
     // abeceda
-    FA.alphabet = FA1.alphabet;
+    FA.m_alphabet = FA1.m_alphabet;
 
     //koncove stavy
-    FA.finalStates.insert(newEndState);
+    FA.m_finalStates.insert(newEndState);
 
     //Pocatecni stav
-    FA.startState = newStartState;
+    FA.m_startState = newStartState;
 
     //pravidla
-    FA.rules = FA1.rules ;
-    FA.addRule(ComputationalRules(newStartState,FA1.startState,EPSILON)); //startovni stav
-    foreach(QString end_state ,FA1.finalStates)
+    FA.m_rules = FA1.m_rules ;
+    FA.addRule(ComputationalRules(newStartState,FA1.m_startState,EPSILON)); //startovni stav
+    foreach(QString end_state ,FA1.m_finalStates)
     {
         FA.addRule(ComputationalRules(end_state, newEndState, EPSILON)); //koncove stavy do noveho
-        FA.addRule(ComputationalRules(end_state,FA1.startState,EPSILON)); //z puvodniho koncoveho stavu do puvodniho startovniho
+        FA.addRule(ComputationalRules(end_state,FA1.m_startState,EPSILON)); //z puvodniho koncoveho stavu do puvodniho startovniho
     }
     FA.addRule(ComputationalRules(newStartState,newEndState,EPSILON)); //ze startovniho stavu do koncoveho
 
@@ -596,7 +596,7 @@ bool FiniteAutomata::areEquivalent(FiniteAutomata FA1, FiniteAutomata FA2)
 
 bool FiniteAutomata::isStateUnique(QString state)
 {
-    return !states.contains(state);
+    return !m_states.contains(state);
 }
 
 //prida stav
@@ -606,7 +606,7 @@ bool FiniteAutomata::addState(QString stateName)
     if(!isStateUnique(stateName))
         return false;
 
-    states.insert(stateName);
+    m_states.insert(stateName);
     return true;
 
 }
@@ -614,13 +614,13 @@ bool FiniteAutomata::addState(QString stateName)
 
 bool FiniteAutomata::removeState(QString stateName)
 {
-    bool retval = this->states.remove(stateName);
+    bool retval = this->m_states.remove(stateName);
     removeFinalState(stateName);
-    if(this->startState == stateName)
+    if(this->m_startState == stateName)
     {
-        this->startState = "";
+        this->m_startState = "";
     }
-    foreach(ComputationalRules rule,this->rules)
+    foreach(ComputationalRules rule,this->m_rules)
     {
         if (rule.from == stateName || rule.to == stateName)
             removeRule(rule);
@@ -642,22 +642,22 @@ bool FiniteAutomata::renameState(QString oldStateName, QString newStateName)
         return false;
 
     //rename start state
-    if(startState == oldStateName)
-        startState = newStateName;
+    if(m_startState == oldStateName)
+        m_startState = newStateName;
 
     // Rename coordinates
-    coordinates[newStateName] = coordinates[oldStateName];
-    coordinates.remove(oldStateName);
+    m_coordinates[newStateName] = m_coordinates[oldStateName];
+    m_coordinates.remove(oldStateName);
 
     //rename state in finalStates
-    if(finalStates.contains(oldStateName))
+    if(m_finalStates.contains(oldStateName))
     {
         this->removeFinalState(oldStateName);
         this->addFinalState(newStateName);
     }
 
     //rename state name in all rules
-    foreach(ComputationalRules rule,rules)
+    foreach(ComputationalRules rule,m_rules)
     {
         if(rule.from == oldStateName || rule.to == oldStateName)
         {
@@ -677,49 +677,49 @@ bool FiniteAutomata::renameState(QString oldStateName, QString newStateName)
 
 void FiniteAutomata::SetStartState(QString StateName)
 {
-    this->startState = StateName;
+    this->m_startState = StateName;
 }
 
 QString FiniteAutomata::GetStartState()
 {
-    return startState;
+    return m_startState;
 }
 
 void FiniteAutomata::addFinalState(QString StateName)
 {
-    finalStates.insert(StateName);
+    m_finalStates.insert(StateName);
 }
 
 void FiniteAutomata::removeFinalState(QString StateName)
 {
-    finalStates.remove(StateName);
+    m_finalStates.remove(StateName);
 }
 
 void FiniteAutomata::addSymbol(QString symbol)
 {
-    alphabet.insert(symbol);
+    m_alphabet.insert(symbol);
 }
 
 void FiniteAutomata::removeSymbol(QString symbol)
 {
-    alphabet.remove(symbol);
+    m_alphabet.remove(symbol);
     QList<ComputationalRules> rules_to_dell = findRule_Symbol(symbol);
     foreach(ComputationalRules rule, rules_to_dell)
     {
-        rules.remove(rule);
+        m_rules.remove(rule);
     }
 }
 
 QList<QString> FiniteAutomata::get_sorted_states()
 {
-    QList<QString> states_list = states.toList();
+    QList<QString> states_list = m_states.toList();
     qSort(states_list);
     return states_list;
 }
 
 QVector<QString> FiniteAutomata::GetSortedAlphabet()
 {
-    QVector<QString> alphabetVector = states.toList().toVector();
+    QVector<QString> alphabetVector = m_states.toList().toVector();
     qSort(alphabetVector);
     return alphabetVector;
 
@@ -727,13 +727,13 @@ QVector<QString> FiniteAutomata::GetSortedAlphabet()
 
 bool FiniteAutomata::addRule(ComputationalRules rule)
 {
-    if(rules.contains(rule))
+    if(m_rules.contains(rule))
     {//Mnozina pravidel uz obsahuje "<<rule.from<<" " <<rule.symbol<<"->"<<rule.to
         return false;
     }
-    rules.insert(rule);
-    if(!alphabet.contains(rule.symbol) && rule.symbol != EPSILON)
-        alphabet.insert(rule.symbol);
+    m_rules.insert(rule);
+    if(!m_alphabet.contains(rule.symbol) && rule.symbol != EPSILON)
+        m_alphabet.insert(rule.symbol);
     return true;
 }
 
@@ -746,9 +746,9 @@ bool FiniteAutomata::addRule(QString from, QString to, QString symbol)
 bool FiniteAutomata::removeRule(ComputationalRules rule)
 {
 		QString symbol = rule.symbol;
-		bool changed = rules.remove(rule);
+		bool changed = m_rules.remove(rule);
     if(findRule_Symbol(symbol).count() == 0)
-        alphabet.remove(symbol);
+        m_alphabet.remove(symbol);
 	return changed;
 }
 
@@ -770,20 +770,20 @@ bool FiniteAutomata::changeRule(ComputationalRules oldrule, ComputationalRules n
     }
     else
     {
-        rules.remove(oldrule);
-        rules.insert(newrule);
+        m_rules.remove(oldrule);
+        m_rules.insert(newrule);
         return true;
     }
 }
 
 void FiniteAutomata::SetAplhabet(QSet<QString> alphabet)
 {
-    this->alphabet = alphabet;
+    this->m_alphabet = alphabet;
 }
 
 bool FiniteAutomata::hasEpsilon()
 {
-    foreach(ComputationalRules rule,rules)
+    foreach(ComputationalRules rule,m_rules)
     {
         if(rule.symbol == EPSILON)
         {
@@ -795,7 +795,7 @@ bool FiniteAutomata::hasEpsilon()
 
 bool FiniteAutomata::isDeterministic()
 {
-    foreach (ComputationalRules rule, this->rules)
+    foreach (ComputationalRules rule, this->m_rules)
     {
         if(findRule_FromSymbol(rule.from,rule.symbol).count() > 1)
             return false;
@@ -807,7 +807,7 @@ QSet<QString> FiniteAutomata::epsilonCloser(QString state)
 {
     //empty set
     QSet<QString> Q_act;
-    if (!this->states.contains(state))
+    if (!this->m_states.contains(state))
     {
         return Q_act;
     }
@@ -827,13 +827,13 @@ QSet<QString> FiniteAutomata::epsilonCloser(QString state)
 QSet<QString> FiniteAutomata::epsilonNeighbours(QString state)
 {
     QSet<QString> epsilon_neighbours;
-    if (!this->states.contains(state))
+    if (!this->m_states.contains(state))
     {
         return epsilon_neighbours;
     }
     else
     {
-        foreach(ComputationalRules rule,this->rules)
+        foreach(ComputationalRules rule,this->m_rules)
         {
             if(rule.from == state && rule.symbol == EPSILON)
                 epsilon_neighbours.insert(rule.to);
@@ -846,7 +846,7 @@ QSet<QString> FiniteAutomata::epsilonNeighbours(QString state)
 QSet<ComputationalRules> FiniteAutomata::nonEpsilonRulesOf(QString state)
 {
     QSet<ComputationalRules> non_epsilon_rules;
-    foreach(ComputationalRules rule, this->rules)
+    foreach(ComputationalRules rule, this->m_rules)
     {
         if(rule.from == state && rule.symbol != EPSILON)
         {
@@ -883,7 +883,7 @@ QString FiniteAutomata::PrintHtmlSet(QString variableName, QSet<QString> element
 
 QString FiniteAutomata::PrintHtmlStates()
 {
-    return PrintHtmlSet("Q", states);
+    return PrintHtmlSet("Q", m_states);
 }
 
 //helper function for method toMinFA()
@@ -937,11 +937,11 @@ FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2)
     FiniteAutomata FA;
 
     //stavy
-    FA.states = FA1.states + FA2.states;
+    FA.m_states = FA1.m_states + FA2.m_states;
 
     //prejmenovani stavu
     FiniteAutomata FA2_uniq_states = FA2;
-    QSet <QString> same_states = FA1.states & FA2.states; //prunik názvů stavů
+    QSet <QString> same_states = FA1.m_states & FA2.m_states; //prunik názvů stavů
     if(same_states.size() != 0)
     {
         foreach (QString str, same_states)
@@ -966,30 +966,30 @@ FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2)
 
 
     QString newStartState = FA.createUniqueName();
-    FA.states.insert(newStartState);
+    FA.m_states.insert(newStartState);
     QString newEndState = FA.createUniqueName();
-    FA.states.insert(newEndState);
+    FA.m_states.insert(newEndState);
 
 
 
     // abeceda
-    FA.alphabet = FA1.alphabet + FA2_uniq_states.alphabet;
+    FA.m_alphabet = FA1.m_alphabet + FA2_uniq_states.m_alphabet;
 
     //koncove stavy
-    FA.finalStates.insert(newEndState);
+    FA.m_finalStates.insert(newEndState);
 
     //Pocatecni stav
-    FA.startState = newStartState;
+    FA.m_startState = newStartState;
 
     //pravidla
-    FA.rules = FA1.rules + FA2_uniq_states.rules;
-    FA.addRule(ComputationalRules(newStartState,FA1.startState,EPSILON));
-    FA.addRule(ComputationalRules(newStartState,FA2_uniq_states.startState,EPSILON));
-    foreach(QString end_state ,FA1.finalStates)
+    FA.m_rules = FA1.m_rules + FA2_uniq_states.m_rules;
+    FA.addRule(ComputationalRules(newStartState,FA1.m_startState,EPSILON));
+    FA.addRule(ComputationalRules(newStartState,FA2_uniq_states.m_startState,EPSILON));
+    foreach(QString end_state ,FA1.m_finalStates)
     {
         FA.addRule(ComputationalRules(end_state, newEndState, EPSILON));
     }
-    foreach(QString end_state, FA2_uniq_states.finalStates)
+    foreach(QString end_state, FA2_uniq_states.m_finalStates)
     {
         FA.addRule(ComputationalRules(end_state, newEndState, EPSILON));
     }
@@ -1001,19 +1001,19 @@ FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2)
 
 bool operator ==(const FiniteAutomata FA1, const FiniteAutomata FA2)
 {
-    if (FA1.states != FA2.states)
+    if (FA1.m_states != FA2.m_states)
         return false;
 
-    if (FA1.alphabet != FA2.alphabet)
+    if (FA1.m_alphabet != FA2.m_alphabet)
         return false;
 
-    if (FA1.startState != FA2.startState)
+    if (FA1.m_startState != FA2.m_startState)
         return false;
 
-    if (FA1.finalStates != FA2.finalStates)
+    if (FA1.m_finalStates != FA2.m_finalStates)
         return false;
 
-    if (FA1.rules != FA2.rules)
+    if (FA1.m_rules != FA2.m_rules)
         return false;
 
     return true;
@@ -1022,18 +1022,18 @@ bool operator ==(const FiniteAutomata FA1, const FiniteAutomata FA2)
 QDebug operator<< (QDebug d, const FiniteAutomata &FA)
 {
    d << "FA=(Q,S,R,s,F)";
-   d << "Q={" << FA.states <<"}";
-   d << "S={" << FA.alphabet << "}";
-   d << "R={" << FA.rules << "}";
-   d << "s= "<< FA.startState;
-   d << "F=" << FA.finalStates << "}";
-   d << FA.coordinates;
+   d << "Q={" << FA.m_states <<"}";
+   d << "S={" << FA.m_alphabet << "}";
+   d << "R={" << FA.m_rules << "}";
+   d << "s= "<< FA.m_startState;
+   d << "F=" << FA.m_finalStates << "}";
+   d << FA.m_coordinates;
    return d;
 }
 
 QDataStream &operator<<(QDataStream &out, const FiniteAutomata &FA)
 {
-    out << FA.states << FA.startState << FA.finalStates << FA.alphabet  << FA.rules << (quint32)FA.nextId << FA.coordinates;
+    out << FA.m_states << FA.m_startState << FA.m_finalStates << FA.m_alphabet  << FA.m_rules << (quint32)FA.m_nextId << FA.m_coordinates;
     return out;
 }
 
@@ -1042,7 +1042,7 @@ QDataStream &operator<<(QDataStream &out, const FiniteAutomata &FA)
 QDataStream &operator>>(QDataStream &in, FiniteAutomata &FA)
 {
     quint32 nextId;
-    in  >> FA.states >> FA.startState >> FA.finalStates >> FA.alphabet  >> FA.rules >> nextId >> FA.coordinates;
-    FA.nextId = (int)nextId;
+    in  >> FA.m_states >> FA.m_startState >> FA.m_finalStates >> FA.m_alphabet  >> FA.m_rules >> nextId >> FA.m_coordinates;
+    FA.m_nextId = (int)nextId;
     return in;
 }

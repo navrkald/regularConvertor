@@ -12,9 +12,18 @@ void CPDADiagramScene::RemoveEdgesSlot(QSet<CPDACompotutationalRule> pdaRules)
     // TODO: Implement
 }
 
-void CPDADiagramScene::SetPdaSlot(QSet<CPDACompotutationalRule> pdaRules)
+void CPDADiagramScene::SetPdaSlot(CPushDownAutomata* pda)
 {
-    // TODO: Implement
+    clean();
+    clear();
+    clearFocus();
+    clearSelection();
+    m_pda = pda;
+    AddNodes(m_pda->m_states, m_pda->m_coordinates);
+    SetStartNode(m_pda->m_startState);
+    AddEdgesSlot(m_pda->m_pdaRules);
+    AddEndingNodes(m_pda->m_finalStates);
+    emit PdaChangedSignal(m_pda);
 }
 
 void CPDADiagramScene::AddArrow(StateNode *startItem, StateNode *endItem){
@@ -30,7 +39,7 @@ void CPDADiagramScene::AddArrow(StateNode *startItem, StateNode *endItem){
             arrow->setZValue(-1000.0);   //posun na pozadi
             addItem(arrow);
             arrow->updatePosition();
-            // TODO: Emit FA changed // 						 emit FA_changed(FA);
+            emit PdaChangedSignal(m_pda);
         }
 	}
 }

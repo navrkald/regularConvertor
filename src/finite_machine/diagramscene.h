@@ -16,12 +16,11 @@ class DiagramScene : public QGraphicsScene
 {
    Q_OBJECT
 signals:
-    void FA_changed(FiniteAutomata* m_fa);
+    void FA_changed(FiniteAutomata* fa);
     void sendStatusBarMessage(QString message);
 
 public:
     DiagramScene(FiniteAutomata* _FA, QWidget *parent);
-    //~DiagramScene();
 
     enum Mode { AddNodeMode, MoveNodeMode, DeleteNodeMode, AddArrowMode};
     Mode actMode;
@@ -30,16 +29,15 @@ public:
     Mode getMode();
     StateNode* startingState;
     Arrow* getArrow(StateNode* from, StateNode* to);
-    //clean scene but not delete or change FA
-    void emit_FA_changed(FiniteAutomata* m_fa);
 
-    void SetStartState(QString nodeName);
-    void SetEndingState(QString nodeName, bool isEnding);
-    void SetNodeCoordinates(QString nodeName, QPoint position);
-    bool CanSetNodeName(QString newName);
-    void RenameNode(QString oldName, QString newName);
+    virtual void AddNewState(QString nodeName, QPoint position = QPoint());
+    virtual void SetStartState(QString nodeName, bool emitFaChanged = true);
+    virtual void SetEndingState(QString nodeName, bool isEnding);
+    virtual void SetNodeCoordinates(QString nodeName, QPoint position);
+    virtual bool CanSetNodeName(QString newName);
+    virtual void RenameNode(QString oldName, QString newName);
 public slots:
-    void SetFa(FiniteAutomata* m_fa);
+    void SetFa(FiniteAutomata* fa);
     void SetMode(Mode mode);
     void ChangeSelected();
     void DeleteSelected();
@@ -63,10 +61,16 @@ protected:
     void addNode(QString node, QPoint point);
     StateNode* getNodeByName(QString nodeName);
     void clean();
+    virtual void RemoveStateFromFiniteAutomata(QString state);
     virtual void AddArrow(StateNode *startItem, StateNode *endItem);
+    virtual void CheckArrowTypeAndDelete(QGraphicsItem* graphicsItem, QList<QGraphicsItem*>& items);
+    virtual void EmitFiniteAutomataChanged();
+    virtual QString CreateNodeUniqueName();
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
     StateNode *CreateStateNode(QString nodeName = "");
+
 };
 
 #endif // MYQGRAPHICSSCENE_H

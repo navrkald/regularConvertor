@@ -163,7 +163,7 @@ void FA_widget::SetSceneSpecific(DiagramScene* scene){
     connect(this,SIGNAL(removeEdges(QSet<ComputationalRules>)),this->m_scene,SLOT(removeEdges(QSet<ComputationalRules>)));
 
     //set FA also to scene
-    connect(this,SIGNAL(setFA_signal(FiniteAutomata*)),this->m_scene,SLOT(setFA(FiniteAutomata*)));
+    connect(this,SIGNAL(setFA_signalToScene(FiniteAutomata*)),this->m_scene,SLOT(SetFa(FiniteAutomata*)));
 
     // FA changed - scene notify
     connect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
@@ -538,7 +538,7 @@ void FA_widget::setFA(FiniteAutomata* FA)
     disconnect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
     clean();
     this->m_finiteAutomata = FA;
-    emit setFA_signal(FA);
+    emit setFA_signalToScene(FA);
     connect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
     emit FA_changed(FA);
 }

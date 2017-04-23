@@ -8,8 +8,13 @@
 
 class CPdaWidget : public FA_widget
 {
+	Q_OBJECT
+
 public:
     CPdaWidget(QWidget *parent = 0);
+
+signals:
+	void SignalPdaChanged(CPushDownAutomata* pda);
 
 public slots:
     void SetPda(CPushDownAutomata* pda);

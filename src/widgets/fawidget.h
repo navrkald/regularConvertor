@@ -63,7 +63,7 @@ public slots:
 
 signals:
     void FA_changed(FiniteAutomata* m_finiteAutomata);
-    void setFA_signal(FiniteAutomata* m_finiteAutomata); // update graphic FA
+    void setFA_signalToScene(FiniteAutomata* m_finiteAutomata); // update graphic FA
     void addNodes(QSet <QString> nodes);
     void removeNodes(QSet <QString> nodes);
     void addEdges(QSet <ComputationalRules> rules);

@@ -404,7 +404,8 @@ void DiagramScene::AddEdges(QSet<ComputationalRules> rules)
         }
         m_fa->addRule(rule);
     }
-    emit FA_changed(m_fa);
+	EmitFiniteAutomataChanged();
+
 }
 
 QString DiagramScene::CreateNodeUniqueName(){

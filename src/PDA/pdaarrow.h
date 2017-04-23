@@ -11,19 +11,22 @@ class CPdaArrow : public Arrow
 	Q_OBJECT
 public:
 	explicit CPdaArrow();
-	CPdaArrow(StateNode *startItem, StateNode *endItem, CPushDownAutomata* pa, QSet<CPDACompotutationalRule> pdaRules,
-	QGraphicsItem *parent = 0, CPDADiagramScene *m_scene = 0);
+	CPdaArrow(StateNode *startItem, StateNode *endItem, CPushDownAutomata* pda, QSet<CPDACompotutationalRule> pdaRules,
+	QGraphicsItem *parent = 0, CPDADiagramScene *scene = 0);
+	bool RemoveRule(const CPDACompotutationalRule& rule);
+	QSet<CPDACompotutationalRule> GetPdaRules();
 
 protected:
 	StateNode* m_startItem;
 	StateNode* m_endItem;
-	CPushDownAutomata* m_pa;
-	QSet<CPDACompotutationalRule> m_oldPdaRules;
+	CPushDownAutomata* m_pda;
+	QSet<CPDACompotutationalRule> m_pdaRules;
 	QGraphicsItem* m_parent;
 	CPDADiagramScene* m_pdaScene;
 	virtual void EditArrow();
 
 signals:
+	void SignalPdaChanged(CPushDownAutomata* pda);
 
 public slots:
 };

@@ -81,7 +81,6 @@ void StateNode::setStartingState()
     }
     myscene->startingState = this;
     myscene->SetStartState(getName());
-    myscene->SetStartNode(getName());
     update();
 }
 

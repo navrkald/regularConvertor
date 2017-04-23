@@ -9,6 +9,7 @@ public:
 	CPushDownAutomata();
 	QSet <CPDACompotutationalRule> GetRules() const { return m_pdaRules; }
 	void SetStackAlphabet(QSet<QString> stackAplhabet);
+	void AddPDARule(CPDACompotutationalRule rule);
 	void AddPDARule(QString from, QString to, QString symbol, QString popSymol, QVector<QString> pushSymbols);
 	void AddPDARule(QString from, QString to, QString symbol, QString popSymol, QString pushSymbol);
 	void AddPdaRules(QSet<CPDACompotutationalRule> rulesToAdd);

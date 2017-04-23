@@ -9,6 +9,11 @@ void CPushDownAutomata::SetStackAlphabet(QSet<QString> stackAplhabet)
     m_stackAlphabet = stackAplhabet;
 }
 
+void CPushDownAutomata::AddPDARule(CPDACompotutationalRule rule)
+{
+	m_pdaRules.insert(rule);
+}
+
 void CPushDownAutomata::AddPDARule(QString from, QString to, QString symbol, QString popSymol, QVector<QString> pushSymbols)
 {
     CPDACompotutationalRule newPDARule(from, to, symbol, popSymol, pushSymbols);

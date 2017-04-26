@@ -14,7 +14,7 @@ public:
 	void AddPDARule(QString from, QString to, QString symbol, QString popSymol, QString pushSymbol);
 	void AddPdaRules(QSet<CPDACompotutationalRule> rulesToAdd);
 	void RemovePdaRules(QSet<CPDACompotutationalRule> rulesToDelete);
-	QSet<CPDACompotutationalRule> GetRulesWithInputSymbol(const QString& inputSymbol);
+    QSet<CPDACompotutationalRule> GetRulesWithInputSymbol(const QString& inputSymbol);
 	QSet<CPDACompotutationalRule> GetRulesWithStackSymbol(const QString& stackSymbol);
 public:
 	QSet <QString> m_stackAlphabet;

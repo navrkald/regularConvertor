@@ -25,6 +25,8 @@ private:
 public:
     virtual void ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged);
     virtual void ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage);
+    void SetCfg(const CContextFreeGrammar& cfg);
+
 };
 
 #endif // CFGTOPDAWIDGET_H

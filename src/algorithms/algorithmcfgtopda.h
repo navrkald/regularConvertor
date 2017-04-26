@@ -62,8 +62,6 @@ public slots:
     void ShowUserSolution();
     void ToBegin();
     void ToEnd();
-
-private slots:
     void SetCfg(CContextFreeGrammar* cfg);
     void SetPda(CPushDownAutomata* pda);
 private:

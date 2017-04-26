@@ -69,7 +69,7 @@ void CPushDownAutomata::RemovePdaRules(QSet<CPDACompotutationalRule> rulesToDele
 		if(GetRulesWithStackSymbol(stackSymbol).isEmpty()){
 			m_stackAlphabet.remove(stackSymbol);
 		}
-	}
+    }
 }
 
 QSet<CPDACompotutationalRule> CPushDownAutomata::GetRulesWithInputSymbol(const QString& inputSymbol)

@@ -238,6 +238,7 @@ void CAlgorithmCFGtoPDA::ToEnd()
 
 void CAlgorithmCFGtoPDA::SetCfg(CContextFreeGrammar *cfg)
 {
+    m_cfgWidget->SetCfg(*cfg);
     // TODO: Implement
 }
 

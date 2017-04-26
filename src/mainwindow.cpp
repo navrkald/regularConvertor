@@ -590,6 +590,42 @@ void MainWindow::on_Determinization_advanced_example_4_triggered()
     FA.m_coordinates["C"] = QPoint(326,363);
     Determinization_example(FA, tr("Advanced example 4"));
 }
+
+void MainWindow::CfgToPda_example(const CContextFreeGrammar& cfg, QString example_name)
+{
+    on_action_check_mode_triggered();
+    ui->m_actionCFGtoPDA->setChecked(true);
+
+    if(m_activeConversion != CFG_TO_PDA)
+        PrepareConversionWidget(Conversions::CFG_TO_PDA);
+    ((CCfgToPdaWidget*)m_centralWidget)->SetCfg(cfg);
+    mySetWindowTitle(example_name);
+}
+
+void MainWindow::on_CfgToPda_Example_1_triggered()
+{
+    // Initialize context free grammer
+    CContextFreeGrammar g;
+    CNonTerminal S("S");
+    g.SetStartNonTerminal(S);
+    QSet<CNonTerminal> nonterminals;
+    nonterminals.insert(S);
+    g.SetNonterminalsAlphabet(nonterminals);
+    QSet<CTerminal> terminals;
+    CTerminal leftBracket("{");
+    CTerminal rightBracket("}");
+    terminals.insert(leftBracket);
+    terminals.insert(rightBracket);
+    g.SetTerminalsAlphabet(terminals);
+    QSet<CCFGRule> rules;
+    QVector<CSymbol> rightRulePart1= {leftBracket, S, rightBracket};
+    QVector<CSymbol> rightRulePart2 = {leftBracket, rightBracket};
+    rules.insert(CCFGRule(S, rightRulePart1));
+    rules.insert(CCFGRule(S, rightRulePart2));
+    g.SetRules(rules);
+    CfgToPda_example(g,tr("Simple example 1"));
+}
+
 void MainWindow::on_action_save_triggered()
 {
     if(m_activeConversion == none)

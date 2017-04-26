@@ -113,9 +113,16 @@ p, li { white-space: pre-wrap; }
      <addaction name="Determinization_advanced_example_3"/>
      <addaction name="Determinization_advanced_example_4"/>
     </widget>
+    <widget class="QMenu" name="menuContext_free_grammar_to_PushDown_Automata">
+     <property name="title">
+      <string>Context-free grammar to PushDown Automata</string>
+     </property>
+     <addaction name="CfgToPda_Example_1"/>
+    </widget>
     <addaction name="examples_RegExp_FA"/>
     <addaction name="menuRemove_epsilon"/>
     <addaction name="menuDeterminizace_KA"/>
+    <addaction name="menuContext_free_grammar_to_PushDown_Automata"/>
    </widget>
    <widget class="QMenu" name="menuV_b_r_konverze">
     <property name="title">
@@ -124,7 +131,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_RE_to_FA"/>
     <addaction name="action_RemoveEpsilon"/>
     <addaction name="action_Determinization"/>
-    <addaction name="actionCFGtoPDA"/>
+    <addaction name="m_actionCFGtoPDA"/>
    </widget>
    <widget class="QMenu" name="menuLanguages">
     <property name="title">
@@ -532,7 +539,10 @@ p, li { white-space: pre-wrap; }
     <string>English</string>
    </property>
   </action>
-  <action name="actionCFGtoPDA">
+  <action name="m_actionCFGtoPDA">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Context-free grammar to Pushdown Automata</string>
    </property>
@@ -545,6 +555,14 @@ p, li { white-space: pre-wrap; }
   <action name="actionTestRefactoredRegExpToFA">
    <property name="text">
     <string>TestRefactoredRegExpToFA</string>
+   </property>
+  </action>
+  <action name="CfgToPda_Example_1">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Simple example 1</string>
    </property>
   </action>
  </widget>

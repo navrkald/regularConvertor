@@ -12,11 +12,12 @@ CPdaWidget::CPdaWidget(QWidget *parent) : FA_widget(parent)
 
 void CPdaWidget::SetPda(CPushDownAutomata *pda)
 {
-	disconnect(m_scene, SIGNAL(PdaChangedSignal(CPushDownAutomata*)), this, SIGNAL(SignalPdaChanged(CPushDownAutomata*)));
+    CPDADiagramScene* tmpScene = dynamic_cast<CPDADiagramScene*>(m_scene);
+    disconnect(tmpScene, SIGNAL(PdaChangedSignal(CPushDownAutomata*)), this, SIGNAL(SignalPdaChanged(CPushDownAutomata*)));
 	// clean(); TODO: clean formal model of PDA
 	m_pda = pda;
 	emit SignalPdaChanged(m_pda);
-	connect(m_scene, SIGNAL(PdaChangedSignal(CPushDownAutomata*)), this, SIGNAL(SignalPdaChanged(CPushDownAutomata*)));
+    connect(tmpScene, SIGNAL(PdaChangedSignal(CPushDownAutomata*)), this, SIGNAL(SignalPdaChanged(CPushDownAutomata*)));
 	emit SignalPdaChanged(m_pda);
 
     // TODO: setup PDA

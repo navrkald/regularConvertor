@@ -16,6 +16,8 @@ public:
     explicit CCfgWidget(QWidget *parent = 0);
     void SetCaption(const QString& caption);
     ~CCfgWidget();
+    void SetCfg(const CContextFreeGrammar& cfg);
+
 
 private slots:
   void on_m_BackusNaurFormTextEdit_textChanged();

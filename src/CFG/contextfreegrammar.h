@@ -29,7 +29,7 @@ public:
     void Trim() {m_symbol = m_symbol.trimmed();}
     void Append(QChar charter) {m_symbol.append(charter);}
     void Clear() {m_symbol.clear();}
-    TType GetType() {return m_type;}
+    TType GetType() const {return m_type;}
 protected:
     QString m_symbol;
     TType m_type;
@@ -103,11 +103,12 @@ public:
 //            delete symbolPtr;
 //        }
     }
-  static ErrorCode GetRulesFromString(QSet<CCFGRule>& rules, QString sRule);
+    static ErrorCode GetRulesFromString(QSet<CCFGRule>& rules, QString sRule);
         bool operator==(const CCFGRule &r) const {
             return ((this->m_leftNonTerminal == r.m_leftNonTerminal) && (this->m_rightString == r.m_rightString));
         }
     void SetLeftNonTerminal(CNonTerminal leftNonTerminal) {m_leftNonTerminal = leftNonTerminal;}
+    QString ToString() const;
 protected:
     bool IsRightSideEmpty() {return m_rightString.isEmpty();}
     void ClearRightSide() {m_rightString.clear();}
@@ -139,13 +140,14 @@ public:
     void SetTerminalsAlphabet(const QSet<CTerminal> &terminalsAlphabet) {m_terminalsAlphabet = terminalsAlphabet;}
     void SetStartNonTerminal(const CNonTerminal &startNonTerminal) {m_startNonTerminal = startNonTerminal; }
     void SetRules(const QSet<CCFGRule> &rules) {m_rules = rules;}
-    ErrorCode GetFromString(QString sContextFreeGrammar);
+    ErrorCode GetFromBackusNaurForm(QString sContextFreeGrammar);
+    QString ToBackusNaurForm() const;
     bool operator==(const CContextFreeGrammar& g)const;
     void Clear(){
-      m_nonTerminalsAlphabet.clear();
-      m_terminalsAlphabet.clear();
-			m_startNonTerminal.Clear();
-      m_rules.clear();
+        m_nonTerminalsAlphabet.clear();
+        m_terminalsAlphabet.clear();
+        m_startNonTerminal.Clear();
+        m_rules.clear();
     }
 protected:
     QSet<CNonTerminal> m_nonTerminalsAlphabet;
@@ -153,6 +155,7 @@ protected:
     CNonTerminal m_startNonTerminal;
     QSet<CCFGRule> m_rules;
 
+    QList<CCFGRule> GetListOfRules() const;
 };
 //bool operator==(const CContextFreeGrammar& g1, const CContextFreeGrammar& g2);
 #endif // CONTEXTFREEGRAMMAR_H

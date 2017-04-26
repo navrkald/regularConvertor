@@ -27,3 +27,8 @@ void CCfgToPdaWidget::ConnectStatusMessage(const MainWindow *receiver, MainWindo
 {
     connect(&m_cfgToPdaAlgorithm, &CAlgorithmCFGtoPDA::SendStatusBarMessage, receiver, showMessage);
 }
+
+void CCfgToPdaWidget::SetCfg(const CContextFreeGrammar& cfg)
+{
+    m_cfgToPdaAlgorithm.SetCfg(new CContextFreeGrammar(cfg));
+}

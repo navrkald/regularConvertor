@@ -41,6 +41,9 @@ signals:
 public slots:
     void showStatusMessage(QString message);
     void mySetWindowTitle(QString example_name = "");
+protected:
+    void CfgToPda_example(const CContextFreeGrammar& cfg, QString example_name = "");
+    void RE_FA_example(RegExp* _re, QString example_name = "");
 private slots:
     void hideStatusMessage();
     void on_action_check_mode_triggered();
@@ -52,7 +55,6 @@ private slots:
     //
     // RegExp to FA
     //
-    void RE_FA_example(RegExp* _re, QString example_name = "");
     void on_RE_FA_example0_triggered();
     void on_RE_FA_example1_triggered();
     void on_RE_FA_example2_triggered();
@@ -121,6 +123,8 @@ private slots:
     void on_action_RE_to_FA_triggered();
 
     void on_action_RemoveEpsilon_triggered();
+
+    void on_CfgToPda_Example_1_triggered();
 
 private:
     using QMainWindow::setCentralWidget;

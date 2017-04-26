@@ -102,6 +102,27 @@ ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
   return E_NO_ERROR;
 }
 
+QString CCFGRule::ToString() const
+{
+    QString ruleString = QString("<%1> :=").arg(m_leftNonTerminal.GetString());
+    foreach(const CSymbol& symbol, m_rightString){
+        switch (symbol.GetType()) {
+            case CSymbol::TType::terminal:
+                ruleString += QString(" \"%1\" ").arg(symbol.GetString());
+                break;
+            case CSymbol::TType::nonTerminal:
+                ruleString += QString(" <%1> ").arg(symbol.GetString());
+                break;
+            case CSymbol::TType::symbol:
+            default:
+                // This should never happend!!!
+                ruleString += QString(" UNKNOWN(%1) ").arg(symbol.GetString());
+                break;
+        }
+    }
+    return ruleString;
+}
+
 QVector<QString> CCFGRule::GetRevertedRightRule()
 {
     QVector<QString> revertedVector;
@@ -172,7 +193,7 @@ int CContextFreeGrammar::GetRulesCount()
   return m_rules.size();
 }
 
-ErrorCode CContextFreeGrammar::GetFromString(QString sContextFreeGrammar)
+ErrorCode CContextFreeGrammar::GetFromBackusNaurForm(QString sContextFreeGrammar)
 {
   Clear();
   ErrorCode err = E_NO_ERROR;
@@ -213,6 +234,30 @@ ErrorCode CContextFreeGrammar::GetFromString(QString sContextFreeGrammar)
     }
   }
   return E_NO_ERROR;
+}
+
+QList<CCFGRule> CContextFreeGrammar::GetListOfRules() const{
+    QList<CCFGRule> listOfRules = m_rules.toList();
+    // We need rule which starts with has left nonterminal equal m_startNonTerminal
+    if(!m_startNonTerminal.IsEmpty()){
+        for(int i = 0; i < listOfRules.count(); i++){
+            if(listOfRules.at(i).m_leftNonTerminal == m_startNonTerminal){
+                listOfRules.move(i, 0);
+                break;
+            }
+        }
+    }
+    return listOfRules;
+}
+
+QString CContextFreeGrammar::ToBackusNaurForm() const
+{
+    QString backusNaurString;
+    QList<CCFGRule> sortedRules = GetListOfRules();
+    foreach(const CCFGRule& rule, sortedRules){
+        backusNaurString += rule.ToString() + "\n";
+    }
+    return backusNaurString;
 }
 
 //bool operator==(const CContextFreeGrammar &g1, const CContextFreeGrammar &g2)

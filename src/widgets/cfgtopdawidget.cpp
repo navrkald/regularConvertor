@@ -32,3 +32,18 @@ void CCfgToPdaWidget::SetCfg(const CContextFreeGrammar& cfg)
 {
     m_cfgToPdaAlgorithm.SetCfg(new CContextFreeGrammar(cfg));
 }
+
+void CCfgToPdaWidget::SetPda(const CPushDownAutomata &pda)
+{
+    m_cfgToPdaAlgorithm.SetPda(new CPushDownAutomata(pda));   // TODO: Implement
+}
+
+CContextFreeGrammar CCfgToPdaWidget::GetCfg()
+{
+    return m_cfgToPdaAlgorithm.GetCfg();
+}
+
+CPushDownAutomata CCfgToPdaWidget::GetPda()
+{
+    return m_cfgToPdaAlgorithm.GetPda();
+}

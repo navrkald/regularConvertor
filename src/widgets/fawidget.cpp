@@ -535,10 +535,12 @@ void FA_widget::clean()
 //nastavý nový automat
 void FA_widget::setFA(FiniteAutomata* FA)
 {
-    disconnect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
+    disconnect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),
+               this,SIGNAL(FA_changed(FiniteAutomata*)));
     clean();
-    this->m_finiteAutomata = FA;
+    m_finiteAutomata = FA;
     emit setFA_signalToScene(FA);
-    connect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
+    connect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),
+            this,SIGNAL(FA_changed(FiniteAutomata*)));
     emit FA_changed(FA);
 }

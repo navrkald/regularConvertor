@@ -7,35 +7,42 @@ CPdaWidget::CPdaWidget(QWidget *parent) : FA_widget(parent)
 {
 	m_pda = new CPushDownAutomata();
 	SetScene(new CPDADiagramScene(m_pda, ui->graphicsView));
-	ui->tabWidget->removeTab(1);
+    ui->tabWidget->removeTab(1);
+}
+
+CPushDownAutomata CPdaWidget::GetPda()
+{
+    return *m_pda;
 }
 
 void CPdaWidget::SetPda(CPushDownAutomata *pda)
 {
-    CPDADiagramScene* tmpScene = dynamic_cast<CPDADiagramScene*>(m_scene);
-    disconnect(tmpScene, SIGNAL(PdaChangedSignal(CPushDownAutomata*)), this, SIGNAL(SignalPdaChanged(CPushDownAutomata*)));
+    CPDADiagramScene* tmpPdaScene = dynamic_cast<CPDADiagramScene*>(m_scene);
+    disconnect(tmpPdaScene, SIGNAL(PdaChangedSignal(CPushDownAutomata*)),
+               this, SIGNAL(SignalPdaChanged(CPushDownAutomata*)));
 	// clean(); TODO: clean formal model of PDA
 	m_pda = pda;
+    emit SignalSetPdaToScene(m_pda);
+    connect(tmpPdaScene, SIGNAL(PdaChangedSignal(CPushDownAutomata*)),
+            this, SIGNAL(SignalPdaChanged(CPushDownAutomata*)));
 	emit SignalPdaChanged(m_pda);
-    connect(tmpScene, SIGNAL(PdaChangedSignal(CPushDownAutomata*)), this, SIGNAL(SignalPdaChanged(CPushDownAutomata*)));
-	emit SignalPdaChanged(m_pda);
-
-    // TODO: setup PDA
 }
 
 void CPdaWidget::SetSceneSpecific(DiagramScene *scene)
 {
-	/*
 	CPDADiagramScene* pdaDiagramScene = dynamic_cast<CPDADiagramScene*>(scene);
 
     // Connect rules
-    connect(this,SIGNAL(addEdges(QSet<ComputationalRules>)),this->m_scene,SLOT(addEdges(QSet<ComputationalRules>)));
-    connect(this,SIGNAL(removeEdges(QSet<ComputationalRules>)),this->m_scene,SLOT(removeEdges(QSet<ComputationalRules>)));
+    connect(this,SIGNAL(AddEdges(QSet<CPDACompotutationalRule>)),
+            pdaDiagramScene,SLOT(AddEdgesSlot(QSet<CPDACompotutationalRule>)));
+    connect(this,SIGNAL(RemoveEdges(QSet<CPDACompotutationalRule>)),
+            pdaDiagramScene,SLOT(RemoveEdgesSlot(QSet<CPDACompotutationalRule>)));
 
     //set FA also to scene
-    connect(this,SIGNAL(setFA_signalToScene(FiniteAutomata*)),this->m_scene,SLOT(setFA(FiniteAutomata*)));
+    connect(this,SIGNAL(SignalSetPdaToScene(CPushDownAutomata*)),
+            pdaDiagramScene,SLOT(SetPdaSlot(CPushDownAutomata*)));
 
     // FA changed - scene notify
-    connect(m_scene,SIGNAL(FA_changed(FiniteAutomata*)),this,SIGNAL(FA_changed(FiniteAutomata*)));
-	*/	
+    connect(pdaDiagramScene,SIGNAL(PdaChangedSignal(CPushDownAutomata*)),
+            this,SIGNAL(SignalPdaChanged(CPushDownAutomata*)));
 }

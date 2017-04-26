@@ -26,7 +26,9 @@ public:
     virtual void ConnectChangeMode(const MainWindow *sender, MainWindowModeChangedMemFn modeChanged);
     virtual void ConnectStatusMessage(const MainWindow *receiver, MainWindowShowStatusMessageFn showMessage);
     void SetCfg(const CContextFreeGrammar& cfg);
-
+    void SetPda(const CPushDownAutomata& pda);
+    CContextFreeGrammar GetCfg();
+    CPushDownAutomata GetPda();
 };
 
 #endif // CFGTOPDAWIDGET_H

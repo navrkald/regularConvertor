@@ -824,6 +824,16 @@ QSet<QString> FiniteAutomata::epsilonCloser(QString state)
     return Q_act;
 }
 
+void FiniteAutomata::SetStates(const QSet<QString> &states)
+{
+    m_states = states;
+}
+
+void FiniteAutomata::SetFinalStates(const QSet<QString> &finalStates)
+{
+    m_finalStates = finalStates;
+}
+
 QSet<QString> FiniteAutomata::epsilonNeighbours(QString state)
 {
     QSet<QString> epsilon_neighbours;

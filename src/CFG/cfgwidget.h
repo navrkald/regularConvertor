@@ -17,7 +17,7 @@ public:
     void SetCaption(const QString& caption);
     ~CCfgWidget();
     void SetCfg(const CContextFreeGrammar& cfg);
-
+    CContextFreeGrammar GetCfg();
 
 private slots:
   void on_m_BackusNaurFormTextEdit_textChanged();

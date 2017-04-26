@@ -52,6 +52,8 @@ public:
     QString GetDebugVariablesInHtml(TInstruction instruction);
 
     TInstruction GetActInstruction() {return m_actInstruction;}
+    CContextFreeGrammar GetCfg();
+    CPushDownAutomata GetPda();
 
 public slots:
     void SetMode(AlgorithmModes _mode);
@@ -63,7 +65,8 @@ public slots:
     void ToBegin();
     void ToEnd();
     void SetCfg(CContextFreeGrammar* cfg);
-    void SetPda(CPushDownAutomata* pda);
+    void SetPda(CPushDownAutomata* pda);   
+
 private:
     CPushDownAutomata m_pda;
     CContextFreeGrammar m_grammar;

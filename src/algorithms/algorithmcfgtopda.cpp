@@ -196,6 +196,16 @@ QString CAlgorithmCFGtoPDA::GetDebugVariablesInHtml(CAlgorithmCFGtoPDA::TInstruc
     }
 }
 
+CContextFreeGrammar CAlgorithmCFGtoPDA::GetCfg()
+{
+    return m_cfgWidget->GetCfg();
+}
+
+CPushDownAutomata CAlgorithmCFGtoPDA::GetPda()
+{
+    return m_pdaWidget->GetPda();
+}
+
 void CAlgorithmCFGtoPDA::SetMode(AlgorithmModes _mode)
 {
     // TODO: Implement
@@ -244,5 +254,6 @@ void CAlgorithmCFGtoPDA::SetCfg(CContextFreeGrammar *cfg)
 
 void CAlgorithmCFGtoPDA::SetPda(CPushDownAutomata *pda)
 {
+    m_pdaWidget->SetPda(pda);
     // TODO: Implement
 }

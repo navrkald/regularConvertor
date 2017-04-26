@@ -25,6 +25,11 @@ void CCfgWidget::SetCfg(const CContextFreeGrammar &cfg)
     ui->m_BackusNaurFormTextEdit->setPlainText(m_cfg.ToBackusNaurForm());
 }
 
+CContextFreeGrammar CCfgWidget::GetCfg()
+{
+    return m_cfg;
+}
+
 void CCfgWidget::on_m_BackusNaurFormTextEdit_textChanged()
 {
   if(E_NO_ERROR == m_cfg.GetFromBackusNaurForm(ui->m_BackusNaurFormTextEdit->toPlainText())){

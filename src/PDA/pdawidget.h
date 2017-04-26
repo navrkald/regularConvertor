@@ -12,9 +12,13 @@ class CPdaWidget : public FA_widget
 
 public:
     CPdaWidget(QWidget *parent = 0);
-
+    CPushDownAutomata GetPda();
 signals:
 	void SignalPdaChanged(CPushDownAutomata* pda);
+    void SignalSetPdaToScene(CPushDownAutomata* pda);
+    void AddEdges(QSet<CPDACompotutationalRule> rules);
+    void RemoveEdges(QSet<CPDACompotutationalRule> rules);
+
 
 public slots:
     void SetPda(CPushDownAutomata* pda);

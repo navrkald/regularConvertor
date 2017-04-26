@@ -6,9 +6,8 @@
 #include "computationalrules.h"
 #include "set/set_of_sets.h"
 
-class FiniteAutomata //: public QObject
+class FiniteAutomata
 {
-//    Q_OBJECT
 public:
     //
     //Constructors
@@ -46,11 +45,8 @@ public:
     FiniteAutomata toMinFA(FiniteAutomata FA);
     void toMinFA();
     FiniteAutomata normalize(FiniteAutomata FA);
-		QSet<QString> GetNewInputSymbols(QSet<QString> editedSymbols);
-		QSet<QString> GetDeletedInputSymbols(QSet<QString> editedSymbols);
-
-
-    
+    QSet<QString> GetNewInputSymbols(QSet<QString> editedSymbols);
+    QSet<QString> GetDeletedInputSymbols(QSet<QString> editedSymbols);
     static FiniteAutomata concatenate(FiniteAutomata FA1, FiniteAutomata FA2);
     static FiniteAutomata iteration(FiniteAutomata FA1);
     static bool areEquivalent(FiniteAutomata FA1, FiniteAutomata FA2);
@@ -75,7 +71,7 @@ public:
     //TODO parametry
     bool addRule(ComputationalRules newrule);
     bool addRule(QString from, QString to, QString symbol);
-		bool removeRule(ComputationalRules rule);
+    bool removeRule(ComputationalRules rule);
     bool changeSymbolInRule(ComputationalRules rule, QString symbol);
     bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
     void SetAplhabet(QSet<QString> m_alphabet);
@@ -83,6 +79,8 @@ public:
     bool isDeterministic();
     QSet <QString> epsilonCloser(QString state);
 
+    void SetStates(const QSet <QString>& states);
+    void SetFinalStates(const QSet <QString>& finalStates);
     QSet <QString> epsilonNeighbours(QString state);
     QSet <ComputationalRules> nonEpsilonRulesOf(QString state);
     QString normalize_chooseSmallestNonprocessed(QList <QString> renamed, QList <QString> processed);

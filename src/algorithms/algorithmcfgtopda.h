@@ -12,6 +12,7 @@
 
 class CAlgorithmCFGtoPDA : public CAlgorithm
 {
+    Q_OBJECT
 public:
     enum TInstruction{
         HEADER = 0,
@@ -28,11 +29,15 @@ public:
     };
 
 
-  CAlgorithmCFGtoPDA() {m_actInstruction = HEADER;}
+CAlgorithmCFGtoPDA() {
+    m_actInstruction = HEADER;
+    m_prevInstruction = HEADER;
+}
   CAlgorithmCFGtoPDA(const CPushDownAutomata& pda, const CContextFreeGrammar& cfg) :
-      m_pda(pda), m_grammar(cfg), m_actInstruction(SET_START_STATE)/*, m_inputAlphabet(m_pda.GetSortedAlphabet())*/
+      m_pda(pda), m_cfg(cfg)
 {
   m_actInstruction = HEADER;
+  m_prevInstruction = HEADER;
 }
 
 void Init(CAlgorithmWidget* algorithmWidget, CCfgWidget* cfgWidget, CPdaWidget* pdaWidget, CVariablesWidget* variablesWidget);
@@ -46,12 +51,14 @@ protected:
     CPdaWidget* m_pdaWidget;
     CVariablesWidget* m_variablesWidget;
 
+    void ShowVariables();
+    void SaveStep();
 public:
     void ComputeNextStep();
 
     QString GetDebugVariablesInHtml(TInstruction instruction);
 
-    TInstruction GetActInstruction() {return m_actInstruction;}
+    TInstruction GetActInstruction() {return (TInstruction) m_actInstruction;}
     CContextFreeGrammar GetCfg();
     CPushDownAutomata GetPda();
 
@@ -69,9 +76,9 @@ public slots:
 
 private:
     CPushDownAutomata m_pda;
-    CContextFreeGrammar m_grammar;
-    TInstruction m_actInstruction;
-    TInstruction m_prevInstruction;
+    CContextFreeGrammar m_cfg;
+//    TInstruction m_actInstruction;
+//    TInstruction m_prevInstruction;
     QString m_pdaActInputAplhabetSymbol;
     CCFGRule m_actRule;
     QSet<CCFGRule>::const_iterator m_cfgRulesIter;

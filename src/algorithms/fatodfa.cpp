@@ -39,7 +39,7 @@ void FaToDFA::Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_not_dfa_widg
 
 
     m_actInstruction = HEADER;
-    m_prewInstruction = HEADER;
+    m_prevInstruction = HEADER;
     m_instructionCount = WHILE_NEW+1;
     InitInstructions();
     InitBreakpoints(m_instructionCount);
@@ -126,7 +126,7 @@ void FaToDFA::SetMode(AlgorithmModes _mode)
     m_playTimer->stop();
     m_num = 0;
     m_actInstruction=HEADER;
-    m_prewInstruction=HEADER;
+    m_prevInstruction=HEADER;
 
     ClearActInstruction();
     clearVariables();
@@ -166,8 +166,6 @@ void FaToDFA::SetDFA(FiniteAutomata *_FA)
     this->DFA = *_FA;
 }
 
-
-
 void FaToDFA::NextStep()
 {
     if(FA.m_startState == "")
@@ -182,7 +180,7 @@ void FaToDFA::NextStep()
     }
 
     m_algorithmWidget->enablePrev();
-    switch(m_prewInstruction)
+    switch(m_prevInstruction)
     {
         case HEADER:
             m_actInstruction = VAR_INIT;
@@ -206,7 +204,7 @@ void FaToDFA::NextStep()
         break;
         case INIT_DOUBLE_PRIME_Q:
             m_rules = QSet<ComputationalRules>();
-            foreach(QString from,m_act_state)
+            foreach(QString from, m_act_state)
             {
                 m_rules += FA.findRule_FromSymbol(from,m_a).toSet();
             }
@@ -319,7 +317,7 @@ void FaToDFA::NextStep()
     RemoveFuture();
     if(m_actInstruction != lastInstruction)
     {
-        m_prewInstruction = m_actInstruction;
+        m_prevInstruction = m_actInstruction;
         saveStep();
         if(m_breakpoints[m_actInstruction])
             m_playTimer->stop();
@@ -427,7 +425,7 @@ void FaToDFA::ToBegin()
 
      m_num = s.num ;
      m_actInstruction = s.actInstruction;
-     m_prewInstruction = s.prewInstruction;
+     m_prevInstruction = s.prewInstruction;
      DFA = s.DFA;
      m_dfa_widget->setFA(new FiniteAutomata(DFA));
      m_act_state = s.act_state;
@@ -472,7 +470,7 @@ void FaToDFA::showVariables()
 {
     int instruction;
     if(m_actInstruction == lastInstruction)
-        instruction = m_prewInstruction;
+        instruction = m_prevInstruction;
     else
         instruction = m_actInstruction;
 
@@ -591,7 +589,7 @@ void FaToDFA::saveStep()
 
     s.num = ++m_num;
     s.actInstruction = m_actInstruction;
-    s.prewInstruction = m_prewInstruction;
+    s.prewInstruction = m_prevInstruction;
     s.DFA = DFA;
     s.act_state = m_act_state;
     s.discovered_state = m_discovered_state;
@@ -619,7 +617,7 @@ void FaToDFA::PrevStep()
 
         m_num = s.num ;
         m_actInstruction = s.actInstruction;
-        m_prewInstruction = s.prewInstruction;
+        m_prevInstruction = s.prewInstruction;
         DFA = s.DFA;
         m_dfa_widget->setFA(new FiniteAutomata(DFA));
         m_act_state = s.act_state;

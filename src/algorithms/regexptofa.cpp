@@ -305,7 +305,7 @@ void RegExpToFA::nextStep()
     //re->rootNode->clearProcessed();
     if(!nodesToProcede.empty())
     {
-        m_prewInstruction = m_actInstruction;
+        m_prevInstruction = m_actInstruction;
 
 
         RegExpNode* processedNode = nodesToProcede.first();

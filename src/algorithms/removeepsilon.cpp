@@ -35,7 +35,7 @@ void RemoveEpsilon::Init(CAlgorithmWidget *_algorithm_widget, FA_widget *_epsilo
     SetupAlgorithmWidget(m_algorithmWidget);
 
     m_actInstruction = HEADER;
-    m_prewInstruction = HEADER;
+    m_prevInstruction = HEADER;
     m_instructionCount = NEW_FINAL+1;
 
 
@@ -136,7 +136,7 @@ void RemoveEpsilon::SetMode(AlgorithmModes _mode)
 
     m_num = 0;
     m_actInstruction=HEADER;
-    m_prewInstruction=HEADER;
+    m_prevInstruction=HEADER;
     ClearActInstruction();
     clearVariables();
     epsilon_closer_list_widget->clear();
@@ -174,7 +174,7 @@ void RemoveEpsilon::SetMode(AlgorithmModes _mode)
 void RemoveEpsilon::nextStep()
 {
     m_algorithmWidget->enablePrev();
-    switch(m_prewInstruction)
+    switch(m_prevInstruction)
     {
 //
 // Epsilon Closer
@@ -363,7 +363,7 @@ void RemoveEpsilon::nextStep()
     RemoveFuture();
     if(m_actInstruction != lastInstruction)
     {
-        m_prewInstruction = m_actInstruction;
+        m_prevInstruction = m_actInstruction;
         saveStep();
         if(m_breakpoints[m_actInstruction])
             m_playTimer->stop();
@@ -388,7 +388,7 @@ void RemoveEpsilon::saveStep()
     steps s;
     s.num = ++m_num;
     s.actInstruction = m_actInstruction;
-    s.prewInstruction = m_prewInstruction;
+    s.prewInstruction = m_prevInstruction;
     s.non_epsilon_FA = non_epsilon_FA;
     s.p = p;
     s.p_prime = p_prime;
@@ -412,7 +412,7 @@ void RemoveEpsilon::prevStep()
         steps s = history.at(m_actPos);
         m_num = s.num;
         m_actInstruction = s.actInstruction;
-        m_prewInstruction = s.prewInstruction;
+        m_prevInstruction = s.prewInstruction;
         non_epsilon_FA = s.non_epsilon_FA;
         not_epsilon_fa_widget->setFA(new FiniteAutomata(non_epsilon_FA));
         p = s.p;
@@ -510,7 +510,7 @@ void RemoveEpsilon::showVariables()
 
     int instruction;
     if(m_actInstruction == lastInstruction)
-        instruction = m_prewInstruction;
+        instruction = m_prevInstruction;
     else
         instruction = m_actInstruction;
 
@@ -605,7 +605,7 @@ void RemoveEpsilon::toBegin()
     steps s = history.at(m_actPos);
     m_num = s.num;
     m_actInstruction = s.actInstruction;
-    m_prewInstruction = s.prewInstruction;
+    m_prevInstruction = s.prewInstruction;
     non_epsilon_FA = s.non_epsilon_FA;
     not_epsilon_fa_widget->setFA(new FiniteAutomata(non_epsilon_FA));
     p = s.p;

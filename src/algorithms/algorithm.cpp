@@ -27,7 +27,7 @@ void CAlgorithm::SetActInstruction()
     }
     else
     {
-        index = this->index(m_prewInstruction,0,QModelIndex());
+        index = this->index(m_prevInstruction,0,QModelIndex());
     }
     setData(index,QBrush(m_actInstructionBackroundColor),Qt::BackgroundRole);
 }

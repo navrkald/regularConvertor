@@ -37,7 +37,7 @@ protected:
     int m_num;
     int m_instructionCount;
     int m_actInstruction;
-    int m_prewInstruction;
+    int m_prevInstruction;
     int m_actPos;
     QTimer *m_playTimer;
     QTimer *m_CheckStepTimer;
@@ -45,7 +45,7 @@ protected:
 
     void SetActInstruction();
     void ClearActInstruction();
-	void SetupAlgorithmWidget(CAlgorithmWidget* algorithmWidget);
+    void SetupAlgorithmWidget(CAlgorithmWidget* algorithmWidget);
 
 public slots:
     void SetMode(AlgorithmModes mode);

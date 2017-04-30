@@ -1,8 +1,9 @@
-#ifndef PUSHDOWNAUTOMATA_H
+﻿#ifndef PUSHDOWNAUTOMATA_H
 #define PUSHDOWNAUTOMATA_H
 
 #include "finiteautomata.h"
 #include "pdacompotutationalrules.h"
+
 class CPushDownAutomata : public FiniteAutomata
 {
 public:
@@ -16,6 +17,10 @@ public:
 	void RemovePdaRules(QSet<CPDACompotutationalRule> rulesToDelete);
     QSet<CPDACompotutationalRule> GetRulesWithInputSymbol(const QString& inputSymbol);
 	QSet<CPDACompotutationalRule> GetRulesWithStackSymbol(const QString& stackSymbol);
+
+	QString PrintHtmlPdaRules();
+	QString PrintHtmlStactAlphabet();
+
 public:
 	QSet <QString> m_stackAlphabet;
 	QSet <CPDACompotutationalRule> m_pdaRules;

@@ -1,4 +1,4 @@
-#ifndef SET_OF_SETS_H
+﻿#ifndef SET_OF_SETS_H
 #define SET_OF_SETS_H
 #include <QtCore>
 

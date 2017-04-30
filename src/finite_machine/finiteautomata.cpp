@@ -1,8 +1,10 @@
 #include "finiteautomata.h"
 #include "algorithms/removeepsilon.h"
 #include "set/set_of_sets.h"
-//#define NEW_NUM_NAME
+
 #define NEW_COMMA_NAME
+
+#include <algorithms/constants.h>
 
 FiniteAutomata::FiniteAutomata()
 {
@@ -881,19 +883,36 @@ QString FiniteAutomata::normalize_chooseSmallestNonprocessed(QList <QString> ren
     return smallest;
 }
 
-QString FiniteAutomata::PrintHtmlSet(QString variableName, QSet<QString> elements)
-{
-    QString out = "<i><b>VARIABLE</b></i> := ";
-    out.replace("VARIABLE", variableName);
-    out+=qSetToQString(elements);
-    return out;
+inline QString FiniteAutomata::PrintHtmlSet(QString variableName, QSet<QString> elements) {
+	QString out = "<i><b>VARIABLE</b></i> := ";
+	out.replace("VARIABLE", variableName);
+	out += qSetToQString(elements);
+	return out;
 }
-
-
 
 QString FiniteAutomata::PrintHtmlStates()
 {
     return PrintHtmlSet("Q", m_states);
+}
+
+QString FiniteAutomata::PrintHtmlAlphabet()
+{
+	return PrintHtmlSet(SIGMA, m_states);
+}
+
+QString FiniteAutomata::PrintHtmlRules()
+{
+	return PrintHtmlSet("R", ComputationalRulesToQSetOfStrings(m_rules));	
+}
+
+QString FiniteAutomata::PrintHtmlStartState()
+{
+	return QString("<i><b>start state</b></i> := %1").arg(m_startState);
+}
+
+QString FiniteAutomata::PrintHtmlFinalStates()
+{
+	return PrintHtmlSet("Q", m_finalStates);
 }
 
 //helper function for method toMinFA()

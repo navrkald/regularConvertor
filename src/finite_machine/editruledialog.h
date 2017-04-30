@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include <QtCore>
-#define EPSILON "ε"
 
 namespace Ui {
 class editRuleDialog;

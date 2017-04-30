@@ -37,3 +37,12 @@ QSet<QString> CPDACompotutationalRule::GetStackSymbols()
 	stackSymbols += m_pushSymbols.toList().toSet();
 	return stackSymbols;
 }
+
+QSet<QString> PdaComputationalRulesToQSetOfStrings(QSet<CPDACompotutationalRule> rules)
+{
+	QSet<QString> out;
+	foreach(CPDACompotutationalRule rule, rules) {
+		out.insert(rule);
+	}
+	return out;
+}

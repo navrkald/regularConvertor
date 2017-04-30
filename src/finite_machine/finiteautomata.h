@@ -1,4 +1,4 @@
-    #ifndef FINITEAUTOMATA_H
+﻿#ifndef FINITEAUTOMATA_H
 #define FINITEAUTOMATA_H
 
 #include <QObject>
@@ -85,8 +85,12 @@ public:
     QSet <ComputationalRules> nonEpsilonRulesOf(QString state);
     QString normalize_chooseSmallestNonprocessed(QList <QString> renamed, QList <QString> processed);
 
-    QString PrintHtmlSet(QString variableName, QSet<QString> elements);
+	QString PrintHtmlSet(QString variableName, QSet<QString> elements);
     QString PrintHtmlStates();
+	QString PrintHtmlAlphabet();
+	QString PrintHtmlRules();
+	QString PrintHtmlStartState();
+	QString PrintHtmlFinalStates();
 
 // Getters and setters
 public:

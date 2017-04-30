@@ -46,6 +46,7 @@ protected:
     void SetActInstruction();
     void ClearActInstruction();
     void SetupAlgorithmWidget(CAlgorithmWidget* algorithmWidget);
+	QString JoinWithHtmlNewLines(QStringList variables);
 
 public slots:
     void SetMode(AlgorithmModes mode);

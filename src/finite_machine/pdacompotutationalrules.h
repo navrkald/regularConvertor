@@ -76,4 +76,6 @@ public:
     QVector<QString> m_pushSymbols;
 };
 
+QSet <QString> PdaComputationalRulesToQSetOfStrings(QSet <CPDACompotutationalRule> rules);
+
 #endif // PDACOMPOTUTATIONALRULES_H

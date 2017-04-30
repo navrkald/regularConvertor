@@ -36,6 +36,7 @@ public:
                     (this->symbol==secondRule.symbol) &&
                      this->to == secondRule.to);
         }
+	virtual operator QString();
 //     const ComputationalRules operator=(const ComputationalRules& rule) const
 //     {
 //          ComputationalRules returnRule(rule.from,rule.to,rule.symbol);
@@ -57,5 +58,6 @@ QDataStream &operator>>(QDataStream &in, ComputationalRules &rule);
 bool lessThan(const ComputationalRules& r1, const ComputationalRules& r2);
 QSet <QString> getFroms(QList <ComputationalRules> list);
 QSet <QString> getTos(QList <ComputationalRules> list);
+QSet <QString> ComputationalRulesToQSetOfStrings(QSet <ComputationalRules> rules);
 uint qHash(const ComputationalRules& rule);
 #endif // COMPUTATIONALRULES_H

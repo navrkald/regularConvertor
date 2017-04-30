@@ -1,4 +1,5 @@
 #include "pushdownautomata.h"
+#include <algorithms/constants.h>
 
 CPushDownAutomata::CPushDownAutomata()
 {
@@ -92,4 +93,14 @@ QSet<CPDACompotutationalRule> CPushDownAutomata::GetRulesWithStackSymbol(const Q
 		}
 	}
 	return findedRules;
+}
+
+QString CPushDownAutomata::PrintHtmlPdaRules()
+{
+	return PrintHtmlSet("R", PdaComputationalRulesToQSetOfStrings((m_pdaRules)));
+}
+
+QString CPushDownAutomata::PrintHtmlStactAlphabet()
+{
+	return PrintHtmlSet(QString::fromUtf8(GAMA), m_stackAlphabet);
 }

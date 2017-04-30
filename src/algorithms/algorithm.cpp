@@ -50,6 +50,11 @@ void CAlgorithm::SetupAlgorithmWidget(CAlgorithmWidget * algorithmWidget)
 	connect(htmlDelegate, SIGNAL(dataChanged(QModelIndex)), this, SLOT(getData(QModelIndex)));
 }
 
+QString CAlgorithm::JoinWithHtmlNewLines(QStringList variables)
+{
+	return variables.join("<br>");
+}
+
 void CAlgorithm::SetMode(AlgorithmModes mode)
 {
   m_mode = mode;

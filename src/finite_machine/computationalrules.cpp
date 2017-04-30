@@ -33,6 +33,11 @@ ComputationalRules &ComputationalRules::operator=(const ComputationalRules& r)
     return *this;
 }
 
+ComputationalRules::operator QString()
+{
+	return toString();
+}
+
 
 
 bool lessThan(const ComputationalRules& r1, const ComputationalRules& r2)
@@ -52,6 +57,15 @@ QDebug operator<<(QDebug dbg, const ComputationalRules& rule)
 {
     dbg.nospace() << rule.toString()+'\n';
     return dbg.maybeSpace();
+}
+
+QSet<QString> ComputationalRulesToQSetOfStrings(QSet<ComputationalRules> rules)
+{
+	QSet<QString> out;
+	foreach(ComputationalRules rule, rules) {
+		out.insert(rule);
+	}
+	return out;
 }
 
 uint qHash(const ComputationalRules&)

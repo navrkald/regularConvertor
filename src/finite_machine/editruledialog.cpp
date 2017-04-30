@@ -1,5 +1,6 @@
 #include "editruledialog.h"
 #include "ui_editruledialog.h"
+#include <algorithms/constants.h>
 
 editRuleDialog::editRuleDialog(QStringList _states, QStringList _alphabet, QWidget *parent) :
     QDialog(parent),

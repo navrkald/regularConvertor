@@ -8,8 +8,6 @@
 #include <PDA/pdawidget.h>
 #include <widgets/variableswidget.h>
 
-#define START_STATE "s"
-
 class CAlgorithmCFGtoPDA : public CAlgorithm
 {
     Q_OBJECT
@@ -82,7 +80,7 @@ private:
     QString m_pdaActInputAplhabetSymbol;
     CCFGRule m_actRule;
     QSet<CCFGRule>::const_iterator m_cfgRulesIter;
-    QSet<QString>::const_iterator m_inputAlphabetIter;
+    QSet<CTerminal>::const_iterator m_inputAlphabetIter;
 };
 
 #endif // ALGORITHMCFGTOPDA_H

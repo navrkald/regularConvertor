@@ -39,28 +39,28 @@ QSet < QSet<QString> > findInSubsets(QSet < QSet<QString> > sets, QSet<QString> 
     return result;
 }
 
+QString qSetToQString(QSet<QString> set)
+{
+	if (set.empty())
+		return "∅";
+
+	QList <QString> list = set.toList();
+	qSort(list);
+	//reverse list
+	//for(int k = 0; k < (list.size()/2); k++) list.swap(k,list.size()-(1+k));
+
+	QString string = "{";
+	QStringList string_list = list;
+	string += string_list.join(", ");
+	string += "}";
+	return string;
+}
+
 QString qVectorToQString(QVector<QString> elements)
 {
     qSort(elements);
     QString string = "{";
     QStringList string_list = elements.toList();
-    string+= string_list.join(", ");
-    string+="}";
-    return string;
-}
-
-QString qSetToQString(QSet<QString> set)
-{
-    if (set.empty())
-        return "∅";
-
-    QList <QString> list = set.toList();
-    qSort(list);
-    //reverse list
-    //for(int k = 0; k < (list.size()/2); k++) list.swap(k,list.size()-(1+k));
-
-    QString string = "{";
-    QStringList string_list = list;
     string+= string_list.join(", ");
     string+="}";
     return string;

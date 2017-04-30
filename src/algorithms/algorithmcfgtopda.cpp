@@ -2,6 +2,7 @@
 
 #include <QVector>
 #include <algorithms/htmldelegate.h>
+#include <algorithms/constants.h>
 
 void CAlgorithmCFGtoPDA::Init(CAlgorithmWidget* algorithmWidget, CCfgWidget* cfgWidget, CPdaWidget* pdaWidget, CVariablesWidget* variablesWidget)
 {
@@ -20,6 +21,7 @@ void CAlgorithmCFGtoPDA::Init(CAlgorithmWidget* algorithmWidget, CCfgWidget* cfg
     setColumnCount(1);
     setRowCount(END_INSTRUCTION);
     m_variablesWidget->SetText("");
+	m_instructionCount = m_instructions.count();
 
     for(int i = 0; i < m_instructions.count();i++)
     {
@@ -67,16 +69,16 @@ void CAlgorithmCFGtoPDA::Init(CAlgorithmWidget* algorithmWidget, CCfgWidget* cfg
 void CAlgorithmCFGtoPDA::InitInstructions()
 {
     m_instructions.resize(END_INSTRUCTION);
-    m_instructions[HEADER] =                                tr("<b>Input:</b> CFG <i>G</i>=(N, T, P, S)<br><b>Output:</b> PDA M'=(Q, Σ, Γ, R, s, S, F)");
+    m_instructions[HEADER] =                                tr("<b>Input:</b> CFG <i>G</i>=(N, T, P, S)<br><b>Output:</b> PDA M'=(Q, " SIGMA ", " GAMA " , R, s, S, F)");
     m_instructions[SET_START_STATE] =                       "Q = {s}";
-    m_instructions[SET_INPUT_ALPHABET] =                    "Σ = T";
-    m_instructions[SET_STACK_ALPHABET] =                    "Γ = N ∪ T";
+    m_instructions[SET_INPUT_ALPHABET] =                    SIGMA " = T";
+    m_instructions[SET_STACK_ALPHABET] =                    tr(GAMA" = N " UNIFICATION " T");
     m_instructions[SET_PDA_RULES_HEADER] =                  tr("Construction of set R");
-    m_instructions[FOREACH_PDA_RULES_FROM_INPUT_ALPHABET] = INDENT + tr("<b>for each</b> a ∈ Σ");
+    m_instructions[FOREACH_PDA_RULES_FROM_INPUT_ALPHABET] = INDENT + tr("<b>for each</b> a " MEMBER_OF " " SIGMA);
     m_instructions[PDA_RULE_FROM_INPUT_ALPHABET] =          INDENT INDENT + tr("add asa → to R");
-    m_instructions[FOREACH_PDA_RULES_FROM_CFG_RULES] =      INDENT + tr("<b>for each</b> A → x ∈ P");
-    m_instructions[SET_PDA_RULE_FROM_CFG_RULE] =            INDENT INDENT + tr("add As → ys to R where y = reversal(x)");
-    m_instructions[SET_FINITE_STATE] =                      "F = ∅";
+    m_instructions[FOREACH_PDA_RULES_FROM_CFG_RULES] =      INDENT + tr("<b>for each</b> A " ARROW " x " MEMBER_OF " P");
+    m_instructions[SET_PDA_RULE_FROM_CFG_RULE] =            INDENT INDENT + tr("add As " ARROW " ys to R where y = reversal(x)");
+    m_instructions[SET_FINITE_STATE] =                      tr("F = " EMPTY_SET);
 }
 
 void CAlgorithmCFGtoPDA::ComputeNextStep()
@@ -106,7 +108,7 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
             }
             break;
         case FOREACH_PDA_RULES_FROM_INPUT_ALPHABET:
-            if(m_inputAlphabetIter != m_cfg.GetTerminalAlphabet().end()){
+            if(m_inputAlphabetIter != m_cfg.GetTerminalAlphabet().constEnd()){
                 m_actInstruction = PDA_RULE_FROM_INPUT_ALPHABET;
             }
             else if(m_cfg.GetRulesCount() > 0){
@@ -117,71 +119,60 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
             }
             break;
         case PDA_RULE_FROM_INPUT_ALPHABET:
+			m_actInstruction = FOREACH_PDA_RULES_FROM_INPUT_ALPHABET;
             break;
         case FOREACH_PDA_RULES_FROM_CFG_RULES:
+			if (m_cfgRulesIter != m_cfg.GetRules().constEnd()) {
+				m_actInstruction = SET_PDA_RULE_FROM_CFG_RULE;
+			}
+			else {
+				m_actInstruction = SET_FINITE_STATE;
+			}
             break;
         case SET_PDA_RULE_FROM_CFG_RULE:
+			m_actInstruction = FOREACH_PDA_RULES_FROM_CFG_RULES;
             break;
         case SET_FINITE_STATE:
+			m_actInstruction = END_INSTRUCTION;
             break;
         case END_INSTRUCTION:
+			m_actInstruction = lastInstruction;
             break;
         default:
             break;
     }
 
-	switch (m_prevInstruction)
-	{
-	default:
-		break;
-	}
-
     switch(m_actInstruction)
     {
-        case HEADER:
-            m_actInstruction = SET_START_STATE;
-            break;
         case SET_START_STATE:
         {
             m_pda.addState(START_STATE);
             m_pda.SetStartState(START_STATE);
-            m_actInstruction = SET_INPUT_ALPHABET;
             break;
         }
         case SET_INPUT_ALPHABET:
         {
             m_pda.SetAplhabet(CTerminal::CTerminalQSetToQStringQSet((m_cfg.GetTerminalAlphabet())));
-            m_actInstruction = SET_STACK_ALPHABET;
             break;
         }
         case SET_STACK_ALPHABET:
         {
             m_pda.SetStackAlphabet(m_cfg.GetBothTerminalAndNonterminalAlphabet());
-            m_actInstruction = FOREACH_PDA_RULES_FROM_INPUT_ALPHABET;
             break;
         }
         case FOREACH_PDA_RULES_FROM_INPUT_ALPHABET:
         {
             if(m_prevInstruction == SET_STACK_ALPHABET){
-                m_inputAlphabetIter = m_pda.GetAlphabet().constBegin();
+                m_inputAlphabetIter = m_cfg.GetTerminalAlphabet().constBegin();
             } else{
                 m_inputAlphabetIter++;
             }
-            m_pdaActInputAplhabetSymbol = *m_inputAlphabetIter;
+            m_pdaActInputAplhabetSymbol = (QString) *m_inputAlphabetIter;
             break;
         }
         case PDA_RULE_FROM_INPUT_ALPHABET:
         {
-            if(m_inputAlphabetIter != m_pda.GetAlphabet().constEnd())
-            {
-                m_pda.AddPDARule(m_pda.GetStartState(), m_pda.GetStartState(), m_pdaActInputAplhabetSymbol, m_pdaActInputAplhabetSymbol, EPSILON);
-                m_actInstruction = FOREACH_PDA_RULES_FROM_INPUT_ALPHABET;
-            }
-            else
-            {
-                m_actInstruction = FOREACH_PDA_RULES_FROM_CFG_RULES;
-                m_cfgRulesIter = m_cfg.GetRules().constBegin();
-            }
+            m_pda.AddPDARule(m_pda.GetStartState(), m_pda.GetStartState(), m_pdaActInputAplhabetSymbol, m_pdaActInputAplhabetSymbol, EPSILON);
             break;
         }
         case FOREACH_PDA_RULES_FROM_CFG_RULES:
@@ -199,20 +190,11 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
         }
         case SET_PDA_RULE_FROM_CFG_RULE:
         {
-            if(m_cfgRulesIter != m_cfg.GetRules().constEnd())
-            {
-                m_pda.AddPDARule(START_STATE, START_STATE, EPSILON, m_actRule.m_leftNonTerminal, m_actRule.GetRevertedRightRule());
-                m_actInstruction = FOREACH_PDA_RULES_FROM_CFG_RULES;
-            }
-            else
-            {
-                m_actInstruction = SET_FINITE_STATE;
-            }
+            m_pda.AddPDARule(START_STATE, START_STATE, EPSILON, m_actRule.m_leftNonTerminal, m_actRule.GetRevertedRightRule());
             break;
         }
         case SET_FINITE_STATE:
         {
-            m_actInstruction = END_INSTRUCTION;
             break;
         }
         case END_INSTRUCTION:
@@ -237,7 +219,6 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
     }
     ShowVariables();
     SetActInstruction();
-
 }
 
 void CAlgorithmCFGtoPDA::ShowVariables(){
@@ -248,11 +229,21 @@ QString CAlgorithmCFGtoPDA::GetDebugVariablesInHtml(CAlgorithmCFGtoPDA::TInstruc
 {
     switch(instruction)
     {
-        case CAlgorithmCFGtoPDA::HEADER:
+		case CAlgorithmCFGtoPDA::HEADER:
             break;
-        case CAlgorithmCFGtoPDA::SET_STACK_ALPHABET:
-            break;
+		case CAlgorithmCFGtoPDA::SET_START_STATE:
+			return m_pda.PrintHtmlStates();
+			break;
+		case CAlgorithmCFGtoPDA::SET_INPUT_ALPHABET:
+		{
+			return JoinWithHtmlNewLines({m_pda.PrintHtmlStactAlphabet()});
+			break;
+		}
+		case CAlgorithmCFGtoPDA::SET_STACK_ALPHABET:
+			return JoinWithHtmlNewLines({m_pda.PrintHtmlStactAlphabet()});
+			break;
         case CAlgorithmCFGtoPDA::FOREACH_PDA_RULES_FROM_INPUT_ALPHABET:
+			return JoinWithHtmlNewLines({m_pda.PrintHtmlStactAlphabet()});
             break;
         case CAlgorithmCFGtoPDA::PDA_RULE_FROM_INPUT_ALPHABET:
             break;
@@ -264,12 +255,8 @@ QString CAlgorithmCFGtoPDA::GetDebugVariablesInHtml(CAlgorithmCFGtoPDA::TInstruc
             break;
         case CAlgorithmCFGtoPDA::END_INSTRUCTION:
             break;
-        case SET_START_STATE:
-            return m_pda.PrintHtmlStates();
-            break;
-        case SET_INPUT_ALPHABET:
-            break;
     }
+	return QString();
 }
 
 CContextFreeGrammar CAlgorithmCFGtoPDA::GetCfg()

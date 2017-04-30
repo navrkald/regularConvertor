@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(status_timer,SIGNAL(timeout()),this,SLOT(hideStatusMessage()));
 
     ui->menuLanguages->menuAction()->setVisible(false);
-    PrepareConversionWidget(CFG_TO_PDA);
+	on_CfgToPda_Example_1_triggered();
 }
 
 MainWindow::~MainWindow()
@@ -593,7 +593,7 @@ void MainWindow::on_Determinization_advanced_example_4_triggered()
 
 void MainWindow::CfgToPda_example(const CContextFreeGrammar& cfg, QString example_name)
 {
-    on_action_check_mode_triggered();
+    //on_action_check_mode_triggered();
     ui->m_actionCFGtoPDA->setChecked(true);
 
     if(m_activeConversion != CFG_TO_PDA)

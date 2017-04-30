@@ -30,7 +30,13 @@ bool CPdaArrow::RemoveRule(const CPDACompotutationalRule& rule)
 
 QSet<CPDACompotutationalRule> CPdaArrow::GetPdaRules()
 {
-	return m_pdaRules;
+    return m_pdaRules;
+}
+
+void CPdaArrow::AddPdaRule(const CPDACompotutationalRule& rule)
+{
+    m_pdaRules.insert(rule);
+    m_displayText = CPDACompotutationalRule::ToArrowText(m_pdaRules);
 }
 
 void CPdaArrow::EditArrow()

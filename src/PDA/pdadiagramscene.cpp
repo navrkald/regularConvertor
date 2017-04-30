@@ -16,7 +16,7 @@ void CPDADiagramScene::AddEdgesSlot(QSet<CPDACompotutationalRule> pdaRules)
 		StateNode* from = getNodeByName(rule.from);
 		StateNode* to = getNodeByName(rule.to);
 		QString symbol = rule.symbol;
-		Arrow* arrow = getArrow(from, to);
+        CPdaArrow* arrow = dynamic_cast<CPdaArrow*> (getArrow(from, to));
 		if (arrow == NULL)
 		{
 			QStringList symbolList;
@@ -30,11 +30,10 @@ void CPDADiagramScene::AddEdgesSlot(QSet<CPDACompotutationalRule> pdaRules)
 		}
 		else
 		{
-			arrow->addSymbol(symbol);
+            arrow->AddPdaRule(rule);
 			arrow->updatePosition();
 		}
 		m_pda->AddPDARule(rule);
-		//m_fa->addRule(rule);
 	}
 	EmitFiniteAutomataChanged();
 }

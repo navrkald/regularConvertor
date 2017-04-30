@@ -15,6 +15,7 @@ public:
 	QGraphicsItem *parent = 0, CPDADiagramScene *scene = 0);
 	bool RemoveRule(const CPDACompotutationalRule& rule);
 	QSet<CPDACompotutationalRule> GetPdaRules();
+    void AddPdaRule(const CPDACompotutationalRule& rule);
 
 protected:
 	StateNode* m_startItem;

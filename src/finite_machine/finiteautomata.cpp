@@ -1,10 +1,9 @@
 #include "finiteautomata.h"
 #include "algorithms/removeepsilon.h"
-#include "set/set_of_sets.h"
+#include <htmlcreator.h>
+#include <algorithms/constants.h>
 
 #define NEW_COMMA_NAME
-
-#include <algorithms/constants.h>
 
 FiniteAutomata::FiniteAutomata()
 {
@@ -883,26 +882,19 @@ QString FiniteAutomata::normalize_chooseSmallestNonprocessed(QList <QString> ren
     return smallest;
 }
 
-inline QString FiniteAutomata::PrintHtmlSet(QString variableName, QSet<QString> elements) {
-	QString out = "<i><b>VARIABLE</b></i> := ";
-	out.replace("VARIABLE", variableName);
-	out += qSetToQString(elements);
-	return out;
-}
-
 QString FiniteAutomata::PrintHtmlStates()
 {
-    return PrintHtmlSet("Q", m_states);
+    return CHtmlCreator::PrintHtmlSet("Q", m_states);
 }
 
 QString FiniteAutomata::PrintHtmlAlphabet()
 {
-	return PrintHtmlSet(SIGMA, m_states);
+    return CHtmlCreator::PrintHtmlSet(SIGMA, m_alphabet);
 }
 
 QString FiniteAutomata::PrintHtmlRules()
 {
-	return PrintHtmlSet("R", ComputationalRulesToQSetOfStrings(m_rules));	
+    return CHtmlCreator::PrintHtmlSet("R", ComputationalRulesToQSetOfStrings(m_rules));
 }
 
 QString FiniteAutomata::PrintHtmlStartState()
@@ -912,7 +904,7 @@ QString FiniteAutomata::PrintHtmlStartState()
 
 QString FiniteAutomata::PrintHtmlFinalStates()
 {
-	return PrintHtmlSet("Q", m_finalStates);
+    return CHtmlCreator::PrintHtmlSet("Q", m_finalStates);
 }
 
 //helper function for method toMinFA()

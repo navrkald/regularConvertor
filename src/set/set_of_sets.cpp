@@ -1,4 +1,5 @@
-#include "set/set_of_sets.h"
+#include <set/set_of_sets.h>
+#include <algorithms/constants.h>
 
 uint qHash(const QSet<QString>) {
   uint seed = 0;
@@ -42,7 +43,7 @@ QSet < QSet<QString> > findInSubsets(QSet < QSet<QString> > sets, QSet<QString> 
 QString qSetToQString(QSet<QString> set)
 {
 	if (set.empty())
-		return "∅";
+        return EMPTYSET;
 
 	QList <QString> list = set.toList();
 	qSort(list);

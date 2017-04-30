@@ -70,7 +70,8 @@ SOURCES += main.cpp\
     widgets/variableswidget.cpp \
     widgets/fadeterminizationwidget.cpp \
     widgets/removeepsilonruleswidget.cpp \
-    widgets/regexptofawidget.cpp
+    widgets/regexptofawidget.cpp \
+    htmlcreator.cpp
 
 HEADERS  += mainwindow.h \
     finite_machine/diagramscene.h \
@@ -120,7 +121,8 @@ HEADERS  += mainwindow.h \
     widgets/removeepsilonruleswidget.h \
     widgets/regexptofawidget.h \
     algorithms/algorithmodes.h \
-    algorithms/constants.h
+    algorithms/constants.h \
+    htmlcreator.h
 
 
 FORMS    += mainwindow.ui \

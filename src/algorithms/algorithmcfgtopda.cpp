@@ -3,6 +3,7 @@
 #include <QVector>
 #include <algorithms/htmldelegate.h>
 #include <algorithms/constants.h>
+#include <htmlcreator.h>
 
 void CAlgorithmCFGtoPDA::Init(CAlgorithmWidget* algorithmWidget, CCfgWidget* cfgWidget, CPdaWidget* pdaWidget, CVariablesWidget* variablesWidget)
 {
@@ -98,9 +99,11 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
             break;
         case SET_STACK_ALPHABET:
             if(!m_cfg.GetTerminalAlphabet().empty()){
+                m_inputAlphabetIter = m_cfg.GetTerminalAlphabet().constBegin();
                 m_actInstruction = FOREACH_PDA_RULES_FROM_INPUT_ALPHABET;
             }
             else if(m_cfg.GetRulesCount() > 0){
+                m_cfgRulesIter = m_cfg.GetRules().constBegin();
                 m_actInstruction = FOREACH_PDA_RULES_FROM_CFG_RULES;
             }
             else{
@@ -108,29 +111,30 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
             }
             break;
         case FOREACH_PDA_RULES_FROM_INPUT_ALPHABET:
+            m_actInstruction = PDA_RULE_FROM_INPUT_ALPHABET;
+            break;
+        case PDA_RULE_FROM_INPUT_ALPHABET:
             if(m_inputAlphabetIter != m_cfg.GetTerminalAlphabet().constEnd()){
-                m_actInstruction = PDA_RULE_FROM_INPUT_ALPHABET;
+                m_actInstruction = FOREACH_PDA_RULES_FROM_INPUT_ALPHABET;
             }
             else if(m_cfg.GetRulesCount() > 0){
+                m_cfgRulesIter = m_cfg.GetRules().constBegin();
                 m_actInstruction = FOREACH_PDA_RULES_FROM_CFG_RULES;
             }
             else{
                 m_actInstruction = SET_FINITE_STATE;
             }
             break;
-        case PDA_RULE_FROM_INPUT_ALPHABET:
-			m_actInstruction = FOREACH_PDA_RULES_FROM_INPUT_ALPHABET;
-            break;
         case FOREACH_PDA_RULES_FROM_CFG_RULES:
-			if (m_cfgRulesIter != m_cfg.GetRules().constEnd()) {
-				m_actInstruction = SET_PDA_RULE_FROM_CFG_RULE;
-			}
-			else {
-				m_actInstruction = SET_FINITE_STATE;
-			}
+            m_actInstruction = SET_PDA_RULE_FROM_CFG_RULE;
             break;
         case SET_PDA_RULE_FROM_CFG_RULE:
-			m_actInstruction = FOREACH_PDA_RULES_FROM_CFG_RULES;
+            if (m_cfgRulesIter != m_cfg.GetRules().constEnd()) {
+                m_actInstruction = FOREACH_PDA_RULES_FROM_CFG_RULES;
+            }
+            else {
+                m_actInstruction = SET_FINITE_STATE;
+            }
             break;
         case SET_FINITE_STATE:
 			m_actInstruction = END_INSTRUCTION;
@@ -162,12 +166,8 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
         }
         case FOREACH_PDA_RULES_FROM_INPUT_ALPHABET:
         {
-            if(m_prevInstruction == SET_STACK_ALPHABET){
-                m_inputAlphabetIter = m_cfg.GetTerminalAlphabet().constBegin();
-            } else{
-                m_inputAlphabetIter++;
-            }
             m_pdaActInputAplhabetSymbol = (QString) *m_inputAlphabetIter;
+            m_inputAlphabetIter++;
             break;
         }
         case PDA_RULE_FROM_INPUT_ALPHABET:
@@ -177,15 +177,8 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
         }
         case FOREACH_PDA_RULES_FROM_CFG_RULES:
         {
-            if(m_prevInstruction == PDA_RULE_FROM_INPUT_ALPHABET || m_prevInstruction == SET_STACK_ALPHABET)
-            {
-                m_cfgRulesIter = m_cfg.GetRules().constBegin();
-            }
-            else
-            {
-                m_cfgRulesIter++;
-            }
             m_actRule = *m_cfgRulesIter;
+            m_cfgRulesIter++;
             break;
         }
         case SET_PDA_RULE_FROM_CFG_RULE:
@@ -232,26 +225,85 @@ QString CAlgorithmCFGtoPDA::GetDebugVariablesInHtml(CAlgorithmCFGtoPDA::TInstruc
 		case CAlgorithmCFGtoPDA::HEADER:
             break;
 		case CAlgorithmCFGtoPDA::SET_START_STATE:
-			return m_pda.PrintHtmlStates();
-			break;
+            return CHtmlCreator::JoinWithHtmlNewLines(
+                {
+                    m_pda.PrintHtmlStartState(),
+                    m_pda.PrintHtmlStates()
+                });
+            break;
 		case CAlgorithmCFGtoPDA::SET_INPUT_ALPHABET:
 		{
-			return JoinWithHtmlNewLines({m_pda.PrintHtmlStactAlphabet()});
+            return CHtmlCreator::JoinWithHtmlNewLines(
+                {
+                    m_pda.PrintHtmlStartState(),
+                    m_pda.PrintHtmlStates(),
+                    m_pda.PrintHtmlAlphabet()
+                });
 			break;
 		}
 		case CAlgorithmCFGtoPDA::SET_STACK_ALPHABET:
-			return JoinWithHtmlNewLines({m_pda.PrintHtmlStactAlphabet()});
+            return CHtmlCreator::JoinWithHtmlNewLines(
+                {
+                    m_pda.PrintHtmlStartState(),
+                    m_pda.PrintHtmlStates(),
+                    m_pda.PrintHtmlAlphabet(),
+                    m_pda.PrintHtmlStactAlphabet()
+                });
 			break;
         case CAlgorithmCFGtoPDA::FOREACH_PDA_RULES_FROM_INPUT_ALPHABET:
-			return JoinWithHtmlNewLines({m_pda.PrintHtmlStactAlphabet()});
+            return CHtmlCreator::JoinWithHtmlNewLines(
+                {
+                    m_pda.PrintHtmlStartState(),
+                    m_pda.PrintHtmlStates(),
+                    m_pda.PrintHtmlAlphabet(),
+                    m_pda.PrintHtmlStactAlphabet(),
+                    CHtmlCreator::PrintVariableValue("a", m_pdaActInputAplhabetSymbol),
+                    m_pda.PrintHtmlPdaRules()
+                });
             break;
         case CAlgorithmCFGtoPDA::PDA_RULE_FROM_INPUT_ALPHABET:
+            return CHtmlCreator::JoinWithHtmlNewLines(
+            {
+                m_pda.PrintHtmlStartState(),
+                m_pda.PrintHtmlStates(),
+                m_pda.PrintHtmlAlphabet(),
+                m_pda.PrintHtmlStactAlphabet(),
+                CHtmlCreator::PrintVariableValue("a", m_pdaActInputAplhabetSymbol),
+                m_pda.PrintHtmlPdaRules()
+            });
             break;
         case CAlgorithmCFGtoPDA::FOREACH_PDA_RULES_FROM_CFG_RULES:
+            return CHtmlCreator::JoinWithHtmlNewLines(
+            {
+                m_pda.PrintHtmlStartState(),
+                m_pda.PrintHtmlStates(),
+                m_pda.PrintHtmlAlphabet(),
+                m_pda.PrintHtmlStactAlphabet(),
+                CHtmlCreator::PrintVariableValue("act_rule", m_actRule.ToHtml()),
+                m_pda.PrintHtmlPdaRules()
+            });
             break;
         case CAlgorithmCFGtoPDA::SET_PDA_RULE_FROM_CFG_RULE:
+            return CHtmlCreator::JoinWithHtmlNewLines(
+            {
+                m_pda.PrintHtmlStartState(),
+                m_pda.PrintHtmlStates(),
+                m_pda.PrintHtmlAlphabet(),
+                m_pda.PrintHtmlStactAlphabet(),
+                CHtmlCreator::PrintVariableValue("act_rule", m_actRule.ToHtml()),
+                m_pda.PrintHtmlPdaRules()
+            });
             break;
         case CAlgorithmCFGtoPDA::SET_FINITE_STATE:
+            return CHtmlCreator::JoinWithHtmlNewLines(
+            {
+                m_pda.PrintHtmlStartState(),
+                m_pda.PrintHtmlStates(),
+                m_pda.PrintHtmlAlphabet(),
+                m_pda.PrintHtmlStactAlphabet(),
+                m_pda.PrintHtmlPdaRules(),
+                m_pda.PrintHtmlFinalStates()
+            });
             break;
         case CAlgorithmCFGtoPDA::END_INSTRUCTION:
             break;
@@ -313,6 +365,7 @@ void CAlgorithmCFGtoPDA::ToEnd()
 
 void CAlgorithmCFGtoPDA::SetCfg(CContextFreeGrammar *cfg)
 {
+    m_cfg = *cfg;
     m_cfgWidget->SetCfg(*cfg);
     // TODO: Implement
 }

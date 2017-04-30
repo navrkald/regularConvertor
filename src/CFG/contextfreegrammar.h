@@ -109,6 +109,7 @@ public:
         }
     void SetLeftNonTerminal(CNonTerminal leftNonTerminal) {m_leftNonTerminal = leftNonTerminal;}
     QString ToString() const;
+    QString ToHtml() const;
 protected:
     bool IsRightSideEmpty() {return m_rightString.isEmpty();}
     void ClearRightSide() {m_rightString.clear();}

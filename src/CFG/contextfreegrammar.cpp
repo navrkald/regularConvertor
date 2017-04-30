@@ -1,4 +1,5 @@
 #include "contextfreegrammar.h"
+#include <htmlcreator.h>
 
 ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
 {
@@ -104,7 +105,7 @@ ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
 
 QString CCFGRule::ToString() const
 {
-    QString ruleString = QString("<%1> :=").arg(m_leftNonTerminal.GetString());
+    QString ruleString = QString("<%1> ::=").arg(m_leftNonTerminal.GetString());
     foreach(const CSymbol& symbol, m_rightString){
         switch (symbol.GetType()) {
             case CSymbol::TType::terminal:
@@ -121,6 +122,10 @@ QString CCFGRule::ToString() const
         }
     }
     return ruleString;
+}
+
+QString CCFGRule::ToHtml() const {
+    return CHtmlCreator::ConvertTextToHtml(ToString());
 }
 
 QVector<QString> CCFGRule::GetRevertedRightRule()

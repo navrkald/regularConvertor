@@ -78,7 +78,7 @@ void CAlgorithmCFGtoPDA::InitInstructions()
     m_instructions[PDA_RULE_FROM_INPUT_ALPHABET] =          INDENT INDENT + tr("add asa → to R");
     m_instructions[FOREACH_PDA_RULES_FROM_CFG_RULES] =      INDENT + tr("<b>for each</b> A " ARROW " x " MEMBER_OF " P");
     m_instructions[SET_PDA_RULE_FROM_CFG_RULE] =            INDENT INDENT + tr("add As " ARROW " ys to R where y = reversal(x)");
-    m_instructions[SET_FINITE_STATE] =                      tr("F = " EMPTY_SET);
+    m_instructions[SET_FINITE_STATE] =                      tr("F = " EMPTYSET);
 }
 
 void CAlgorithmCFGtoPDA::ComputeNextStep()

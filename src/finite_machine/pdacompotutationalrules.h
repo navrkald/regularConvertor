@@ -44,8 +44,10 @@ public:
 
     CPDACompotutationalRule& operator=(const CPDACompotutationalRule& r)
     {
+        // check for self-assignment
+        if(&r == this)
+            return *this;
         CPDACompotutationalRule(r.from, r.to, r.symbol, r.m_popSymol, r.m_pushSymbols);
-//        Init(r.from, r.to, r.pushSymbol, r.popSymol, r.symbol);
         return *this;
     }
 
@@ -61,11 +63,11 @@ public:
                      this->m_popSymol == secondRule.m_popSymol
                      );
         }
-    const CPDACompotutationalRule operator=(const CPDACompotutationalRule& rule) const
-    {
-        CPDACompotutationalRule returnRule(rule.from, rule.to, rule.symbol, rule.m_popSymol, rule.m_pushSymbols);
-        return returnRule;
-    }
+//    const CPDACompotutationalRule operator=(const CPDACompotutationalRule& rule) const
+//    {
+//        CPDACompotutationalRule returnRule(rule.from, rule.to, rule.symbol, rule.m_popSymol, rule.m_pushSymbols);
+//        return returnRule;
+//    }
 
 public:
     QString GetPopSymbol() { return m_popSymol; }

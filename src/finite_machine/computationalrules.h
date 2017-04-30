@@ -4,8 +4,7 @@
 //#include <QObject>
 #include <QRegExp>
 #include <QDebug>
-#define EPSILON "ε"
-#define EMPTYSET "Ø"
+#include <algorithms/constants.h>
 
 class ComputationalRules// : public QObject
 {

@@ -8,6 +8,6 @@
 #define UNIFICATION u8"∪"
 #define MEMBER_OF u8"∈"
 #define ARROW u8"→"
-#define EMPTY_SET "&empty;"
+#define EMPTYSET u8"Ø"
 
 #endif // GREEK_ALPHABET_H

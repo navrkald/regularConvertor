@@ -37,6 +37,12 @@
 \usepackage{etoolbox}   % Tool-box for LaTeX programmers
 \usepackage[labelsep=space,tableposition=bottom,justification=centering]{caption} % Přenastavení popisků u figur a tabulek
 
+% --------------------------- Uživatelsky definované balíčky
+\usepackage{framed} 	% Pro definice (Např. pro konečný automat)
+\usepackage{ragged2e}	% Pro odsazení textu do leva (Např. například v definici konečného automatu)
+\usepackage{amssymb}	% Pro specialní symboly, např. pro prazdnou mnozinu v algoritmu prevodu CFG na PDA
+%\usepackage{tabularx}
+
 % ---------------------------------------------------------------------------- %
 
 \usepackage{xmpincl}
@@ -490,6 +496,9 @@
 	\vspace{1cm}
 	Keywords: \klicovaslovaen
 }
+
+% Formatovani nonterminalu v definici Backus-Naurov formy
+\newcommand{\nonTerm}[1] {\textbf{\textless #1\textgreater}}
 
 
 % ============================================================================ %

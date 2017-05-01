@@ -4,62 +4,300 @@
 
 % ============================================================================ %
 \nn{Úvod}
-První odstavec pod nadpisem se neodsazuje, ostatní ano (pouze první řádek, odsazení vertikální mezy odstavci je typycké pro anglickou sazbu; czech babel toto respektuje, netřeba do textu přidávat jakékoliv explicitní formátování, viz ukázka sazby tohoto textu s následujícím odstavcem).
+Tato práce pojednává o vývoji aplikace která má didakticky prezentovat studentům teoretické informatiky oblast bezkontextových jazyků. Aplikace navazuje na bakalářskou práci, jejíž praktickou částí bylo implementovat vybrané konverze modelů bezkontextových jazyků. Toto téma jsem si vybral z toho důvodu, že oblast formálních jazyků může být pro studenty hůře pochopitelná a pomocí mé aplikace si tak mohou tuto náročnou teorii procvičit na praktických příkladech.
 
-Formátování druhého odstavce. Text text text text text text text text text text text text.
+Zdrojové kódy a text bakalářské práce, na kterou tímto navazuji, jsou dostupné pod opensource licencí na internetovém serveru Github. Tato práce společně se zdrojovými kódy zde bude uveřejněna taktéž na \url{https://github.com/navrkald/regularConvertor}.
+
+Jak již napovídá název serveru Github, práci včetně zdrojových kódů verzuji pomocí systému Git. Díky tomu mám jistotu, že ať se stane cokoliv svoje data mám tímto zálohovaná. Dále pak se mohu v případě potřeby vracet ke starším verzím. Mohu monitorovat svou práci, protože vidím kolik jsem který den udělal. Mohu také nový kód ukládat do větví, což mi umožňuje mít stabilní větev pro koncové uživatele a vývojovou větev, ve které si vyvíjím novou funkcionalitu. Jelikož jsou zdrojové kódy veřejně přístupné, tak v případě zájmu může kdokoliv přispět k v vývoji této výukové aplikace a v případě potřeby může provést takzvaný pull reguest, který mohu schválit a začlenit jej do aplikace.
+
+Pro vývoj tohoto programu jsem si zvolil jazyk C++, protože je mi velmi blízký, jelikož jej používám ve svém povolání programátora ve firmě AVG a také na tento jazyk byl kladen na mé předchozí škole FIT VUT v Brně. Jelikož se pohybuji ve svém životě na pomezí světa Windows a Linuxu, tak pro mě bylo zásadní, aby aplikace fungovala na těchto dvou operačních systémech, tak jsem si zvolil pro vývoj grafického uživatelského prostředí knihovnu Qt verze 5, která je v současné době nejnovější.
+
+Tuto práci jsem se na rozdíl od své bakalářské, kterou jsem psal v programu Open Office, rozhodl psát v jazyce \LaTeX. Toto rozhodnutí má hned několik důvodů. Prvním z nich je to, že jsem se chtěl tento jazyk už dlouho naučit, protože mi je jako programátorovi mnohem bližší. Nejen technické texty vypadají mnohem lépe v tomto jazyce, protože se za mě stará za základní typografická pravidla a také mám při psaní v \LaTeX u větší kontrolu nad textem. Dalším důvodem, je že pomocí jazyka \LaTeX můžu mít práci napsánu v textovém formátu, na rozdíl od programů Open Office nebo Microsoft Word, které používají binární formát, který si nemohu otevřít v poznámkovém bloku, nebo nad ním dělat jednoduše porovnání dvou verzí. Tato zkutečnost znamená i mnohem efektivnější verzování jednotlivých commitů v Gitu, ve kterém si pak můžu prohlížet a porovnávat jednotlivé verze a případně se i vrátit k některé z předchozích verzí \cite{latex}.
 
 
 % ============================================================================ %
 \cast{Teoretická část}
 
-\n{1}{Nadpis}
-text
+% Uvod o bezkontextových jazycích
+% Definice konečného zasobnikoveho automatu a jeho modifikace
+% Definice bezkontextove gramatiky
 
-\n{1}{Další nadpis}
-Tato sekce obsahuje ukázku vložení obrázku (Obr. \ref{fig:logo}).
+\n{1}{Chomského hierarchie}
+Abychom si mohli dát bezkontextové jazyky do souvislosti s ostatními formálními jazyky, je nutné si vysvětlit Chomského hierarchii. Tato hierarchie byla vytvořena panem Noamem Chomskym v roce 1956. Dává do souvislosti jazyky regulární, bezkontextové, kontextové a jazyky typu 0. Jejich vztah, můžete vidět na obrázku (Obr. \ref{obr:chomskeho_hierarchie}), jako vztah množin.
 
-% Obrázek lze vkládat pomocí následujícího zjednodušeného stylu, nebo klasickým LaTex způsobem
-% Pozor! Obrázek nesmí obsahovat alfa kanál (průhlednost). Jde to proti standardu PDF/A.
-\obr{Popisek obrázku}{fig:logo}{0.5}{graphics/logo/fai_logo_cz.png}
+\obr{Chomskeho hierarchie formálních jazyků}{obr:chomskeho_hierarchie}{0.4}{obrazky/Chomskeho_hierarchie.eps}
+
+Jak je vidět z obrázku regulární jazyky zaujímají nejmenší množinu, nebo chcete li nejmenší počet jazyků. Nenechte se však zmýlit pojmem  počet jazyků, protože počet jazyků a množství řetězců generovaných daným jazykem jsou dvě rozdílné věci. Například jednoduchým regulárním výrazem \( (a + b)^* \) lze popsat všechny slova nad abecedou \( \Sigma = {a, b} \). Avšak jazyk, všech slov, kde první půlka slova se skládá ze stejného počtu písmen 'a' jako písmen 'b' v druhé půlce slova regulárním jazykem nepopíšeme. Dalo by se tak říci, že čím výše se jazyk nachází v Chomského hierarchii, tím přesněji dokážeme jazyk popsat, jinými slovy, tím více jazyků jsme schopni generovat.
+
+Nyní si pro lepší představu u každého jazyku uvedeme modely, které daný jazyk popisují s jedním příkladem konkrétního jazyka.
+
+Regulární jazyky můžeme popsat pomocí regulárních gramatik, regulárním výrazem nebo konečným automatem. Příkladem je například jazyk který obsahuje libovolnou kombinaci písmen 'a' a 'b' končící písmenem 'b'. Tento jazyk by se dal pospat regulárním výrazem \( (a + b)^* b \). 
+
+Jazyky bezkontextové lze popsat modely jakými jsou bezkontextové gramatiky a konečný zásobníkový automat. Všechny jazyky regulární jsou zároveň bezkontextové, avšak obrácené tvrzení neplatí. Příkladem je jazyk \( L = \{ a^n b^n : n >= 1 \}  \)
+
+Jazyky kontextové můžeme popsat lineárně ohraničeným Turingovým strojem. Příkladem nechť je jazyk \( L = \{ a^n b^n c^n : n >= 1 \}  \)
+
+% TODO: Doplnit jazyk typu 0.
+Třída jazyků typu nula, v sobě obsahuje všechny doposud zmíněné jazyky plus ještě jazyky navíc. Popisujeme je úplným Turingovým strojem. 
+\cite{Chomsky_hierarchy}
+
+\n{1}{Bezkontextový jazyk}
+V předchozí kapitole jsme si uvedli vzájemný vztah formálních jazyků. Nyní se pojďme podívat podrobněji na bezkontextové jazyky. Tyto jazyky popisujeme pomocí dvou hlavních modelů, kterými jsou bezkontextová gramatika (CFG) a konečný zásobníkový automat (PDA).
+
+Nenechme se však zmýlit představou, že pomocí obou můžeme generovat bezkontextové jazyky. Protože pomocí bezkontextové gramatiky můžeme jazyk generovat, avšak pomocí konečného zásobníkového automatu můžeme rozpoznat, zda konkretní jazyk je popsán daným automatem. 
+
+Pro nás je každopádně důležitá zkutečnost, že oba popisy jsou vzájemně ekvivalentní, tj. že lze převést PDA na CFG a taktéž lze převést CFG na PDA. Formální popis bezkontextové gramatiky a zásobníkového automatu bude uveden dále spolu s jejich vzájemnými konverzemi. 
+
+Pro lepší představu jaké jsou to vlastně ty bezkontextové jazyky si nyní uvedeme pár příkladů. Krásným příkladem z praxe by mohl být jazyk závorek, tak aby odpovídal počet levých závorek počtu závorek pravých. Složitějším příkladem by mohl být jazyk matematicky správných algebraických výrazů, který se skládá z operátorů plus, mínus, krát, děleno, symbolů 'x', 'y', 'z' a závorek. Dalším příkladem z praxe je, že velká podmnožina programovacích jazyků se dá popsat pomocí bezkontextové gramatiky. 
+
+Jak je vidět z těchto příkladů, pomocí bezkontextového jazyka se dají popsat složitější věci a jejich uplatnění můžeme nalézt u popisu programovacích jazyků. Existuje notace bezkontextové gramatiky, zvaná Backusova-Naurova forma, která se právě často používá pro popis syntaxe programovacích jazyků. Znalost bezkontextových jazyků lze využít při konstrukci překladače, nebo interpretu programovacího jazyka a také při počítačovém zpracování algebraických výrazů. \cite{CFL}
+
+\newtheorem{mydef}{Definice}
+\newtheorem{myAlgorithm}{Algoritmus}
+
+\n{1}{Zásobníkový automat}
+Nyní si definujeme definici zásobníkového automatu. \cite{PDA}
+
+\begin{framed}
+	\begin{flushleft}Konečný zásobníkový automat \( M \) je uspořádaná sedmice \( M = (Q, \Sigma, \Gamma, \delta, q_0, z_0, F) \) kde:\end{flushleft}
+	\begin{itemize}
+		\item \( Q \) je konečná množina vnitřních stavů,
+		\item \( \Sigma \) je konečná vstupní abeceda,
+		\item \( \Gamma \) je konečná abeceda zásobníku,
+		\item \( \delta \) je přechodová relace, popisující pravidla činnosti automatu, je definovaná jako konečná množina kartézského součinu \( Q \times (\Sigma \cup \{\varepsilon\} ) \times \Gamma \times Q \times \Gamma^* \),
+		\item \( q_0 \) je počáteční stav z množiny \( Q \),
+		\item \( z_0 \) je počáteční symbol na vrcholu zásobníku z množiny \( \Gamma \),
+		\item \( F \) je množina koncových stavů, \( F \subseteq Q \).
+	\end{itemize}
+\end{framed}
+\begin{mydef}
+	Definice zásobníkového automatu.
+\end{mydef}
+
+Pro lepší představu si uvedeme příklad zásobníkového automatu \(M\), který popisuje jazyk \( L = \{ 0^n 1^n \text{, kde } n \geq 0 \} \).
+
+Nechť \(M\) je definován následovně:  
+\begin{itemize}
+	\item \( Q = \{ p, q, r\} \) ,
+	\item \( \Sigma = \{0, 1\} \) ,
+	\item \( \Gamma =  \{A, Z\}\) ,
+	\item \( \delta = (p, 0, Z, p, AZ) , (p,0,A,p,AA), (p,\epsilon,Z,q,Z), (p,\epsilon,A,q,A), (q,1,A,q,\epsilon), (q,\epsilon,Z,r,Z) \),
+	\item \( q_0 = p\) ,
+	\item \( z_0 = Z \) ,
+	\item \( F = \{r\} \) .
+\end{itemize}
+
+% TODO: nefinovat sipkovou notaci pro pravidla a obrazek prepsat do sipkove notace a mozna udelat screenshot z Regular convertoru...
+
+Graficky znázorněný stejný zásobníkový automat by vypadal následovně:
+
+\obr{Příklad zásobníkového automatu}{obr:priklad_zasob_automatu}{0.6}{obrazky/Pda_example.eps}
+
+\n{1}{Bezkontextová gramatika}
+Definice bezkontextové gramatiky je následující.
+
+\begin{framed}
+	Bezkontextová gramatika \( G \) je uspořádaná čtvrtice \( G = (V, \Sigma, R, S) \) kde:
+	\begin{itemize}
+		\item \( V \) je konečná množina non-terminálních symbolů,
+		\item \( \Sigma \) je konečná množina terminálních symbolů,
+		\item \( R \) je konečná množina relací z \(V\) do \( (V \cup \Sigma )^* \), taktéž se nazývá množinou přepisovacích pravidel,
+		\item \( S \in V\) se nazývá počáteční non-terminální symbol gramatiky.,
+	\end{itemize}
+\end{framed}
+\begin{mydef}
+	Definice bezkontextové gramatiky.
+\end{mydef}
+Jednotlivé přepisovací pravidla často píšeme pomocí \uv{šipkové notace}, kde na levé straně neterminál za ním následuje šipka a na pravé straně je řetězec non-terminálních symbolů. Přepisovací pravidla se nazývají protože, řetězce daného jazyka, které jsou popsány gramatikou vznikají tak, že na počátku máme řetězec skládající se z počátečního non-terminálního symbolu gramatiky \(S\) a na ten aplikuji jedno z přepisovacích pravidel. Pokračuji tím, že postupně nahrazuji non-terminální symboly v řetězci do té doby, dokud mě v něm nezbudou jen terminální symboly a to je pak jedno konkrétní slovo daného bezkontextového jazyka.
+
+Například gramatika \( G = (\{S, B\}, \{ a, b\}, R = \{\{S \rightarrow aBb\}, \{B \rightarrow aBb\},\{B \rightarrow \varepsilon\}\}, S \}) \) popisuje jazyk \( L = \{ a^n b^n : n >= 1 \}  \).
+
+Příklad konkrétního slova, které generuje tato gramatika by mohl vypadat následovně:
+\begin{enumerate}
+	\item Na začátku máme slovo skládající se z počátečního symbolu \(S\).
+	\item Po aplikaci přepisovacího pravidla \(S \rightarrow aBb\) dostaneme slovo \(aBb\).
+	\item Toto pravidlo aplikujeme ještě jednou a dostáváme slovo \(aaBbb\).
+	\item Nakonec aplikujeme pravidlo \(B \rightarrow \varepsilon \) a dostáváme slovo \(aa\varepsilon bb\).
+	\item Jelikož \(\varepsilon\) značí prázdný řetězec, tak výsledné slovo jazyka \(L\) je \(aabb\). Slovo se nám skládá jen z terminálních symbolů, takže jsme s generováním slova u konce.
+\end{enumerate}
+\cite{CFG}
+
+\n{2}{Backusova-Naurova forma}
+Pro zápis bezkontextové gramatiky se používají převážně dvě notace a to Backusova-Naurova forma (BNF) a jako druhá v pořadí je Van Wijngaardenova gramatika. My si zde představíme pouze první z nich, protože s BNF se můžete setkat častěji. Jazyky, které jsou popsány BNF a rozšířenou BNF jsou Algol, Paskal, C/C++, Ada 95, PL/I a další. %TODO: Dodat citaci.
+
+Syntaktická přepisovací pravidla jsou definována tak, že levou stranu vždy tvoří non-terminál, za kterým následuje oddělovač \uv{::=} (dve dvojtečny následované rovnítkem) za kterým následuje pravá strana pravidla, která se skládá z řetězců non-terminálů a terminálů. Pravá strana se může skládat z více řetězců oddělených symbolem \uv{\textbar} značící logický operátor OR. Tento operátor byl zaveden, kvůli optimalizaci zápisu pravidel, tak aby místo zápisu, že jeden non-terminální symbol se může rozepsat na \it{N} řetězců, což by muselo být rozepsáno na \it{N} pravidel na \it{N} řádcích. Místo toho se těchto \it{N} řetězců napíše na pravou stranu oddělených symbolem \uv{\textbar}. Terminální symboly jsou uvedeny v uvozovkách.
+\cite{BCF}
+\\ \\
+Gramatika pro popis číselné konstanty by mohla vypadat takto:\\
+\nonTerm{konstanta}~::= \nonTerm{číslice}~\textbar~\nonTerm{konstatnta} \nonTerm{číslice} \\
+\nonTerm{číslice}~::=~\uv{0}~\textbar~\uv{1}~\textbar~\uv{2}~\textbar~\uv{3}~\textbar~\uv{4}~
+\textbar~\uv{5}~\textbar~\uv{6}~\textbar~\uv{7}~\textbar~\uv{8}~\textbar~\uv{9} \\
+\\
+Gramatika který by popisovala základní aritmetické operace by měla navíc tato pravidla:\\
+\nonTerm{výraz} ::= \nonTerm{výraz} \uv{+} \nonTerm{výraz} \\
+\nonTerm{výraz} ::= \nonTerm{výraz} \uv{-} \nonTerm{výraz} \\
+\nonTerm{výraz} ::= \nonTerm{výraz} \uv{\(\times\)} \nonTerm{výraz} \\
+\nonTerm{výraz} ::= \nonTerm{výraz} \uv{/} \nonTerm{výraz} \\
+\nonTerm{výraz} ::= \uv{(} \nonTerm{výraz} \uv{)} \\
+\nonTerm{výraz} ::= \nonTerm{konstanta}\\
+
+\n{1}{Algoritmus převodu CFG na PDA}
+
+Nyní si pojďme ukázat algoritmus převodu bezkontextové gramatiky na zásobníkový automat. \cite{CFG_to_PDA}
+
+\begin{framed}
+	Vstup: CFG \(G = (V,\Sigma, R, S) \)\\
+	Výstup: Nedeterministický PDA \(M = (Q, \Sigma, \Gamma, \delta, q_0, z_0, F) \), který přijímá vstupní řetězec vyprázdněním zásobníku. 
+	\begin{enumerate}
+		\item \(Q = {q_0}\)
+		\item \(\Sigma = \Sigma\)
+		\item \(\Gamma = V \cup \Sigma \)
+		\item Počáteční stav je \(q_0\)
+		\item Konstrukce přechodové množiny \( \delta \):
+		\begin{enumerate}
+			\item Pro každé $a \in \Sigma$: přidej $(q_0,a,a,q_0,\varepsilon)$ do $\delta$
+			\item Pro každé $A \rightarrow x$, kde $A \in V, x \in (V \cup \Sigma)^*$, přidej do $\delta (q_0, \varepsilon, A, q_0, y)$, 
+			kde $y = reversal(x)$
+		\end{enumerate}
+		\item \(z_0 = S\)
+		\item $G = \varnothing$
+	\end{enumerate}
+\end{framed}
+\begin{myAlgorithm}
+	Převod CFG na PDA.
+\end{myAlgorithm}
+
+Po aplikaci tohoto algoritmu nám vznikne nedeterministický PDA s jedním vstupním stavem a žádným ukončovacím stavem. Tento automat přijímá vstupní řetězec vyprázdněním zásobníku. Má stejnou vstupní abecedu, jako byla abeceda terminálů u původní CFG. Zásobníková abeceda automatu vznikla sloučením množin terminálů a non-terminálů vstupní gramatiky. Počátečním symbolem na zásobníku je počáteční non-terminální symbol gramatiky. 
+
+První část množiny přechodových pravidel vznikla tak, že pro všechny terminální symboly se přidala přechodová pravidla taková, že počáteční i koncový stav pravidla je vždy počáteční stav automatu. Zároveň aktuální symbol na pásce a stejně tak na vrcholu zásobníku musí být stejný terminální symbol. Znak $\varepsilon$ říká, že symbol z vrcholu zásobníku odstraním. 
+
+Zbytek přechodových má taktéž počáteční a koncový stav stejný. $\varepsilon$ zde říká, že nečtu žádný ze symbolů na pásce, ale přečtu jeden non-terminál z vrcholu zásobníku a nahradím jej řetězcem znaků z pravé části pravidla napsaných pozpátku.  
+
+\n{1}{Základy Qt frameworku}
+
+Qt framework je multiplatformí, to znamená, že programátor napíše jeden kód, který pak zkompiluje na více cílových systémů. Konkretně \textit{Regular Convertor} jsem uspěšně zkoušel na platformách Windows a Linux. Tento framefork je určen především pro jazyk C++. Obsahuje také IDE pojmenované QtCreator, ve kterém je i integrován nástroj Qt Designer pro tvorbu uživatelského rozhraní vyzuální formou a ne jenom pomocí kódu. 
+
+\n{2}{QWidget} 
+
+QWidget je základní stavební element a zároveň předek v hierarchii tříd všech grafických elementů uživatelského rozhraní. Například widget je předek všech tlačítek, oken, kontrolních prvků, dialogů, prostě všeho. Samotný widget sám o sobě nemá význam, ale definuje a zaštituje společnou mnoužinu vlastností pro všechny od něj odvozené třídy
+
+\n{2}{Popis uživatelského rozhraní pomocí ui souborů}
+
+TODO: Popsat jak funguje system UI souborů. Jak se znich deneruje exekutivní kód. Obrázek jak vipadá Qt designer.
+
+\n{2}{Promoting} 
+
+Spolu s tím, že QWidget je původní předek všech grafických elementů a proto je předek i všech mých uživatelkých elementů jsem mohl v QtDesigneru použít pro mě novou techniku \textit{promoting}. Volně do češtiny by se to dalo přeložit jako povyšování widgetů. Pro všechny konverze jsem si následně vytvořil widgety, které se skládají z jiných také mnou vytvořených widgetů. Proto jsem si vytvořil rozložení widgetů, které jsem následně povýšil na mnou skutečně předem vytvořené widgety.
+Má to tu nespornou výhodu, že jsem se zbavil všude v kódu, programového vytváření obrazovky pro jednotlivé konverze, které jsou nově definovány jako samostatné třídy, které zapouzdřují z grafického klediska všechny konverze. Tímto, že se popis UI přesunul do samostatných souborů, se znašně ulevilo tříde pro popis hlavního akna aplikace. Tato objektově orientované technika rozdělení aplikace do více menších částí a rozdělení pravomocí zvaná zapouzdření.
+
+\n{2}{Signály a sloty}
+
+Signály a sloty se podobá jiné programovací technice zvaná \textit{callbacks}, kde se předává ukazatel na funkci nebo metodu. 
+
+Slot je metoda třídy, která se vykoná pokud někdo emitoval signál se kterým je spojená pomocí funkce \textit{connect()}. Stejně jako můžeme propojit emitování signálu s vykonáváním určité metody zvané slot, můžeme později zavolat i opačnou metodu \textit{disconnect()} , která toto spojení zruší. 
+
+K jednomu signálu může být propojeno i více slotů. Tak jsem například implementoval, že konečný automat má více grafických reprezentací, tak aby se na základě emitování signálu o změně konečného automatu změnily obě jeho vizuální reprezentace.
+
+Slot musí mít definováné svoje tělo, které se vykonává při emitování signálu, pokud jsou propojeni. Naopak tělo signálu nesmí být nikdy definováno.
+
+Signály a sloty si mohou vyměňovat informace pomocí parametrů. V nižších verzích Qt fungovalo propojení na základě maker \textit{SIGNAL} a \textit{SLOT}. V aktuální verzi Qt se může použít i systém ukazatelů na funkce, které jsem použil na propojení konverzních widgetů s hlavním oknem aplikace.
+
+\cast{Implementace}
+
+\n{1}{Refaktor existujícího kódu}
+
+Refaktoring je činnost při, které se zlepšuje kvalita kódu bez přímého vlivu na uživatele aplikace.
+
+Nerefaktorovaný kód vede k tomu, že jen obtížně mohou programátoři rozumnět kódu a to vede k častým chybám a prodloužením vývoje.
+
+Všechny zdrojové soubory nutné pro úpsěšnou kompilaci kódu jsem přesunul do samostatné složky standartně pojmenované \textit{src}, podle anglického slova \textit{sources}.
+
+Kód by měl být pokud požno homogení a měl by v něm být dodžován systém pojmenovávaní. 
+
+\n{2}{Konvence pojmenování částí kódu}
+
+Pro pojmenovávaní proměných, tříd a typů jsem použil systém používaný ve firmě AVG.
+Vše popisuje následující tabulka.
 
 
-\n{2}{Podnadpis}
-Tato sekce obsahuje ukázku vložení tabulky (Tab. \ref{tab:priklad}).
-
-% Tabulku lze vkládat pomocí následujícího zjednodušeného stylu, nebo klasickým LaTex způsobem
-\tab{Popisek tabulky}{tab:priklad}{0.65}{|l|c|c|c|c|c|r|}{
-  \hline
-   & 1 & 2 & 3 & 4 & 5 & Cena [Kč] \\ \hline
-  \emph{F} & (jedna) & (dva) & (tři) & (čtyři) & (pět) & 300 \\ \hline
+\tab{Konvence pro pojmenovávání tříd a proměnných}{tab:konvencePojmenovaniCastiKodu}{0.8}{|c|c|}{  
+	\hline
+	konvence & poznámka \\
+	\hline
+	\hline
+	m\_\textless název členské proměnné\textgreater & Písmeno \textit{m} podle anglického slova member. \\
+	\hline
+	C\_\textless Název třídy\textgreater & Písmeno \textit{C} Podle anglického slova Class. \\
+	\hline
+	I\_\textless Název rozhraní\textgreater & Písmeno \textit{I} podle anglického slova Interface. \\ 
+	\hline
 }
 
-\n{3}{Podpodnadpis}
+%\cast{Projektová část}
+% Představení aplikace regular konvertor
+% Popsat mody aplikace, co umi co neumi, k čemu se dá použít.
 
-\n{3}{Podpodnadpis}
-Citace knihy. \cite{chmel}
+Dalšími konvencemi jsou pojenovávání pomocí "CammelCase". To zamená, že pokud se nějaký název zkládá z více slov, tak jsou jednotlivá slova od sebe graficky oddělena pomocí toho, že každé další slovo je od přechozího odděleno velkým písmenem.
 
+Při pojmenovávání souborů jsem se snažil dodržet konvenci, že názez souboru se skládá pouze z malých písmen následovaný příponou souboru.
+
+\n{2}{Přepsání třídy hlavního okna na několik malých}
+
+Příliš velké metody nebo třídy nejsou tolik přehledné a udržovatelné. Proto jsem se rozhodl přepsat moji třídy hlavního okna do více modulů, chcete-li tříd.
+
+V mém původním návrhu bakalářské práce jsem neuměl techniku zvanou \textit{Promoting}. Je to technika v Qt Designeru, kde si navrhnu vzhled widgetu, tak že se skládá, podobně jako stavebnice z ostatních uživatelských widgetů. Toto je možné, protože každý grafický prvek musí mít za předka QWidget.
+
+\obr{Příklad Promoting na widgetu pro konverzi bezkontextové gramatyky na zásobníkový automat.}{obr:prikladQtPromoting}{0.9}{obrazky/PromotingOfWidgets.eps}
+
+Na obrázku můžete vidět widget pro konverzi bezkontextové gramatiky na zásobníkový automat. Tato konverze se zkládá ze 4 widgetů (od levého horního rohu k pravému dolnímu rohu): widget pro bezkontextovou gramatiku, widget vizualizující konvezi, widget pro zásobníkový automat a v pravo dóle widget, kde se ukazují aktuální hodnoty proměnných použitých v konverzním widgetu.
+
+Původně vytváření grafického rozvržení widgetů jsem měl pro všechny konverze implementované v třídě hlavního okna. Naopak nyní jsou všechny konverze popsány graficky v souborech s koncovkou \textit{*.ui} a logika konverzí v asociovaných zdrojových souborech s koncovkami \textit{*.cpp} a \textit{*.h}. Toto jsem dělal ve jménu jedné z hlavních myšlenek zapouzdření.
+
+%TODO obrázek konverze s popiskami
+
+Pro widgety u kterých se mění popisek jsem přidal metodu \textit{SetCaption()}, která jim nastaví správný text.
+
+%TODO: Diagram tříd pro vICentralCoversionWidget a popis method 
+
+\n{1}{Drobné vylepšení existujícího kódu}
+
+Pro uložení existujících konverzí do souboru jsem přidal klávesovou zkratku \texttt{CTRL+S} podle anglického \textit{Save} a pro uložení \texttt{CTRL+L}, podle anglického \textit{Load}.
+
+\n{1}{Analýza nástrojů vytváření vyzualizací z existujícího kódu}
+
+Při hledání nástrojů pro visualizaci a dokumenataci existujícího kódu jsem měl následují požadavky:
+
+* Všechny nástroje mují být bezplatné.
+* Musejí uměl vyzualizovat diagram tříd a propojení tříd pomocí Qt mechanizmu Signálů a slotů.
+* Musí umět ideálně vygenerovat požadované vizualizace automaticky, tak aby se při změně kódu automaticky aktualizovali a nemuseli se vytvářet pokaždé ručně.
+
+\n{2}{Qt ModelEditor}
+
+Prvním nástrojem je \textit{ModelEditor}. Tento nástroj jsem zkusil jako první protože je ve formě pluginu do IDE \textit{QtCreator}, který jsem používal pro programování této diplomové práce. \textit{ModelEditor} umožnuje dělat sice jednoduché, ale přehledné UML diagramy. Zásadní nedostatek, je že umožnuje například diagram tříd generovat jenom částečně a to tak, že se přetáhne zdrojový soubor do modelovacího editoru, kde se vytvoří element s názvem třídy, ale metody a členské se musí dopisovat ručně. Na domovské stránce (https://wiki.qt.io/ModelEditor) tohoto nástroje jsem se nikde nedočetl, že by se na této funkcionalitě mělo někdy pracovat, proto jsem tento nástroj prozatím zavrhl.
+
+Another link to Qt ModelEditor http://doc.qt.io/qtcreator/creator-modeling.html
+
+\n{2}{Doxygen a Graphviz}
+
+Druhým nástrojem je \textit{Doxygen}, který je určen na automatickou tvorbu dokumentace. Tento nástroj byl ve svém počátku určen právě pro C++/Qt. \textit{Doxygen} pro tvorbu pokročilých grafů potřebuje doinstalovat \textit{Graphviz} a nastavit systémovou proměnnou PATH na cestu ke spustitelným souborům \textit{Graphviz}. Funguje to tak, že \textit{Doxygen} vytvoří textový popis grafu a \textit{Graphviz} pomocí spustitelého programu \textit{Dot} umí vytvořit grafickou podobu jak ve vektrorových, tak v rastrových formátech. Aby bylo generování co nejjednodušší vytvořil jsem si konfigurační soubor pojmenovaný "Doxyfile" v adresáři "src". Následně se celá dokumentace vygeneruje automaticky pomocí zavolání příkazu doxygen ve stejném adresáři ve kterém se nachází "Doxyfile". \textit{Doxygen} umí vytvořit UML diagram tříd. U každé třídy ukáže od kterých tříd dědí a také názvy proměnných a metod spolu s jejich modifikátorem vyditelností (public, protected, private). Zásadním problémem je, že neukazuje názvy typů členských proměnných, ani návratové typy a typy parametrů metod. 
+Pro automatické generování dokumentace z kódu je tento nástroj ideální, ale já chtěl v této diplomové práci mít kompletní diagram tříd včetně typů a návratových hodnot proto jsem zkoušel ještě třetí nástroj.
+
+\n{2}{Diagram tříd ve Visual studio Express 2015}
+
+Třetím nástrojem, který uspokojil všechny požadavky na diagram tříd se nacházel v IDE \textit{Visual Studio}. Diagram konkrétní třídy se ná vygenerovat tak, že se pravým tlačítkem klikne na hlavičkový soubor třídy a následně vybere možnost "zobrazit diagram třídy". Po kliku kamkoliv do volného místa se dá vyvolat nabýdka na export do různých formátů. Dá se i zvolit jestli chceme zobrazit celou signaturu, tj. návratové typy, jména a typy parametrů a typy členských proměnných. Jediná drobná výtka by mohla být, že modifikátor viditelnosti je a zda se jedná o metodu nebo proměnnou je značen z hlediska UML nestandartní ikonou. Zasadní je, že diagram tříd vygenerovaný tímto nástrojem obsahuje všechnu podstatné informace, proto jej použiji pro generovaní obrázků tříd do této diplomové práce.
+
+\n{2}{Simple tool to visualize connections between signals and slots in Qt }
+
+Pro vizualizaci propojení pomocí Qt slotů a signálů jsem akorát našel jednoduchý nástroj, jehož zdrojový text je uveden na adrese http://hackatool.blogspot.cz/2013/05/simple-tool-to-visualize-connections.html . Tento nástroj pracuje na principu prohledání zdojových souborů na základě regulárního výrazu a následně vygeneruje textový popis grafu propojení ve formátu, kterému rozumí program Graphviz zmíněný výše. 
 
 % ============================================================================ %
 
-% Pokud Vaše práce neobsahuje analytickou část, stačí odstranit či zakomentovat nasledujících pár rádků
-\cast{Analytická část}
-
-\n{1}{Nadpis}
-
-\n{2}{Podnadpis}
-
-
-% ============================================================================ %
-\cast{Projektová část}
-
-\n{1}{Nadpis}
-
-\n{2}{Podnadpis}
-
-
-% ============================================================================ %
 \nn{Závěr}
-Text závěru
+% Ujasnit si o čem chci v diplomce psat
+% Naučil jsem se Latex (Pracovat se zdroji), zprovoznit na linuxu Latex a pracovat s TeXWork.
+% Naucil jsem se pracovat s programem na mocup
+% Napsal jsem kus diplomove prace zaroven (Teorie, definice)
+V této práci jsem se snažil k hůře stravitelné teorii přikládat množství příkladů, aby byla tato problematika pochopitelná a přínosná pro studenta, který by si tuto práci chtěl půjčit v univerzitní knihovně. Z vlastní zkušenosti vím, že pro lepší pochopení dané problematiky je kromě suché teorie nutné přiložit i příklady. Dával jsem je zde i pro to, že konečným cílem diplomové práce bude kromě textu nutné vytvořit i funkční aplikaci, která má sloužit především studentům, ale samozřejmě ji mohou využít i profesoři na naší škole k prezentaci přednášené látky pro lepší přiblížení studentům. Chtěl jsem, aby i student nepříliš seznámený s danou problematikou mohl po přečtení této práce začít používat mou aplikaci bez obtíží.
 
 
 % ============================================================================ %

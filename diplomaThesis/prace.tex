@@ -40,10 +40,10 @@
 	% FMK  -- pro Fakutlu mutimediálních komunikací
 	% FT   -- pro Fakultu technologickou
 	% UNI  -- pro Univerzitní institut
-\nastavtyp{BP}
+\nastavtyp{DP}
 	% BP   -- bakalářská práce
 	% DP   -- diplomová práce
-\nastavrok{xxxx}
+\nastavrok{2017}
 	% zadejte rok místo "xxxx"
 \nastavjazyk{CZ}
 	% CZ   -- práce bude v českém jazyce
@@ -55,13 +55,15 @@
 \nastavmezerukolemtabulek{0mm}{0mm}
 \nastavmezerukolemrovnic{0mm}{0mm}
 
-\nastavautora{Titul Jméno Příjmení}
-\nastavnazevcz{Název práce česky (max. 2 řádky)}
-\nastavnazeven{Název práce anglicky (max. 2 řádky)} % Jen u anglicky psané práce
-\nastavabstraktcz{Text abstraktu česky}
-\nastavabstrakten{Text of the abstract}
-\nastavklicovaslovacz{Přehled klíčových slov}
-\nastavklicovaslovaen{Some keywords}
+\nastavautora{Bc. David Navrkal}
+\nastavnazevcz{Konverze modelů bezkontextových jazyků}
+\nastavnazeven{Conversions of models of context-free languages} % Jen u anglicky psané práce
+\nastavabstraktcz{Tato práce je rozšířením mé bakalářské práce, která se zabývala, jak didakticky prezentovat studentům formálních jazyků jazyky regulární. Proto v této práci budu pokračovat jazyky bezkontextovými. 
+Dočtete se zde o teorii bezkontextových jazyků s množstvím příkladů. Budu se zde zabývat modely bezkontextových jazyků a to zásobníkovým automatem a bezkontextovou gramatikou. U bezkontextové gramatiky bude představena i její nejpoužívanější forma a o je Backusova-Naurova forma. Dále v teorii budou prezentovány algoritmy pro převod bezkontextové gramatiky na zásobníkový automat a zpět. Projektová část se bude zabývat návrhem uživatelského rozhraní pro převodní algoritmy a krátkou rekapitulací programu vyvinutého v rámci bp. práce do kterého tyto převodní algoritmy budu implementovat.}
+\nastavabstrakten{This work is an extension of my bachalor thesis, which deals with how the didacticly present regular languages to the students of formal languages. Therefore, this work will continue with context-free languages.
+You can read here about the theory of context-free languages with plenty of examples. I will discuss models of context-free languages such as pushdown automaton and context-free grammar. For context-free grammars will be presented as well its most widely used form the Backus-Naur form. Furthermore, in the theory will be presented algorithms for conversion of context-free grammar to pushdown automata and back. Project part will deal with user interface design for the conversion algorithms and a brief overview on the program developed in bachelor theisis in which I will these algorithms implement.}
+\nastavklicovaslovacz{Bezkontextové jazyky, zásobníkový automat, bezkontextová gramatika, Backusova-Naurova forma, převody zásobníkového automatu a bezkontextové gramatiky.}
+\nastavklicovaslovaen{Context-free languages, pushdown automata, context-free grammar, Backus-Naur form, conversions pushdown automata and context-free grammars.}
 
 % Následující příkaz nastaví standard PDF/A-1b
 \aplikujpdfa
@@ -98,9 +100,27 @@ Zde je místo pro případné poděkování, motto, úryvky knih, básní atp.
 
 
 % ============================================================================ %
-\seznamlit{
+%\seznamlit{
   % Na toto místo vložit veškeré citované bibliografické položky.
-  \bibitem{chmel}\it{Český chmel: atlas odrůd} [online]. [cit. 2004-10-15]. Dostupný z~WWW: \url{http://www.beer.cz/humulus/}.
+%  \bibitem{chmel}\it{Český chmel: atlas odrůd} [online]. [cit. 2004-10-15]. Dostupný z~WWW: \url{http://www.beer.cz/humulus/}.
+%}
+
+% ============================================================================ %
+\seznamlit{
+	 % Na toto místo vložit veškeré citované bibliografické položky.
+	\bibitem{latex}KOPKA, Helmut, Patrick W DALY a Jan GREGOR. \it{Latex: podrobný průvodce}. Vyd. 1. Brno: Computer Press, 2004, 576 s. ISBN 80-7226-973-9.
+	
+	\bibitem{Chomsky_hierarchy}\it{Chomsky hierarchy} [online]. [cit. 2015-11-16]. Dostupný z~WWW: \url{https://en.wikipedia.org/wiki/Chomsky_hierarchy}.
+	
+	\bibitem{CFL}\it{Context-free language} [online]. [cit. 2015-11-17]. Dostupný z~WWW: \url{https://en.m.wikipedia.org/wiki/Context-free_language}.
+	
+	\bibitem{PDA}\it{Pushdown automaton} [online]. [cit. 2015-11-17]. Dostupný z~WWW: \url{https://en.wikipedia.org/wiki/Pushdown_automaton}.
+	
+	\bibitem{CFG}\it{Context-free grammar} [online]. [cit. 2015-11-17]. Dostupný z~WWW: \url{https://en.m.wikipedia.org/wiki/Context-free_grammar}.
+	
+	\bibitem{BCF}\it{Backus-Naur Form} [online]. [cit. 2015-11-18]. Dostupný z~WWW: \url{https://en.wikipedia.org/wiki/Backus-Naur_Form}.
+	
+	\bibitem{CFG_to_PDA}HOPCROFT, John E, Rajeev MOTWANI a Jeffrey D ULLMAN. \it{Introduction to automata theory, languages, and computation}. 2nd ed. Boston: Addison-Wesley, 2001, xiv, 521 s. ISBN 0201441241.
 }
 
 % Pro generování literatury lze alternativně použít i příkaz "\seznamlitbib", 

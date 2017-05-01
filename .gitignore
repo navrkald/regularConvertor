@@ -32,3 +32,4 @@ src/RegularConvertor.pro.user
 *.vcxproj.filters
 *.vcxproj.user
 *.pro.user.*
+*.tss

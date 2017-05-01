@@ -136,13 +136,9 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
                 m_actInstruction = SET_FINITE_STATE;
             }
             break;
-        case SET_FINITE_STATE:
-			m_actInstruction = END_INSTRUCTION;
-            break;
-        case END_INSTRUCTION:
-			m_actInstruction = lastInstruction;
-            break;
         default:
+        case SET_FINITE_STATE:
+            m_actInstruction = lastInstruction;
             break;
     }
 
@@ -294,6 +290,7 @@ QString CAlgorithmCFGtoPDA::GetDebugVariablesInHtml(CAlgorithmCFGtoPDA::TInstruc
                 m_pda.PrintHtmlPdaRules()
             });
             break;
+        default:
         case CAlgorithmCFGtoPDA::SET_FINITE_STATE:
             return CHtmlCreator::JoinWithHtmlNewLines(
             {
@@ -304,8 +301,6 @@ QString CAlgorithmCFGtoPDA::GetDebugVariablesInHtml(CAlgorithmCFGtoPDA::TInstruc
                 m_pda.PrintHtmlPdaRules(),
                 m_pda.PrintHtmlFinalStates()
             });
-            break;
-        case CAlgorithmCFGtoPDA::END_INSTRUCTION:
             break;
     }
 	return QString();

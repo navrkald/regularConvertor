@@ -75,8 +75,6 @@ public slots:
 private:
     CPushDownAutomata m_pda;
     CContextFreeGrammar m_cfg;
-//    TInstruction m_actInstruction;
-//    TInstruction m_prevInstruction;
     QString m_pdaActInputAplhabetSymbol;
     CCFGRule m_actRule;
     QSet<CCFGRule>::const_iterator m_cfgRulesIter;

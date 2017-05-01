@@ -330,7 +330,6 @@ void CAlgorithmCFGtoPDA::NextStep()
 {
     ComputeNextStep();
     m_pdaWidget->SetPda(&m_pda);
-    // TODO: Implement
 }
 
 void CAlgorithmCFGtoPDA::CheckSolution()
@@ -355,7 +354,8 @@ void CAlgorithmCFGtoPDA::ToBegin()
 
 void CAlgorithmCFGtoPDA::ToEnd()
 {
-    // TODO: Implement
+    while(m_actInstruction != lastInstruction)
+        NextStep();
 }
 
 void CAlgorithmCFGtoPDA::SetCfg(CContextFreeGrammar *cfg)

@@ -47,7 +47,7 @@ void CAlgorithm::SetupAlgorithmWidget(CAlgorithmWidget * algorithmWidget)
 	HTMLDelegate* htmlDelegate = new HTMLDelegate();
 	algorithmWidget->getAlgorithmView()->setModel(this);
 	algorithmWidget->getAlgorithmView()->setItemDelegate(htmlDelegate);
-	connect(htmlDelegate, SIGNAL(dataChanged(QModelIndex)), this, SLOT(getData(QModelIndex)));
+    connect(htmlDelegate, SIGNAL(dataChanged(QModelIndex)), this, SLOT(GetData(QModelIndex)));
 }
 
 void CAlgorithm::SetMode(AlgorithmModes mode)

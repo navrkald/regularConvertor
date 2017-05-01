@@ -33,3 +33,12 @@ src/RegularConvertor.pro.user
 *.vcxproj.user
 *.pro.user.*
 *.tss
+diplomaThesis/prace.aux
+diplomaThesis/prace.loa
+diplomaThesis/prace.lof
+diplomaThesis/prace.log
+diplomaThesis/prace.lot
+diplomaThesis/prace.out
+diplomaThesis/prace.synctex.gz
+diplomaThesis/prace.toc
+diplomaThesis/tex/pdfa-1b.xmpi

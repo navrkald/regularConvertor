@@ -77,21 +77,16 @@ public slots:
 private:
     typedef struct step
     {
-//        int num;
-//        int actInstruction;
-//        int prewInstruction;
-//        FiniteAutomata DFA;
-//        QSet <QString> act_state;
-//        QSet<QString> discovered_state;
-//        QSet< QSet<QString> > Q_new;
-//        QString a;
-//        QString p;
-//        QString q;
-//        ComputationalRules r;
-//        ComputationalRules r_prime;
-//        QStringList alphabet;
-//        QSet<ComputationalRules> rules;
-//        QSet<ComputationalRules> rules_prime;
+        int num;
+        int actInstruction;
+        int prevInstruction;
+        CPushDownAutomata m_pda;
+        CPushDownAutomata m_userPda;
+        CContextFreeGrammar m_cfg;
+        QString m_pdaActInputAplhabetSymbol;
+        CCFGRule m_actRule;
+        QList<CCFGRule> m_listOfCfgRules;
+        QList<CTerminal> m_listOfAllTerminals;
     } SStep;
 
     QList<SStep> m_history;
@@ -103,8 +98,8 @@ private:
     CContextFreeGrammar m_cfg;
     QString m_pdaActInputAplhabetSymbol;
     CCFGRule m_actRule;
-    QSet<CCFGRule>::const_iterator m_cfgRulesIter;
-    QSet<CTerminal>::const_iterator m_inputAlphabetIter;
+    QList<CCFGRule> m_listOfCfgRules;
+    QList<CTerminal> m_listOfAllTerminals;
 };
 
 #endif // ALGORITHMCFGTOPDA_H

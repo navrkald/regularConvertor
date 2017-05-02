@@ -99,11 +99,11 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
             break;
         case SET_STACK_ALPHABET:
             if(!m_cfg.GetTerminalAlphabet().empty()){
-                m_inputAlphabetIter = m_cfg.GetTerminalAlphabet().constBegin();
+                m_listOfAllTerminals = m_cfg.GetTerminalAlphabet().toList();
                 m_actInstruction = FOREACH_PDA_RULES_FROM_INPUT_ALPHABET;
             }
             else if(m_cfg.GetRulesCount() > 0){
-                m_cfgRulesIter = m_cfg.GetRules().constBegin();
+                m_listOfCfgRules = m_cfg.GetRules().toList();
                 m_actInstruction = FOREACH_PDA_RULES_FROM_CFG_RULES;
             }
             else{
@@ -114,11 +114,11 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
             m_actInstruction = PDA_RULE_FROM_INPUT_ALPHABET;
             break;
         case PDA_RULE_FROM_INPUT_ALPHABET:
-            if(m_inputAlphabetIter != m_cfg.GetTerminalAlphabet().constEnd()){
+            if(!m_listOfAllTerminals.isEmpty()){
                 m_actInstruction = FOREACH_PDA_RULES_FROM_INPUT_ALPHABET;
             }
             else if(m_cfg.GetRulesCount() > 0){
-                m_cfgRulesIter = m_cfg.GetRules().constBegin();
+                m_listOfCfgRules = m_cfg.GetRules().toList();
                 m_actInstruction = FOREACH_PDA_RULES_FROM_CFG_RULES;
             }
             else{
@@ -129,7 +129,7 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
             m_actInstruction = SET_PDA_RULE_FROM_CFG_RULE;
             break;
         case SET_PDA_RULE_FROM_CFG_RULE:
-            if (m_cfgRulesIter != m_cfg.GetRules().constEnd()) {
+            if (!m_listOfCfgRules.isEmpty()) {
                 m_actInstruction = FOREACH_PDA_RULES_FROM_CFG_RULES;
             }
             else {
@@ -162,8 +162,8 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
         }
         case FOREACH_PDA_RULES_FROM_INPUT_ALPHABET:
         {
-            m_pdaActInputAplhabetSymbol = (QString) *m_inputAlphabetIter;
-            m_inputAlphabetIter++;
+            m_pdaActInputAplhabetSymbol = (QString) m_listOfAllTerminals.first();
+            m_listOfAllTerminals.pop_front();
             break;
         }
         case PDA_RULE_FROM_INPUT_ALPHABET:
@@ -173,8 +173,8 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
         }
         case FOREACH_PDA_RULES_FROM_CFG_RULES:
         {
-            m_actRule = *m_cfgRulesIter;
-            m_cfgRulesIter++;
+            m_actRule = m_listOfCfgRules.first();
+            m_listOfCfgRules.pop_front();
             break;
         }
         case SET_PDA_RULE_FROM_CFG_RULE:

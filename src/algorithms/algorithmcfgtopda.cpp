@@ -455,7 +455,7 @@ void CAlgorithmCFGtoPDA::ResetAlgorithm()
 
     switch (m_mode)
     {
-        case PLAY_MODE:
+        case algorithmSteping:
             m_algorithmWidget->enableNext();
             m_algorithmWidget->disablePrev();
             m_pdaWidget->SetPda(new CPushDownAutomata());
@@ -467,11 +467,11 @@ void CAlgorithmCFGtoPDA::ResetAlgorithm()
             SaveStep();
             m_CheckStepTimer->stop();
             break;
-        case CHECK_MODE:
+        case individualWork:
             ComputeCorrectSolution();
             m_CheckStepTimer->stop();
             break;
-        case STEP_MODE:
+        case instantChecking:
             ComputeCorrectSolution();
             m_CheckStepTimer->start(CHECK_STEP_TIMEOUT);
             break;

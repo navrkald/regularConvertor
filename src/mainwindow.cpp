@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     SetActionsGroups();
 
     m_activeConversion = none;
-    mode = AlgorithmModes::PLAY_MODE;
+    mode = AlgorithmModes::algorithmSteping;
     ui->action_play_mode->setChecked(true);
 
     // Custom status bar
@@ -74,13 +74,13 @@ void MainWindow::mySetWindowTitle(QString example_name)
         case AlgorithmModes::NONE:
             mode_str = "";
         break;
-        case AlgorithmModes::CHECK_MODE:
+        case AlgorithmModes::individualWork:
             mode_str = tr("Mode: individual work");
         break;
-        case AlgorithmModes::PLAY_MODE:
+        case AlgorithmModes::algorithmSteping:
             mode_str = tr("Mode: algorithm stepping");
         break;
-        case AlgorithmModes::STEP_MODE:
+        case AlgorithmModes::instantChecking:
             mode_str = tr("Mode: instant checking");
         break;
     }
@@ -108,21 +108,21 @@ void MainWindow::hideStatusMessage()
 
 void MainWindow::on_action_check_mode_triggered()
 {
-    mode = AlgorithmModes::CHECK_MODE;
+    mode = AlgorithmModes::individualWork;
     ui->action_check_mode->setChecked(true);
     emit modeChanged(mode);
 }
 
 void MainWindow::on_action_play_mode_triggered()
 {
-    mode = AlgorithmModes::PLAY_MODE;
+    mode = AlgorithmModes::algorithmSteping;
     ui->action_play_mode->setChecked(true);
     emit modeChanged(mode);
 }
 
 void MainWindow::on_action_step_mode_triggered()
 {
-    mode = AlgorithmModes::STEP_MODE;
+    mode = AlgorithmModes::instantChecking;
     ui->action_step_mode->setChecked(true);
     emit modeChanged(mode);
 }
@@ -665,12 +665,12 @@ void MainWindow::on_action_save_triggered()
         case REMOVE_EPSILON:
             out << ((CFADeterminizationWidget*)m_centralWidget)->GetInputFA();
             // In play mode does not make sence to save output fa
-            if(mode != AlgorithmModes::PLAY_MODE)
+            if(mode != AlgorithmModes::algorithmSteping)
                 out << ((CFADeterminizationWidget*)m_centralWidget)->GetOutputFA();
             break;
         case DFA:
             out << ((CFADeterminizationWidget*)m_centralWidget)->GetInputFA();
-            if(mode != AlgorithmModes::PLAY_MODE)
+            if(mode != AlgorithmModes::algorithmSteping)
             {
                 out <<  ((CFADeterminizationWidget*)m_centralWidget)->GetOutputFA();
             }
@@ -701,13 +701,13 @@ void MainWindow::on_action_open_file_triggered()
     in >> tmp_mode;
     switch (tmp_mode)
     {
-        case AlgorithmModes::CHECK_MODE:
+        case AlgorithmModes::individualWork:
             on_action_check_mode_triggered();
         break;
-        case AlgorithmModes::PLAY_MODE:
+        case AlgorithmModes::algorithmSteping:
             on_action_play_mode_triggered();
         break;
-        case AlgorithmModes::STEP_MODE:
+        case AlgorithmModes::instantChecking:
             on_action_step_mode_triggered();
         break;
         case AlgorithmModes::NONE:
@@ -737,7 +737,7 @@ void MainWindow::on_action_open_file_triggered()
             FiniteAutomata in_FA;
             in >> in_FA;
             RemoveEpsilon_example(in_FA);
-            if(mode != AlgorithmModes::PLAY_MODE)
+            if(mode != AlgorithmModes::algorithmSteping)
             {
                 FiniteAutomata out_FA;
                 in >> out_FA;
@@ -750,7 +750,7 @@ void MainWindow::on_action_open_file_triggered()
             FiniteAutomata in_FA;
             in >> in_FA;
             Determinization_example(in_FA);
-            if(mode != AlgorithmModes::PLAY_MODE)
+            if(mode != AlgorithmModes::algorithmSteping)
             {
                 FiniteAutomata outputFA;
                 in >> outputFA;

@@ -145,7 +145,7 @@ void RemoveEpsilon::SetMode(AlgorithmModes _mode)
 
     switch (mode)
     {
-        case PLAY_MODE:
+        case algorithmSteping:
             m_algorithmWidget->enableNext();
             m_algorithmWidget->disablePrev();
             not_epsilon_fa_widget->setFA(new FiniteAutomata());
@@ -156,14 +156,14 @@ void RemoveEpsilon::SetMode(AlgorithmModes _mode)
             m_actInstruction = HEADER; //init start instruction because new regExp may appeare when pres step mode was in run
             saveStep();
         break;
-        case CHECK_MODE: case STEP_MODE:
+        case individualWork: case instantChecking:
             correct_FA = computeSolution();
         break;
         case NONE:
         break;
     }
 
-    if(mode == STEP_MODE)
+    if(mode == instantChecking)
         m_CheckStepTimer->start(CHECK_STEP_TIMEOUT);
     else
         m_CheckStepTimer->stop();

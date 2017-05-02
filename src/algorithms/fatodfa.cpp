@@ -135,7 +135,7 @@ void FaToDFA::SetMode(AlgorithmModes _mode)
 
     switch (m_mode)
     {
-        case PLAY_MODE:
+        case algorithmSteping:
             m_algorithmWidget->enableNext();
             m_algorithmWidget->disablePrev();
             m_dfa_widget->setFA(new FiniteAutomata());
@@ -146,15 +146,15 @@ void FaToDFA::SetMode(AlgorithmModes _mode)
             m_actInstruction = HEADER; //init start instruction because new regExp may appeare when pres step mode was in run
             saveStep();
         break;
-        case CHECK_MODE:
-        case STEP_MODE:
+        case individualWork:
+        case instantChecking:
             m_correct_FA = computeSolution();
         break;
         case NONE:
         break;
     }
 
-    if(m_mode == STEP_MODE)
+    if(m_mode == instantChecking)
         m_CheckStepTimer->start(CHECK_STEP_TIMEOUT);
     else
         m_CheckStepTimer->stop();

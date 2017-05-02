@@ -3,9 +3,9 @@
 
 enum AlgorithmModes{
     NONE,
-    CHECK_MODE,
-    PLAY_MODE,
-    STEP_MODE
+    individualWork,
+    algorithmSteping,
+    instantChecking
 };
 
 #endif // ALGORITHMODES_H

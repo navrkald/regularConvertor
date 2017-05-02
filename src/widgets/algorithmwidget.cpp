@@ -71,7 +71,7 @@ void CAlgorithmWidget::SetMode(AlgorithmModes mode)
 {
 
     switch (mode) {
-    case AlgorithmModes::CHECK_MODE:
+    case AlgorithmModes::individualWork:
         showWidgets(QList<QWidget*>() << ui->checkButton <<  ui->showButton);
         showSpacer(ui->checkSpacer);
         hideWidgets(QList<QWidget*>()
@@ -79,7 +79,7 @@ void CAlgorithmWidget::SetMode(AlgorithmModes mode)
                     << ui->prew_stepButton << ui->next_stepButton );
         hideSpacer(ui->stepSpacer);
         break;
-    case AlgorithmModes::PLAY_MODE:
+    case AlgorithmModes::algorithmSteping:
         showWidgets(QList<QWidget*>() << ui->prewButton << ui->nextButton << ui->playButton << ui->stopButton << ui->spinBox << ui->delay_label << ui->beginButton << ui->endButton);
         hideWidgets(QList<QWidget*>()
                     << ui->checkButton <<  ui->showButton
@@ -87,7 +87,7 @@ void CAlgorithmWidget::SetMode(AlgorithmModes mode)
         hideSpacer(ui->stepSpacer);
         hideSpacer(ui->checkSpacer);
         break;
-    case AlgorithmModes::STEP_MODE:
+    case AlgorithmModes::instantChecking:
         showWidgets(QList<QWidget*>()<< ui->prew_stepButton << ui->next_stepButton);
         hideWidgets(QList<QWidget*>()
                     << ui->checkButton <<  ui->showButton

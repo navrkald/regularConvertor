@@ -15,7 +15,7 @@ class CAlgorithm : public QStandardItemModel
     Q_OBJECT
 public:
     CAlgorithm(QObject* parent = 0);
-    //enum AlgorithmModes {NONE, CHECK_MODE, PLAY_MODE, STEP_MODE};
+    //enum AlgorithmModes {NONE, individualWork, algorithmSteping, instantChecking};
 
     static const int hasBreakpointRole = Qt::UserRole;
     static const int breakpointRole = Qt::UserRole +1 ;

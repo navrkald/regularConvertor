@@ -122,7 +122,7 @@ void RegExpToFA::SetMode(AlgorithmModes _mode)
 {
     mode = _mode;
     nodesToProcede.clear();
-    if(mode==STEP_MODE)
+    if(mode==instantChecking)
     {
         m_CheckStepTimer->start(CHECK_STEP_TIMEOUT);
     }
@@ -141,7 +141,7 @@ void RegExpToFA::SetMode(AlgorithmModes _mode)
         m_num = 0;
         ClearActInstruction();
         //checking AlgorithmModes
-        if(mode == PLAY_MODE)
+        if(mode == algorithmSteping)
         {
             //this clears regexp tree, this by the way indirectly calls void RegExpToFA::setRE(RegExp *_re)
             //this will cause to call setRE and there saveStep() function is called
@@ -151,7 +151,7 @@ void RegExpToFA::SetMode(AlgorithmModes _mode)
             nodesToProcede.clear();
             postOrder(re->m_rootNode);
         }
-        else if(mode == CHECK_MODE || mode == STEP_MODE)
+        else if(mode == individualWork || mode == instantChecking)
         {
             this->re->m_rootNode->clearProcessed();
             computeSolution();
@@ -184,7 +184,7 @@ void RegExpToFA::SetRegExp(RegExp *_re)
 
 
     //checking AlgorithmModes
-    if(mode == PLAY_MODE)
+    if(mode == algorithmSteping)
     {
         //unselect instruction from algorithm window
         ClearActInstruction();
@@ -200,7 +200,7 @@ void RegExpToFA::SetRegExp(RegExp *_re)
         //aby se naplnily nodestoprocese po tom co jsme se vrátili v hystorii
         postOrder(re->m_rootNode);
     }
-    else if(mode == CHECK_MODE || mode == STEP_MODE)
+    else if(mode == individualWork || mode == instantChecking)
     {
         computeSolution();
         postOrder(re->m_rootNode);
@@ -456,7 +456,7 @@ void RegExpToFA::SetInputRegExp(RegExp *_re)
 {
     re_widget->setRegExp(_re);
     re_widget->modelChanged();
-    SetMode(CHECK_MODE);
+    SetMode(individualWork);
     re = _re;
 }
 

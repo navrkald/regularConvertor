@@ -90,11 +90,33 @@ void CAlgorithmCFGtoPDA::RemoveFuture() {
 	}
 }
 
+void CAlgorithmCFGtoPDA::NextStep()
+{
+	m_algorithmWidget->enablePrev();
+	
+	ComputeNextStep();
+	
+	m_pdaWidget->SetPda(new CPushDownAutomata(m_pda));
+	RemoveFuture();
+	if (m_actInstruction != lastInstruction)
+	{
+		SaveStep();
+		if (m_breakpoints[m_actInstruction])
+			m_playTimer->stop();
+	}
+	else
+	{
+		m_algorithmWidget->disableNext();
+		m_playTimer->stop();
+		m_pdaWidget->setCorrectStatus();
+	}
+	ShowVariables();
+	SetActInstruction();
+}
+
 void CAlgorithmCFGtoPDA::ComputeNextStep()
 {
     // TODO: Check if CFG is valid
-
-    m_algorithmWidget->enablePrev();
     switch(m_prevInstruction){
         case HEADER:
             m_actInstruction = SET_START_STATE;
@@ -200,22 +222,10 @@ void CAlgorithmCFGtoPDA::ComputeNextStep()
         }
     }
 
-    RemoveFuture();
-    if(m_actInstruction != lastInstruction)
-    {
-        m_prevInstruction = m_actInstruction;
-        SaveStep();
-        if(m_breakpoints[m_actInstruction])
-            m_playTimer->stop();
-    }
-    else
-    {
-        m_algorithmWidget->disableNext();
-        m_playTimer->stop();
-        m_pdaWidget->setCorrectStatus();
-    }
-    ShowVariables();
-    SetActInstruction();
+	if (m_actInstruction != lastInstruction)
+	{
+		m_prevInstruction = m_actInstruction;
+	}
 }
 
 void CAlgorithmCFGtoPDA::ShowVariables(){
@@ -372,16 +382,12 @@ void CAlgorithmCFGtoPDA::PrevStep()
 	}
 }
 
-void CAlgorithmCFGtoPDA::NextStep()
-{
-    ComputeNextStep();
-    m_pdaWidget->SetPda(new CPushDownAutomata(m_pda));
-}
-
 void CAlgorithmCFGtoPDA::ComputeCorrectSolution()
 {
-	// TODO: Implement
-	//m_correctPda =....
+	while (m_actInstruction != lastInstruction) {
+		ComputeNextStep();
+	}
+	m_correctPda = m_pda;
 }
 
 void CAlgorithmCFGtoPDA::CheckSolution()

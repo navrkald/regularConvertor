@@ -82,6 +82,14 @@ void CAlgorithmCFGtoPDA::InitInstructions()
     m_instructions[SET_FINITE_STATE] =                      tr("F = " EMPTYSET);
 }
 
+void CAlgorithmCFGtoPDA::RemoveFuture() {
+	int count = m_history.count();
+	for (int i = m_actPos + 1; i < count; i++)
+	{
+		m_history.removeLast();
+	}
+}
+
 void CAlgorithmCFGtoPDA::ComputeNextStep()
 {
     // TODO: Check if CFG is valid
@@ -336,13 +344,44 @@ void CAlgorithmCFGtoPDA::SetMode(AlgorithmModes mode)
 
 void CAlgorithmCFGtoPDA::PrevStep()
 {
-    // TODO: Implement
+	if (m_actPos > 0)
+	{
+		m_algorithmWidget->enableNext();
+		m_actPos--;
+		SStep s = m_history.at(m_actPos);
+
+		m_num = s.m_num;
+		m_actInstruction = s.m_actInstruction;
+		m_prevInstruction = s.m_prevInstruction;
+		m_pda = s.m_pda;
+		m_userPda = s.m_userPda;
+		m_cfg = s.m_cfg;
+		m_pdaActInputAplhabetSymbol = s.m_pdaActInputAplhabetSymbol;
+		m_actRule = s.m_actRule;
+		m_listOfCfgRules = s.m_listOfCfgRules;
+		m_listOfAllTerminals = s.m_listOfAllTerminals;
+		m_pdaWidget->SetPda(new CPushDownAutomata(m_pda));
+
+		ShowVariables();
+		SetActInstruction();
+		m_pdaWidget->clearStatus();
+	}
+	else
+	{
+		m_algorithmWidget->disablePrev();
+	}
 }
 
 void CAlgorithmCFGtoPDA::NextStep()
 {
     ComputeNextStep();
     m_pdaWidget->SetPda(new CPushDownAutomata(m_pda));
+}
+
+void CAlgorithmCFGtoPDA::ComputeCorrectSolution()
+{
+	// TODO: Implement
+	//m_correctPda =....
 }
 
 void CAlgorithmCFGtoPDA::CheckSolution()
@@ -362,7 +401,26 @@ void CAlgorithmCFGtoPDA::ShowUserSolution()
 
 void CAlgorithmCFGtoPDA::ToBegin()
 {
-    // TODO: Implement
+	m_algorithmWidget->enableNext();
+	m_actPos = 0;
+	SStep s = m_history.at(m_actPos);
+
+	m_num = s.m_num;
+	m_actInstruction = s.m_actInstruction;
+	m_prevInstruction = s.m_prevInstruction;
+	m_pda = s.m_pda;
+	m_userPda = s.m_userPda;
+	m_cfg = s.m_cfg;
+	m_pdaActInputAplhabetSymbol = s.m_pdaActInputAplhabetSymbol;
+	m_actRule = s.m_actRule;
+	m_listOfCfgRules = s.m_listOfCfgRules;
+	m_listOfAllTerminals = s.m_listOfAllTerminals;
+	m_pdaWidget->SetPda(new CPushDownAutomata(m_pda));
+
+	ShowVariables();
+	SetActInstruction();
+	m_pdaWidget->clearStatus();
+	m_algorithmWidget->disablePrev();
 }
 
 void CAlgorithmCFGtoPDA::ToEnd()
@@ -425,12 +483,6 @@ void CAlgorithmCFGtoPDA::ResetAlgorithm()
     m_pdaWidget->clearStatus();
 }
 
-void CAlgorithmCFGtoPDA::ComputeCorrectSolution()
-{
-    // TODO: Implement
-    //m_correctPda =....
-}
-
 void CAlgorithmCFGtoPDA::SaveStep(){
     SStep s;
     s.m_num = ++m_num;
@@ -443,5 +495,7 @@ void CAlgorithmCFGtoPDA::SaveStep(){
     s.m_actRule = m_actRule;
     s.m_listOfCfgRules = m_listOfCfgRules;
     s.m_listOfAllTerminals = m_listOfAllTerminals;
-    m_history.push_back(s);
+    
+	m_history.push_back(s);
+	m_actPos = m_history.count() - 1;
 }

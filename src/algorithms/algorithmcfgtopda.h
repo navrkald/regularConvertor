@@ -41,7 +41,7 @@ CAlgorithmCFGtoPDA() {
 void Init(CAlgorithmWidget* algorithmWidget, CCfgWidget* cfgWidget, CPdaWidget* pdaWidget, CVariablesWidget* variablesWidget);
 
 virtual void InitInstructions();
-virtual void RemoveFuture(){;}
+virtual void RemoveFuture();
 
 protected:
     CAlgorithmWidget* m_algorithmWidget;

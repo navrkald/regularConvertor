@@ -40,7 +40,7 @@ signals:
     void modeChanged(AlgorithmModes mode);
 public slots:
     void showStatusMessage(QString message);
-    void mySetWindowTitle(QString example_name = "");
+    void mySetWindowTitle();
 protected:
     void CfgToPda_example(const CContextFreeGrammar& cfg, QString example_name = "");
     void RE_FA_example(RegExp* _re, QString example_name = "");
@@ -49,7 +49,7 @@ private slots:
     void on_action_check_mode_triggered();
     void on_action_play_mode_triggered();
     void on_action_step_mode_triggered();
-
+	void OnModeChangedSlot(AlgorithmModes mode);
     void PrepareConversionWidget(Conversions conversion);
 
     //
@@ -129,7 +129,8 @@ private slots:
 private:
     using QMainWindow::setCentralWidget;
     Ui::MainWindow *ui;
-    QTimer* status_timer;
+	QString m_exampleName;
+	QTimer* status_timer;
     QLabel* status_label;
 
     // Add actions in menu to groups in order to be checkable only one of them
@@ -141,7 +142,7 @@ private:
     //
     // General variables
     //
-    AlgorithmModes mode;
+    AlgorithmModes m_mode;
     Conversions m_activeConversion;
     ICentralCoversionWidget* m_centralWidget;
 

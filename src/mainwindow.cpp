@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     SetActionsGroups();
 
     m_activeConversion = none;
-    mode = AlgorithmModes::algorithmSteping;
+    m_mode = AlgorithmModes::algorithmSteping;
     ui->action_play_mode->setChecked(true);
 
     // Custom status bar
@@ -41,6 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(status_timer,SIGNAL(timeout()),this,SLOT(hideStatusMessage()));
 
     ui->menuLanguages->menuAction()->setVisible(false);
+
+	connect(this, &MainWindow::modeChanged, this, &MainWindow::OnModeChangedSlot);
+
 	on_CfgToPda_Example_1_triggered();
 }
 
@@ -49,45 +52,46 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::mySetWindowTitle(QString example_name)
+void MainWindow::mySetWindowTitle()
 {
-    QString conversion_str;
-    QString mode_str;
+    QString conversionStr;
+    QString modeStr;
     switch(m_activeConversion)
     {
         case none:
-            conversion_str="";
+            conversionStr="";
         break;
         case RE_to_FA:
-            conversion_str=tr("RegExp to Finite autoamta");
+            conversionStr=tr("RegExp to Finite autoamta");
         break;
         case REMOVE_EPSILON:
-            conversion_str=tr("Remove epsilon rules");
+            conversionStr=tr("Remove epsilon rules");
         break;
         case DFA:
-            conversion_str=tr("FA determinization");
+            conversionStr=tr("FA determinization");
         break;
     }
 
-    switch(mode)
+    switch(m_mode)
     {
         case AlgorithmModes::NONE:
-            mode_str = "";
+            modeStr = "";
         break;
         case AlgorithmModes::individualWork:
-            mode_str = tr("Mode: individual work");
+            modeStr = tr("Mode: individual work");
         break;
         case AlgorithmModes::algorithmSteping:
-            mode_str = tr("Mode: algorithm stepping");
+            modeStr = tr("Mode: algorithm stepping");
         break;
         case AlgorithmModes::instantChecking:
-            mode_str = tr("Mode: instant checking");
+            modeStr = tr("Mode: instant checking");
         break;
     }
-    QString example_str;
-    if(example_name != "")
-        example_str = " - " + example_name;
-    setWindowTitle(MY_APP_NAME " - " + conversion_str + " - " + mode_str + example_str);
+
+    QString exampleStr;
+    if(m_exampleName != "")
+        exampleStr = " - " + m_exampleName;
+    setWindowTitle(MY_APP_NAME " - " + conversionStr + " - " + modeStr + exampleStr);
 
 }
 
@@ -108,23 +112,28 @@ void MainWindow::hideStatusMessage()
 
 void MainWindow::on_action_check_mode_triggered()
 {
-    mode = AlgorithmModes::individualWork;
+    m_mode = AlgorithmModes::individualWork;
     ui->action_check_mode->setChecked(true);
-    emit modeChanged(mode);
+    emit modeChanged(m_mode);
 }
 
 void MainWindow::on_action_play_mode_triggered()
 {
-    mode = AlgorithmModes::algorithmSteping;
+    m_mode = AlgorithmModes::algorithmSteping;
     ui->action_play_mode->setChecked(true);
-    emit modeChanged(mode);
+    emit modeChanged(m_mode);
 }
 
 void MainWindow::on_action_step_mode_triggered()
 {
-    mode = AlgorithmModes::instantChecking;
+    m_mode = AlgorithmModes::instantChecking;
     ui->action_step_mode->setChecked(true);
-    emit modeChanged(mode);
+    emit modeChanged(m_mode);
+}
+
+void MainWindow::OnModeChangedSlot(AlgorithmModes mode)
+{
+	mySetWindowTitle();
 }
 
 void MainWindow::PrepareConversionWidget(MainWindow::Conversions conversion)
@@ -156,7 +165,7 @@ void MainWindow::PrepareConversionWidget(MainWindow::Conversions conversion)
     this->setCentralWidget(m_centralWidget);
     m_centralWidget->ConnectChangeMode(this, &MainWindow::modeChanged);
     m_centralWidget->ConnectStatusMessage(this, &MainWindow::showStatusMessage);
-    emit modeChanged(mode);
+    emit modeChanged(m_mode);
 }
 
 
@@ -173,7 +182,8 @@ void MainWindow::RE_FA_example(RegExp *_re, QString example_name)
     if(m_activeConversion != RE_to_FA)
         PrepareConversionWidget(Conversions::RE_to_FA);
     ((CRegExpToFaWidget*)m_centralWidget)->SetInputRegExp(_re);
-    mySetWindowTitle(example_name);
+	m_exampleName = example_name;
+	mySetWindowTitle();
 
 }
 
@@ -235,7 +245,8 @@ void MainWindow::RemoveEpsilon_example(FiniteAutomata _FA, QString example_name)
     if(m_activeConversion != REMOVE_EPSILON)
         PrepareConversionWidget(REMOVE_EPSILON);
     ((CRemoveEpsilonRulesWidget*)m_centralWidget)->SetInputFA(_FA);
-    mySetWindowTitle(example_name);
+	m_exampleName = example_name;
+	mySetWindowTitle();
 }
 
 void MainWindow::on_RemoveEpsilon_example0_triggered()
@@ -418,7 +429,8 @@ void MainWindow::Determinization_example(FiniteAutomata _FA, QString example_nam
     if(m_activeConversion != DFA)
         PrepareConversionWidget(Conversions::DFA);
     ((CFADeterminizationWidget*)m_centralWidget)->SetInputFA(_FA);
-    mySetWindowTitle(example_name);
+	m_exampleName = example_name;
+	mySetWindowTitle();
 }
 
 void MainWindow::on_Determinization_example_1_triggered()
@@ -612,8 +624,8 @@ void MainWindow::CfgToPda_example(const CContextFreeGrammar& cfg, QString exampl
     pda.AddPDARule("s2","f1","c","F","D");
     ((CCfgToPdaWidget*)m_centralWidget)->SetPda(pda);
     */
-
-    mySetWindowTitle(example_name);
+	m_exampleName = example_name;
+    mySetWindowTitle();
 }
 
 void MainWindow::on_CfgToPda_Example_1_triggered()
@@ -654,7 +666,7 @@ void MainWindow::on_action_save_triggered()
     QFile file(filename);
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);   // we will serialize the data into the file
-    out << m_activeConversion << mode;
+    out << m_activeConversion << m_mode;
     switch(m_activeConversion)
     {
         case RE_to_FA:
@@ -665,12 +677,12 @@ void MainWindow::on_action_save_triggered()
         case REMOVE_EPSILON:
             out << ((CFADeterminizationWidget*)m_centralWidget)->GetInputFA();
             // In play mode does not make sence to save output fa
-            if(mode != AlgorithmModes::algorithmSteping)
+            if(m_mode != AlgorithmModes::algorithmSteping)
                 out << ((CFADeterminizationWidget*)m_centralWidget)->GetOutputFA();
             break;
         case DFA:
             out << ((CFADeterminizationWidget*)m_centralWidget)->GetInputFA();
-            if(mode != AlgorithmModes::algorithmSteping)
+            if(m_mode != AlgorithmModes::algorithmSteping)
             {
                 out <<  ((CFADeterminizationWidget*)m_centralWidget)->GetOutputFA();
             }
@@ -715,7 +727,7 @@ void MainWindow::on_action_open_file_triggered()
             return;
         break;
     }
-    mode = tmp_mode;
+    m_mode = tmp_mode;
 
     // Check that m_centralWidget was created and that if was created for actual conversion
     if(!m_centralWidget || m_activeConversion != conversion)
@@ -737,7 +749,7 @@ void MainWindow::on_action_open_file_triggered()
             FiniteAutomata in_FA;
             in >> in_FA;
             RemoveEpsilon_example(in_FA);
-            if(mode != AlgorithmModes::algorithmSteping)
+            if(m_mode != AlgorithmModes::algorithmSteping)
             {
                 FiniteAutomata out_FA;
                 in >> out_FA;
@@ -750,7 +762,7 @@ void MainWindow::on_action_open_file_triggered()
             FiniteAutomata in_FA;
             in >> in_FA;
             Determinization_example(in_FA);
-            if(mode != AlgorithmModes::algorithmSteping)
+            if(m_mode != AlgorithmModes::algorithmSteping)
             {
                 FiniteAutomata outputFA;
                 in >> outputFA;
@@ -787,10 +799,6 @@ void MainWindow::on_actionEnglish_triggered()
     qApp->removeTranslator(translator);
 }
 
-void MainWindow::on_actionCFGtoPDA_triggered()
-{
-    PrepareConversionWidget(CFG_TO_PDA);
-}
 
 void MainWindow::SetActionsGroups()
 {
@@ -840,15 +848,28 @@ void MainWindow::SetActionsGroups()
 
 void MainWindow::on_action_Determinization_triggered()
 {
-    PrepareConversionWidget(MainWindow::Conversions::DFA);
+	m_exampleName = "";
+	mySetWindowTitle();
+	PrepareConversionWidget(MainWindow::Conversions::DFA);
 }
 
 void MainWindow::on_action_RE_to_FA_triggered()
 {
+	m_exampleName = "";
+	mySetWindowTitle();
     PrepareConversionWidget(MainWindow::Conversions::RE_to_FA);
 }
 
 void MainWindow::on_action_RemoveEpsilon_triggered()
 {
-    PrepareConversionWidget(MainWindow::Conversions::REMOVE_EPSILON);
+	m_exampleName = "";
+	mySetWindowTitle();
+	PrepareConversionWidget(MainWindow::Conversions::REMOVE_EPSILON);
+}
+
+void MainWindow::on_actionCFGtoPDA_triggered()
+{
+	m_exampleName = "";
+	mySetWindowTitle();
+    PrepareConversionWidget(CFG_TO_PDA);
 }

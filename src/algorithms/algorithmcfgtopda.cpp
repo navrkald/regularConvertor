@@ -60,7 +60,7 @@ void CAlgorithmCFGtoPDA::Init(CAlgorithmWidget* algorithmWidget, CCfgWidget* cfg
 
     // Connect CFG and PDA widgets
     connect(m_cfgWidget, SIGNAL(CfgChanged(const CContextFreeGrammar&)), this, SLOT(CfgChangedSlot(const CContextFreeGrammar&)));
-    connect(m_pdaWidget, SIGNAL(PdaChanged(CPushDownAutomata*)), this, SLOT(PdaChangedSlot(CPushDownAutomata*)));
+    connect(m_pdaWidget, SIGNAL(SignalPdaChanged(CPushDownAutomata*)), this, SLOT(PdaChangedSlot(CPushDownAutomata*)));
 
     m_pdaWidget->SetPda(new CPushDownAutomata());
 
@@ -387,12 +387,21 @@ void CAlgorithmCFGtoPDA::ComputeCorrectSolution()
 	while (m_actInstruction != lastInstruction) {
 		ComputeNextStep();
 	}
+	CPushDownAutomata tmpPda = m_pda;
 	m_correctPda = m_pda;
+	m_pda = tmpPda;
 }
 
 void CAlgorithmCFGtoPDA::CheckSolution()
 {
-    // TODO: Implement
+	if (CPushDownAutomata::AreEquivalent(m_userPda, m_correctPda))
+	{
+		m_pdaWidget->setCorrectStatus();
+	}
+	else
+	{
+		m_pdaWidget->setWrongStatus();
+	}
 }
 
 void CAlgorithmCFGtoPDA::ShowCorrectSolution()

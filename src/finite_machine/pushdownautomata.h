@@ -21,9 +21,15 @@ public:
 	QString PrintHtmlPdaRules();
 	QString PrintHtmlStactAlphabet();
 
+	bool RenameState(QString oldStateName, QString newStateName);
+	static bool AreEquivalent(CPushDownAutomata pda1, CPushDownAutomata pda2);
+	static bool AreEquivalentSimpleImplementation(CPushDownAutomata pda1, CPushDownAutomata pda2);
+
 public:
 	QSet <QString> m_stackAlphabet;
 	QSet <CPDACompotutationalRule> m_pdaRules;
 };
+
+bool operator==(const CPushDownAutomata& pda1, const CPushDownAutomata& pda2);
 
 #endif // PUSHDOWNAUTOMATA_H

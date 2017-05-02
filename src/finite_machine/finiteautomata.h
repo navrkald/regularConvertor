@@ -49,7 +49,7 @@ public:
     QSet<QString> GetDeletedInputSymbols(QSet<QString> editedSymbols);
     static FiniteAutomata concatenate(FiniteAutomata FA1, FiniteAutomata FA2);
     static FiniteAutomata iteration(FiniteAutomata FA1);
-    static bool areEquivalent(FiniteAutomata FA1, FiniteAutomata FA2);
+    static bool AreEquivalent(FiniteAutomata FA1, FiniteAutomata FA2);
 
     /**
      *  Basic Atomic operations
@@ -59,7 +59,7 @@ public:
     //Pokud ostranim stav, do ktereho vede sipka muzu ukazat uzivateli varovani
     bool removeState(QString stateName);
     void removeStates(QSet <QString> m_states);
-    bool renameState(QString oldStateName, QString newStateName);
+    bool RenameState(QString oldStateName, QString newStateName);
     void SetStartState(QString StateName);
     QString GetStartState();
     void addFinalState(QString StateName);

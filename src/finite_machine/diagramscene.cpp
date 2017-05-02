@@ -539,7 +539,7 @@ bool DiagramScene::CanSetNodeName(QString newName){
 
 void DiagramScene::RenameNode(QString oldName, QString newName){
     if(CanSetNodeName(newName)){
-        m_fa->renameState(oldName, newName);
+        m_fa->RenameState(oldName, newName);
         EmitFiniteAutomataChanged();
     }
 }

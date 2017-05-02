@@ -632,7 +632,7 @@ void RemoveEpsilon::toEnd()
 
 void RemoveEpsilon::checkSolution()
 {
-    if(FiniteAutomata::areEquivalent(non_epsilon_FA, correct_FA) && !non_epsilon_FA.hasEpsilon())
+    if(FiniteAutomata::AreEquivalent(non_epsilon_FA, correct_FA) && !non_epsilon_FA.hasEpsilon())
     {
         not_epsilon_fa_widget->setCorrectStatus();
     }

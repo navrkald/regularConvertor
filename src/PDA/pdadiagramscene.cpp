@@ -80,7 +80,7 @@ bool CPDADiagramScene::CanSetNodeName(QString newName)
 void CPDADiagramScene::RenameNode(QString oldName, QString newName)
 {
 	if (CanSetNodeName(newName)) {
-		m_pda->renameState(oldName, newName);
+		m_pda->RenameState(oldName, newName);
 		EmitFiniteAutomataChanged();
 	}
 }

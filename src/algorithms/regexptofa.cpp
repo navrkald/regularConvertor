@@ -425,11 +425,11 @@ void RegExpToFA::checkSolution()
     {
         RegExpNode* node = nodes_to_check.first();
         nodes_to_check.pop_front();
-        if(FiniteAutomata::areEquivalent(node->correct_FA, node->user_FA))
+        if(FiniteAutomata::AreEquivalent(node->correct_FA, node->user_FA))
         {
             node->state = RegExpNode::CORRECT;
         }
-        else if(FiniteAutomata::areEquivalent(FiniteAutomata(), node->user_FA))
+        else if(FiniteAutomata::AreEquivalent(FiniteAutomata(), node->user_FA))
         {
             node->state = RegExpNode::UNKNOWN;
         }

@@ -426,7 +426,7 @@ FiniteAutomata FiniteAutomata::normalize(FiniteAutomata FA)
     //intersect new naming and old names will be empty set
     foreach(QString state, FA.m_states)
     {
-        normalizedFA.renameState(state,state+"'");
+        normalizedFA.RenameState(state,state+"'");
     }
 
     QList<QString> sorted_alphabet = FA.m_alphabet.toList();
@@ -435,7 +435,7 @@ FiniteAutomata FiniteAutomata::normalize(FiniteAutomata FA)
     QList <QString> renamed_nodes;
     QList <QString> processed_nodes;
     int counter = 0;
-    normalizedFA.renameState(normalizedFA.m_startState,QString::number(counter));
+    normalizedFA.RenameState(normalizedFA.m_startState,QString::number(counter));
     counter++;
     renamed_nodes.append(normalizedFA.m_startState);
     do
@@ -449,7 +449,7 @@ FiniteAutomata FiniteAutomata::normalize(FiniteAutomata FA)
                 ComputationalRules rule = rules.first();
                 if (! renamed_nodes.contains(rule.to))
                 {
-                    normalizedFA.renameState(rule.to,QString::number(counter));
+                    normalizedFA.RenameState(rule.to,QString::number(counter));
                     renamed_nodes.append(QString::number(counter));
                     counter++;
                 }
@@ -516,7 +516,7 @@ FiniteAutomata FiniteAutomata::concatenate(FiniteAutomata FA1, FiniteAutomata FA
             while(!FA.isStateUnique(uniqName));
 #endif
 
-            FA2_uniq_states.renameState(str,uniqName);
+            FA2_uniq_states.RenameState(str,uniqName);
             FA.addState(uniqName);
         }
     }
@@ -577,7 +577,7 @@ FiniteAutomata FiniteAutomata::iteration(FiniteAutomata FA1)
     return FA;
 }
 
-bool FiniteAutomata::areEquivalent(FiniteAutomata FA1, FiniteAutomata FA2)
+bool FiniteAutomata::AreEquivalent(FiniteAutomata FA1, FiniteAutomata FA2)
 {
     FiniteAutomata minFA1 = FA1;
     FiniteAutomata minFA2 = FA2;
@@ -637,7 +637,7 @@ void FiniteAutomata::removeStates(QSet<QString> states)
     }
 }
 
-bool FiniteAutomata::renameState(QString oldStateName, QString newStateName)
+bool FiniteAutomata::RenameState(QString oldStateName, QString newStateName)
 {
     if(!this->isStateUnique(newStateName))
         return false;
@@ -980,7 +980,7 @@ FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2)
             while(!FA.isStateUnique(uniqName));
 #endif
 
-            FA2_uniq_states.renameState(str,uniqName);
+            FA2_uniq_states.RenameState(str,uniqName);
             FA.addState(uniqName);
         }
     }

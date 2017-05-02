@@ -249,13 +249,15 @@ void DiagramScene::SelectAll()
     }
 }
 
+QRectF DiagramScene::GetVisibleSceneRect(){
+    QGraphicsView* view = dynamic_cast<QGraphicsView*> (this->parent());
+    QRect viewport_rect(0, 0, view->viewport()->width(), view->viewport()->height());
+    return view->mapToScene(viewport_rect).boundingRect();
+}
+
 QPoint DiagramScene::randGeneratePos()
 {
-    QGraphicsView* view = dynamic_cast<QGraphicsView*> (this->parent());
-
-
-    QRect viewport_rect(0, 0, view->viewport()->width(), view->viewport()->height());
-    QRectF visible_scene_rect = view->mapToScene(viewport_rect).boundingRect();
+    QRectF visible_scene_rect = GetVisibleSceneRect();
 
     int x_low = visible_scene_rect.x() + NODE_RADIUS;
     int y_low = visible_scene_rect.y() + NODE_RADIUS;
@@ -275,6 +277,13 @@ void DiagramScene::addNode(QString node_name, QPoint point)
     if(point != QPoint(-1,-1))
     {
         newNode->setPos(point);
+
+    }
+    else if(IsFirstNode()){
+        QRectF visibleSceneRect = GetVisibleSceneRect();
+        QPointF inMiddleOfVisibleScene = visibleSceneRect.center();
+        newNode->setPos(inMiddleOfVisibleScene);
+        SetNodeCoordinates(node_name, inMiddleOfVisibleScene.toPoint());
     }
     else
     {   // Generate random pos of node
@@ -304,7 +313,19 @@ void DiagramScene::addNode(QString node_name, QPoint point)
     }
 }
 
-
+bool DiagramScene::IsFirstNode(){
+    QGraphicsItem* item;
+    int numOfNodes = 0;
+    foreach(item,this->items())
+    {
+        StateNode* node = dynamic_cast<StateNode*>(item);
+        if(node)
+        {
+            numOfNodes++;
+        }
+    }
+    return numOfNodes == 1;
+}
 
 StateNode *DiagramScene::getNodeByName(QString nodeName)
 {

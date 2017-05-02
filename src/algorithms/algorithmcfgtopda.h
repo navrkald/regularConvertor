@@ -57,11 +57,13 @@ public:
     QString GetDebugVariablesInHtml(TInstruction instruction);
 
     TInstruction GetActInstruction() {return (TInstruction) m_actInstruction;}
+    void SetInputCfg(CContextFreeGrammar* cfg);
+    void SetInputPda(CPushDownAutomata* pda);
     CContextFreeGrammar GetCfg();
     CPushDownAutomata GetPda();
 
 public slots:
-    void SetMode(AlgorithmModes _mode);
+    void SetMode(AlgorithmModes mode);
     void PrevStep();
     void NextStep();
     void CheckSolution();
@@ -69,11 +71,35 @@ public slots:
     void ShowUserSolution();
     void ToBegin();
     void ToEnd();
-    void SetCfg(CContextFreeGrammar* cfg);
-    void SetPda(CPushDownAutomata* pda);   
+    void CfgChangedSlot(const CContextFreeGrammar& cfg);
+    void PdaChangedSlot(CPushDownAutomata* pda);
 
 private:
+    typedef struct step
+    {
+//        int num;
+//        int actInstruction;
+//        int prewInstruction;
+//        FiniteAutomata DFA;
+//        QSet <QString> act_state;
+//        QSet<QString> discovered_state;
+//        QSet< QSet<QString> > Q_new;
+//        QString a;
+//        QString p;
+//        QString q;
+//        ComputationalRules r;
+//        ComputationalRules r_prime;
+//        QStringList alphabet;
+//        QSet<ComputationalRules> rules;
+//        QSet<ComputationalRules> rules_prime;
+    } SStep;
+
+    QList<SStep> m_history;
+    void ResetAlgorithm();
+    void ComputeCorrectSolution();
     CPushDownAutomata m_pda;
+    CPushDownAutomata m_userPda;
+    CPushDownAutomata m_correctPda;
     CContextFreeGrammar m_cfg;
     QString m_pdaActInputAplhabetSymbol;
     CCFGRule m_actRule;

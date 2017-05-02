@@ -59,8 +59,8 @@ void CAlgorithmCFGtoPDA::Init(CAlgorithmWidget* algorithmWidget, CCfgWidget* cfg
     connect(m_CheckStepTimer, SIGNAL(timeout()), this, SLOT(CheckSolution()));
 
     // Connect CFG and PDA widgets
-    connect(m_cfgWidget, SIGNAL(CfgChanged(CContextFreeGrammar*)), this, SLOT(SetCfg(CContextFreeGrammar*)));
-    connect(m_pdaWidget, SIGNAL(PdaChanged(CPushDownAutomata*)), this, SLOT(SetPda(CPushDownAutomata*)));
+    connect(m_cfgWidget, SIGNAL(CfgChanged(const CContextFreeGrammar&)), this, SLOT(CfgChangedSlot(const CContextFreeGrammar&)));
+    connect(m_pdaWidget, SIGNAL(PdaChanged(CPushDownAutomata*)), this, SLOT(PdaChangedSlot(CPushDownAutomata*)));
 
     m_pdaWidget->SetPda(new CPushDownAutomata());
 
@@ -303,7 +303,19 @@ QString CAlgorithmCFGtoPDA::GetDebugVariablesInHtml(CAlgorithmCFGtoPDA::TInstruc
             });
             break;
     }
-	return QString();
+    return QString();
+}
+
+void CAlgorithmCFGtoPDA::SetInputCfg(CContextFreeGrammar *cfg)
+{
+    m_cfg = *cfg;
+    m_cfgWidget->SetCfg(*cfg);
+    m_pdaWidget->clearStatus();
+}
+
+void CAlgorithmCFGtoPDA::SetInputPda(CPushDownAutomata *pda)
+{
+    m_pdaWidget->SetPda(pda);
 }
 
 CContextFreeGrammar CAlgorithmCFGtoPDA::GetCfg()
@@ -316,9 +328,10 @@ CPushDownAutomata CAlgorithmCFGtoPDA::GetPda()
     return m_pdaWidget->GetPda();
 }
 
-void CAlgorithmCFGtoPDA::SetMode(AlgorithmModes _mode)
+void CAlgorithmCFGtoPDA::SetMode(AlgorithmModes mode)
 {
-    // TODO: Implement
+    m_mode = mode;
+    ResetAlgorithm();
 }
 
 void CAlgorithmCFGtoPDA::PrevStep()
@@ -329,7 +342,7 @@ void CAlgorithmCFGtoPDA::PrevStep()
 void CAlgorithmCFGtoPDA::NextStep()
 {
     ComputeNextStep();
-    m_pdaWidget->SetPda(&m_pda);
+    m_pdaWidget->SetPda(new CPushDownAutomata(m_pda));
 }
 
 void CAlgorithmCFGtoPDA::CheckSolution()
@@ -358,17 +371,64 @@ void CAlgorithmCFGtoPDA::ToEnd()
         NextStep();
 }
 
-void CAlgorithmCFGtoPDA::SetCfg(CContextFreeGrammar *cfg)
+void CAlgorithmCFGtoPDA::CfgChangedSlot(const CContextFreeGrammar& cfg)
 {
-    m_cfg = *cfg;
-    m_cfgWidget->SetCfg(*cfg);
-    // TODO: Implement
+    m_cfg = cfg;
+    m_pdaWidget->clearStatus();
+    ResetAlgorithm();
 }
 
-void CAlgorithmCFGtoPDA::SetPda(CPushDownAutomata *pda)
+void CAlgorithmCFGtoPDA::PdaChangedSlot(CPushDownAutomata *pda)
 {
-    m_pdaWidget->SetPda(pda);
+    m_userPda = *pda;
+}
+
+void CAlgorithmCFGtoPDA::ResetAlgorithm()
+{
+    m_playTimer->stop();
+    m_num = 0;
+    m_actInstruction=HEADER;
+    m_prevInstruction=HEADER;
+
+    ClearActInstruction();
+    m_variablesWidget->SetText("");
+    // because show correct solution break connectiom betwen user FA and user FA widget
+    connect(m_pdaWidget,SIGNAL(SignalPdaChanged(CPushDownAutomata* pda)),this,SLOT(PdaChangedSlot(CPushDownAutomata*)));
+
+    switch (m_mode)
+    {
+        case PLAY_MODE:
+            m_algorithmWidget->enableNext();
+            m_algorithmWidget->disablePrev();
+            m_pdaWidget->SetPda(new CPushDownAutomata());
+            //unselect instruction from algorithm window
+            ClearActInstruction();
+            m_history.clear();
+            m_actPos = 0;
+            m_actInstruction = HEADER; //init start instruction because new regExp may appeare when pres step mode was in run
+            SaveStep();
+            m_CheckStepTimer->stop();
+            break;
+        case CHECK_MODE:
+            ComputeCorrectSolution();
+            m_CheckStepTimer->stop();
+            break;
+        case STEP_MODE:
+            ComputeCorrectSolution();
+            m_CheckStepTimer->start(CHECK_STEP_TIMEOUT);
+            break;
+        case NONE:
+            m_CheckStepTimer->stop();
+            break;
+    }
+
+    m_pdaWidget->clearStatus();
+}
+
+void CAlgorithmCFGtoPDA::ComputeCorrectSolution()
+{
     // TODO: Implement
+    //m_correctPda =....
 }
 
 void CAlgorithmCFGtoPDA::SaveStep(){

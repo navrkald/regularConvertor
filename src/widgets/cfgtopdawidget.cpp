@@ -30,12 +30,12 @@ void CCfgToPdaWidget::ConnectStatusMessage(const MainWindow *receiver, MainWindo
 
 void CCfgToPdaWidget::SetCfg(const CContextFreeGrammar& cfg)
 {
-    m_cfgToPdaAlgorithm.SetCfg(new CContextFreeGrammar(cfg));
+    m_cfgToPdaAlgorithm.SetInputCfg(new CContextFreeGrammar(cfg));
 }
 
 void CCfgToPdaWidget::SetPda(const CPushDownAutomata &pda)
 {
-    m_cfgToPdaAlgorithm.SetPda(new CPushDownAutomata(pda));   // TODO: Implement
+    m_cfgToPdaAlgorithm.SetInputPda(new CPushDownAutomata(pda));   // TODO: Implement
 }
 
 CContextFreeGrammar CCfgToPdaWidget::GetCfg()

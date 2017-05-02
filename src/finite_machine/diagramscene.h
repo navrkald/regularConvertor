@@ -60,6 +60,7 @@ protected:
     //automaticaly place new node
     void addNode(QString node, QPoint point);
     StateNode* getNodeByName(QString nodeName);
+    bool IsFirstNode();
     void clean();
     virtual void RemoveStateFromFiniteAutomata(QString state);
     virtual void AddArrow(StateNode *startItem, StateNode *endItem);
@@ -71,6 +72,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
     StateNode *CreateStateNode(QString nodeName = "");
 
+    QRectF GetVisibleSceneRect();
 };
 
 #endif // MYQGRAPHICSSCENE_H

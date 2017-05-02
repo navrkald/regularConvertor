@@ -146,7 +146,8 @@ void FaToDFA::SetMode(AlgorithmModes _mode)
             m_actInstruction = HEADER; //init start instruction because new regExp may appeare when pres step mode was in run
             saveStep();
         break;
-        case CHECK_MODE: case STEP_MODE:
+        case CHECK_MODE:
+        case STEP_MODE:
             m_correct_FA = computeSolution();
         break;
         case NONE:

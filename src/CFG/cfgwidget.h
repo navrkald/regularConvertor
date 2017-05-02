@@ -18,6 +18,8 @@ public:
     ~CCfgWidget();
     void SetCfg(const CContextFreeGrammar& cfg);
     CContextFreeGrammar GetCfg();
+signals:
+    void CfgChanged(const CContextFreeGrammar& cfg);
 
 private slots:
   void on_m_BackusNaurFormTextEdit_textChanged();

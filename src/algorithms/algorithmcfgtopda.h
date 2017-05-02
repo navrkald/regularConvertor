@@ -77,9 +77,9 @@ public slots:
 private:
     typedef struct step
     {
-        int num;
-        int actInstruction;
-        int prevInstruction;
+        int m_num;
+        int m_actInstruction;
+        int m_prevInstruction;
         CPushDownAutomata m_pda;
         CPushDownAutomata m_userPda;
         CContextFreeGrammar m_cfg;

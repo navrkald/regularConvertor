@@ -432,5 +432,16 @@ void CAlgorithmCFGtoPDA::ComputeCorrectSolution()
 }
 
 void CAlgorithmCFGtoPDA::SaveStep(){
-    // TODO: Implement
+    SStep s;
+    s.m_num = ++m_num;
+    s.m_actInstruction = m_actInstruction;
+    s.m_prevInstruction = m_prevInstruction;
+    s.m_pda = m_pda;
+    s.m_userPda = m_userPda;
+    s.m_cfg = m_cfg;
+    s.m_pdaActInputAplhabetSymbol = m_pdaActInputAplhabetSymbol;
+    s.m_actRule = m_actRule;
+    s.m_listOfCfgRules = m_listOfCfgRules;
+    s.m_listOfAllTerminals = m_listOfAllTerminals;
+    m_history.push_back(s);
 }

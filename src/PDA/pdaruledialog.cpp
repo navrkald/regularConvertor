@@ -24,24 +24,31 @@ CPdaRuleDialog::~CPdaRuleDialog()
 
 void CPdaRuleDialog::on_m_ruleEdit_textChanged()
 {
-    // Parse rules
+	QSet<CPDACompotutationalRule> tmpRules;
+	bool isTextValid = true; // by default true because of delete all text to be empty m_pdaRules
+	// Parse rules
     foreach(QString line, ui->m_ruleEdit->toPlainText().split('\n',QString::SkipEmptyParts))
     {
+		// Skip whitespace lines
+		line = line.trimmed();
+		if (line.isEmpty())
+			continue;
+
         QString popSymbol;
         QString inputSymbol;
         QVector<QString> pushSymbols;
-        int pos = m_pdaRuleRegExp.indexIn(line);//, ddd, eee");
-        bool isTextValid = pos > -1;
+        int pos = m_pdaRuleRegExp.indexIn(line);
+        isTextValid = pos > -1;
         ui->m_okButton->setEnabled(isTextValid);
         ui->m_ruleEdit->setStyleSheet(isTextValid ? m_backgroundTransparentStr : m_backgroundYellowStr);
         ui->m_okButton->setEnabled(isTextValid);
         if (isTextValid)
         {
-            popSymbol = m_pdaRuleRegExp.cap(1);
-            inputSymbol = m_pdaRuleRegExp.cap(2);
-            pushSymbols = m_pdaRuleRegExp.cap(4).split(",",QString::SkipEmptyParts).toVector();
-            pushSymbols.push_front(m_pdaRuleRegExp.cap(3));
-            m_pdaRules.insert(CPDACompotutationalRule(m_startState, m_endState, inputSymbol, popSymbol, pushSymbols));
+            popSymbol = m_pdaRuleRegExp.cap(1).trimmed();
+            inputSymbol = m_pdaRuleRegExp.cap(2).trimmed();
+			pushSymbols = TrimPushSymbols(m_pdaRuleRegExp.cap(4).split(",", QString::SkipEmptyParts));
+            pushSymbols.push_front(m_pdaRuleRegExp.cap(3).trimmed());
+			tmpRules.insert(CPDACompotutationalRule(m_startState, m_endState, inputSymbol, popSymbol, pushSymbols));
         }
         else
         {
@@ -49,9 +56,22 @@ void CPdaRuleDialog::on_m_ruleEdit_textChanged()
         }
     }
 
-    if(m_pdaRules.isEmpty()){
+    if(tmpRules.isEmpty()){
          ui->m_okButton->setEnabled(false);
-    }
+	}
+	
+	if(isTextValid) {
+		m_pdaRules = tmpRules;
+	}
+
+}
+
+QVector<QString> CPdaRuleDialog::TrimPushSymbols(const QStringList& pushSymbols) {
+	QVector<QString> pushSymbolsVector;
+	foreach(const QString& pushSymbol, pushSymbols) {
+		pushSymbolsVector.push_back(pushSymbol.trimmed());
+	}
+	return pushSymbolsVector;
 }
 
 void CPdaRuleDialog::on_m_cancelBut_clicked()

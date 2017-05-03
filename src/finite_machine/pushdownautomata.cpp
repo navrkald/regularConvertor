@@ -9,6 +9,12 @@ CPushDownAutomata::CPushDownAutomata()
 void CPushDownAutomata::SetStackAlphabet(QSet<QString> stackAplhabet)
 {
     m_stackAlphabet = stackAplhabet;
+	m_stackAlphabet.remove(EPSILON);
+}
+
+void CPushDownAutomata::AddStactSymbols(QSet<QString> stackAplhabet) {
+	m_stackAlphabet += stackAplhabet;
+	m_stackAlphabet.remove(EPSILON);
 }
 
 void CPushDownAutomata::AddPDARule(CPDACompotutationalRule rule)
@@ -42,8 +48,13 @@ void CPushDownAutomata::AddPdaRules(QSet<CPDACompotutationalRule> rulesToAdd)
 	}
 
 	// Add stack and input symbols
-	m_alphabet += inputSymbols;
-	m_stackAlphabet += stackSymbols;
+	AddAplhabet(inputSymbols);
+	AddStactSymbols(stackSymbols);
+}
+
+void CPushDownAutomata::RemovePDARule(CPDACompotutationalRule rule)
+{
+	m_pdaRules.remove(rule);
 }
 
 void CPushDownAutomata::RemovePdaRules(QSet<CPDACompotutationalRule> rulesToDelete)
@@ -142,6 +153,9 @@ bool operator ==(const CPushDownAutomata& pda1, const CPushDownAutomata& pda2)
 	if (pda1.m_pdaRules != pda2.m_pdaRules)
 		return false;
 
+	qDebug() << "User rules: " << PdaComputationalRulesToString(pda1.m_pdaRules) << "\n";
+	qDebug() << "Corr rules: " << PdaComputationalRulesToString(pda2.m_pdaRules) << "\n";
+
 	return true;
 }
 
@@ -154,8 +168,8 @@ bool CPushDownAutomata::RenameState(QString oldStateName, QString newStateName) 
 				newRule.from = newStateName;
 			if (pdaRule.to == oldStateName)
 				newRule.to = newStateName;
-			this->addRule(newRule);
-			this->removeRule(pdaRule);
+			this->AddPDARule(newRule);
+			this->RemovePDARule(pdaRule);
 		}
 	}
 	return FiniteAutomata::RenameState(oldStateName, newStateName);

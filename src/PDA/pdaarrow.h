@@ -27,7 +27,7 @@ protected:
 	virtual void EditArrow();
 
 signals:
-	void SignalPdaChanged(CPushDownAutomata* pda);
+	void SignalPdaChanged(CPushDownAutomata*);
 
 public slots:
 };

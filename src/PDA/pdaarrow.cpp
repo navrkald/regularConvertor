@@ -18,7 +18,7 @@ CPdaArrow::CPdaArrow(StateNode* startItem,
 	setPen(QPen(m_myColor, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	m_debugCounter = 0;
 
-	connect(this, SIGNAL(SignalPdaChanged(CPushDownAutomata*)), m_pdaScene, SIGNAL(SetPdaSlot(CPushDownAutomata* pda)));
+	connect(this, SIGNAL(SignalPdaChanged(CPushDownAutomata*)), m_pdaScene, SIGNAL(PdaChangedSignal(CPushDownAutomata*)));
 }
 
 bool CPdaArrow::RemoveRule(const CPDACompotutationalRule& rule)
@@ -49,6 +49,7 @@ void CPdaArrow::EditArrow()
 		m_pda->AddPdaRules(addedRules);
 		m_pda->RemovePdaRules(deletedRules);
 		m_displayText = CPDACompotutationalRule::ToArrowText(m_pda->GetRules());
+		m_pdaRules = newPdaRules;
 	}
 
 	emit SignalPdaChanged(m_pda);

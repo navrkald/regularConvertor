@@ -74,7 +74,8 @@ public:
     bool removeRule(ComputationalRules rule);
     bool changeSymbolInRule(ComputationalRules rule, QString symbol);
     bool changeRule(ComputationalRules oldrule, ComputationalRules newrule);
-    void SetAplhabet(QSet<QString> m_alphabet);
+    void SetAplhabet(QSet<QString> alphabet);
+	void AddAplhabet(QSet<QString> alphabet);
     bool hasEpsilon();
     bool isDeterministic();
     QSet <QString> epsilonCloser(QString state);

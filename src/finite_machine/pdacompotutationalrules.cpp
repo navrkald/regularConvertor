@@ -25,7 +25,7 @@ QString CPDACompotutationalRule::ToArrowText(const QSet<CPDACompotutationalRule>
 {
 	QString outText;
 	foreach(CPDACompotutationalRule r, pdaRules){
-		outText.append(r.GetPopSymbol() + ", " + r.GetSymbol() + ", -> " + r.GetPushSymbols().toList().join(", ") + "\n");
+		outText.append(r.GetPopSymbol() + ", " + r.GetSymbol() + " -> " + r.GetPushSymbols().toList().join(", ") + "\n");
 	}
 	return outText;
 }
@@ -45,4 +45,13 @@ QSet<QString> PdaComputationalRulesToQSetOfStrings(QSet<CPDACompotutationalRule>
         out.insert(rule.toString());
 	}
 	return out;
+}
+
+QString PdaComputationalRulesToString(QSet<CPDACompotutationalRule> rules)
+{
+	QString outStr;
+	foreach(CPDACompotutationalRule rule, rules) {
+		outStr += rule.toString() + "\n";
+	}
+	return outStr;
 }

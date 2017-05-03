@@ -20,7 +20,8 @@ public:
 private slots:
   void on_m_ruleEdit_textChanged();
 
-	void on_m_cancelBut_clicked();
+
+  void on_m_cancelBut_clicked();
 
 	void on_m_okButton_clicked();
 
@@ -37,7 +38,8 @@ protected:
     const QString m_backgroundTransparentStr = "background-color:transparent ";
 
 private:
-  Ui::CPdaRuleDialog *ui;
+	QVector<QString> TrimPushSymbols(const QStringList & pushSymbols);
+	Ui::CPdaRuleDialog *ui;
 };
 
 #endif // PDARULEDIALOG_H

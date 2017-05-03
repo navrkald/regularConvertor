@@ -25,7 +25,7 @@ public:
 
     QString GetFrom(){return from;}
     QString GetTo(){return from;}
-    QString GetSymbol(){return from;}
+    QString GetSymbol(){return symbol;}
     void setFrom(QString f){from = f;}
     void setTo(QString t){to = t;}
     void setSymbol(QString s){symbol = s;}

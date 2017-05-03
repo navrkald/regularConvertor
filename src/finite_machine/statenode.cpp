@@ -212,8 +212,8 @@ void StateNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         {
             if(myscene->CanSetNodeName(m_newName))
             {
-                changeName(m_newName);
                 myscene->RenameNode(m_nodeName, m_newName);
+                changeName(m_newName);
             }
             else
             {

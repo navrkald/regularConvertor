@@ -779,7 +779,14 @@ bool FiniteAutomata::changeRule(ComputationalRules oldrule, ComputationalRules n
 
 void FiniteAutomata::SetAplhabet(QSet<QString> alphabet)
 {
-    this->m_alphabet = alphabet;
+    m_alphabet = alphabet;
+	m_alphabet.remove(EPSILON);
+}
+
+void FiniteAutomata::AddAplhabet(QSet<QString> alphabet)
+{
+	m_alphabet += alphabet;
+	m_alphabet.remove(EPSILON);
 }
 
 bool FiniteAutomata::hasEpsilon()

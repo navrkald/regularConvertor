@@ -24,7 +24,7 @@ public slots:
 	void SetPdaSlot(CPushDownAutomata* pda);
 
 signals:
-	void PdaChangedSignal(CPushDownAutomata* pda);
+	void PdaChangedSignal(CPushDownAutomata*);
 
 protected:
 	CPushDownAutomata* m_pda;

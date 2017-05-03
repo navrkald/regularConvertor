@@ -54,7 +54,7 @@ public:
 
     QString toString() const{return from + " " + m_popSymol + " " + symbol + "-> " + m_pushSymbols.toList().join(", ") + " " + to;}
 
-		static QString ToArrowText(const QSet<CPDACompotutationalRule>& pdaRules);
+	static QString ToArrowText(const QSet<CPDACompotutationalRule>& pdaRules);
 
     bool operator==(const CPDACompotutationalRule& secondRule) const
         {
@@ -78,6 +78,7 @@ public:
     QVector<QString> m_pushSymbols;
 };
 
+QString PdaComputationalRulesToString(QSet <CPDACompotutationalRule> rules);
 QSet <QString> PdaComputationalRulesToQSetOfStrings(QSet <CPDACompotutationalRule> rules);
 
 #endif // PDACOMPOTUTATIONALRULES_H

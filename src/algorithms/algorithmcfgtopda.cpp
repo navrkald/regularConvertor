@@ -384,10 +384,10 @@ void CAlgorithmCFGtoPDA::PrevStep()
 
 void CAlgorithmCFGtoPDA::ComputeCorrectSolution()
 {
+    CPushDownAutomata tmpPda = m_pda;
 	while (m_actInstruction != lastInstruction) {
 		ComputeNextStep();
 	}
-	CPushDownAutomata tmpPda = m_pda;
 	m_correctPda = m_pda;
 	m_pda = tmpPda;
 }
@@ -398,7 +398,7 @@ void CAlgorithmCFGtoPDA::CheckSolution()
 	{
 		m_pdaWidget->setCorrectStatus();
 	}
-	else
+    else
 	{
 		m_pdaWidget->setWrongStatus();
 	}

@@ -189,7 +189,7 @@ void DiagramScene::DeleteSelected()
         else
             qWarning("Warning: recoverable errors in diagramscene.cpp, which could not never happen.");
     }
-    EmitFiniteAutomataChanged();
+        EmitFiniteAutomataChanged();
 
 }
 

@@ -14,7 +14,7 @@ CVariablesWidget::~CVariablesWidget()
 }
 
 void CVariablesWidget::SetText(QString text){
-    ui->m_text->setText(text);
+    ui->m_text->setHtml(text);
 }
 
 void CVariablesWidget::Clear(){

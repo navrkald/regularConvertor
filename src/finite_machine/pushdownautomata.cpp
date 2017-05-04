@@ -109,7 +109,7 @@ QSet<CPDACompotutationalRule> CPushDownAutomata::GetRulesWithStackSymbol(const Q
 
 QString CPushDownAutomata::PrintHtmlPdaRules()
 {
-    return CHtmlCreator::PrintHtmlSet("R", PdaComputationalRulesToQSetOfStrings((m_pdaRules)));
+    return CHtmlCreator::PrintHtmlSet("R", PdaComputationalRulesToQSetOfStrings((m_pdaRules)), HTMLNEWLINE INDENT);
 }
 
 QString CPushDownAutomata::PrintHtmlStactAlphabet()

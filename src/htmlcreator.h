@@ -12,7 +12,7 @@ public:
     ~CHtmlCreator();
     static QString JoinWithHtmlNewLines(QStringList variables);
     static QString PrintVariableValue(const QString& variable, const QString& value);
-    static QString PrintHtmlSet(QString variableName, QSet<QString> elements);
+    static QString PrintHtmlSet(const QString& variableName, const QSet<QString>& elements, const QString& separator = " ");
     static QString ConvertTextToHtml(const QString &nonHtmlText);
 };
 

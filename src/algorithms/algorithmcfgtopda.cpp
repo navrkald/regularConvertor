@@ -70,15 +70,15 @@ void CAlgorithmCFGtoPDA::Init(CAlgorithmWidget* algorithmWidget, CCfgWidget* cfg
 void CAlgorithmCFGtoPDA::InitInstructions()
 {
     m_instructions.resize(END_INSTRUCTION);
-    m_instructions[HEADER] =                                tr("<b>Input:</b> CFG <i>G</i>=(N, T, P, S)<br><b>Output:</b> PDA M'=(Q, " SIGMA ", " GAMA " , R, s, S, F)");
-    m_instructions[SET_START_STATE] =                       "Q = {s}";
+    m_instructions[HEADER] =                                tr("<b>Input:</b> CFG <i>G</i>=(N, T, P, <font color=\"DarkOrange\">S</font>)<br><b>Output:</b> PDA M'=(Q, " SIGMA ", " GAMA " , R, <b><font color=\"DarkGreen\">s</font></b>, <font color=\"DarkOrange\">S</font>, F)");
+    m_instructions[SET_START_STATE] =                       "Q = {<b><font color=\"DarkGreen\">s</font></b>}";
     m_instructions[SET_INPUT_ALPHABET] =                    SIGMA " = T";
     m_instructions[SET_STACK_ALPHABET] =                    tr(GAMA" = N " UNIFICATION " T");
     m_instructions[SET_PDA_RULES_HEADER] =                  tr("Construction of set R");
-    m_instructions[FOREACH_PDA_RULES_FROM_INPUT_ALPHABET] = INDENT + tr("<b>for each</b> a " MEMBER_OF " " SIGMA);
-    m_instructions[PDA_RULE_FROM_INPUT_ALPHABET] =          INDENT INDENT + tr("add asa → to R");
+    m_instructions[FOREACH_PDA_RULES_FROM_INPUT_ALPHABET] = INDENT + tr("<b>for each</b> <font color=\"Red\">a</font> " MEMBER_OF " " SIGMA);
+    m_instructions[PDA_RULE_FROM_INPUT_ALPHABET] =          INDENT INDENT + tr("add a <b><font color=\"DarkGreen\">s</font></b> <font color=\"Red\">a</font> → <b><font color=\"DarkGreen\">s</font></b> to R");
     m_instructions[FOREACH_PDA_RULES_FROM_CFG_RULES] =      INDENT + tr("<b>for each</b> A " ARROW " x " MEMBER_OF " P");
-    m_instructions[SET_PDA_RULE_FROM_CFG_RULE] =            INDENT INDENT + tr("add As " ARROW " ys to R where y = reversal(x)");
+    m_instructions[SET_PDA_RULE_FROM_CFG_RULE] =            INDENT INDENT + tr("add A <b><font color=\"DarkGreen\">s</font></b> " ARROW " y <b><font color=\"DarkGreen\">s</font></b> to R where y = reversal(x)");
     m_instructions[SET_FINITE_STATE] =                      tr("F = " EMPTYSET);
 }
 

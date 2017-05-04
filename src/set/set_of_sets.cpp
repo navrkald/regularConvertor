@@ -40,7 +40,7 @@ QSet < QSet<QString> > findInSubsets(QSet < QSet<QString> > sets, QSet<QString> 
     return result;
 }
 
-QString qSetToQString(QSet<QString> set)
+QString qSetToQString(const QSet<QString>& set, const QString& separator)
 {
 	if (set.empty())
         return EMPTYSET;
@@ -50,10 +50,10 @@ QString qSetToQString(QSet<QString> set)
 	//reverse list
 	//for(int k = 0; k < (list.size()/2); k++) list.swap(k,list.size()-(1+k));
 
-	QString string = "{";
+	QString string = "{" + separator;
 	QStringList string_list = list;
-	string += string_list.join(", ");
-	string += "}";
+	string += string_list.join("," + separator);
+	string += separator + "}";
 	return string;
 }
 

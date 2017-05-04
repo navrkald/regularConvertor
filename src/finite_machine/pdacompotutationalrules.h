@@ -52,7 +52,7 @@ public:
     }
 
 
-    QString toString() const{return from + " " + m_popSymol + " " + symbol + "-> " + m_pushSymbols.toList().join(", ") + " " + to;}
+    QString ToString() const{return  m_popSymol + " " + from + " " + symbol + "-> " + m_pushSymbols.toList().join(", ") + " " + to;}
 
 	static QString ToArrowText(const QSet<CPDACompotutationalRule>& pdaRules);
 

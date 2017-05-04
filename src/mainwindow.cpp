@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(status_timer,SIGNAL(timeout()),this,SLOT(hideStatusMessage()));
 
     ui->menuLanguages->menuAction()->setVisible(false);
+	on_CfgToPda_Example_1_triggered();
 }
 
 MainWindow::~MainWindow()
@@ -632,8 +633,8 @@ void MainWindow::on_CfgToPda_Example_1_triggered()
     nonterminals.insert(S);
     g.SetNonterminalsAlphabet(nonterminals);
     QSet<CTerminal> terminals;
-    CTerminal leftBracket("{");
-    CTerminal rightBracket("}");
+    CTerminal leftBracket("(");
+    CTerminal rightBracket(")");
     terminals.insert(leftBracket);
     terminals.insert(rightBracket);
     g.SetTerminalsAlphabet(terminals);

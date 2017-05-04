@@ -5,7 +5,7 @@
 uint qHash(const QSet<QString>);
 QSet < QSet<QString> > findInSubsets(QSet < QSet<QString> > sets, QString s);
 QSet < QSet<QString> > findInSubsets(QSet < QSet<QString> > sets, QSet<QString> strings);
-QString qSetToQString(QSet<QString> set);
+QString qSetToQString(const QSet<QString>& set, const QString& separator = " ");
 QString qVectorToQString(QVector<QString> elements);
 QSet <QString> setOfSubsetsToSet(QSet < QSet<QString> > sets);
 

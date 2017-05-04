@@ -9,5 +9,7 @@
 #define MEMBER_OF u8"∈"
 #define ARROW u8"→"
 #define EMPTYSET u8"Ø"
+#define HTMLNEWLINE "<br>"
+#define INDENT "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
 
 #endif // GREEK_ALPHABET_H

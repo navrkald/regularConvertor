@@ -6,8 +6,8 @@
 #include <QTimer>
 #include <algorithms/algorithmodes.h>
 #include <widgets/algorithmwidget.h>
+#include <algorithms/constants.h>
 
-#define INDENT "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"
 #define CHECK_STEP_TIMEOUT 1000
 
 class CAlgorithm : public QStandardItemModel

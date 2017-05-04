@@ -42,7 +42,7 @@ QSet<QString> PdaComputationalRulesToQSetOfStrings(QSet<CPDACompotutationalRule>
 {
 	QSet<QString> out;
 	foreach(CPDACompotutationalRule rule, rules) {
-        out.insert(rule.toString());
+        out.insert(rule.ToString());
 	}
 	return out;
 }
@@ -51,7 +51,7 @@ QString PdaComputationalRulesToString(QSet<CPDACompotutationalRule> rules)
 {
 	QString outStr;
 	foreach(CPDACompotutationalRule rule, rules) {
-		outStr += rule.toString() + "\n";
+		outStr += rule.ToString() + "\n";
 	}
 	return outStr;
 }

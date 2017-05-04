@@ -911,7 +911,7 @@ QString FiniteAutomata::PrintHtmlStartState()
 
 QString FiniteAutomata::PrintHtmlFinalStates()
 {
-    return CHtmlCreator::PrintHtmlSet("Q", m_finalStates);
+    return CHtmlCreator::PrintHtmlSet("F", m_finalStates);
 }
 
 //helper function for method toMinFA()

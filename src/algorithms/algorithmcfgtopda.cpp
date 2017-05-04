@@ -406,12 +406,13 @@ void CAlgorithmCFGtoPDA::CheckSolution()
 
 void CAlgorithmCFGtoPDA::ShowCorrectSolution()
 {
-    // TODO: Implement
+	m_backupUserPda = m_userPda;
+	m_pdaWidget->SetPda(new CPushDownAutomata(m_correctPda));
 }
 
 void CAlgorithmCFGtoPDA::ShowUserSolution()
 {
-    // TODO: Implement
+	m_pdaWidget->SetPda(new CPushDownAutomata(m_backupUserPda));
 }
 
 void CAlgorithmCFGtoPDA::ToBegin()

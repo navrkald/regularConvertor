@@ -95,6 +95,7 @@ private:
     CPushDownAutomata m_pda;
     CPushDownAutomata m_userPda;
     CPushDownAutomata m_correctPda;
+	CPushDownAutomata m_backupUserPda;
     CContextFreeGrammar m_cfg;
     QString m_pdaActInputAplhabetSymbol;
     CCFGRule m_actRule;

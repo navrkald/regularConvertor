@@ -38,7 +38,6 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <zorder>m_epsilonClosuresWidget</zorder>
      </widget>
      <widget class="QListWidget" name="m_epsilonClosuresWidget"/>
     </widget>

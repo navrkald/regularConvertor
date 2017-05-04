@@ -158,7 +158,8 @@ void FA_widget::SetSceneGeneral(DiagramScene* scene){
 }
 
 void FA_widget::SetSceneSpecific(DiagramScene* scene){
-    // Connect rules
+	m_scene = scene;
+	// Connect rules
     connect(this,SIGNAL(addEdges(QSet<ComputationalRules>)),this->m_scene,SLOT(addEdges(QSet<ComputationalRules>)));
     connect(this,SIGNAL(removeEdges(QSet<ComputationalRules>)),this->m_scene,SLOT(removeEdges(QSet<ComputationalRules>)));
 

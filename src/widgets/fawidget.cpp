@@ -28,21 +28,13 @@ FA_widget::FA_widget(QWidget *parent) :
     AddNodeBut->setCheckable(true);
     AddArrowBut->setCheckable(true);
 
-    //set init checked to AddNodeBut
-    AddNodeBut->setChecked(true);
-    //MoveNodeBut->setChecked(true);
+    //set init checked to MoveNodeBut
+	MoveNodeBut->setChecked(true);
 
     MoveNodeBut->setToolTip(tr("If this button is activated, you can select and move with items in scene."));
     AddNodeBut->setToolTip(tr("If this button is activated, left mouse click into screene creates new node."));
     AddArrowBut->setToolTip(tr("If this button is activated, you can create transition between nodes. <br>(Click on from item, hold mouse left button and release on arrow target.)"));
     DeleteNodeBut->setToolTip(tr("Click on this button deletes all selected items. <br>(You can select multiple items when holding control button.)"));
-
-    //adjust size of button according text in
-//    MoveNodeBut->setMaximumWidth(MoveNodeBut->fontMetrics().boundingRect(MoveNodeBut->text()).width()+15);
-//    AddNodeBut->setMaximumWidth(AddNodeBut->fontMetrics().boundingRect(AddNodeBut->text()).width()+15);
-//    AddArrowBut->setMaximumWidth(AddArrowBut->fontMetrics().boundingRect(AddArrowBut->text()).width()+15);
-//    DeleteNodeBut->setMaximumWidth(DeleteNodeBut->fontMetrics().boundingRect(DeleteNodeBut->text()).width()+15);
-
 
     endingStatesCompleter = new MultiSelectCompleter(this);
 
@@ -195,15 +187,13 @@ void FA_widget::MoveNodeBut_clicked()
 //sets adding mode
 void FA_widget::AddNodeBut_clicked()
 {
-
     m_scene->SetMode(DiagramScene::AddNodeMode);
 }
 
 //sets adding arrow mode
 void FA_widget::AddArrowBut_clicked()
 {
-
-		m_scene->SetMode(DiagramScene::AddArrowMode);
+	m_scene->SetMode(DiagramScene::AddArrowMode);
 }
 
 void FA_widget::statesEdited()

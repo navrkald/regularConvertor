@@ -8,7 +8,7 @@
 
 DiagramScene::DiagramScene(FiniteAutomata* _FA, QWidget *parent = 0) : QGraphicsScene(parent)
 {
-    this->actMode = AddNodeMode;
+    this->actMode = MoveNodeMode;
     clicked = false;
     actLine = 0;
     m_fa = _FA;

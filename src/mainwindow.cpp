@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->menuLanguages->menuAction()->setVisible(false);
 
-	connect(this, &MainWindow::modeChanged, this, &MainWindow::OnModeChangedSlot);
+	connect(this, &MainWindow::modeChangedVoid, this, &MainWindow::OnModeChangedSlot);
 
 	on_CfgToPda_Example_1_triggered();
 }
@@ -114,24 +114,24 @@ void MainWindow::on_action_check_mode_triggered()
 {
     m_mode = AlgorithmModes::individualWork;
     ui->action_check_mode->setChecked(true);
-    emit modeChanged(m_mode);
+    emit modeChangedVoid();
 }
 
 void MainWindow::on_action_play_mode_triggered()
 {
     m_mode = AlgorithmModes::algorithmSteping;
     ui->action_play_mode->setChecked(true);
-    emit modeChanged(m_mode);
+    emit modeChangedVoid();
 }
 
 void MainWindow::on_action_step_mode_triggered()
 {
     m_mode = AlgorithmModes::instantChecking;
     ui->action_step_mode->setChecked(true);
-    emit modeChanged(m_mode);
+    emit modeChangedVoid();
 }
 
-void MainWindow::OnModeChangedSlot(AlgorithmModes mode)
+void MainWindow::OnModeChangedSlot()
 {
 	mySetWindowTitle();
 }

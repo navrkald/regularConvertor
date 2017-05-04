@@ -38,6 +38,7 @@ public:
 
 signals:
     void modeChanged(AlgorithmModes mode);
+	void modeChangedVoid();
 public slots:
     void showStatusMessage(QString message);
     void mySetWindowTitle();
@@ -49,7 +50,7 @@ private slots:
     void on_action_check_mode_triggered();
     void on_action_play_mode_triggered();
     void on_action_step_mode_triggered();
-	void OnModeChangedSlot(AlgorithmModes mode);
+	void OnModeChangedSlot();
     void PrepareConversionWidget(Conversions conversion);
 
     //

@@ -41,10 +41,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(status_timer,SIGNAL(timeout()),this,SLOT(hideStatusMessage()));
 
     ui->menuLanguages->menuAction()->setVisible(false);
-
-	connect(this, &MainWindow::modeChangedVoid, this, &MainWindow::OnModeChangedSlot);
-
-	on_CfgToPda_Example_1_triggered();
 }
 
 MainWindow::~MainWindow()
@@ -114,26 +110,24 @@ void MainWindow::on_action_check_mode_triggered()
 {
     m_mode = AlgorithmModes::individualWork;
     ui->action_check_mode->setChecked(true);
-    emit modeChangedVoid();
+	mySetWindowTitle();
+	emit modeChanged(m_mode);
 }
 
 void MainWindow::on_action_play_mode_triggered()
 {
     m_mode = AlgorithmModes::algorithmSteping;
     ui->action_play_mode->setChecked(true);
-    emit modeChangedVoid();
+	mySetWindowTitle();
+	emit modeChanged(m_mode);
 }
 
 void MainWindow::on_action_step_mode_triggered()
 {
     m_mode = AlgorithmModes::instantChecking;
     ui->action_step_mode->setChecked(true);
-    emit modeChangedVoid();
-}
-
-void MainWindow::OnModeChangedSlot()
-{
 	mySetWindowTitle();
+	emit modeChanged(m_mode);
 }
 
 void MainWindow::PrepareConversionWidget(MainWindow::Conversions conversion)

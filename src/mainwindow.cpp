@@ -806,6 +806,7 @@ void MainWindow::SetActionsGroups()
     conversionGroup->addAction(ui->action_RE_to_FA);
     conversionGroup->addAction(ui->action_RemoveEpsilon);
     conversionGroup->addAction(ui->action_Determinization);
+	conversionGroup->addAction(ui->m_actionCFGtoPDA);
 
     QActionGroup* examples_group = new QActionGroup(this);
     examples_group->addAction(ui->RE_FA_example0);
@@ -834,6 +835,7 @@ void MainWindow::SetActionsGroups()
     examples_group->addAction(ui->Determinization_advanced_example_2);
     examples_group->addAction(ui->Determinization_advanced_example_3);
     examples_group->addAction(ui->Determinization_advanced_example_4);
+	examples_group->addAction(ui->CfgToPda_Example_1);
 
     QActionGroup* language_group = new QActionGroup(this);
     language_group->addAction(ui->actionCzech);
@@ -861,7 +863,7 @@ void MainWindow::on_action_RemoveEpsilon_triggered()
 	PrepareConversionWidget(MainWindow::Conversions::REMOVE_EPSILON);
 }
 
-void MainWindow::on_actionCFGtoPDA_triggered()
+void MainWindow::on_m_actionCFGtoPDA_triggered()
 {
 	m_exampleName = "";
 	mySetWindowTitle();

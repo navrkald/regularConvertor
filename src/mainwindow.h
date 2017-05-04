@@ -115,7 +115,7 @@ private slots:
     //
     // CFG to PDA
     //
-    void on_actionCFGtoPDA_triggered();
+    void on_m_actionCFGtoPDA_triggered();
 
     void on_action_Determinization_triggered();
 

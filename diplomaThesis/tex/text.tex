@@ -208,7 +208,7 @@ Signály a sloty si mohou vyměňovat informace pomocí parametrů. V nižších
 
 V této části své diplomové práce vám představím aplikaci Regular Convertor z uživatelského hlediska, z pohledu chování, ovládání a funkcionalit. Následně v Implementační části se podíváme blíže na implementaci.
 
-Aplikace by měla sloužit k účelům prezentace formálních jazyků na přednáškách a zároveň i k samostatnému procvičení studenty. Proto proto obsahuje část, kde se prezentuje jak vlastní algoritmus funguje, tak i části kde si student nasbíranou teorii prakticky vyzkouší. Důležité je, aby uživatel mohl s danými algoritmy experimentovat, proto program umožňuje vložení libovolného vstupu, s následnou kontrolou jeho validity. Tento vstup si může uživatel vložit ručně a nebo jej načíst ze souboru. Proto lze všechny konverze a jejich módy, včetně vstupních i výstupních dat ukládat a načítat ze souborů. Aplikace obsahuje i řadu zabudovaných příkladů, které jsou členěny od jednodušších ke složitějším.
+Aplikace by měla sloužit k účelům prezentace formálních jazyků na přednáškách a zároveň i k samostatnému procvičení studenty. Proto obsahuje část, kde se prezentuje jak vlastní algoritmus funguje, tak i části kde si student nasbíranou teorii prakticky vyzkouší. Důležité je, aby uživatel mohl s danými algoritmy experimentovat, proto program umožňuje vložení libovolného vstupu, s následnou kontrolou jeho validity. Tento vstup si může uživatel vložit ručně a nebo jej načíst ze souboru. Proto lze všechny konverze a jejich módy, včetně vstupních i výstupních dat ukládat a načítat ze souborů. Aplikace obsahuje i řadu zabudovaných příkladů, které jsou členěny od jednodušších ke složitějším.
 
 \n{1}{Úvodní obrazovka}
 
@@ -267,9 +267,45 @@ Jak je vidět k dispozici jsou možnosti \texttt{next}, respektive \texttt{prev}
 
 Poté co si uživatel prostudoval v praxi, jak funguje algoritmus převodu, si může zkusit konverzi provést sám, tak aby se přesvědčil, že algoritmus plně ovládá. 
 
+Poté co ve výstupním widgetu uživatel vytvořil svoje řešení, může si manuálně zkusit, jestli správně převedl daný model formálního jazyka pomocí tlačítka \texttt{Check solution}. 
+
+Pokud uživatel zjistil, že nevytvořil správné řešení a už neví jak dále, může si nechat správné řešení zobrazit pomocí tlačítka \texttt{Show solution}. Po jeho stisku se ve výstupním widgetu zobrazí vzorové řešení. Zároveň s tím se změní text tohoto tlačítka na \texttt{Back}, po jehož stisku se do výstupního widgetu vloží zpět uživatelovo řešení, přesně tak jak jej zanechal. Zobrzení techto dvou respektive tří kontrolních prvků můžete vidět na obrázku (Obr. \ref{obr:kontrolniPrvkyModuSamostatnePrace}).
+
+\obr{Výřez konrolních prvků z módu samostatné práce }{obr:kontrolniPrvkyModuSamostatnePrace}{0.3}{obrazky/kontrolniPrvkyModuSamostatnePrace.png}
+
 \n{2}{Mód automatické kontroly}
 
-TODO: Popsat ze se da algoritmus i uplne skrit aby si uzivatel zkusit udelat konverzi uplne bez pomoci, jako na pisemce.
+Pokud už si uživatel myslí, že "už už" přece řešení musí být správné, nebo ho jen nebaví manuálně klikat, jestli má už správné řešení, může využít poslední mód pojmenovaný v programu \texttt{Instant checking}, taktéž volně přeložený do češtiny \textit{Mód automatické kontroly}. V tomto módu program sám ve velmi krátké periodě kontroluje, jestli je uživatelův vstup ekvivalentní se správným řešením. Více o tom, co je to ekvivalentní řešení, si povíme dále v části popisující převod bezkontextové gramatiky na zásobníkový automat. Stejně jako v předchozím módu se správnost řešení objevuje v levém horním rohu výstupního widgetu. 
+
+\n{1}{Popis konverze bezkontextové gramatiky na zásobníkový automat}
+
+Stejně jako u předchozích konverzí, jsem se i v této konverzi držel zavedeného schématu z bakalářské práce, že v levo nahoře je widget, ve kterém je popsán stupní model formálního jazyka, v pravé horní části je algoritmický widget, v levé dolní části je widget, ve kterém je umístěn výstupní model formálního jazyka a konečně v pravé dolní řásti je widget, ve kterém jsou zobrazené aktuální hodnoty proměnných použitých v algoritmickém widgetu. 
+
+Tyto widgety jsou od sebe navzájem odděleny posouvátky, které umožnují mněnit velikost jednotlivých widgetů a to až do té míry, že je možné jej úplně schovat. To se může hodit v situaci, když si chce student procvičit dannou konverzi do té míry, že nechce být rušen samotným algoritmem. Další ze situací je, když studuje, nebo samostatně provádí konverzi a nezají jej aktuální hodnoty proměnných, nebo chce jen více místa pro výstupní widget, pokud převádí rozsáhlí model, tak jistě odcenní možnost, že si může nechat schovat widget s proměnnými.
+
+V této konverzi je stupní widget popisující bezkontextovou gramatiku a výstupní widget, ve kterém je popsán zásobníkový automat.
+
+TODO: najít český překlad splittu a nahradit výraz posouvátky.
+
+TODO: Obrázek konverze CFG na PDA
+
+\n{1}{Vstupní widget bezkontextové gramatiky}
+
+Do tohoto widgetu se vkládá popis bezkontextové gramatiky pomocí Backus-Naurovi formy. Tento widget je inteligentní a pozná jestli je danná gramatika ve správném syntaktickém formátu. Pokud není, tak pozadí editačního kontrolního prvku, kde se daná gramatika vyplnuje zežloutne, čímž uživateli signalizuje, že udělal chybu. V opačném případě, se gramatika automaticky zorparsuje a vypní se tak počátečný nonterminál a abeceda terminálů a nonterminálů. Uživatel záměrně nemá možnost tyto 3 informace editovat, tak aby se předešlo uživatelským chybám.
+
+TODO: Spravit at se pozadí u CFG zezloutne v případě nevalidního vstupu.
+
+\n{1}{Algoritmický widget}
+
+Každý algoritmický widget na samotném vrcholku obsajuje tlačítka a kontrolní prvky, které se mění v návaznosti na vybraný mód jsem popisoval výše, proto je zde nebudu blíže rozebírat.
+
+Pod nimi se nachází samotný textový popis algoritmu, kde v jeho vrchní části je zapsáno, co je jeho vstupem a výstupem. Pod tímto popisem jsou už samotné kroky algoritmu. V levo od exekutivních kroků je šedé kolečko, které se změní na červené, pokud uživetel kliknul na příslušný řádek. Toto kolečko značí, zdali je breakpoint neaktivní, či aktivní. Breakpointy slouží k režimu krokování algoritmu, kde lze kliknout na tlečítko \texttt{play} a tím se spustí automatické krokování algoritmu s danou prodlevou mezi kroky do doby, než algoritmus narazí na aktivní breakpoit, nebo dokud nebulo stisknuto tlačítko stop. Avšak né každý krok algoritmu umožnuje nastavit breakpoit, například pro krok algoritmu, kde je uveden je uvedeno jen informativní návěští pro snadnější orientaci uživatele. 
+
+\n{1}{Výstupní widget zásobníkového automatu}
+
+\n{1}{Widget s aktuálními proměnnými z algoritmického widgetu}
+
+V tomto widgetu se zobrazují proměnné s polu s jejich  aktuálními hodnotami z algoritmického widgetu. Tyto proměnné se zobrazují pouze tehdy, pokud je vybrán mód krokování algoritmu a v ostatních módech je prázdný. Vzhledem k tomu, že jsem tento widget implementoval pomocí ovládacích prvků, které umožňují přijimat vstup ve formátu html, tak jsem mohl použít základní formátování textu, které jsem využil k zvýrazňování a obarvování proměnných tak, aby měly stejnou vyzuální podobu s proměnnými použitými v algoritmickém widgetu a to vše proto, abych usnadnil orientaci uživatelovi v danné konverzi.
 
 % ============================================================================ %
 \cast{Implementace}

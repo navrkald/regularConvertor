@@ -6,22 +6,18 @@
 \nn{Úvod}
 Tato práce pojednává o vývoji aplikace která má didakticky prezentovat studentům teoretické informatiky oblast bezkontextových jazyků. Aplikace navazuje na bakalářskou práci, jejíž praktickou částí bylo implementovat vybrané konverze modelů bezkontextových jazyků. Toto téma jsem si vybral z toho důvodu, že oblast formálních jazyků může být pro studenty hůře pochopitelná a pomocí mé aplikace si tak mohou tuto náročnou teorii procvičit na praktických příkladech.
 
-Zdrojové kódy a text bakalářské práce, na kterou tímto navazuji, jsou dostupné pod opensource licencí na internetovém serveru Github. Tato práce společně se zdrojovými kódy zde bude uveřejněna taktéž na \url{https://github.com/navrkald/regularConvertor}.
+Zdrojové kódy a text bakalářské práce, na kterou tímto navazuji, jsou dostupné pod open-source licencí na internetovém serveru GitHub. Tato práce společně se zdrojovými kódy zde bude uveřejněna taktéž na \url{https://github.com/navrkald/regularConvertor}.
 
 Jak již napovídá název serveru Github, práci včetně zdrojových kódů verzuji pomocí systému Git. Díky tomu mám jistotu, že ať se stane cokoliv svoje data mám tímto zálohovaná. Dále pak se mohu v případě potřeby vracet ke starším verzím. Mohu monitorovat svou práci, protože vidím kolik jsem který den udělal. Mohu také nový kód ukládat do větví, což mi umožňuje mít stabilní větev pro koncové uživatele a vývojovou větev, ve které si vyvíjím novou funkcionalitu. Jelikož jsou zdrojové kódy veřejně přístupné, tak v případě zájmu může kdokoliv přispět k v vývoji této výukové aplikace a v případě potřeby může provést takzvaný pull reguest, který mohu schválit a začlenit jej do aplikace.
 
 Pro vývoj tohoto programu jsem si zvolil jazyk C++, protože je mi velmi blízký, jelikož jej používám ve svém povolání programátora ve firmě AVG a také na tento jazyk byl kladen na mé předchozí škole FIT VUT v Brně. Jelikož se pohybuji ve svém životě na pomezí světa Windows a Linuxu, tak pro mě bylo zásadní, aby aplikace fungovala na těchto dvou operačních systémech, tak jsem si zvolil pro vývoj grafického uživatelského prostředí knihovnu Qt verze 5, která je v současné době nejnovější.
 
-Tuto práci jsem se na rozdíl od své bakalářské, kterou jsem psal v programu Open Office, rozhodl psát v jazyce \LaTeX. Toto rozhodnutí má hned několik důvodů. Prvním z nich je to, že jsem se chtěl tento jazyk už dlouho naučit, protože mi je jako programátorovi mnohem bližší. Nejen technické texty vypadají mnohem lépe v tomto jazyce, protože se za mě stará za základní typografická pravidla a také mám při psaní v \LaTeX u větší kontrolu nad textem. Dalším důvodem, je že pomocí jazyka \LaTeX můžu mít práci napsánu v textovém formátu, na rozdíl od programů Open Office nebo Microsoft Word, které používají binární formát, který si nemohu otevřít v poznámkovém bloku, nebo nad ním dělat jednoduše porovnání dvou verzí. Tato zkutečnost znamená i mnohem efektivnější verzování jednotlivých commitů v Gitu, ve kterém si pak můžu prohlížet a porovnávat jednotlivé verze a případně se i vrátit k některé z předchozích verzí \cite{latex}.
+Tuto práci jsem se na rozdíl od své bakalářské, kterou jsem psal v programu Open Office, rozhodl psát v jazyce \LaTeX. Toto rozhodnutí má hned několik důvodů. Prvním z nich je to, že jsem se chtěl tento jazyk už dlouho naučit, protože mi je jako programátorovi mnohem bližší. Nejen technické texty vypadají mnohem lépe v tomto jazyce, protože se za mě stará za základní typografická pravidla a také mám při psaní v \LaTeX u větší kontrolu nad textem. Dalším důvodem, je že pomocí jazyka \LaTeX\ můžu mít práci napsánu v textovém formátu, na rozdíl od programů Open Office nebo Microsoft Word, které používají binární formát, který si nemohu otevřít v poznámkovém bloku, nebo nad ním dělat jednoduše porovnání dvou verzí. Tato zkutečnost znamená i mnohem efektivnější verzování jednotlivých commitů v Gitu, ve kterém si pak můžu prohlížet a porovnávat jednotlivé verze a případně se i vrátit k některé z předchozích verzí \cite{latex}.
 
-% Psat uvod smerem, co bylo cílem aplikace a co by měla umět.
+TODO: Psat uvod smerem, co bylo cílem aplikace a co by měla umět.
 
 % ============================================================================ %
 \cast{Teoretická část}
-
-% Uvod o bezkontextových jazycích
-% Definice konečného zasobnikoveho automatu a jeho modifikace
-% Definice bezkontextove gramatiky
 
 \n{1}{Chomského hierarchie}
 Abychom si mohli dát bezkontextové jazyky do souvislosti s ostatními formálními jazyky, je nutné si vysvětlit Chomského hierarchii. Tato hierarchie byla vytvořena panem Noamem Chomskym v roce 1956. Dává do souvislosti jazyky regulární, bezkontextové, kontextové a jazyky typu 0. Jejich vztah, můžete vidět na obrázku (Obr. \ref{obr:chomskeho_hierarchie}), jako vztah množin.
@@ -38,7 +34,8 @@ Jazyky bezkontextové lze popsat modely jakými jsou bezkontextové gramatiky a 
 
 Jazyky kontextové můžeme popsat lineárně ohraničeným Turingovým strojem. Příkladem nechť je jazyk \( L = \{ a^n b^n c^n : n >= 1 \}  \)
 
-% TODO: Doplnit jazyk typu 0.
+TODO: Doplnit jazyk typu 0.
+
 Třída jazyků typu nula, v sobě obsahuje všechny doposud zmíněné jazyky plus ještě jazyky navíc. Popisujeme je úplným Turingovým strojem. 
 \cite{Chomsky_hierarchy}
 
@@ -88,7 +85,7 @@ Nechť \(M\) je definován následovně:
 	\item \( F = \{r\} \) .
 \end{itemize}
 
-% TODO: nefinovat sipkovou notaci pro pravidla a obrazek prepsat do sipkove notace a mozna udelat screenshot z Regular convertoru...
+TODO: nefinovat sipkovou notaci pro pravidla a obrazek prepsat do sipkove notace a mozna udelat screenshot z Regular convertoru...
 
 Graficky znázorněný stejný zásobníkový automat by vypadal následovně:
 
@@ -124,9 +121,11 @@ Příklad konkrétního slova, které generuje tato gramatika by mohl vypadat n�
 \cite{CFG}
 
 \n{2}{Backusova-Naurova forma}
-Pro zápis bezkontextové gramatiky se používají převážně dvě notace a to Backusova-Naurova forma (BNF) a jako druhá v pořadí je Van Wijngaardenova gramatika. My si zde představíme pouze první z nich, protože s BNF se můžete setkat častěji. Jazyky, které jsou popsány BNF a rozšířenou BNF jsou Algol, Paskal, C/C++, Ada 95, PL/I a další. %TODO: Dodat citaci.
+Pro zápis bezkontextové gramatiky se používají převážně dvě notace a to Backusova-Naurova forma (BNF) a jako druhá v pořadí je Van Wijngaardenova gramatika. My si zde představíme pouze první z nich, protože s BNF se můžete setkat častěji. Jazyky, které jsou popsány BNF a rozšířenou BNF jsou Algol, Paskal, C/C++, Ada 95, PL/I a další. 
 
-Syntaktická přepisovací pravidla jsou definována tak, že levou stranu vždy tvoří non-terminál, za kterým následuje oddělovač \uv{::=} (dve dvojtečny následované rovnítkem) za kterým následuje pravá strana pravidla, která se skládá z řetězců non-terminálů a terminálů. Pravá strana se může skládat z více řetězců oddělených symbolem \uv{\textbar} značící logický operátor OR. Tento operátor byl zaveden, kvůli optimalizaci zápisu pravidel, tak aby místo zápisu, že jeden non-terminální symbol se může rozepsat na \it{N} řetězců, což by muselo být rozepsáno na \it{N} pravidel na \it{N} řádcích. Místo toho se těchto \it{N} řetězců napíše na pravou stranu oddělených symbolem \uv{\textbar}. Terminální symboly jsou uvedeny v uvozovkách.
+TODO: Dodat citaci.
+
+Syntaktická přepisovací pravidla jsou definována tak, že levou stranu vždy tvoří non-terminál, za kterým následuje oddělovač \uv{::=} (dvě dvojtečky následované rovnítkem) za kterým následuje pravá strana pravidla, která se skládá z řetězců non-terminálů a terminálů. Pravá strana se může skládat z více řetězců oddělených symbolem \uv{\textbar} značící logický operátor OR. Tento operátor byl zaveden, kvůli optimalizaci zápisu pravidel, tak aby místo zápisu, že jeden non-terminální symbol se může rozepsat na \it{N} řetězců, což by muselo být rozepsáno na \it{N} pravidel na \it{N} řádcích. Místo toho se těchto \it{N} řetězců napíše na pravou stranu oddělených symbolem \uv{\textbar}. Terminální symboly jsou uvedeny v uvozovkách.
 \cite{BCF}
 \\ \\
 Gramatika pro popis číselné konstanty by mohla vypadat takto:\\
@@ -176,20 +175,20 @@ Zbytek přechodových má taktéž počáteční a koncový stav stejný. $\vare
 
 \n{1}{Základy Qt frameworku}
 
-Qt framework je multiplatformí, to znamená, že programátor napíše jeden kód, který pak zkompiluje na více cílových systémů. Konkretně \textit{Regular Convertor} jsem uspěšně zkoušel na platformách Windows a Linux. Tento framefork je určen především pro jazyk C++. Obsahuje také IDE pojmenované QtCreator, ve kterém je i integrován nástroj Qt Designer pro tvorbu uživatelského rozhraní vyzuální formou a ne jenom pomocí kódu. 
+Qt framework je multiplatformní, to znamená, že programátor napíše jeden kód, který pak zkompiluje na více cílových systémů. Konkretně \textit{Regular Convertor} jsem úspěšně zkoušel na platformách Windows a Linux. Tento framework je určen především pro jazyk C++. Obsahuje také IDE pojmenované QtCreator, ve kterém je i integrován nástroj Qt Designer pro tvorbu uživatelského rozhraní vizuální formou a ne jenom pomocí kódu. 
 
 \n{2}{QWidget} 
 
-QWidget je základní stavební element a zároveň předek v hierarchii tříd všech grafických elementů uživatelského rozhraní. Například widget je předek všech tlačítek, oken, kontrolních prvků, dialogů, prostě všeho. Samotný widget sám o sobě nemá význam, ale definuje a zaštituje společnou mnoužinu vlastností pro všechny od něj odvozené třídy
+QWidget je základní stavební element a zároveň předek v hierarchii tříd všech grafických elementů uživatelského rozhraní. Například widget je předek všech tlačítek, oken, kontrolních prvků, dialogů, prostě všeho. Samotný widget sám o sobě nemá význam, ale definuje a zaštiťuje společnou množinu vlastností pro všechny od něj odvozené třídy.
 
 \n{2}{Popis uživatelského rozhraní pomocí ui souborů}
 
-TODO: Popsat jak funguje system UI souborů. Jak se znich deneruje exekutivní kód. Obrázek jak vipadá Qt designer.
+TODO: Popsat jak funguje systém UI souborů. Jak se z nich generuje exekutivní kód. Obrázek jak vypadá Qt designer.
 
 \n{2}{Promoting} 
 
-Spolu s tím, že QWidget je původní předek všech grafických elementů a proto je předek i všech mých uživatelkých elementů jsem mohl v QtDesigneru použít pro mě novou techniku \textit{promoting}. Volně do češtiny by se to dalo přeložit jako povyšování widgetů. Pro všechny konverze jsem si následně vytvořil widgety, které se skládají z jiných také mnou vytvořených widgetů. Proto jsem si vytvořil rozložení widgetů, které jsem následně povýšil na mnou skutečně předem vytvořené widgety.
-Má to tu nespornou výhodu, že jsem se zbavil všude v kódu, programového vytváření obrazovky pro jednotlivé konverze, které jsou nově definovány jako samostatné třídy, které zapouzdřují z grafického klediska všechny konverze. Tímto, že se popis UI přesunul do samostatných souborů, se znašně ulevilo tříde pro popis hlavního akna aplikace. Tato objektově orientované technika rozdělení aplikace do více menších částí a rozdělení pravomocí zvaná zapouzdření.
+Spolu s tím, že QWidget je původní předek všech grafických elementů a proto je předek i všech mých uživatelských elementů jsem mohl v QtDesigneru použít pro mě novou techniku \textit{promoting}. Volně do češtiny by se to dalo přeložit jako povyšování widgetů. Pro všechny konverze jsem si následně vytvořil widgety, které se skládají z jiných také mnou vytvořených widgetů. Proto jsem si vytvořil rozložení widgetů, které jsem následně povýšil na mnou skutečně předem vytvořené widgety.
+Má to tu nespornou výhodu, že jsem se zbavil všude v kódu, programového vytváření obrazovky pro jednotlivé konverze, které jsou nově definovány jako samostatné třídy, které zapouzdřují z grafického klediska všechny konverze. Tímto, že se popis UI přesunul do samostatných souborů, se značně ulevilo třídě pro popis hlavního okna aplikace. Tato objektově orientované technika rozdělení aplikace do více menších částí a rozdělení pravomocí zvaná zapouzdření.
 
 \n{2}{Signály a sloty}
 
@@ -199,32 +198,107 @@ Slot je metoda třídy, která se vykoná pokud někdo emitoval signál se kter�
 
 K jednomu signálu může být propojeno i více slotů. Tak jsem například implementoval, že konečný automat má více grafických reprezentací, tak aby se na základě emitování signálu o změně konečného automatu změnily obě jeho vizuální reprezentace.
 
-Slot musí mít definováné svoje tělo, které se vykonává při emitování signálu, pokud jsou propojeni. Naopak tělo signálu nesmí být nikdy definováno.
+Slot musí mít definované svoje tělo, které se vykonává při emitování signálu, pokud jsou propojeni. Naopak tělo signálu nesmí být nikdy definováno.
 
 Signály a sloty si mohou vyměňovat informace pomocí parametrů. V nižších verzích Qt fungovalo propojení na základě maker \textit{SIGNAL} a \textit{SLOT}. V aktuální verzi Qt se může použít i systém ukazatelů na funkce, které jsem použil na propojení konverzních widgetů s hlavním oknem aplikace.
 
+
+% ============================================================================ %
+\cast{Praktická část}
+
+V této části své diplomové práce vám představím aplikaci Regular Convertor z uživatelského hlediska, z pohledu chování, ovládání a funkcionalit. Následně v Implementační části se podíváme blíže na implementaci.
+
+Aplikace by měla sloužit k účelům prezentace formálních jazyků na přednáškách a zároveň i k samostatnému procvičení studenty. Proto proto obsahuje část, kde se prezentuje jak vlastní algoritmus funguje, tak i části kde si student nasbíranou teorii prakticky vyzkouší. Důležité je, aby uživatel mohl s danými algoritmy experimentovat, proto program umožňuje vložení libovolného vstupu, s následnou kontrolou jeho validity. Tento vstup si může uživatel vložit ručně a nebo jej načíst ze souboru. Proto lze všechny konverze a jejich módy, včetně vstupních i výstupních dat ukládat a načítat ze souborů. Aplikace obsahuje i řadu zabudovaných příkladů, které jsou členěny od jednodušších ke složitějším.
+
+\n{1}{Úvodní obrazovka}
+
+Na obrázku (Obr. \ref{obr:uvodniObrazovka}) je pro uživatele připraveno uvítání a zároveň instrukce jak dále postupovat. Uživatel má možnost načíst si již předem připravenou konverzi ze souboru, nebo si otevřít příklad konkrétní konverze a na závěr má možnost si zvolit vlastní konverzi, které předá vstupní data.
+
+\obr{Úvodní obrazovka programu Regular Convertor}{obr:uvodniObrazovka}{0.7}{obrazky/UvodniObrazovka.png}
+
+
+V záhlaví hlavního okna se zobrazují informace pro snadnější orientaci uživatele, který zde vidí, že spuštěný program se jmenuje "Regular Convertor", dále pak jaký konverzní mód má zvolen a jako poslední je uveden název příkladu, který si uživatel vybral. Pokud si nezvolil žádný z příkladů, tak se jeho název nezobrazuje.
+
+Příklad takového záhlaví hlavního okna, kde je vybrán mód krokování algoritmu a první příklad můžete vidět na obrázku (Obr. \ref{obr:zahlaviHlavnihoOkna}).
+
+\obr{Výřez záhlaví hlavního okna}{obr:zahlaviHlavnihoOkna}{0.7}{obrazky/zahlaviHlavnihoOkna.png}
+
+\n{1}{Možnosti začátku práce s programem}
+
+V předchozí části bylo popsáno hlavní okno, spolu s instrukcemi uživatele jak může začít pracovat s programem. Nyní si je pojďme popsat podrobněji.
+
+
+\n{2}{Výběr z příkladů}
+
+Příklady pro konverzi bezkontextové gramatiky na konečný automat jsou dostupné v menu pod \texttt{Examples -> Context-free grammar to PushDown Automata -> <Název příkladu>}. Po najetí myši na libovolný příklad se zobrazí obrázek vstupních dat pro snadnější orientaci uživatele. Celou situaci zobrazuje obrázek (Obr. \ref{obr:vyberPrikladu}).
+
+TODO: Impelementovat náhled obrázku a auktualizovat obrázek
+
+\obr{Snímek z obrazovky pro výběr příkladu}{obr:vyberPrikladu}{0.7}{obrazky/vyberPrikladu.png}
+
+\n{2}{Výběr z konverzí}
+
+Třetí a poslední možností, jak začít používat program je volba konverze. Uživatel má na výběr celkem z 4 konverzí, z čehož poslední z nich a to převod bezkontextové gramatiky na zásobníkový automat byla implementována v rámci této práce. Pokud uživatel využije této volby musí počítat s tím, že vstupní data budou prázdná.
+
+Všechny implementované konverze zobrazuje následující obrázek (Obr. \ref{obr:vyberKonverzi}).
+
+\obr{Výseč snímku z obrazovky pro výběr konverzí}{obr:vyberKonverzi}{0.7}{obrazky/vyberKonverzi.png}
+
+
+\n{2}{Ukládání a načítání konverzí}
+
+Tyto volby pro načítání z, respektive ukládání do souboru se nachází v menu pod \texttt{"File -> Save"}, respektive pod \texttt{"File -> Load"}. Taktéž jsou v aplikaci implementované zkratky \texttt{ctrl + o} respektive \texttt{ctrl + s} pro otevření, respektive načtení uloženého příkladu konverze ze souboru. Tuto funkcionalitu jsem přidal zejména z důvodu toho, že zabudované příklady v aplikaci nemohou obsáhnout vše a proto má vyučující možnost připravit další zajímavé příklady pro prostudování studenty.  
+
+Screenshot není potřeba přikládat avšak za zmínku stojí fakt, že u módů "Samostatná práce"\ a "Automatická kontrola"\ se ukládají data, jak vstupní, tak výstupní, avšak u módu "Krokování algoritmu" se ukládají jenom vstupní data, protože výstup zde netvoří uživatel, nýbrž samotná aplikace.
+
+\n{1}{Konverzní módy}
+
+Poslední položkou v menu je výběr módu. Jak již bylo řečeno na začátku této kapitoly, aplikace by měla umožňovat, jak samotné studium konverzních algoritmů, tak jejich samostatné praktické procvičení, proto jsem implementoval následující módy.
+
+\n{2}{Mód krokování algoritmu}
+
+První mód určený pro prezentace v hodinách na fakultě a pro samostudium implementovaných konverzí je mód nazvaný \textit{Krokování algoritmu}. V tomto módu si uživatel krokuje jednotlivé kroky algoritmu. Ve widgetu pro danou konverzi jsou v jeho horní části následující kontrolní prvky, které můžete vidět na obrázku (Obr. \ref{obr:kontrolniPrvkyKrokovacihoModu}). Ještě než se přesuneme k popisu jednotlivých tlačítek stojí za zmínku, že pokud je algoritmus na úplném začátku, tak je zakázáno tlačítko zpět, stejná situace nastává na konci algoritmu pro tlačítko vpřed. První případ je ostatně vidět na obrázku (Obr. \ref{obr:kontrolniPrvkyKrokovacihoModu}).
+
+\obr{Výřez konrolních prvků z krokovacího módu}{obr:kontrolniPrvkyKrokovacihoModu}{0.7}{obrazky/kontrolniPrvkyKrokovacihoModu.png}
+
+Jak je vidět k dispozici jsou možnosti \texttt{next}, respektive \texttt{prev}, které nás posunují o jeden krok v algoritmu vpřed respektive v zad. Dalšími jsou \texttt{begin}, respektive \texttt{end}, které za nás okamžitě přenesou v algoritmu na začátek, respektive na konec. Poslední dvě možnosti jsou \texttt{play} a \texttt{stop}. Předposlední tlačítko je nazváno \texttt{play} začne přehrávat algoritmus po jednotlivých krocích s časovou prodlevou specifikovanou v pravé části pomocí kontrolky pojmenované \texttt{Delay}, ve které se zadává čas v milisekundách. Výchozí volba je 0 ms, která říká programu, že má provádět jednotlivé kroky algoritmu jak nejrychleji dovede. Poslední tlačítko je nazváno \texttt{stop}, které nám přestane přehrávat algoritmus, pokud jsme předtím klikli na \texttt{play}. Více o algoritmickém widgetu a souvislosti breakpointů a tlačítka \texttt{play} si povíme později.
+
+\n{2}{Mód samostatné práce}
+
+Poté co si uživatel prostudoval v praxi, jak funguje algoritmus převodu, si může zkusit konverzi provést sám, tak aby se přesvědčil, že algoritmus plně ovládá. 
+
+\n{2}{Mód automatické kontroly}
+
+TODO: Popsat ze se da algoritmus i uplne skrit aby si uzivatel zkusit udelat konverzi uplne bez pomoci, jako na pisemce.
+
+% ============================================================================ %
 \cast{Implementace}
 
-% Říct, že jsem k vývoji použil Qt Creator a později i Visual studio s patřičným doplnkem.
-% Říct, jak zbuildit ve Visual studiu a jak v Qt Ctreatoru, kde je stahnout, jaky doplnek do VS byl potřeba. Jak nastavit QtCreator pro debuger z VS, kde se da stahnout...
-% Když bude velká nouze, tak popsat jak jsem si konfigurovat VS (F4, barvičky...). Že v Qt creatoru jsem používal tabulátory místo mezer, jak jsou defaultně nastavené.
-% Zmínit se, že kazdy example má u sebe screenshot
-% Prvne před implementačními detajly DETAILNE popsat fungování programu a všechny jeho funkce z uživatelského hlediska. (koukat se u toho do kodu)
-% * Zmínit i o tom ze se měni title okna podle toho jaká je to koverze, jaky mod a pripadne i nazev example
+TODO: Říct, že jsem k vývoji použil Qt Creator a později i Visual studio s patřičným doplnkem.
+
+TODO: Říct, jak zbuildit ve Visual studiu a jak v Qt Ctreatoru, kde je stahnout, jaky doplnek do VS byl potřeba. Jak nastavit QtCreator pro debuger z VS, kde se da stahnout...
+
+TODO: Když bude velká nouze, tak popsat jak jsem si konfigurovat VS (F4, barvičky...). Že v Qt creatoru jsem používal tabulátory místo mezer, jak jsou defaultně nastavené.
+
+TODO: Zmínit se, že kazdy example má u sebe screenshot
+
+TODO: Prvne před implementačními detajly DETAILNE popsat fungování programu a všechny jeho funkce z uživatelského hlediska. (koukat se u toho do kodu)
+
+TODO: * Zmínit i o tom ze se měni title okna podle toho jaká je to koverze, jaky mod a pripadne i nazev example
 
 \n{1}{Refaktor existujícího kódu}
 
 Refaktoring je činnost při, které se zlepšuje kvalita kódu bez přímého vlivu na uživatele aplikace.
 
-Nerefaktorovaný kód vede k tomu, že jen obtížně mohou programátoři rozumnět kódu a to vede k častým chybám a prodloužením vývoje.
+Nerefaktorovaný kód vede k tomu, že jen obtížně mohou programátoři rozumět kódu a to vede k častým chybám a prodloužením vývoje.
 
-Všechny zdrojové soubory nutné pro úpsěšnou kompilaci kódu jsem přesunul do samostatné složky standartně pojmenované \textit{src}, podle anglického slova \textit{sources}.
+Všechny zdrojové soubory nutné pro úspěšnou kompilaci kódu jsem přesunul do samostatné složky standardně pojmenované \textit{src}, podle anglického slova \textit{sources}.
 
-Kód by měl být pokud požno homogení a měl by v něm být dodžován systém pojmenovávaní. 
+Kód by měl být pokud možno homogenní a měl by v něm být dodržován systém pojmenovávaní. 
 
 \n{2}{Konvence pojmenování částí kódu}
 
-Pro pojmenovávaní proměných, tříd a typů jsem použil systém používaný ve firmě AVG.
+Pro pojmenovávaní proměnných, tříd a typů jsem použil systém používaný ve firmě AVG.
 Vše popisuje následující tabulka.
 
 
@@ -241,13 +315,9 @@ Vše popisuje následující tabulka.
 	\hline
 }
 
-%\cast{Projektová část}
-% Představení aplikace regular konvertor
-% Popsat mody aplikace, co umi co neumi, k čemu se dá použít.
+Dalšími konvencemi jsou pojmenovávání pomocí "CammelCase". To znamená, že pokud se nějaký název skládá z více slov, tak jsou jednotlivá slova od sebe graficky oddělena pomocí toho, že každé další slovo je od předchozího odděleno velkým písmenem.
 
-Dalšími konvencemi jsou pojenovávání pomocí "CammelCase". To zamená, že pokud se nějaký název zkládá z více slov, tak jsou jednotlivá slova od sebe graficky oddělena pomocí toho, že každé další slovo je od přechozího odděleno velkým písmenem.
-
-Při pojmenovávání souborů jsem se snažil dodržet konvenci, že názez souboru se skládá pouze z malých písmen následovaný příponou souboru.
+Při pojmenovávání souborů jsem se snažil dodržet konvenci, že název souboru se skládá pouze z malých písmen následovaný příponou souboru.
 
 \n{2}{Přepsání třídy hlavního okna na několik malých}
 
@@ -255,60 +325,61 @@ Příliš velké metody nebo třídy nejsou tolik přehledné a udržovatelné. 
 
 V mém původním návrhu bakalářské práce jsem neuměl techniku zvanou \textit{Promoting}. Je to technika v Qt Designeru, kde si navrhnu vzhled widgetu, tak že se skládá, podobně jako stavebnice z ostatních uživatelských widgetů. Toto je možné, protože každý grafický prvek musí mít za předka QWidget.
 
-\obr{Příklad Promoting na widgetu pro konverzi bezkontextové gramatyky na zásobníkový automat.}{obr:prikladQtPromoting}{0.9}{obrazky/PromotingOfWidgets.eps}
+\obr{Příklad promoting na widgetu pro konverzi bezkontextové gramatiky na zásobníkový automat.}{obr:prikladQtPromoting}{0.9}{obrazky/PromotingOfWidgets.eps}
 
-Na obrázku můžete vidět widget pro konverzi bezkontextové gramatiky na zásobníkový automat. Tato konverze se zkládá ze 4 widgetů (od levého horního rohu k pravému dolnímu rohu): widget pro bezkontextovou gramatiku, widget vizualizující konvezi, widget pro zásobníkový automat a v pravo dóle widget, kde se ukazují aktuální hodnoty proměnných použitých v konverzním widgetu.
+Na obrázku můžete vidět widget pro konverzi bezkontextové gramatiky na zásobníkový automat. Tato konverze se skládá ze 4 widgetů (od levého horního rohu k pravému dolnímu rohu): widget pro bezkontextovou gramatiku, widget vizualizující konverzi, widget pro zásobníkový automat a vpravo dole widget, kde se ukazují aktuální hodnoty proměnných použitých v konverzním widgetu.
 
 Původně vytváření grafického rozvržení widgetů jsem měl pro všechny konverze implementované v třídě hlavního okna. Naopak nyní jsou všechny konverze popsány graficky v souborech s koncovkou \textit{*.ui} a logika konverzí v asociovaných zdrojových souborech s koncovkami \textit{*.cpp} a \textit{*.h}. Toto jsem dělal ve jménu jedné z hlavních myšlenek zapouzdření.
 
-%TODO obrázek konverze s popiskami
+TODO obrázek konverze s popiskami
 
 Pro widgety u kterých se mění popisek jsem přidal metodu \textit{SetCaption()}, která jim nastaví správný text.
 
-%TODO: Diagram tříd pro vICentralCoversionWidget a popis method 
+TODO: Diagram tříd pro vICentralCoversionWidget a popis method 
 
 \n{1}{Drobné vylepšení existujícího kódu}
 
 Pro uložení existujících konverzí do souboru jsem přidal klávesovou zkratku \texttt{CTRL+S} podle anglického \textit{Save} a pro uložení \texttt{CTRL+L}, podle anglického \textit{Load}.
 
-\n{1}{Analýza nástrojů vytváření vyzualizací z existujícího kódu}
+\n{1}{Analýza nástrojů vytváření vizualizací z existujícího kódu}
 
-Při hledání nástrojů pro visualizaci a dokumenataci existujícího kódu jsem měl následují požadavky:
+Při hledání nástrojů pro vizualizaci a dokumentaci existujícího kódu jsem měl následují požadavky:
 
-* Všechny nástroje mují být bezplatné.
-* Musejí uměl vyzualizovat diagram tříd a propojení tříd pomocí Qt mechanizmu Signálů a slotů.
+* Všechny nástroje musejí být bezplatné.
+* Musejí uměl vizualizovat diagram tříd a propojení tříd pomocí Qt mechanizmu Signálů a slotů.
 * Musí umět ideálně vygenerovat požadované vizualizace automaticky, tak aby se při změně kódu automaticky aktualizovali a nemuseli se vytvářet pokaždé ručně.
 
 \n{2}{Qt ModelEditor}
 
-Prvním nástrojem je \textit{ModelEditor}. Tento nástroj jsem zkusil jako první protože je ve formě pluginu do IDE \textit{QtCreator}, který jsem používal pro programování této diplomové práce. \textit{ModelEditor} umožnuje dělat sice jednoduché, ale přehledné UML diagramy. Zásadní nedostatek, je že umožnuje například diagram tříd generovat jenom částečně a to tak, že se přetáhne zdrojový soubor do modelovacího editoru, kde se vytvoří element s názvem třídy, ale metody a členské se musí dopisovat ručně. Na domovské stránce (https://wiki.qt.io/ModelEditor) tohoto nástroje jsem se nikde nedočetl, že by se na této funkcionalitě mělo někdy pracovat, proto jsem tento nástroj prozatím zavrhl.
+Prvním nástrojem je \textit{ModelEditor}. Tento nástroj jsem zkusil jako první protože je ve formě pluginu do IDE \textit{QtCreator}, který jsem používal pro programování této diplomové práce. \textit{ModelEditor} umožňuje dělat sice jednoduché, ale přehledné UML diagramy. Zásadní nedostatek, je že umožňuje například diagram tříd generovat jenom částečně a to tak, že se přetáhne zdrojový soubor do modelovacího editoru, kde se vytvoří element s názvem třídy, ale metody a členské se musí dopisovat ručně. Na domovské stránce (https://wiki.qt.io/ModelEditor) tohoto nástroje jsem se nikde nedočetl, že by se na této funkcionalitě mělo někdy pracovat, proto jsem tento nástroj prozatím zavrhl.
 
 Another link to Qt ModelEditor http://doc.qt.io/qtcreator/creator-modeling.html
 
 \n{2}{Doxygen a Graphviz}
 
-Druhým nástrojem je \textit{Doxygen}, který je určen na automatickou tvorbu dokumentace. Tento nástroj byl ve svém počátku určen právě pro C++/Qt. \textit{Doxygen} pro tvorbu pokročilých grafů potřebuje doinstalovat \textit{Graphviz} a nastavit systémovou proměnnou PATH na cestu ke spustitelným souborům \textit{Graphviz}. Funguje to tak, že \textit{Doxygen} vytvoří textový popis grafu a \textit{Graphviz} pomocí spustitelého programu \textit{Dot} umí vytvořit grafickou podobu jak ve vektrorových, tak v rastrových formátech. Aby bylo generování co nejjednodušší vytvořil jsem si konfigurační soubor pojmenovaný "Doxyfile" v adresáři "src". Následně se celá dokumentace vygeneruje automaticky pomocí zavolání příkazu doxygen ve stejném adresáři ve kterém se nachází "Doxyfile". \textit{Doxygen} umí vytvořit UML diagram tříd. U každé třídy ukáže od kterých tříd dědí a také názvy proměnných a metod spolu s jejich modifikátorem vyditelností (public, protected, private). Zásadním problémem je, že neukazuje názvy typů členských proměnných, ani návratové typy a typy parametrů metod. 
+Druhým nástrojem je \textit{Doxygen}, který je určen na automatickou tvorbu dokumentace. Tento nástroj byl ve svém počátku určen právě pro C++/Qt. \textit{Doxygen} pro tvorbu pokročilých grafů potřebuje doinstalovat \textit{Graphviz} a nastavit systémovou proměnnou PATH na cestu ke spustitelným souborům \textit{Graphviz}. Funguje to tak, že \textit{Doxygen} vytvoří textový popis grafu a \textit{Graphviz} pomocí spustitelného programu \textit{Dot} umí vytvořit grafickou podobu jak ve vektorových, tak v rastrových formátech. Aby bylo generování co nejjednodušší vytvořil jsem si konfigurační soubor pojmenovaný "Doxyfile" v adresáři "src". Následně se celá dokumentace vygeneruje automaticky pomocí zavolání příkazu doxygen ve stejném adresáři ve kterém se nachází "Doxyfile". \textit{Doxygen} umí vytvořit UML diagram tříd. U každé třídy ukáže od kterých tříd dědí a také názvy proměnných a metod spolu s jejich modifikátorem viditelnosti (public, protected, private). Zásadním problémem je, že neukazuje názvy typů členských proměnných, ani návratové typy a typy parametrů metod. 
 Pro automatické generování dokumentace z kódu je tento nástroj ideální, ale já chtěl v této diplomové práci mít kompletní diagram tříd včetně typů a návratových hodnot proto jsem zkoušel ještě třetí nástroj.
 
 \n{2}{Diagram tříd ve Visual studio Express 2015}
 
-Třetím nástrojem, který uspokojil všechny požadavky na diagram tříd se nacházel v IDE \textit{Visual Studio}. Diagram konkrétní třídy se ná vygenerovat tak, že se pravým tlačítkem klikne na hlavičkový soubor třídy a následně vybere možnost "zobrazit diagram třídy". Po kliku kamkoliv do volného místa se dá vyvolat nabýdka na export do různých formátů. Dá se i zvolit jestli chceme zobrazit celou signaturu, tj. návratové typy, jména a typy parametrů a typy členských proměnných. Jediná drobná výtka by mohla být, že modifikátor viditelnosti je a zda se jedná o metodu nebo proměnnou je značen z hlediska UML nestandartní ikonou. Zasadní je, že diagram tříd vygenerovaný tímto nástrojem obsahuje všechnu podstatné informace, proto jej použiji pro generovaní obrázků tříd do této diplomové práce.
+Třetím nástrojem, který uspokojil všechny požadavky na diagram tříd se nacházel v IDE \textit{Visual Studio}. Diagram konkrétní třídy se ná vygenerovat tak, že se pravým tlačítkem klikne na hlavičkový soubor třídy a následně vybere možnost "zobrazit diagram třídy". Po kliku kamkoliv do volného místa se dá vyvolat nabídka na export do různých formátů. Dá se i zvolit jestli chceme zobrazit celou signaturu, tj. návratové typy, jména a typy parametrů a typy členských proměnných. Jediná drobná výtka by mohla být, že modifikátor viditelnosti je a zda se jedná o metodu nebo proměnnou je značen z hlediska UML nestandardní ikonou. Zásadní je, že diagram tříd vygenerovaný tímto nástrojem obsahuje všechnu podstatné informace, proto jej použiji pro generovaní obrázků tříd do této diplomové práce.
 
-% Napsat proč jsem nepoužil iteratory, ale listy v CFG to PDA (kvuli moznosti nacitani a ukladani jednotlivych stepů.)
+TODO: Napsat proč jsem nepoužil iteratory, ale listy v CFG to PDA (kvuli moznosti nacitani a ukladani jednotlivych stepů.)
 
 \n{2}{Simple tool to visualize connections between signals and slots in Qt }
 
-Pro vizualizaci propojení pomocí Qt slotů a signálů jsem akorát našel jednoduchý nástroj, jehož zdrojový text je uveden na adrese http://hackatool.blogspot.cz/2013/05/simple-tool-to-visualize-connections.html . Tento nástroj pracuje na principu prohledání zdojových souborů na základě regulárního výrazu a následně vygeneruje textový popis grafu propojení ve formátu, kterému rozumí program Graphviz zmíněný výše. 
+Pro vizualizaci propojení pomocí Qt slotů a signálů jsem akorát našel jednoduchý nástroj, jehož zdrojový text je uveden na adrese http://hackatool.blogspot.cz/2013/05/simple-tool-to-visualize-connections.html . Tento nástroj pracuje na principu prohledání zdrojových souborů na základě regulárního výrazu a následně vygeneruje textový popis grafu propojení ve formátu, kterému rozumí program Graphviz zmíněný výše. 
 
 % ============================================================================ %
 
 \nn{Závěr}
-% Ujasnit si o čem chci v diplomce psat
-% Naučil jsem se Latex (Pracovat se zdroji), zprovoznit na linuxu Latex a pracovat s TeXWork.
-% Naucil jsem se pracovat s programem na mocup
-% Napsal jsem kus diplomove prace zaroven (Teorie, definice)
-% Do závěru napsat počet normostran a metriky kody, kolik radku, znaku, kolik zmen jsem udelal v kodech od diplomky...
-% Zhodnoceni, co se všechno povedlo. (Ne moc kritiky!!!)
+
+TODO: Ujasnit si o čem chci v diplomce psat
+
+TODO: Do závěru napsat počet normostran a metriky kody, kolik radku, znaku, kolik zmen jsem udelal v kodech od diplomky...
+
+TODO: Zhodnoceni, co se všechno povedlo. (Ne moc kritiky!!!)
+
 V této práci jsem se snažil k hůře stravitelné teorii přikládat množství příkladů, aby byla tato problematika pochopitelná a přínosná pro studenta, který by si tuto práci chtěl půjčit v univerzitní knihovně. Z vlastní zkušenosti vím, že pro lepší pochopení dané problematiky je kromě suché teorie nutné přiložit i příklady. Dával jsem je zde i pro to, že konečným cílem diplomové práce bude kromě textu nutné vytvořit i funkční aplikaci, která má sloužit především studentům, ale samozřejmě ji mohou využít i profesoři na naší škole k prezentaci přednášené látky pro lepší přiblížení studentům. Chtěl jsem, aby i student nepříliš seznámený s danou problematikou mohl po přečtení této práce začít používat mou aplikaci bez obtíží.
 
 

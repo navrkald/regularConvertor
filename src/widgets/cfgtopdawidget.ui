@@ -42,7 +42,7 @@
        <enum>Qt::Horizontal</enum>
       </property>
       <property name="childrenCollapsible">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <widget class="CCfgWidget" name="m_cfgWidget" native="true">
        <property name="sizePolicy">
@@ -72,7 +72,7 @@
        <enum>Qt::Horizontal</enum>
       </property>
       <property name="childrenCollapsible">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <widget class="CPdaWidget" name="m_pdaWidget" native="true">
        <property name="sizePolicy">

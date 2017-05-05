@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(status_timer,SIGNAL(timeout()),this,SLOT(hideStatusMessage()));
 
     ui->menuLanguages->menuAction()->setVisible(false);
-	on_CfgToPda_Example_1_triggered();
+	//on_CfgToPda_Example_1_triggered();
 }
 
 MainWindow::~MainWindow()

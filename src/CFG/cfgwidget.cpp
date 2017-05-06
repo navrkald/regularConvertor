@@ -32,21 +32,14 @@ CContextFreeGrammar CCfgWidget::GetCfg()
 
 void CCfgWidget::on_m_BackusNaurFormTextEdit_textChanged()
 {
-  if(E_NO_ERROR == m_cfg.GetFromBackusNaurForm(ui->m_BackusNaurFormTextEdit->toPlainText())){
-    ui->m_nonterminalLabel->setText("N = { " + m_cfg.NonTerminalAlphabetToString() + "} is finite alphabet of non-terminals");
-    ui->m_terminalLabel->setText("T = { " + m_cfg.TerminalAlphabetToString() + "} is finite alphabet of terminals");
-    ui->m_firstNonTerminal->setText("S = " + m_cfg.GetStartNonTerminal() + " is first nonterminal");
-    emit CfgChanged(m_cfg);
-    SetBackgroundColor(Qt::transparent);
-  }
-  else{
-    SetBackgroundColor(Qt::yellow);
-    }
-}
-
-void CCfgWidget::SetBackgroundColor(const Qt::GlobalColor &color)
-{
-  QPalette palette = ui->m_BackusNaurFormTextEdit->palette();
-  palette.setColor(QPalette::Base, color);
-  ui->m_BackusNaurFormTextEdit->setPalette(palette);
+	if(E_NO_ERROR == m_cfg.GetFromBackusNaurForm(ui->m_BackusNaurFormTextEdit->toPlainText())){
+		ui->m_nonterminalLabel->setText("N = { " + m_cfg.NonTerminalAlphabetToString() + "} is finite alphabet of non-terminals");
+		ui->m_terminalLabel->setText("T = { " + m_cfg.TerminalAlphabetToString() + "} is finite alphabet of terminals");
+		ui->m_firstNonTerminal->setText("S = " + m_cfg.GetStartNonTerminal() + " is first nonterminal");
+		emit CfgChanged(m_cfg);
+		ui->m_BackusNaurFormTextEdit->setStyleSheet(m_backgroundTransparentStr);
+	}
+	else{
+		ui->m_BackusNaurFormTextEdit->setStyleSheet(m_backgroundYellowStr);
+	}
 }

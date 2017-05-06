@@ -27,7 +27,8 @@ private slots:
 private:
     Ui::CCfgWidget *ui;
     CContextFreeGrammar m_cfg;
-    void SetBackgroundColor(const Qt::GlobalColor& color);
+	const QString m_backgroundYellowStr = "background-color:yellow ";
+	const QString m_backgroundTransparentStr = "background-color:white ";
 };
 
 #endif // CFGWIDGET_H

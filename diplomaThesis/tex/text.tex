@@ -279,29 +279,54 @@ Pokud už si uživatel myslí, že "už už" přece řešení musí být správn
 
 \n{1}{Popis konverze bezkontextové gramatiky na zásobníkový automat}
 
-Stejně jako u předchozích konverzí, jsem se i v této konverzi držel zavedeného schématu z bakalářské práce, že v levo nahoře je widget, ve kterém je popsán stupní model formálního jazyka, v pravé horní části je algoritmický widget, v levé dolní části je widget, ve kterém je umístěn výstupní model formálního jazyka a konečně v pravé dolní řásti je widget, ve kterém jsou zobrazené aktuální hodnoty proměnných použitých v algoritmickém widgetu. 
+Stejně jako u předchozích konverzí, jsem se i v této konverzi držel zavedeného schématu z bakalářské práce, že vlevo nahoře je widget, ve kterém je popsán vstupní model formálního jazyka, v pravé horní části je algoritmický widget, v levé dolní části je widget, ve kterém je umístěn výstupní model formálního jazyka a konečně v pravé dolní části je widget, ve kterém jsou zobrazené aktuální hodnoty proměnných použitých v algoritmickém widgetu. Celý pohled je ukázán na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}). 
 
-Tyto widgety jsou od sebe navzájem odděleny posouvátky, které umožnují mněnit velikost jednotlivých widgetů a to až do té míry, že je možné jej úplně schovat. To se může hodit v situaci, když si chce student procvičit dannou konverzi do té míry, že nechce být rušen samotným algoritmem. Další ze situací je, když studuje, nebo samostatně provádí konverzi a nezají jej aktuální hodnoty proměnných, nebo chce jen více místa pro výstupní widget, pokud převádí rozsáhlí model, tak jistě odcenní možnost, že si může nechat schovat widget s proměnnými.
+Všechny widgety jsou od sebe navzájem odděleny rozdělovači, které umožňují měnit jejich velikost a to až do té míry, že je možné je úplně schovat. To se může hodit v situaci, když si chce student procvičit danou konverzi do té míry, že nechce být rušen samotným algoritmem. Další ze situací je, když studuje, nebo samostatně provádí konverzi a nezajímají jej aktuální hodnoty proměnných, nebo chce jen více místa pro výstupní widget, pokud převádí rozsáhlý model, tak jistě od-cenní možnost, že si může nechat schovat widget s proměnnými.
 
-V této konverzi je stupní widget popisující bezkontextovou gramatiku a výstupní widget, ve kterém je popsán zásobníkový automat.
+V této konverzi je vstupní widget popisující bezkontextovou gramatiku a ve výstupním je popsán zásobníkový automat.
 
-TODO: najít český překlad splittu a nahradit výraz posouvátky.
+\obr{Pohled na hlavní okno, ke je vybrán první příklad převodu bezkontextové gramatiky na zásobníkový automat v krokovacím módu }{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}{1.0}{obrazky/konverzeBezkontextovGramatikyNaZasobnikovyAutomat.png}
 
-TODO: Obrázek konverze CFG na PDA
 
 \n{1}{Vstupní widget bezkontextové gramatiky}
 
-Do tohoto widgetu se vkládá popis bezkontextové gramatiky pomocí Backus-Naurovi formy. Tento widget je inteligentní a pozná jestli je danná gramatika ve správném syntaktickém formátu. Pokud není, tak pozadí editačního kontrolního prvku, kde se daná gramatika vyplnuje zežloutne, čímž uživateli signalizuje, že udělal chybu. V opačném případě, se gramatika automaticky zorparsuje a vypní se tak počátečný nonterminál a abeceda terminálů a nonterminálů. Uživatel záměrně nemá možnost tyto 3 informace editovat, tak aby se předešlo uživatelským chybám.
-
-TODO: Spravit at se pozadí u CFG zezloutne v případě nevalidního vstupu.
+Do tohoto widgetu se vkládá popis bezkontextové gramatiky pomocí Backus-Naurovi formy. Tento widget je inteligentní a pozná jestli je daná gramatika ve správném syntaktickém formátu. Pokud není, tak pozadí editačního kontrolního prvku, kde se daná gramatika vyplňuje zežloutne, čímž uživateli signalizuje, že udělal chybu v syntaxi. V opačném případě, se gramatika automaticky rozparsuje a vyplní se tak počáteční non-terminál, abeceda terminálů a non-terminálů. Uživatel záměrně nemá možnost tyto 3 informace editovat, tak aby se předešlo zbytečným chybám. Za zmínku stojí, že pokud mají jednotlivá gramatická pravidla stejnou levou stranu, lze je napsat na jeden řádek tak, že pravé strany jsou od sebe odděleny svislítkem. Pokud uživatel vybere čistou konverzi s prázdnou bezkontextovou gramatikou, widget je předvyplněn textem, který uživateli názorně ukáže příklad správné formy jak zapsat bezkontextovou gramatiku. Je zde uveden proto, aby bylo pro nové uživatele co nejsnadnější používat tento program.
 
 \n{1}{Algoritmický widget}
 
-Každý algoritmický widget na samotném vrcholku obsajuje tlačítka a kontrolní prvky, které se mění v návaznosti na vybraný mód jsem popisoval výše, proto je zde nebudu blíže rozebírat.
+Každý algoritmický widget na samotném vrcholku obsahuje tlačítka a kontrolní prvky, které se mění v návaznosti na vybraný mód, které jsem popisoval výše, proto je zde nebudu blíže rozebírat.
 
-Pod nimi se nachází samotný textový popis algoritmu, kde v jeho vrchní části je zapsáno, co je jeho vstupem a výstupem. Pod tímto popisem jsou už samotné kroky algoritmu. V levo od exekutivních kroků je šedé kolečko, které se změní na červené, pokud uživetel kliknul na příslušný řádek. Toto kolečko značí, zdali je breakpoint neaktivní, či aktivní. Breakpointy slouží k režimu krokování algoritmu, kde lze kliknout na tlečítko \texttt{play} a tím se spustí automatické krokování algoritmu s danou prodlevou mezi kroky do doby, než algoritmus narazí na aktivní breakpoit, nebo dokud nebulo stisknuto tlačítko stop. Avšak né každý krok algoritmu umožnuje nastavit breakpoit, například pro krok algoritmu, kde je uveden je uvedeno jen informativní návěští pro snadnější orientaci uživatele. 
+Pod nimi se nachází samotný textový popis algoritmu, kde v jeho vrchní části je zapsáno, co je jeho vstupem a výstupem. Pod tímto popisem jsou už samotné kroky algoritmu. Při samotném krokování se aktuální krok vždy zvýrazní žlutým pozadím. Výpočetní model každého algoritmu je postaven tak, že aktuálně zvýrazněný krok se zároveň provedl a nastaví tak aktuální proměnné do widgetu vpravo dole a taktéž změní model ve výstupním widgetu. 
+
+Vlevo od exekutivních kroků je šedé kolečko, které se změní na červené, pokud uživatel kliknul na příslušný řádek. Toto kolečko značí, zdali je breakpoint neaktivní, či aktivní. Breakpointy slouží v režimu krokování algoritmu, kde lze kliknout na tlačítko \texttt{play} a tím se spustí automatické krokování algoritmu s danou prodlevou mezi kroky do doby, než algoritmus narazí na aktivní breakpoit, nebo dokud nebylo stisknuto tlačítko stop. Avšak né každý krok umožňuje nastavit breakpoit, například pro krok algoritmu, kde je uvedeno jen informativní návěští pro snadnější orientaci uživatele. 
+
+Celý algoritmus převodu můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}). Nyní bych rád přiložil ještě jeden diagram, který můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}) znázorňující, jak celý algoritmus funguje. Slovně jej zde popisovat nebudu, protože si myslím, že je zcela názorný a taky vzhledem k tomu, že jeho slovní popis by zabral celou stránku a nebyl by zdaleka tak přehledný.
+
+\obr{Diagram detailně popisující chování algoritmu převodu bezkontextovou gramatiku na konečný automat}{obr:LogicDiagramOfAlgorithmCFGtoPDA}{1.0}{graphs/LogicDiagramOfAlgorithmCFGtoPDA.jpg}
 
 \n{1}{Výstupní widget zásobníkového automatu}
+
+Zásobníkový automat je zde tvořen žlutými kolečky uvnitř kterých je pojmenování daného stavu. Pokud je jméno stavu delší, než průměr kolečka, tak se mění tvar elipsu širokou právě tak, aby obsáhla vnitřní text. Počáteční stav je označen tak, že do něj vede tlustá šipka zleva, která nezačíná v žádnem ze stavu zásobníkového automatu. Koncové stavy zásobníkového automatu jsou označeny druhým vnitřním kolečkem.
+
+Přechodová pravidla lze vést z jakéhokoliv stavu do dalšího a to i z a do toho stejného. Takováto šipka je pak označena částečně zakrytým kruhem nad stavem nad kterým je text přechodového pravidla. 
+
+Pro tvorbu zásobníkového automatu slouží kreslící plocha, uvnitř které se v pravém horním rohu nacházejí 4 tlačítka. Pokud je vybráno první tlačítko s ikonou kurzoru myši, pak lze jednotlivé stavy zásobníkového automatu přemisťovat v kreslící ploše. Taktéž lze označovat jak přechodová pravidla tak stavy. Pokud máme označen jeden nebo více stavů a přechodových pravidel, lze je smazat jediným klikem na nejpravější tlačítko s ikonou odpadkového koše.
+
+Po kliknutí na tlačítko s ikonou kruhu uvnitř kterého je obrázek plus je nastaven tento widget na přidávání stavů, kde každým následujícím klikem do kreslící scény se na daném místě objeví nový uzel s unikátním jménem. Standardně jsou takto nové stavy označeny vzrůstající sekvencí čísel.
+
+Pokud označíme tlačíko s ikonou šipky, pak můžeme kreslit ve scéně přechodová pravidla. Pravidla se vkládají tak, je se stiskne levé tlačítko myši uvnitř plochy elipsy označující stav automatu, drží se stisklé a uvolní se v jiném nebo stejném stavu. Po uvolnění levého tlačítka myši vyskočí dialog ve kterém se zadávají přechodová pravidla. Tento dialog můžeme vidět na obrázku (Obr. \ref{obr:pdaDialogForEnteringRules}). 
+
+\obr{Okno dialogu pro vkládání přechodová pravidla v zásobníkovém automatu}{obr:pdaDialogForEnteringRules}{0.4}{obrazky/pdaDialogForEnteringRules.png}
+
+Pokud vkládáme první pravilo mezi stavy automatu, tak je dialog vyplněn šedým textem informujícím v jakém formátu se jednotlivé pravidla zapisují.
+Formát je takový, že každé pravidlo začíná symbolem, který se vybírá ze zásobníku, následuje vstupní symbol abecedy oddělený čárkou, následuje šipka ()
+"->") a za ní je seznam symbolů které se vkládají na zásobník. Záměrně se zde nezapisuje z jakého na jaký stav se má zásobníkový automat přesunout po provedení pravidla, tak aby uživatel nemohl udělat chybu. Tuto informaci zvolil už tím, že vytvořil šipku, která vždy musí v nějaké stavu začínat a končit.
+
+Daný uzel lze označit jako koncový, či začáteční kliknutím pravím tlačítkem uvnitř elipsy a zaškrtnutím příslušného checkboxu. Tuto kontextovou nabídku, kde je vybrán daný uzel jako počáteční a zároveň jako koncový můžete vidět na obrázku (Obr. \ref{obr:oznaceniStavuKoncovyAPocatecni}).
+
+\obr{Okno dialogu pro vkládání přechodová pravidla v zásobníkovém automatu}{obr:oznaceniStavuKoncovyAPocatecni}{0.4}{obrazky/oznaceniStavuKoncovyAPocatecni.png}
+
+\obr{Okno dialogu pro vkládání přechodová pravidla v zásobníkovém automatu}{obr:oznaceniStavuKoncovyAPocatecni}{0.4}{obrazky/dd.svg}
 
 \n{1}{Widget s aktuálními proměnnými z algoritmického widgetu}
 

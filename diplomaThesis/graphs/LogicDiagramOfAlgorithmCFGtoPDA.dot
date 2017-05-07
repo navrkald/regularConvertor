@@ -1,0 +1,14 @@
+digraph {
+	"Q = {s}" -> "Σ = T"[label="always"];
+	"Σ = T" -> "Γ = N ∪ T"[label="always"];
+	"Γ = N ∪ T" -> "for each a ∈ Σ"[label="if Σ ≠ Ø"];	
+	"Γ = N ∪ T" -> "for each A -> x ∈ P"[label="if Σ = Ø and P ≠ Ø"];
+	"Γ = N ∪ T" -> "F = Ø"[label="if Σ = Ø and P = Ø"];
+	"for each a ∈ Σ" -> "add a s a -> s to R"[label="always"];
+	"add a s a -> s to R" -> "for each a ∈ Σ"[label="is not end of Σ"];
+	"add a s a -> s to R" -> "for each A -> x ∈ P"[label="is end of Σ and P ≠ Ø"];
+	"add a s a -> s to R" -> "F = Ø"[label="is end of Σ and P = Ø"];
+	"for each A -> x ∈ P" -> "add A s -> y to R where y = reversal( x )"[label="always"];
+	"add A s -> y to R where y = reversal( x )" -> "for each A -> x ∈ P"[label="is not end of P"];
+	"add A s -> y to R where y = reversal( x )" -> "F = Ø"[label="is end of P"];
+}

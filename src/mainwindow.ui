@@ -112,7 +112,7 @@ p, li { white-space: pre-wrap; }
      <addaction name="Determinization_advanced_example_3"/>
      <addaction name="Determinization_advanced_example_4"/>
     </widget>
-    <widget class="QMenu" name="menuContext_free_grammar_to_PushDown_Automata">
+    <widget class="MyTooltipQMenu" name="menuContext_free_grammar_to_PushDown_Automata">
      <property name="title">
       <string>Context-free grammar to PushDown Automata</string>
      </property>
@@ -562,6 +562,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Simple example 1</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/cfg_to_pda_simple_example_1.png' /&gt;</string>
    </property>
   </action>
  </widget>

@@ -561,7 +561,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Simple example 1</string>
+    <string>Language of brackets</string>
    </property>
    <property name="toolTip">
     <string>&lt;img src=':/main_window/pictures/cfg_to_pda_simple_example_1.png' /&gt;</string>

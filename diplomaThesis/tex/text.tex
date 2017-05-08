@@ -57,14 +57,14 @@ Jak je vidět z těchto příkladů, pomocí bezkontextového jazyka se dají po
 Nyní si definujeme definici zásobníkového automatu. \cite{PDA}
 
 \begin{framed}
-	\begin{flushleft}Konečný zásobníkový automat \( M \) je uspořádaná sedmice \( M = (Q, \Sigma, \Gamma, \delta, q_0, z_0, F) \) kde:\end{flushleft}
+	\begin{flushleft}Konečný zásobníkový automat \( M \) je uspořádaná sedmice \( M = (Q, \Sigma, \Gamma, R, q_0, S, F) \) kde:\end{flushleft}
 	\begin{itemize}
 		\item \( Q \) je konečná množina vnitřních stavů,
 		\item \( \Sigma \) je konečná vstupní abeceda,
 		\item \( \Gamma \) je konečná abeceda zásobníku,
-		\item \( \delta \) je přechodová relace, popisující pravidla činnosti automatu, je definovaná jako konečná množina kartézského součinu \( Q \times (\Sigma \cup \{\varepsilon\} ) \times \Gamma \times Q \times \Gamma^* \),
+		\item \( R \) je přechodová relace, popisující pravidla činnosti automatu, je definovaná jako konečná množina kartézského součinu \( Q \times (\Sigma \cup \{\varepsilon\} ) \times \Gamma \times Q \times \Gamma^* \),
 		\item \( q_0 \) je počáteční stav z množiny \( Q \),
-		\item \( z_0 \) je počáteční symbol na vrcholu zásobníku z množiny \( \Gamma \),
+		\item \( S \) je počáteční symbol na vrcholu zásobníku z množiny \( \Gamma \),
 		\item \( F \) je množina koncových stavů, \( F \subseteq Q \).
 	\end{itemize}
 \end{framed}
@@ -79,17 +79,29 @@ Nechť \(M\) je definován následovně:
 	\item \( Q = \{ p, q, r\} \) ,
 	\item \( \Sigma = \{0, 1\} \) ,
 	\item \( \Gamma =  \{A, Z\}\) ,
-	\item \( \delta = (p, 0, Z, p, AZ) , (p,0,A,p,AA), (p,\epsilon,Z,q,Z), (p,\epsilon,A,q,A), (q,1,A,q,\epsilon), (q,\epsilon,Z,r,Z) \),
+	\item \( R = (p, 0, Z, p, AZ) , (p,0,A,p,AA), (p,\epsilon,Z,q,Z), (p,\epsilon,A,q,A), (q,1,A,q,\epsilon), (q,\epsilon,Z,r,Z) \),
 	\item \( q_0 = p\) ,
-	\item \( z_0 = Z \) ,
+	\item \( S = Z \) ,
 	\item \( F = \{r\} \) .
 \end{itemize}
-
-TODO: nefinovat sipkovou notaci pro pravidla a obrazek prepsat do sipkove notace a mozna udelat screenshot z Regular convertoru...
 
 Graficky znázorněný stejný zásobníkový automat by vypadal následovně:
 
 \obr{Příklad zásobníkového automatu}{obr:priklad_zasob_automatu}{0.6}{obrazky/Pda_example.eps}
+
+\n{2}{Šipková notace přechodových pravidel zásobníkového automatu}
+
+Pro větší přehlednost a čitelnost přechodových pravidel zásobníkového automatu zde uvedu definici přechodových pravidel, kterou budu používat dále v této práci.
+
+\begin{framed}
+	\begin{flushleft}Přechodová pravidlo $r \in R$ konečného zásobníkového automatu \( M = (Q, \Sigma, \Gamma, R, q_0, S, F) \)\end{flushleft} \\*
+	Definujeme následovně:\\*
+	\( r = A p a \rightarrow w q \), kde $p$ a $ q \in Q$, $A \in \Gamma$, $a \in \Sigma$ a $w$ je řetězec symbolů náležících do $\Gamma$.\\*
+\end{framed}
+\begin{mydef}
+	Definice přechodových pravidel zásobníkového automatu v šipkové notaci.
+\end{mydef}
+
 
 \n{1}{Bezkontextová gramatika}
 Definice bezkontextové gramatiky je následující.
@@ -147,19 +159,19 @@ Nyní si pojďme ukázat algoritmus převodu bezkontextové gramatiky na zásobn
 
 \begin{framed}
 	Vstup: CFG \(G = (V,\Sigma, R, S) \)\\
-	Výstup: Nedeterministický PDA \(M = (Q, \Sigma, \Gamma, \delta, q_0, z_0, F) \), který přijímá vstupní řetězec vyprázdněním zásobníku. 
+	Výstup: Nedeterministický PDA \(M = (Q, \Sigma, \Gamma, R, q_0, S, F) \), který přijímá vstupní řetězec vyprázdněním zásobníku. 
 	\begin{enumerate}
 		\item \(Q = {q_0}\)
 		\item \(\Sigma = \Sigma\)
 		\item \(\Gamma = V \cup \Sigma \)
 		\item Počáteční stav je \(q_0\)
-		\item Konstrukce přechodové množiny \( \delta \):
+		\item Konstrukce přechodové množiny \( R \):
 		\begin{enumerate}
-			\item Pro každé $a \in \Sigma$: přidej $(q_0,a,a,q_0,\varepsilon)$ do $\delta$
-			\item Pro každé $A \rightarrow x$, kde $A \in V, x \in (V \cup \Sigma)^*$, přidej do $\delta (q_0, \varepsilon, A, q_0, y)$, 
+			\item Pro každé $a \in \Sigma$: přidej $(q_0,a,a,q_0,\varepsilon)$ do $R$
+			\item Pro každé $A \rightarrow x$, kde $A \in V, x \in (V \cup \Sigma)^*$, přidej do $R (q_0, \varepsilon, A, q_0, y)$, 
 			kde $y = reversal(x)$
 		\end{enumerate}
-		\item \(z_0 = S\)
+		\item \(S = S\)
 		\item $G = \varnothing$
 	\end{enumerate}
 \end{framed}
@@ -229,26 +241,26 @@ V předchozí části bylo popsáno hlavní okno spolu s instrukcemi pro uživat
 
 \n{2}{Výběr z příkladů}
 
-Příklady pro konverzi bezkontextové gramatiky na konečný automat jsou dostupné v menu pod \texttt{Examples -> Context-free grammar to PushDown Automata -> <Název příkladu>}. Po najetí myši na libovolný příklad se zobrazí obrázek vstupních dat pro snadnější orientaci uživatele. Celou situaci zobrazuje obrázek (Obr. \ref{obr:vyberPrikladu}).
+Příklady pro konverzi bezkontextové gramatiky na zásobníkový automat jsou dostupné v menu pod \texttt{Examples -> Context-free grammar to PushDown Automata -> <Název příkladu>}. Po najetí myši na libovolný příklad se zobrazí dole pod položkou menu obrázek vstupních dat pro snadnější orientaci uživatele. Toto ukázání obrázku nad položkou v menu není standardní vlastností Qt frameworku a musel jsem ji ručně naprogramovat. Více se dozvíte dále v části nazvanou implementace. Celou situaci můžete vidět na obrázku (Obr. \ref{obr:vyberPrikladu}).
 
-TODO: Impelementovat náhled obrázku a auktualizovat obrázek
+\obr{Snímek obrazovky s výběrem příkladu bezkontextové gramatiky na zásobníkový automat}{obr:vyberPrikladu}{0.7}{obrazky/vyberPrikladu.png}
 
-\obr{Snímek z obrazovky pro výběr příkladu}{obr:vyberPrikladu}{0.7}{obrazky/vyberPrikladu.png}
+TODO: Doimplementovat více příkladů a aktualizovat obrázek.
 
 \n{2}{Výběr z konverzí}
 
 Třetí a poslední možností, jak začít používat program je volba konverze. Uživatel má na výběr celkem z 4 konverzí, z čehož poslední z nich a to převod bezkontextové gramatiky na zásobníkový automat byla implementována v rámci této práce. Pokud uživatel využije této volby musí počítat s tím, že vstupní data budou prázdná.
 
-Všechny implementované konverze zobrazuje následující obrázek (Obr. \ref{obr:vyberKonverzi}).
+Všechny implementované konverze zobrazuje obrázek (Obr. \ref{obr:vyberKonverzi}).
 
 \obr{Výseč snímku z obrazovky pro výběr konverzí}{obr:vyberKonverzi}{0.7}{obrazky/vyberKonverzi.png}
 
 
 \n{2}{Ukládání a načítání konverzí}
 
-Tyto volby pro načítání z, respektive ukládání do souboru se nachází v menu pod \texttt{"File -> Save"}, respektive pod \texttt{"File -> Load"}. Taktéž jsou v aplikaci implementované zkratky \texttt{ctrl + o} respektive \texttt{ctrl + s} pro otevření, respektive načtení uloženého příkladu konverze ze souboru. Tuto funkcionalitu jsem přidal zejména z důvodu toho, že zabudované příklady v aplikaci nemohou obsáhnout vše a proto má vyučující možnost připravit další zajímavé příklady pro prostudování studenty.  
+Tyto volby pro načítání z, respektive ukládání do souboru se nachází v menu pod \texttt{"File -> Save"}, respektive pod \texttt{"File -> Load"}. Taktéž jsou v aplikaci implementované zkratky \texttt{ctrl + o} respektive \texttt{ctrl + s} pro otevření, respektive uložení aktuální konverze do souboru. Tuto funkcionalitu jsem přidal zejména z důvodu toho, že zabudované příklady v aplikaci nemohou obsáhnout vše a proto má vyučující možnost připravit další zajímavé příklady pro studenty.  
 
-Screenshot není potřeba přikládat avšak za zmínku stojí fakt, že u módů "Samostatná práce"\ a "Automatická kontrola"\ se ukládají data, jak vstupní, tak výstupní, avšak u módu "Krokování algoritmu" se ukládají jenom vstupní data, protože výstup zde netvoří uživatel, nýbrž samotná aplikace.
+Screenshot není potřeba přikládat, avšak za zmínku stojí fakt, že u módů "Samostatná práce"\ a "Automatická kontrola"\ se ukládají data, jak vstupní, tak výstupní, avšak u módu "Krokování algoritmu"\ se ukládají jenom vstupní data, protože výstup zde netvoří uživatel, nýbrž samotná aplikace.
 
 \n{1}{Konverzní módy}
 
@@ -260,7 +272,7 @@ První mód určený pro prezentace v hodinách na fakultě a pro samostudium im
 
 \obr{Výřez konrolních prvků z krokovacího módu}{obr:kontrolniPrvkyKrokovacihoModu}{0.7}{obrazky/kontrolniPrvkyKrokovacihoModu.png}
 
-Jak je vidět k dispozici jsou možnosti \texttt{next}, respektive \texttt{prev}, které nás posunují o jeden krok v algoritmu vpřed respektive v zad. Dalšími jsou \texttt{begin}, respektive \texttt{end}, které za nás okamžitě přenesou v algoritmu na začátek, respektive na konec. Poslední dvě možnosti jsou \texttt{play} a \texttt{stop}. Předposlední tlačítko je nazváno \texttt{play} začne přehrávat algoritmus po jednotlivých krocích s časovou prodlevou specifikovanou v pravé části pomocí kontrolky pojmenované \texttt{Delay}, ve které se zadává čas v milisekundách. Výchozí volba je 0 ms, která říká programu, že má provádět jednotlivé kroky algoritmu jak nejrychleji dovede. Poslední tlačítko je nazváno \texttt{stop}, které nám přestane přehrávat algoritmus, pokud jsme předtím klikli na \texttt{play}. Více o algoritmickém widgetu a souvislosti breakpointů a tlačítka \texttt{play} si povíme později.
+Jak je vidět, k dispozici jsou možnosti \texttt{next}, respektive \texttt{prev}, které nás posunují o jeden krok v algoritmu vpřed, respektive v zad. Dalšími jsou \texttt{begin}, respektive \texttt{end}, které za nás okamžitě přenesou v algoritmu na začátek, respektive na konec. Poslední dvě možnosti jsou \texttt{play} a \texttt{stop}. Předposlední tlačítko je nazváno \texttt{play} začne přehrávat algoritmus po jednotlivých krocích s časovou prodlevou specifikovanou v pravé části pomocí kontrolky pojmenované \texttt{Delay}, ve které se zadává čas v milisekundách. Výchozí volba je 0 ms, která říká programu, že má provádět jednotlivé kroky algoritmu jak nejrychleji dovede. Poslední tlačítko je nazváno \texttt{stop}, které nám přestane přehrávat algoritmus, pokud jsme předtím klikli na \texttt{play}. Více o algoritmickém widgetu a souvislosti breakpointů a tlačítka \texttt{play} si povíme dále.
 
 \n{2}{Mód samostatné práce}
 
@@ -268,7 +280,7 @@ Poté co si uživatel prostudoval v praxi, jak funguje algoritmus převodu, si m
 
 Poté co ve výstupním widgetu uživatel vytvořil svoje řešení, může si manuálně zkusit, jestli správně převedl daný model formálního jazyka pomocí tlačítka \texttt{Check solution}. 
 
-Pokud uživatel zjistil, že nevytvořil správné řešení a už neví jak dále, může si nechat správné řešení zobrazit pomocí tlačítka \texttt{Show solution}. Po jeho stisku se ve výstupním widgetu zobrazí vzorové řešení. Zároveň s tím se změní text tohoto tlačítka na \texttt{Back}, po jehož stisku se do výstupního widgetu vloží zpět uživatelovo řešení, přesně tak jak jej zanechal. Zobrzení techto dvou respektive tří kontrolních prvků můžete vidět na obrázku (Obr. \ref{obr:kontrolniPrvkyModuSamostatnePrace}).
+Pokud uživatel zjistil, že nevytvořil správné řešení a už neví jak dále, může si nechat správné řešení zobrazit pomocí tlačítka \texttt{Show solution}. Po jeho stisku se ve výstupním widgetu zobrazí vzorové řešení. Zároveň s tím se změní text tohoto tlačítka na \texttt{Back}, po jehož stisku se do výstupního widgetu vloží zpět uživatelovo řešení, přesně tak jak jej zanechal před stiskem \texttt{Check solution}. Zobrzení techto dvou respektive tří (s právě skrytým tlačítkem zpět) kontrolních prvků můžete vidět na obrázku (Obr. \ref{obr:kontrolniPrvkyModuSamostatnePrace}).
 
 \obr{Výřez konrolních prvků z módu samostatné práce }{obr:kontrolniPrvkyModuSamostatnePrace}{0.3}{obrazky/kontrolniPrvkyModuSamostatnePrace.png}
 
@@ -282,57 +294,77 @@ Stejně jako u předchozích konverzí, jsem se i v této konverzi držel zavede
 
 Všechny widgety jsou od sebe navzájem odděleny rozdělovači, které umožňují měnit jejich velikost a to až do té míry, že je možné je úplně schovat. To se může hodit v situaci, když si chce student procvičit danou konverzi do té míry, že nechce být rušen samotným algoritmem. Další ze situací je, když studuje, nebo samostatně provádí konverzi a nezajímají jej aktuální hodnoty proměnných, nebo chce jen více místa pro výstupní widget, pokud převádí rozsáhlý model, tak jistě od-cenní možnost, že si může nechat schovat widget s proměnnými.
 
-V této konverzi je vstupní widget popisující bezkontextovou gramatiku a ve výstupním je popsán zásobníkový automat.
+V této konverzi vstupní widget popisuje bezkontextovou gramatiku a ve výstupním se nachází zásobníkový automat.
 
-\obr{Pohled na hlavní okno, ke je vybrán první příklad převodu bezkontextové gramatiky na zásobníkový automat v krokovacím módu }{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}{1.0}{obrazky/konverzeBezkontextovGramatikyNaZasobnikovyAutomat.png}
+\obr{Pohled na hlavní okno, ke je vybrán první příklad převodu bezkontextové gramatiky na zásobníkový automat na konci krokovacího módu }{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}{1.0}{obrazky/konverzeBezkontextovGramatikyNaZasobnikovyAutomat.png}
 
 
 \n{1}{Vstupní widget bezkontextové gramatiky}
 
-Do tohoto widgetu se vkládá popis bezkontextové gramatiky pomocí Backus-Naurovi formy. Tento widget je inteligentní a pozná jestli je daná gramatika ve správném syntaktickém formátu. Pokud není, tak pozadí editačního kontrolního prvku, kde se daná gramatika vyplňuje zežloutne, čímž uživateli signalizuje, že udělal chybu v syntaxi. V opačném případě, se gramatika automaticky rozparsuje a vyplní se tak počáteční non-terminál, abeceda terminálů a non-terminálů. Uživatel záměrně nemá možnost tyto 3 informace editovat, tak aby se předešlo zbytečným chybám. Za zmínku stojí, že pokud mají jednotlivá gramatická pravidla stejnou levou stranu, lze je napsat na jeden řádek tak, že pravé strany jsou od sebe odděleny svislítkem. Pokud uživatel vybere čistou konverzi s prázdnou bezkontextovou gramatikou, widget je předvyplněn textem, který uživateli názorně ukáže příklad správné formy jak zapsat bezkontextovou gramatiku. Je zde uveden proto, aby bylo pro nové uživatele co nejsnadnější používat tento program.
+Do tohoto widgetu se vkládá popis bezkontextové gramatiky pomocí Backus-Naurovi formy popsané v teoretické části této práce. Tento widget je inteligentní a pozná, jestli je daná gramatika ve správném syntaktickém formátu. Pokud není, tak pozadí editačního kontrolního prvku, kde se daná gramatika vyplňuje zežloutne, čímž uživateli signalizuje, že udělal chybu v syntaxi. V opačném případě se nastaví pozadí na bílou barvu, gramatika automaticky rozparsuje a vyplní se tak počáteční non-terminál, abeceda terminálů a non-terminálů. Uživatel záměrně nemá možnost tyto 3 informace editovat, tak aby se předešlo zbytečným chybám. Za zmínku stojí, že pokud mají jednotlivá gramatická pravidla stejnou levou stranu, lze je zapsat na jeden řádek tak, že pravé strany jsou od sebe odděleny svislítkem. Pokud uživatel vybere čistou konverzi s prázdnou bezkontextovou gramatikou, widget je předvyplněn textem, který uživateli názorně ukáže příklad správné formy, jak zapsat bezkontextovou gramatiku. Je zde uveden proto, aby bylo pro nové uživatele co nejsnadnější používat tento program. 
+
+Jeho text je uveden na obrázku (Obr. \ref{obr:predvypnenyTextBezkontextoveGramatiky}).
+
+\obr{Předvyplněný text bezkontextové gramatiky}{obr:predvypnenyTextBezkontextoveGramatiky}{0.7}{obrazky/predvypnenyTextBezkontextoveGramatiky.png}
 
 \n{1}{Algoritmický widget}
 
-Každý algoritmický widget na samotném vrcholku obsahuje tlačítka a kontrolní prvky, které se mění v návaznosti na vybraný mód, které jsem popisoval výše, proto je zde nebudu blíže rozebírat.
+Každý algoritmický widget na samotném vrcholku obsahuje tlačítka a kontrolní prvky, které se mění v návaznosti na vybraný mód. Jelikož jsem je popisoval výše, proto je zde nebudu blíže rozebírat.
 
-Pod nimi se nachází samotný textový popis algoritmu, kde v jeho vrchní části je zapsáno, co je jeho vstupem a výstupem. Pod tímto popisem jsou už samotné kroky algoritmu. Při samotném krokování se aktuální krok vždy zvýrazní žlutým pozadím. Výpočetní model každého algoritmu je postaven tak, že aktuálně zvýrazněný krok se zároveň provedl a nastaví tak aktuální proměnné do widgetu vpravo dole a taktéž změní model ve výstupním widgetu. 
+Pod nimi se nachází samotný textový popis algoritmu, kde v jeho vrchní části je zapsáno, co je jeho vstupem a výstupem. Pod tímto popisem jsou už samotné kroky algoritmu. Při samotném krokování se aktuální krok vždy zvýrazní žlutým pozadím. 
 
-Vlevo od exekutivních kroků je šedé kolečko, které se změní na červené, pokud uživatel kliknul na příslušný řádek. Toto kolečko značí, zdali je breakpoint neaktivní, či aktivní. Breakpointy slouží v režimu krokování algoritmu, kde lze kliknout na tlačítko \texttt{play} a tím se spustí automatické krokování algoritmu s danou prodlevou mezi kroky do doby, než algoritmus narazí na aktivní breakpoit, nebo dokud nebylo stisknuto tlačítko stop. Avšak né každý krok umožňuje nastavit breakpoit, například pro krok algoritmu, kde je uvedeno jen informativní návěští pro snadnější orientaci uživatele. 
+Výpočetní model každého algoritmu je postaven tak, že kliknutím na tlačítko \texttt{next} se následující krok provede, jeho pozadí zežloutne, aktualizuje výstupní widget a nastaví aktuální proměnné do widgetu vpravo dole. 
 
-TODO: Více okomentovat diagram. Co jsou texty v uzlech co jsou prechodova pravidla a co znamena always.
+Vlevo od exekutivních kroků je šedé kolečko, které se změní na červené, pokud uživatel kliknul na příslušný řádek. Toto kolečko symbolizuje breakpoint a jeho barva značí, jestli je neaktivní, či aktivní. Breakpointy slouží v režimu krokování algoritmu, kde lze kliknout na tlačítko \texttt{play} a tím se spustí automatické krokování algoritmu s danou prodlevou mezi kroky do doby, než algoritmus narazí na aktivní breakpoit, nebo dokud nebylo stisknuto tlačítko stop. Avšak né každý krok umožňuje nastavit breakpoit, například pro krok algoritmu, kde je uvedeno jen informativní návěští pro snadnější orientaci uživatele. Celý algoritmus převodu můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}).
 
-Celý algoritmus převodu můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}). Nyní bych rád přiložil ještě jeden diagram, který můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}) znázorňující, jak celý algoritmus funguje. Slovně jej zde popisovat nebudu, protože si myslím, že je zcela názorný a taky vzhledem k tomu, že jeho slovní popis by zabral celou stránku a nebyl by zdaleka tak přehledný.
+Nyní bych rád přiložil ještě jeden obrázek (Obr. \ref{obr:LogicDiagramOfAlgorithmCFGtoPDA}) s diagramem, který ukazuje, jak celý algoritmus funguje. Uzly s kolečkem značí jednotlivé kroky algoritmu a šipky s textem napravo znázorňují podmínky, za kterých se přechází z jednoho kroku do druhého. Pokud má šipka u sebe text \texttt{always}, tak se následující krok provede vždy. Diagram je dosti názorný, proto jej zde nebudu detailněji popisovat.
 
-\obr{Diagram detailně popisující chování algoritmu převodu bezkontextovou gramatiku na konečný automat}{obr:LogicDiagramOfAlgorithmCFGtoPDA}{1.0}{graphs/LogicDiagramOfAlgorithmCFGtoPDA.jpg}
+\obr{Diagram detailně popisující chování algoritmu převodu bezkontextové gramatiky na zásobníkový automat}{obr:LogicDiagramOfAlgorithmCFGtoPDA}{1.0}{graphs/LogicDiagramOfAlgorithmCFGtoPDA.jpg}
 
 \n{1}{Výstupní widget zásobníkového automatu}
 
-Zásobníkový automat je zde tvořen žlutými kolečky uvnitř kterých je pojmenování daného stavu. Pokud je jméno stavu delší, než průměr kolečka, tak se mění tvar elipsu širokou právě tak, aby obsáhla vnitřní text. Počáteční stav je označen tak, že do něj vede tlustá šipka zleva, která nezačíná v žádnem ze stavu zásobníkového automatu. Koncové stavy zásobníkového automatu jsou označeny druhým vnitřním kolečkem.
+Zásobníkový automat, který můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}) je zde tvořen žlutými kolečky, uvnitř kterých je pojmenování daného stavu. Pokud je jméno stavu delší, než průměr kolečka, tak se mění tvar na elipsu širokou právě tak, aby obsáhla vnitřní text. Počáteční stav je označen tak, že do něj vede tlustá šipka zleva, která nezačíná v žádnem ze stavu zásobníkového automatu. Koncové stavy zásobníkového automatu jsou označeny druhým vnitřním kolečkem.
 
-Přechodová pravidla lze vést z jakéhokoliv stavu do dalšího a to i z a do toho stejného. Takováto šipka je pak označena částečně zakrytým kruhem nad stavem nad kterým je text přechodového pravidla. 
+Přechodová pravidla jsou symbolizovaná šipkou s textem, která lze vést z jakéhokoliv stavu do dalšího a to i z, a do toho stejného. Pokud přechodové pravidlo začíná a končí v tom samém stavu, tak je pak označeno částečně zakrytým kruhem nad stavem, nad kterým je text přechodového pravidla. 
 
-Pro tvorbu zásobníkového automatu slouží kreslící plocha, uvnitř které se v pravém horním rohu nacházejí 4 tlačítka. Pokud je vybráno první tlačítko s ikonou kurzoru myši, pak lze jednotlivé stavy zásobníkového automatu přemisťovat v kreslící ploše. Taktéž lze označovat jak přechodová pravidla tak stavy. Pokud máme označen jeden nebo více stavů a přechodových pravidel, lze je smazat jediným klikem na nejpravější tlačítko s ikonou odpadkového koše.
+Pro ilustraci zde uvádím příklad zásobníkového automatu \( M = (Q, \Sigma, \Gamma, R, q_0, S, F) \) kde:
+\begin{itemize}
+\item \( Q \in \{ s, f1, f2 \} \) ,
+\item \( \Sigma \in \{ a, b, c \} \) je konečná vstupní abeceda,
+\item \( \Gamma \in \{ P, R, S \} \) je konečná abeceda zásobníku,
+\item \( R \in \{ \{ R, s, c \rightarrow s, R \}, \{ P,s,a \rightarrow f1, R, S \}, \{ S, s, b \rightarrow f2, R, S\}, \} \) je množina, přechodových pravidel zapsaných v šipkové notaci,
+\item \( s \) je počáteční stav z množiny \( Q \),
+\item \( S \) je počáteční symbol na vrcholu zásobníku z množiny \( \Gamma \),
+\item \( F \in \{ f1, f2\} \) je množina koncových stavů, kde \( F \subseteq Q \).
+\end{itemize}
 
-Po kliknutí na tlačítko s ikonou kruhu uvnitř kterého je obrázek plus je nastaven tento widget na přidávání stavů, kde každým následujícím klikem do kreslící scény se na daném místě objeví nový uzel s unikátním jménem. Standardně jsou takto nové stavy označeny vzrůstající sekvencí čísel.
+viz obrázek (Obr. \ref{obr:prikladZasobnikohovehoAutomatu}). 
 
-Pokud označíme tlačíko s ikonou šipky, pak můžeme kreslit ve scéně přechodová pravidla. Pravidla se vkládají tak, je se stiskne levé tlačítko myši uvnitř plochy elipsy označující stav automatu, drží se stisklé a uvolní se v jiném nebo stejném stavu. Po uvolnění levého tlačítka myši vyskočí dialog ve kterém se zadávají přechodová pravidla. Tento dialog můžeme vidět na obrázku (Obr. \ref{obr:pdaDialogForEnteringRules}). 
+\obr{Příklad zásobníkového automatu}{obr:prikladZasobnikohovehoAutomatu}{0.4}{obrazky/prikladZasobnikohovehoAutomatu.png}
+
+Pro tvorbu zásobníkového automatu slouží kreslící plocha, uvnitř které se v pravém horním rohu nacházejí 4 tlačítka. Pokud je vybráno první tlačítko s ikonou kurzoru myši, pak lze jednotlivé stavy zásobníkového automatu přemisťovat v kreslící ploše. Taktéž lze označovat, jak přechodová pravidla, tak stavy. Pokud máme označen jeden nebo více stavů, nebo přechodových pravidel, lze je smazat jediným klikem na nejpravější tlačítko s ikonou odpadkového koše.
+
+Po kliknutí na tlačítko s ikonou kruhu, uvnitř kterého je obrázek plus, se nastaví mód přidávání stavů, ve kterém každým klikem do kreslící scény se na daném místě objeví nový uzel s unikátním jménem. Standardně jsou takto nové stavy označeny vzrůstající sekvencí čísel začínající nulou.
+
+Pokud označíme tlačíko s ikonou šipky, pak můžeme kreslit ve scéně přechodová pravidla. Pravidla se vkládají tak, je se stiskne levé tlačítko myši uvnitř plochy elipsy označující stav automatu, drží se stisklé a uvolní se v jiném nebo stejném stavu. Po uvolnění levého tlačítka myši vyskočí dialog, ve kterém se zadávají přechodová pravidla. Tento dialog můžeme vidět na obrázku (Obr. \ref{obr:pdaDialogForEnteringRules}). 
 
 \obr{Okno dialogu pro vkládání přechodová pravidla v zásobníkovém automatu}{obr:pdaDialogForEnteringRules}{0.4}{obrazky/pdaDialogForEnteringRules.png}
 
 Pokud vkládáme první pravilo mezi stavy automatu, tak je dialog vyplněn šedým textem informujícím v jakém formátu se jednotlivé pravidla zapisují.
-Formát je takový, že každé pravidlo začíná symbolem, který se vybírá ze zásobníku, následuje vstupní symbol abecedy oddělený čárkou, následuje šipka ()
-"->") a za ní je seznam symbolů které se vkládají na zásobník. Záměrně se zde nezapisuje z jakého na jaký stav se má zásobníkový automat přesunout po provedení pravidla, tak aby uživatel nemohl udělat chybu. Tuto informaci zvolil už tím, že vytvořil šipku, která vždy musí v nějaké stavu začínat a končit.
+Formát je takový, že každé pravidlo začíná symbolem, který se vybírá ze zásobníku, následuje vstupní symbol abecedy oddělený čárkou, následuje šipka ("->") a za ní je seznam symbolů, které se vkládají na zásobník. Záměrně se zde nezapisuje z jakého na jaký stav se má zásobníkový automat přesunout po provedení pravidla, tak aby uživatel nemohl udělat chybu. Tuto informaci zvolil už tím, že vytvořil šipku, která vždy musí v nějakých stavech začínat a končit.
 
-Daný uzel lze označit jako koncový, či začáteční kliknutím pravím tlačítkem uvnitř elipsy a zaškrtnutím příslušného checkboxu. Tuto kontextovou nabídku, kde je vybrán daný uzel jako počáteční a zároveň jako koncový můžete vidět na obrázku (Obr. \ref{obr:oznaceniStavuKoncovyAPocatecni}).
+Daný uzel lze označit jako koncový, či počáteční kliknutím pravým tlačítkem uvnitř elipsy a zaškrtnutím příslušného checkboxu. Tuto kontextovou nabídku, kde je vybrán daný uzel jako počáteční a zároveň jako koncový můžete vidět na obrázku (Obr. \ref{obr:oznaceniStavuKoncovyAPocatecni}).
 
-\obr{Okno dialogu pro vkládání přechodová pravidla v zásobníkovém automatu}{obr:oznaceniStavuKoncovyAPocatecni}{0.4}{obrazky/oznaceniStavuKoncovyAPocatecni.png}
+\obr{Kontextová nabídka pro nastavování počátečního a koncového stavu automatu}{obr:oznaceniStavuKoncovyAPocatecni}{0.3}{obrazky/oznaceniStavuKoncovyAPocatecni.png}
 
 \n{1}{Widget s aktuálními proměnnými z algoritmického widgetu}
 
-V tomto widgetu se zobrazují proměnné s polu s jejich  aktuálními hodnotami z algoritmického widgetu. Tyto proměnné se zobrazují pouze tehdy, pokud je vybrán mód krokování algoritmu a v ostatních módech je prázdný. Vzhledem k tomu, že jsem tento widget implementoval pomocí ovládacích prvků, které umožňují přijimat vstup ve formátu html, tak jsem mohl použít základní formátování textu, které jsem využil k zvýrazňování a obarvování proměnných tak, aby měly stejnou vyzuální podobu s proměnnými použitými v algoritmickém widgetu a to vše proto, abych usnadnil orientaci uživatelovi v danné konverzi.
+V tomto widgetu se zobrazují proměnné použité v algoritmickém widgetu spolu s jejich  aktuálními hodnotami. Tyto proměnné se zobrazují pouze tehdy, pokud je vybrán mód krokování algoritmu. Vzhledem k tomu, že jsem tento widget implementoval pomocí ovládacích prvků, které umožňují přijímat vstup ve formátu html, tak jsem mohl použít základní formátování textu, které jsem využil k zvýrazňování a obarvování proměnných tak, aby měly stejnou vizuální podobu s proměnnými použitými v algoritmickém widgetu a to vše proto, abych usnadnil orientaci uživateli v dané konverzi.
 
 % ============================================================================ %
 \cast{Implementace}
+
+TODO: Implementace hlavního okna, zmínit se třídě MyTooltipQMenu, která implementuje ukazování obrázků jako tooltipů nad položkami v menu a tím že menu Context-Free grammar je povýšena na MyTooltipQMenu a uvest diagram třídy.
 
 TODO: Říct, že jsem k vývoji použil Qt Creator a později i Visual studio s patřičným doplnkem.
 

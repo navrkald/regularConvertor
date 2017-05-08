@@ -296,6 +296,8 @@ Všechny widgety jsou od sebe navzájem odděleny rozdělovači, které umožňu
 
 V této konverzi vstupní widget popisuje bezkontextovou gramatiku a ve výstupním se nachází zásobníkový automat.
 
+Při kontrole, jestli je uživatelský zásobníkový automat ekvivalentní se správným řešením, nezáleží na tom jak si uživatel pojmenoval jednotlivé stavy a také nezáleží na tom v jakém pořadí uživatel vloží přechodová pravidla.
+
 \obr{Pohled na hlavní okno, ke je vybrán první příklad převodu bezkontextové gramatiky na zásobníkový automat na konci krokovacího módu }{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}{1.0}{obrazky/konverzeBezkontextovGramatikyNaZasobnikovyAutomat.png}
 
 
@@ -323,9 +325,11 @@ Nyní bych rád přiložil ještě jeden obrázek (Obr. \ref{obr:LogicDiagramOfA
 
 \n{1}{Výstupní widget zásobníkového automatu}
 
-Zásobníkový automat, který můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}) je zde tvořen žlutými kolečky, uvnitř kterých je pojmenování daného stavu. Pokud je jméno stavu delší, než průměr kolečka, tak se mění tvar na elipsu širokou právě tak, aby obsáhla vnitřní text. Počáteční stav je označen tak, že do něj vede tlustá šipka zleva, která nezačíná v žádnem ze stavu zásobníkového automatu. Koncové stavy zásobníkového automatu jsou označeny druhým vnitřním kolečkem.
+Zásobníkový automat, který můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}) je zde tvořen žlutými kolečky, uvnitř kterých je pojmenování daného stavu. Pokud je jméno stavu delší, než průměr kolečka, tak se mění tvar na elipsu širokou právě tak, aby obsáhla vnitřní text. Počáteční stav je označen tak, že do něj vede tlustá šipka zleva, která nezačíná v žádném ze stavu zásobníkového automatu. Koncové stavy zásobníkového automatu jsou označeny druhým vnitřním kolečkem.
 
 Přechodová pravidla jsou symbolizovaná šipkou s textem, která lze vést z jakéhokoliv stavu do dalšího a to i z, a do toho stejného. Pokud přechodové pravidlo začíná a končí v tom samém stavu, tak je pak označeno částečně zakrytým kruhem nad stavem, nad kterým je text přechodového pravidla. 
+
+Na obrázku si taktéž můžete všimnout, je vlevo nahoře tohoto widgetu se nachází zelený text \texttt{CORRECT}, ten značí že zásobníkový automat je ekvivalentní se správným řešením. Pokud by nebyl, tak by tam byl červený text \texttt{WRONG}. 
 
 Pro ilustraci zde uvádím příklad zásobníkového automatu \( M = (Q, \Sigma, \Gamma, R, q_0, S, F) \) kde:
 \begin{itemize}

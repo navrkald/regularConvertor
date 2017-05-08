@@ -66,6 +66,8 @@ void MainWindow::mySetWindowTitle()
         break;
         case DFA:
             conversionStr=tr("FA determinization");
+		case CFG_TO_PDA:
+			conversionStr = tr("Context-free grammar to Pushdown Automata");
         break;
     }
 

@@ -94,9 +94,9 @@ Graficky znázorněný stejný zásobníkový automat by vypadal následovně:
 Pro větší přehlednost a čitelnost přechodových pravidel zásobníkového automatu zde uvedu definici přechodových pravidel, kterou budu používat dále v této práci.
 
 \begin{framed}
-	\begin{flushleft}Přechodová pravidlo $r \in R$ konečného zásobníkového automatu \( M = (Q, \Sigma, \Gamma, R, q_0, S, F) \)\end{flushleft} \\*
-	Definujeme následovně:\\*
-	\( r = A p a \rightarrow w q \), kde $p$ a $ q \in Q$, $A \in \Gamma$, $a \in \Sigma$ a $w$ je řetězec symbolů náležících do $\Gamma$.\\*
+	\begin{flushleft}Přechodová pravidlo $r \in R$ konečného zásobníkového automatu \( M = (Q, \Sigma, \Gamma, R, q_0, S, F) \)\end{flushleft} 
+	Definujeme následovně: \\
+	\( r = A p a \rightarrow w q \), kde $p$ a $ q \in Q$, $A \in \Gamma$, $a \in \Sigma$ a $w$ je řetězec symbolů náležících do $\Gamma$.
 \end{framed}
 \begin{mydef}
 	Definice přechodových pravidel zásobníkového automatu v šipkové notaci.
@@ -139,7 +139,8 @@ TODO: Dodat citaci.
 
 Syntaktická přepisovací pravidla jsou definována tak, že levou stranu vždy tvoří non-terminál, za kterým následuje oddělovač \uv{::=} (dvě dvojtečky následované rovnítkem) za kterým následuje pravá strana pravidla, která se skládá z řetězců non-terminálů a terminálů. Pravá strana se může skládat z více řetězců oddělených symbolem \uv{\textbar} značící logický operátor OR. Tento operátor byl zaveden, kvůli optimalizaci zápisu pravidel, tak aby místo zápisu, že jeden non-terminální symbol se může rozepsat na \it{N} řetězců, což by muselo být rozepsáno na \it{N} pravidel na \it{N} řádcích. Místo toho se těchto \it{N} řetězců napíše na pravou stranu oddělených symbolem \uv{\textbar}. Terminální symboly jsou uvedeny v uvozovkách.
 \cite{BCF}
-\\ \\
+\\
+\\
 Gramatika pro popis číselné konstanty by mohla vypadat takto:\\
 \nonTerm{konstanta}~::= \nonTerm{číslice}~\textbar~\nonTerm{konstatnta} \nonTerm{číslice} \\
 \nonTerm{číslice}~::=~\uv{0}~\textbar~\uv{1}~\textbar~\uv{2}~\textbar~\uv{3}~\textbar~\uv{4}~
@@ -218,7 +219,10 @@ Signály a sloty si mohou vyměňovat informace pomocí parametrů. V nižších
 % ============================================================================ %
 \cast{Praktická část}
 
-V této části své diplomové práce vám představím aplikaci Regular Convertor z uživatelského hlediska, z pohledu chování, ovládání a funkcionalit. Následně v Implementační části se podíváme blíže na implementaci.
+V této části své diplomové práce vám představím aplikaci Regular Convertor z uživatelského hlediska, z pohledu chování, ovládání a funkcionalit. Následně v Implementační části se podíváme blíže na implementaci. 
+
+Na úvod jsem chtěl zmínit, že samotnou aplikaci jsem lokalizoval do anglického jazyka, protože jsem se nechtěl omezovat pouze na česky mluvící studenty.
+Texty z aplikace zde budu citoval anglicky, ale popisovat je budu v češtině. 
 
 Aplikace by měla sloužit k účelům prezentace formálních jazyků na přednáškách a zároveň i k samostatnému procvičení studenty. Proto obsahuje část, kde se prezentuje jak vlastní algoritmus funguje, tak i části kde si student nasbíranou teorii prakticky vyzkouší. Důležité je, aby uživatel mohl s danými algoritmy experimentovat, proto program umožňuje vložení libovolného vstupu, s následnou kontrolou jeho validity. Tento vstup si může uživatel vložit ručně a nebo jej načíst ze souboru. Proto lze všechny konverze a jejich módy, včetně vstupních i výstupních dat ukládat a načítat ze souborů. Aplikace obsahuje i řadu zabudovaných příkladů, které jsou členěny od jednodušších ke složitějším.
 
@@ -368,19 +372,31 @@ V tomto widgetu se zobrazují proměnné použité v algoritmickém widgetu spol
 % ============================================================================ %
 \cast{Implementace}
 
-TODO: Implementace hlavního okna, zmínit se třídě MyTooltipQMenu, která implementuje ukazování obrázků jako tooltipů nad položkami v menu a tím že menu Context-Free grammar je povýšena na MyTooltipQMenu a uvest diagram třídy.
+TODO: Korekce implementační části. TEXT TÉTO ČÁSTI JE ZATÍM NAPSÁN POUZE NA HRUBO A POTŘEBUJE KOREKCE.
 
-TODO: Říct, že jsem k vývoji použil Qt Creator a později i Visual studio s patřičným doplnkem.
+V této části práce se detailněji podíváme na to jak samotný program vznikal, z jakých částí se skládá, jak jej sestavit ze zdrojových souborů a co všechno jeho programování zahrnovalo.
 
-TODO: Říct, jak zbuildit ve Visual studiu a jak v Qt Ctreatoru, kde je stahnout, jaky doplnek do VS byl potřeba. Jak nastavit QtCreator pro debuger z VS, kde se da stahnout...
+Aplikaci jsem programoval v jazyce C++ normy C++ 11. A nejen pro tvorbu grafického uživatelského prostředí jsem zvolil multiplatformní framework Qt. Všechny zdrojové soubory jsou publikovány na serveru GitHub.
 
-TODO: Když bude velká nouze, tak popsat jak jsem si konfigurovat VS (F4, barvičky...). Že v Qt creatoru jsem používal tabulátory místo mezer, jak jsou defaultně nastavené.
+Prvně si ukážeme jak získat zdrojové soubory a jak je můžeme zkompilovat. Následně si probereme, refaktoring existujícího kódu, který jsem psal v rámci mé bakalářské práce. A poté si probereme nejduležitější stavební prvky programu.
 
-TODO: Zmínit se, že kazdy example má u sebe screenshot
+\n{1}{Stažení zdrojových souborů a jejich následná kompilace}
 
-TODO: Prvne před implementačními detajly DETAILNE popsat fungování programu a všechny jeho funkce z uživatelského hlediska. (koukat se u toho do kodu)
+Všechny zdrojové soubory jsou opensource a jsou veřejně k dispozici na serveru github všetně této práce jak ve formátech pdf a \LaTeX na adrese \url{https://github.com/navrkald/regularConvertor/}. Celou práci jsem verzoval pomocí programu Git a proto si vše můžete naklonovat pomocí příkazu \texttt{git clone https://github.com/navrkald/regularConvertor.git}. Github umožňuje mimojiné zobrazovat různé statistiky ohledně množství a rozložení commitů. Github měl pro mě taktéž výhodu, že práce byla uložena na veřejně přístupném serveru a já tak mohl vyvíjet střídavě z různých míst a zařízení. Dále pak jsem mohl mít jistotu, že Github má vše zálohované a i kdyby ne, tak samotný Git má tu úžasnou vlastnost, že každým naklonování mého repositáře vzniká kompletní off-line záloha a vzhledem k faktu, že jsem pracoval z více zařízení, tak mám několik záloh.
 
-TODO: * Zmínit i o tom ze se měni title okna podle toho jaká je to koverze, jaky mod a pripadne i nazev example
+Opensource řešení jsem zvolil jednak z důvodů toho, že jsem chtěl, aby moje zdrojové soubory mohl vidět celý svět, aby je kdokoliv mohl upravit a pomocí \textit{pull requestu}, které mám ve ve svém repositáři povolené, dále rozvíjet tuto skvělou aplikaci. Druhým a to právním důvodem bylo, že jelikož nepoužívám multiplatformí Qt framework v komerční licenci, za kterou bych musel platit, jsem povinen všechny své zdrojové soubory zveřejnit.
+
+V předchozích odstavcích jsme se dozvěděli, jak získat zdrojové soubory, nyní si už jen zbývá ukázat, jak zkompilovat zdrojové soubory do spustitelného souboru. 
+
+Základní dvě možnosti jsou, použít nativní integrované vývojové prostředí QtCreator a nebo použít Qt plugin do Visual studia. Obě tyto možnosti začínají tím, že si musíme stáhnou samotný Qt framework pro danou platformu, na které zrovna vyvíjíte. Zde je odkaz na všechny možné instalátory Qt opensource frameworku, pro všechny hlavní platformy: \url{https://www.qt.io/download-open-source/#section-2}. Pro windows jsou k dispozici mimo jiné verze pro kompilátor visual studia a MinGW. Já jsem použil kompilátor Qt 5.8.0 for Windows 64-bit (VS 2015, 1.0 GB). Součásti balíčku je i integrované vývojové prostředí QtCreator spolu se zdrojovými kódy a binární podobou Qt frameworku. 
+
+Zdrojové soubory jsou užitečné ve chvíli, pokud chcete udělat staticky zkompilovanou aplikaci používající Qt framework, tak aby v sobě obsahovala všechny Qt závyslosti. Výhodou je, že pak můžete distribuovat vaši aplikaci v takzvaném "portable" formátu, kde aplikace neobsahuje instalátor, nevýhodou je za vyšší velikost výsledného binárního souboru. Jelikož je statická kompilace nad rámec této práce, pouze odkáži na odkaz na internetu: \url{https://wiki.qt.io/Building_a_static_Qt_for_Windows_using_MinGW}.
+
+Po stažení a naistalování Qt frameworku včetně Qt Creatoru a zdrojových souborů, které se hodí i v případě nejasností v dokumentaci Qt, můžete již vyvýjet, tak že si v něm otevřete projektový soubor, který se nachází v cestě <cesta k naklonovanému repositáři>/src/RegularConvertor.pro. Pak již stačí projekt sestavit pomocí \texttt{Build -> Build All} a pak spustit \texttt{Build -> Run}. Pro debuging programu pouze odkážu na nastavení debugeru na url: \url{http://doc.qt.io/qtcreator/creator-debugger-engines.html}.   
+
+Mě osobně po čase přestávalo prostředí QtCreatoru stačit a potřeboval jsem více pokročilé IDE, proto jsem si nainstaloval do Visual Studia plugin QtPackage dostupný online: \url{https://marketplace.visualstudio.com/items?itemName=havendv.QtPackage}. Plugin v sobě neobsahuje celý Qt framework, proto jej je nutné předtím stáhnout. Po nastavení pluginu už pak jen stačí ve Visual Studiu spustit a zbuildit pomocí klávesové zkratky \texttt{F5}.
+
+
 
 \n{1}{Refaktor existujícího kódu}
 
@@ -415,19 +431,31 @@ Dalšími konvencemi jsou pojmenovávání pomocí "CammelCase". To znamená, ž
 
 Při pojmenovávání souborů jsem se snažil dodržet konvenci, že název souboru se skládá pouze z malých písmen následovaný příponou souboru.
 
-\n{2}{Přepsání třídy hlavního okna na několik malých}
+Jelikož množství a rozsah zdrojových souborů je značný, pojmenovávací konvence popsané výše jsem použil jen u nově psaných nebo starých upravovaných částí. 
 
-Příliš velké metody nebo třídy nejsou tolik přehledné a udržovatelné. Proto jsem se rozhodl přepsat moji třídy hlavního okna do více modulů, chcete-li tříd.
+\n{2}{Přepsání třídy hlavního okna}
 
-V mém původním návrhu bakalářské práce jsem neuměl techniku zvanou \textit{Promoting}. Je to technika v Qt Designeru, kde si navrhnu vzhled widgetu, tak že se skládá, podobně jako stavebnice z ostatních uživatelských widgetů. Toto je možné, protože každý grafický prvek musí mít za předka QWidget.
+Příliš velké metody nebo třídy nejsou tolik přehledné a udržovatelné. Proto jsem se rozhodl přepsat moji třídu hlavního okna do více modulů, chcete-li tříd.
+
+V mém původním návrhu bakalářské práce jsem plně neovládal techniku zvanou \textit{Promoting}. Je to technika v Qt Designeru, kde si navrhnu pro dané okno navrhnu rozložení widgetu a následně nastavím, že místo originálních widgetů se mají použít mnou upravené odděděné. Toto je možné, protože každý grafický prvek má za předka QWidget.
 
 \obr{Příklad promoting na widgetu pro konverzi bezkontextové gramatiky na zásobníkový automat.}{obr:prikladQtPromoting}{0.9}{obrazky/PromotingOfWidgets.eps}
 
-Na obrázku můžete vidět widget pro konverzi bezkontextové gramatiky na zásobníkový automat. Tato konverze se skládá ze 4 widgetů (od levého horního rohu k pravému dolnímu rohu): widget pro bezkontextovou gramatiku, widget vizualizující konverzi, widget pro zásobníkový automat a vpravo dole widget, kde se ukazují aktuální hodnoty proměnných použitých v konverzním widgetu.
+Na obrázku (Obr. \ref{obr:prikladQtPromoting}) můžete vidět rozložení widgetů pro konverzi bezkontextové gramatiky na zásobníkový automat. Co nemůžete vidět je jinde navrhlá konkrétní grafická podoba. Tato konverze se skládá ze 4 widgetů (od levého horního rohu k pravému dolnímu rohu): widget pro bezkontextovou gramatiku, widget vizualizující konverzi, widget pro zásobníkový automat a vpravo dole widget, kde se ukazují aktuální hodnoty proměnných použitých v konverzním widgetu.
 
-Původně vytváření grafického rozvržení widgetů jsem měl pro všechny konverze implementované v třídě hlavního okna. Naopak nyní jsou všechny konverze popsány graficky v souborech s koncovkou \textit{*.ui} a logika konverzí v asociovaných zdrojových souborech s koncovkami \textit{*.cpp} a \textit{*.h}. Toto jsem dělal ve jménu jedné z hlavních myšlenek zapouzdření.
+Původně vytváření grafického rozvržení widgetů jsem měl pro všechny konverze implementované v třídě hlavního okna. Naopak nyní jsou všechny konverze popsány graficky v souborech s koncovkou \textit{*.ui} a logika konverzí v asociovaných zdrojových souborech s koncovkami \textit{*.cpp} a \textit{*.h}. Toto jsem dělal ve jménu jedné z hlavních myšlenek OOP a to zapouzdření.
 
-TODO obrázek konverze s popiskami
+Jelikož takto přepsané všechny widgety popisující jednotlivé konverze obsahují společnou množinu vlastností, tak všechny dědí od společného rozhraní ICentralConversionWidget, které má čistě virtuální metody ConnectChangeMode() ConnectStatusMessage(). První metoda má za úkol propojit notifikaci o změně módu z hlavního okna do tříd které zaštiťují jednotlivé konverze. A druhá naopak propojuje notifikace o různých případných chybových stavech z konverzního widgetu do hlavního okna, kde se pak tyto notifikace zobrazují ve statusové liště. Tento princip, kdy jednotlivé třídy mají společné vlastnosti, které zaštiťuje rozhraní a kde se pak v programu pracuje s ukazatelem na rozhraní se nazívá polimorfizmus.
+
+Pro vytváření centrálního widgetu, ve kterém se zobrazují jednotlivé konverze složí ve třídě \texttt{MainWindow} metoda \texttt{PrepareConversionWidget(Conversions conversion)}, která má jeden vstupní parametr informující o tom, která konverze se má nastavit.
+
+Vzhledem k tomu, že každá z konverzí má jiná vstupní a výstupní data, tak princip polymorfizmu nešel použít a bylo potřeba přetypovat na skutečný typ třídy v případech, kdy bylo potřeba uložit, nebo načít konverzi ze souboru, a stejně tak, pokud se načítala konverze v příkladů zabudovaných v aplikaci.
+
+\n{2}{Popis nejduležitějších tříd zajišťující převod bezkontextové gramatiky na zásobníkový automat}
+
+Nyní si pojďme ukázat na diagramu tříd, z čeho se zkládá třída \texttt{CCfgToPdaWidget} zaštiťující převod bezkontextové gramatiky na zásobníkový automat. Tento diagram můžeme vidět na obrázku (Obr. \ref{obr:CCfgToPdaWidget}).
+
+\obr{Diagram tříd třídy CCfgToPdaWidget}{obr:CCfgToPdaWidget}{0.9}{classDiagrams/CCfgToPdaWidget.png}
 
 Pro widgety u kterých se mění popisek jsem přidal metodu \textit{SetCaption()}, která jim nastaví správný text.
 
@@ -447,9 +475,9 @@ Při hledání nástrojů pro vizualizaci a dokumentaci existujícího kódu jse
 
 \n{2}{Qt ModelEditor}
 
-Prvním nástrojem je \textit{ModelEditor}. Tento nástroj jsem zkusil jako první protože je ve formě pluginu do IDE \textit{QtCreator}, který jsem používal pro programování této diplomové práce. \textit{ModelEditor} umožňuje dělat sice jednoduché, ale přehledné UML diagramy. Zásadní nedostatek, je že umožňuje například diagram tříd generovat jenom částečně a to tak, že se přetáhne zdrojový soubor do modelovacího editoru, kde se vytvoří element s názvem třídy, ale metody a členské se musí dopisovat ručně. Na domovské stránce (https://wiki.qt.io/ModelEditor) tohoto nástroje jsem se nikde nedočetl, že by se na této funkcionalitě mělo někdy pracovat, proto jsem tento nástroj prozatím zavrhl.
+Prvním nástrojem je \textit{ModelEditor}. Tento nástroj jsem zkusil jako první protože je ve formě pluginu do IDE \textit{QtCreator}, který jsem používal pro programování této diplomové práce. \textit{ModelEditor} umožňuje dělat sice jednoduché, ale přehledné UML diagramy. Zásadní nedostatek, je že umožňuje například diagram tříd generovat jenom částečně a to tak, že se přetáhne zdrojový soubor do modelovacího editoru, kde se vytvoří element s názvem třídy, ale metody a členské se musí dopisovat ručně. Na domovské stránce (\url{https://wiki.qt.io/ModelEditor}) tohoto nástroje jsem se nikde nedočetl, že by se na této funkcionalitě mělo někdy pracovat, proto jsem tento nástroj prozatím zavrhl.
 
-Another link to Qt ModelEditor http://doc.qt.io/qtcreator/creator-modeling.html
+Another link to Qt ModelEditor \url{http://doc.qt.io/qtcreator/creator-modeling.html}
 
 \n{2}{Doxygen a Graphviz}
 
@@ -458,13 +486,21 @@ Pro automatické generování dokumentace z kódu je tento nástroj ideální, a
 
 \n{2}{Diagram tříd ve Visual studio Express 2015}
 
-Třetím nástrojem, který uspokojil všechny požadavky na diagram tříd se nacházel v IDE \textit{Visual Studio}. Diagram konkrétní třídy se ná vygenerovat tak, že se pravým tlačítkem klikne na hlavičkový soubor třídy a následně vybere možnost "zobrazit diagram třídy". Po kliku kamkoliv do volného místa se dá vyvolat nabídka na export do různých formátů. Dá se i zvolit jestli chceme zobrazit celou signaturu, tj. návratové typy, jména a typy parametrů a typy členských proměnných. Jediná drobná výtka by mohla být, že modifikátor viditelnosti je a zda se jedná o metodu nebo proměnnou je značen z hlediska UML nestandardní ikonou. Zásadní je, že diagram tříd vygenerovaný tímto nástrojem obsahuje všechnu podstatné informace, proto jej použiji pro generovaní obrázků tříd do této diplomové práce.
+Třetím nástrojem, který uspokojil všechny požadavky na diagram tříd se nacházel v IDE \textit{Visual Studio} ovšem s jednou malou komplikací a to, že si neporaďil plně s parsováním tříd, které mají definované makro Q\_OBJECT a pro správnou funkčnost bylo nutné toto makro dočasně zakomentovat. 
+
+Diagram konkrétní třídy se ná vygenerovat tak, že se pravým tlačítkem klikne na hlavičkový soubor třídy a následně vybere možnost "zobrazit diagram třídy". Po kliku kamkoliv do volného místa se dá vyvolat nabídka na export do různých formátů. Dá se i zvolit jestli chceme zobrazit celou signaturu, tj. návratové typy, jména a typy parametrů a typy členských proměnných. Jediná drobná výtka by mohla být, že modifikátor viditelnosti je a zda se jedná o metodu nebo proměnnou je značen z hlediska UML nestandardní ikonou. Zásadní je, že diagram tříd vygenerovaný tímto nástrojem obsahuje všechnu podstatné informace, proto jej použiji pro generovaní obrázků tříd do této diplomové práce.
+
+
+TODO: Implementace hlavního okna, zmínit se třídě MyTooltipQMenu, která implementuje ukazování obrázků jako tooltipů nad položkami v menu a tím že menu Context-Free grammar je povýšena na MyTooltipQMenu a uvest diagram třídy. Zmínit se, že kazdy example má u sebe screenshot
+
+TODO: Když bude velká nouze, tak popsat jak jsem si konfigurovat VS (F4, barvičky...). Že v Qt creatoru jsem používal tabulátory místo mezer, jak jsou defaultně nastavené.
+
 
 TODO: Napsat proč jsem nepoužil iteratory, ale listy v CFG to PDA (kvuli moznosti nacitani a ukladani jednotlivych stepů.)
 
 \n{2}{Simple tool to visualize connections between signals and slots in Qt }
 
-Pro vizualizaci propojení pomocí Qt slotů a signálů jsem akorát našel jednoduchý nástroj, jehož zdrojový text je uveden na adrese http://hackatool.blogspot.cz/2013/05/simple-tool-to-visualize-connections.html . Tento nástroj pracuje na principu prohledání zdrojových souborů na základě regulárního výrazu a následně vygeneruje textový popis grafu propojení ve formátu, kterému rozumí program Graphviz zmíněný výše. 
+Pro vizualizaci propojení pomocí Qt slotů a signálů jsem akorát našel jednoduchý nástroj, jehož zdrojový text je uveden na adrese \url{http://hackatool.blogspot.cz/2013/05/simple-tool-to-visualize-connections.html}. Tento nástroj pracuje na principu prohledání zdrojových souborů na základě regulárního výrazu a následně vygeneruje textový popis grafu propojení ve formátu, kterému rozumí program Graphviz zmíněný výše. 
 
 % ============================================================================ %
 

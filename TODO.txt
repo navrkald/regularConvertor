@@ -1,13 +1,8 @@
-[] Finish refactor other conversions.
-	[x] Determinization
-	[] Remove epsilon rules
-	[] RE to FA
-[] Connect existing examples of conversions.
-	[x] For Determinization of FA
-	[] Remove epsilon rules
-	[] RE to FA
-[] Finish editing edges between nodes.
-
+[ ] Handle conversion CFG with epsilon rules.
+See:
+ * https://en.wikipedia.org/wiki/Context-free_grammar
+ * https://www.tutorialspoint.com/automata_theory/pda_context_free_grammar.htm
+ * https://www.youtube.com/watch?v=d-O4MDZSxQM
 Nice to have
 [] Read examples from file
 [] Saving to file in readable form

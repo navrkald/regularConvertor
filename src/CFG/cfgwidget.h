@@ -23,6 +23,7 @@ signals:
 
 private slots:
   void on_m_BackusNaurFormTextEdit_textChanged();
+  void on_m_addEpsilonButton_clicked();
 
 private:
     Ui::CCfgWidget *ui;

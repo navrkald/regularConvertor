@@ -1,6 +1,7 @@
 #include "cfgwidget.h"
 #include "ui_cfgwidget.h"
 #include <error.h>
+#include <algorithms/constants.h>
 
 CCfgWidget::CCfgWidget(QWidget *parent) :
     QWidget(parent),
@@ -28,6 +29,12 @@ void CCfgWidget::SetCfg(const CContextFreeGrammar &cfg)
 CContextFreeGrammar CCfgWidget::GetCfg()
 {
     return m_cfg;
+}
+
+void CCfgWidget::on_m_addEpsilonButton_clicked()
+{
+	ui->m_BackusNaurFormTextEdit->textCursor().insertText(EPSILON);
+	this->ui->m_BackusNaurFormTextEdit->setFocus();
 }
 
 void CCfgWidget::on_m_BackusNaurFormTextEdit_textChanged()

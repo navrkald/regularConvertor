@@ -103,6 +103,13 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="m_addEpsilonButton">
+         <property name="text">
+          <string>Add ε</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>

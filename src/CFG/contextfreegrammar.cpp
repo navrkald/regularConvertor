@@ -1,5 +1,6 @@
 #include "contextfreegrammar.h"
 #include <htmlcreator.h>
+#include <algorithms/constants.h>
 
 ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
 {
@@ -11,7 +12,8 @@ ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
     rightSideRuleDelimiter2,
     rightSideRule,
     terminal,
-    nonTerminal
+    nonTerminal,
+	epsilon
   }TState;
   TState state = start;
   CCFGRule rule;
@@ -63,8 +65,25 @@ ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
           }
         }
         else if(charter.isSpace()) continue;
+		else if (charter == EPSILON) {
+			tmpTerminal.Append(charter);
+			rule.AppendSymbolToRightSide(tmpTerminal);
+			tmpTerminal.Clear();
+			state = epsilon;
+		}
         else return E_PARSING_CFG_RULE;
         break;
+	  case epsilon:
+		  if (charter.isSpace()) continue;
+		  else if (charter == '|') {
+			  rules.insert(rule);
+			  rule.ClearRightSide();
+			  state = rightSideRule;
+		  }
+		  else {
+			  return E_PARSING_CFG_RULE;
+		  }
+		  break;
       case terminal:
         if(charter != '"')
           tmpTerminal.Append(charter);
@@ -221,7 +240,7 @@ ErrorCode CContextFreeGrammar::GetFromBackusNaurForm(QString sContextFreeGrammar
           m_nonTerminalsAlphabet.insert(rule.m_leftNonTerminal);
           foreach(CSymbol s, rule.m_rightString)
           {
-            if ( s.GetType() == CSymbol::terminal ){
+            if ( s.GetType() == CSymbol::terminal && s.GetString() != EPSILON ){
               m_terminalsAlphabet.insert((CTerminal)s);
             }
             else if ( s.GetType() == CSymbol::nonTerminal ) {

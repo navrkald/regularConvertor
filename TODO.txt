@@ -6,3 +6,4 @@ See:
 Nice to have
 [] Read examples from file
 [] Saving to file in readable form
+[] Place CFG examples with same right side on one line.

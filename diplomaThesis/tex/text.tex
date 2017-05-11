@@ -396,6 +396,17 @@ Po stažení a naistalování Qt frameworku včetně Qt Creatoru a zdrojových s
 
 Mě osobně po čase přestávalo prostředí QtCreatoru stačit a potřeboval jsem více pokročilé IDE, proto jsem si nainstaloval do Visual Studia plugin QtPackage dostupný online: \url{https://marketplace.visualstudio.com/items?itemName=havendv.QtPackage}. Plugin v sobě neobsahuje celý Qt framework, proto jej je nutné předtím stáhnout. Po nastavení pluginu už pak jen stačí ve Visual Studiu spustit a zbuildit pomocí klávesové zkratky \texttt{F5}.
 
+Pokud nechcete, aby vám editor ve Visual studiu červeně podtrhával neznámé symboly, je nutné mu nastavit cesty k hlavičkovým souborům Qt. To se provede tak, že ve vlastnostech projektu v \texttt{ConfigurationConfiguration Properties -> C/C++ -> General, Additional Include Directories} přidají tyto cesty: 
+\begin{itemize}
+	\item .\textbackslash GeneratedFiles
+	\item \$(QTDIR) \textbackslash include
+	\item .\textbackslash GeneratedFiles\textbackslash\$(ConfigurationName)
+	\item \$(QTDIR)\textbackslash include\textbackslash QtCore
+	\item \$(QTDIR)\textbackslash include\textbackslash QtGui
+\end{itemize}
+
+TODO: zminit se ze je nutne nastavit cesty k hlavickovym souborum, tak aby Visual studio rozpoznalo symboly aby nepodtrhavalo. Nicmene i bez tohoto nastavení se projekt sestavý správně.
+
 
 
 \n{1}{Refaktor existujícího kódu}

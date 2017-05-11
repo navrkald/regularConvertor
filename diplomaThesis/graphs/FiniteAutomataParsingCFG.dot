@@ -1,0 +1,33 @@
+digraph {
+
+	
+	node [shape = point ]; 
+	qi
+	node [shape = oval];
+	qi -> start;
+
+	start -> leftStartNonTerminalTermminal [label="<"];
+	start -> error [label="else"]
+	leftStartNonTerminalTermminal -> leftStartNonTerminalTermminal [label="else"]
+	leftStartNonTerminalTermminal -> leftEndNonTerminal [label=">"];
+	leftEndNonTerminal -> leftEndNonTerminal [label="space"]
+	leftEndNonTerminal -> error [label="else"]
+	leftEndNonTerminal -> rightSideRuleDelimiter1 [label=":"];
+	leftEndNonTerminal -> error [label="else"];
+	rightSideRuleDelimiter1 -> rightSideRuleDelimiter2 [label=":"];
+	rightSideRuleDelimiter1 -> error [label="else"];
+	rightSideRuleDelimiter2 -> rightSideRule [label="="];
+	rightSideRuleDelimiter2 -> error [label="else"];
+	rightSideRule -> nonTerminal [label="<"];
+	rightSideRule -> terminal [label="\""];
+	rightSideRule -> epsilon [label="EPSILON"];
+	rightSideRule -> rightSideRule [label="|"];
+	rightSideRule -> rightSideRule [label="space"];
+	terminal -> rightSideRule [label="\""];
+	terminal -> terminal [label="else"];
+	nonTerminal -> rightSideRule [label=">"]
+	nonTerminal -> nonTerminal [label="else"]
+	epsilon -> epsilon [label="space"];
+	epsilon -> rightSideRule [label="|"]
+	epsilon -> error [label="else"] 
+}

@@ -73,17 +73,6 @@ ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
 		}
         else return E_PARSING_CFG_RULE;
         break;
-	  case epsilon:
-		  if (charter.isSpace()) continue;
-		  else if (charter == '|') {
-			  rules.insert(rule);
-			  rule.ClearRightSide();
-			  state = rightSideRule;
-		  }
-		  else {
-			  return E_PARSING_CFG_RULE;
-		  }
-		  break;
       case terminal:
         if(charter != '"')
           tmpTerminal.Append(charter);
@@ -109,6 +98,17 @@ ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
           else return E_PARSING_CFG_RULE;
         }
         break;
+	  case epsilon:
+		  if (charter.isSpace()) continue;
+		  else if (charter == '|') {
+			  rules.insert(rule);
+			  rule.ClearRightSide();
+			  state = rightSideRule;
+		  }
+		  else {
+			  return E_PARSING_CFG_RULE;
+		  }
+		  break;
       }
   }
   // add last rule on row

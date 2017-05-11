@@ -684,6 +684,12 @@ void MainWindow::on_action_save_triggered()
                 out <<  ((CFADeterminizationWidget*)m_centralWidget)->GetOutputFA();
             }
             break;
+		case CFG_TO_PDA:
+			out << ((CCfgToPdaWidget*)m_centralWidget)->GetCfg();
+			if (m_mode != AlgorithmModes::algorithmSteping) {
+				out << ((CCfgToPdaWidget*)m_centralWidget)->GetPda();
+			}
+			break;
         // This should never happend
         case none:
             showStatusMessage(tr("ERROR: No conversion selected!"));

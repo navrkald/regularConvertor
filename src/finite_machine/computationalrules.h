@@ -42,6 +42,10 @@ public:
 //         return returnRule;
 //     }
 
+	QDataStream &operator<<(QDataStream& out);
+	QDataStream &operator>>(QDataStream &in);
+
+
 public:
     QString from;
     QString to;
@@ -51,8 +55,6 @@ public:
 bool operator<(const ComputationalRules& r1, const ComputationalRules& r2);
 
 QDebug operator<<(QDebug dbg, const ComputationalRules& rule);
-QDataStream &operator<<(QDataStream& out, const ComputationalRules& rule);
-QDataStream &operator>>(QDataStream &in, ComputationalRules &rule);
 
 bool lessThan(const ComputationalRules& r1, const ComputationalRules& r2);
 QSet <QString> getFroms(QList <ComputationalRules> list);

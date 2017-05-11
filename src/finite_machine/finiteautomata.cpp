@@ -1047,7 +1047,7 @@ bool operator ==(const FiniteAutomata FA1, const FiniteAutomata FA2)
     return true;
 }
 
-QDebug operator<< (QDebug d, const FiniteAutomata &FA)
+QDebug operator<<(QDebug d, const FiniteAutomata &FA)
 {
    d << "FA=(Q,S,R,s,F)";
    d << "Q={" << FA.m_states <<"}";
@@ -1059,18 +1059,18 @@ QDebug operator<< (QDebug d, const FiniteAutomata &FA)
    return d;
 }
 
-QDataStream &operator<<(QDataStream &out, const FiniteAutomata &FA)
+QDataStream& FiniteAutomata::operator<<(QDataStream &out)
 {
-    out << FA.m_states << FA.m_startState << FA.m_finalStates << FA.m_alphabet  << FA.m_rules << (quint32)FA.m_nextId << FA.m_coordinates;
+    out << m_states << m_startState << m_finalStates << m_alphabet  << m_rules << (quint32)m_nextId << m_coordinates;
     return out;
 }
 
 
 
-QDataStream &operator>>(QDataStream &in, FiniteAutomata &FA)
+QDataStream& FiniteAutomata::operator>>(QDataStream &in)
 {
     quint32 nextId;
-    in  >> FA.m_states >> FA.m_startState >> FA.m_finalStates >> FA.m_alphabet  >> FA.m_rules >> nextId >> FA.m_coordinates;
-    FA.m_nextId = (int)nextId;
+    in  >> m_states >> m_startState >> m_finalStates >> m_alphabet  >> m_rules >> nextId >> m_coordinates;
+    m_nextId = (int)nextId;
     return in;
 }

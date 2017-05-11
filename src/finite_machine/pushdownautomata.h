@@ -26,6 +26,8 @@ public:
 	bool RenameState(QString oldStateName, QString newStateName);
 	static bool AreEquivalent(CPushDownAutomata pda1, CPushDownAutomata pda2);
 	static bool AreEquivalentSimpleImplementation(CPushDownAutomata pda1, CPushDownAutomata pda2);
+	QDataStream& operator<<(QDataStream &out);
+	QDataStream& operator >> (QDataStream &in);
 
 public:
 	QSet <QString> m_stackAlphabet;
@@ -33,5 +35,7 @@ public:
 };
 
 bool operator==(const CPushDownAutomata& pda1, const CPushDownAutomata& pda2);
+QDataStream& operator<<(QDataStream &out, const FiniteAutomata &FA);
+QDataStream& operator >> (QDataStream &in, FiniteAutomata &FA);
 
 #endif // PUSHDOWNAUTOMATA_H

@@ -96,14 +96,14 @@ QSet<QString> getTos(QList<ComputationalRules> list)
     return tos;
 }
 
-QDataStream &operator<<(QDataStream& out, const ComputationalRules& rule)
+QDataStream& ComputationalRules::operator<<(QDataStream& out)
 {
-    out << rule.from << rule.symbol << rule.to;
+    out << from << symbol << to;
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, ComputationalRules &rule)
+QDataStream& ComputationalRules::operator>>(QDataStream &in)
 {
-    in >> rule.from >> rule.symbol >> rule.to;
+    in >> from >> symbol >> to;
     return in;
 }

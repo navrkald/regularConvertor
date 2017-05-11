@@ -70,6 +70,10 @@ public:
 //    }
 
 public:
+	QDataStream &operator<<(QDataStream& out);
+	QDataStream &operator>>(QDataStream &in);
+
+public:
     QString GetPopSymbol() { return m_popSymol; }
 		QVector<QString> GetPushSymbols() { return m_pushSymbols; }
 		QSet<QString> GetStackSymbols();

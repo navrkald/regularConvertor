@@ -133,6 +133,18 @@ bool CPushDownAutomata::AreEquivalentSimpleImplementation(CPushDownAutomata pda1
 	
 }
 
+QDataStream& CPushDownAutomata::operator<<(QDataStream & out)
+{
+	FiniteAutomata::operator<<(out);
+	return out << m_stackAlphabet << m_pdaRules;
+}
+
+QDataStream& CPushDownAutomata::operator>>(QDataStream & in)
+{
+	FiniteAutomata::operator>>(in);
+	return in >> m_stackAlphabet >> m_pdaRules;
+}
+
 bool operator ==(const CPushDownAutomata& pda1, const CPushDownAutomata& pda2)
 {
 	if (pda1.m_states != pda2.m_states)

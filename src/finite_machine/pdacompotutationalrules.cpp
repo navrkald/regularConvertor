@@ -30,6 +30,20 @@ QString CPDACompotutationalRule::ToArrowText(const QSet<CPDACompotutationalRule>
 	return outText;
 }
 
+QDataStream & CPDACompotutationalRule::operator<<(QDataStream & out)
+{
+	ComputationalRules::operator<<(out);
+	out << m_popSymol;
+	out << m_pushSymbols;
+	return out;
+	// TODO: insert return statement here
+}
+
+QDataStream & CPDACompotutationalRule::operator >> (QDataStream & in)
+{
+	// TODO: insert return statement here
+}
+
 QSet<QString> CPDACompotutationalRule::GetStackSymbols()
 {
 	QSet<QString> stackSymbols;

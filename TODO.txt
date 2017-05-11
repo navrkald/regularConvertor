@@ -1,8 +1,8 @@
-[ ] Handle conversion CFG with epsilon rules.
-See:
- * https://en.wikipedia.org/wiki/Context-free_grammar
- * https://www.tutorialspoint.com/automata_theory/pda_context_free_grammar.htm
- * https://www.youtube.com/watch?v=d-O4MDZSxQM
+[x] Handle conversion CFG with epsilon rules.
+	See:
+	* https://en.wikipedia.org/wiki/Context-free_grammar
+	* https://www.tutorialspoint.com/automata_theory/pda_context_free_grammar.htm
+	* https://www.youtube.com/watch?v=d-O4MDZSxQM
 Nice to have
 [] Read examples from file
 [] Saving to file in readable form

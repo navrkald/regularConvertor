@@ -39,7 +39,9 @@
   supposed to remain the main development environment for Qt. This script adds
   a static version of the Qt libraries in order to allow the construction of
   standalone and self-sufficient executable.
-
+  
+  URL with guide: https://wiki.qt.io/Building_a_static_Qt_for_Windows_using_MinGW  
+	
   This script is typically run from the Windows Explorer.
 
   Requirements:

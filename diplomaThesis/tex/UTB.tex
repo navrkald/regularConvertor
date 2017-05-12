@@ -41,6 +41,7 @@
 \usepackage{framed} 	% Pro definice (Např. pro konečný automat)
 \usepackage{ragged2e}	% Pro odsazení textu do leva (Např. například v definici konečného automatu)
 \usepackage{amssymb}	% Pro specialní symboly, např. pro prazdnou mnozinu v algoritmu prevodu CFG na PDA
+\usepackage{pdfpages}	% Pro vlozeni zadani v pdf
 %\usepackage{tabularx}
 
 % ---------------------------------------------------------------------------- %
@@ -388,14 +389,19 @@
 }
 
 \newcommand{\zadani}{
-	\clearpage
-	\thispagestyle{empty}
-	\voffset=\valueVOffset\evensidemargin=\valueSideMargin\oddsidemargin=\valueSideMargin\headsep=\valueHeadSep\headheight=\valueHeadHeight\setlength{\parskip}{3pt}\textheight=\valueTextHeight\textwidth=\valueTextWidth
-	*** Nascanované zadání, strana 1 ***
+	%\deaktivujZahlavi
 	
-	\clearpage
-	\thispagestyle{empty}
-	*** Nascanované zadání, strana 2 ***
+	
+		%\clearpage
+		%\thispagestyle{empty}
+		\voffset=\valueVOffset\evensidemargin=\valueSideMargin\oddsidemargin=\valueSideMargin\headsep=\valueHeadSep\headheight=\valueHeadHeight\setlength{\parskip}{3pt}\textheight=\valueTextHeight\textwidth=\valueTextWidth
+		%*** Nascanované zadání, strana 1 ***
+	
+		%\clearpage
+		%\thispagestyle{empty}
+		%*** Nascanované zadání, strana 2 ***
+		
+		\includepdf[pages={1,2}]{zadani.pdf}
 }
 
 % Nastaveni zobrazovani zahlavi dokumentu

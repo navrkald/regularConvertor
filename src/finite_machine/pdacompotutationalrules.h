@@ -63,15 +63,10 @@ public:
                      this->m_popSymol == secondRule.m_popSymol
                      );
         }
-//    const CPDACompotutationalRule operator=(const CPDACompotutationalRule& rule) const
-//    {
-//        CPDACompotutationalRule returnRule(rule.from, rule.to, rule.symbol, rule.m_popSymol, rule.m_pushSymbols);
-//        return returnRule;
-//    }
 
 public:
-	QDataStream &operator<<(QDataStream& out);
-	QDataStream &operator>>(QDataStream &in);
+	QDataStream &WriteToQDataStream(QDataStream& out) const;
+	QDataStream &ReadFromQDataStream(QDataStream &in);
 
 public:
     QString GetPopSymbol() { return m_popSymol; }
@@ -84,5 +79,7 @@ public:
 
 QString PdaComputationalRulesToString(QSet <CPDACompotutationalRule> rules);
 QSet <QString> PdaComputationalRulesToQSetOfStrings(QSet <CPDACompotutationalRule> rules);
+QDataStream& operator<<(QDataStream& out, const CPDACompotutationalRule& r);
+QDataStream& operator>>(QDataStream &in, CPDACompotutationalRule& r);
 
 #endif // PDACOMPOTUTATIONALRULES_H

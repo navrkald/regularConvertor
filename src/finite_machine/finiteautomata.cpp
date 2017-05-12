@@ -1047,6 +1047,17 @@ bool operator ==(const FiniteAutomata FA1, const FiniteAutomata FA2)
     return true;
 }
 
+QDataStream & operator<<(QDataStream & out, const FiniteAutomata & fa)
+{
+	return fa.WriteToQDataStream(out);
+	// TODO: insert return statement here
+}
+
+QDataStream & operator >> (QDataStream & in, FiniteAutomata & fa)
+{
+	return fa.ReadFromQDataStream(in);
+}
+
 QDebug operator<<(QDebug d, const FiniteAutomata &FA)
 {
    d << "FA=(Q,S,R,s,F)";
@@ -1059,15 +1070,14 @@ QDebug operator<<(QDebug d, const FiniteAutomata &FA)
    return d;
 }
 
-QDataStream& FiniteAutomata::operator<<(QDataStream &out)
+QDataStream& FiniteAutomata::WriteToQDataStream(QDataStream &out) const
 {
-    out << m_states << m_startState << m_finalStates << m_alphabet  << m_rules << (quint32)m_nextId << m_coordinates;
-    return out;
+    return out << m_states << m_startState << m_finalStates << m_alphabet  << m_rules << (quint32)m_nextId << m_coordinates;
 }
 
 
 
-QDataStream& FiniteAutomata::operator>>(QDataStream &in)
+QDataStream& FiniteAutomata::ReadFromQDataStream(QDataStream &in)
 {
     quint32 nextId;
     in  >> m_states >> m_startState >> m_finalStates >> m_alphabet  >> m_rules >> nextId >> m_coordinates;

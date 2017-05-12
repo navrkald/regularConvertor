@@ -42,8 +42,8 @@ public:
 //         return returnRule;
 //     }
 
-	QDataStream &operator<<(QDataStream& out);
-	QDataStream &operator>>(QDataStream &in);
+	QDataStream& WriteToQDataStream(QDataStream& out) const;
+	QDataStream& ReadFromQDataStream(QDataStream &in);
 
 
 public:
@@ -54,6 +54,8 @@ public:
 
 bool operator<(const ComputationalRules& r1, const ComputationalRules& r2);
 
+QDataStream &operator<<(QDataStream& out, const ComputationalRules& r);
+QDataStream &operator>>(QDataStream &in, ComputationalRules& r);
 QDebug operator<<(QDebug dbg, const ComputationalRules& rule);
 
 bool lessThan(const ComputationalRules& r1, const ComputationalRules& r2);

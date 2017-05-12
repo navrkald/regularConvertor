@@ -53,6 +53,16 @@ bool operator<(const ComputationalRules& r1, const ComputationalRules& r2)
     return lessThan(r1,r2);
 }
 
+QDataStream& operator<<(QDataStream & out, const ComputationalRules & r)
+{
+	return r.WriteToQDataStream(out);
+}
+
+QDataStream& operator>>(QDataStream & in, ComputationalRules & r)
+{
+	return r.ReadFromQDataStream(in);
+}
+
 QDebug operator<<(QDebug dbg, const ComputationalRules& rule)
 {
     dbg.nospace() << rule.toString()+'\n';
@@ -96,14 +106,12 @@ QSet<QString> getTos(QList<ComputationalRules> list)
     return tos;
 }
 
-QDataStream& ComputationalRules::operator<<(QDataStream& out)
+QDataStream& ComputationalRules::WriteToQDataStream(QDataStream& out) const
 {
-    out << from << symbol << to;
-    return out;
+    return out << from << symbol << to;
 }
 
-QDataStream& ComputationalRules::operator>>(QDataStream &in)
+QDataStream& ComputationalRules::ReadFromQDataStream(QDataStream &in)
 {
-    in >> from >> symbol >> to;
-    return in;
+    return in >> from >> symbol >> to;
 }

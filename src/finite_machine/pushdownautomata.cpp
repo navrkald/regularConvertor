@@ -133,15 +133,15 @@ bool CPushDownAutomata::AreEquivalentSimpleImplementation(CPushDownAutomata pda1
 	
 }
 
-QDataStream& CPushDownAutomata::operator<<(QDataStream & out)
+QDataStream& CPushDownAutomata::WriteToQDataStream(QDataStream & out) const
 {
-	FiniteAutomata::operator<<(out);
+	FiniteAutomata::WriteToQDataStream(out);
 	return out << m_stackAlphabet << m_pdaRules;
 }
 
-QDataStream& CPushDownAutomata::operator>>(QDataStream & in)
+QDataStream& CPushDownAutomata::ReadFromQDataStream(QDataStream & in)
 {
-	FiniteAutomata::operator>>(in);
+	FiniteAutomata::ReadFromQDataStream(in);
 	return in >> m_stackAlphabet >> m_pdaRules;
 }
 
@@ -169,6 +169,16 @@ bool operator ==(const CPushDownAutomata& pda1, const CPushDownAutomata& pda2)
 	qDebug() << "Corr rules: " << PdaComputationalRulesToString(pda2.m_pdaRules) << "\n";
 
 	return true;
+}
+
+QDataStream & operator<<(QDataStream & out, const CPushDownAutomata & fa)
+{
+	return fa.WriteToQDataStream(out);
+}
+
+QDataStream & operator >> (QDataStream & in, CPushDownAutomata & fa)
+{
+	return fa.ReadFromQDataStream(in);
 }
 
 bool CPushDownAutomata::RenameState(QString oldStateName, QString newStateName) {

@@ -30,10 +30,15 @@ public:
     void Append(QChar charter) {m_symbol.append(charter);}
     void Clear() {m_symbol.clear();}
     TType GetType() const {return m_type;}
-protected:
+	QDataStream& WriteToQDataStream(QDataStream& out) const;
+	QDataStream& ReadFromQDataStream(QDataStream& in);
+public:
     QString m_symbol;
     TType m_type;
 };
+
+QDataStream& operator>>(QDataStream& in, CSymbol& s);
+QDataStream& operator<<(QDataStream& out, const CSymbol& s);
 
 inline uint qHash(const CSymbol& c) {return ::qHash(c.GetString());}
 
@@ -45,6 +50,9 @@ public:
   static QSet<QString> CTerminalQSetToQStringQSet(const QSet<CTerminal>& csymbolSet);
 };
 
+QDataStream& operator>>(QDataStream& in, CTerminal& s);
+QDataStream& operator<<(QDataStream& out, const CTerminal& s);
+
 class CNonTerminal : public CSymbol
 {
 public:
@@ -53,56 +61,18 @@ public:
   static QSet<QString> CNonTerminalQSetToQStringQSet(const QSet<CNonTerminal>& csymbolSet);
 };
 
-//typedef CSymbol* CSymbol;
+QDataStream& operator>>(QDataStream& in, CNonTerminal& s);
+QDataStream& operator<<(QDataStream& out, const CNonTerminal& s);
 
 class CCFGRule
 {
 public:
-    CCFGRule(){;}
+    CCFGRule(){}
     CCFGRule(CNonTerminal leftNonTerminal, QVector<CSymbol> rightString)
         :m_leftNonTerminal(leftNonTerminal), m_rightString(rightString)
     {}
-//    CCFGRule(QString rule)
-//    {
-//      QStringList leftAndRightPart = rule.split("->");
 
-//      // Rule has to have 2 parts
-//      if(leftAndRightPart.size()!= 2) return;
-
-//      // Get left non-terminal
-//      QString leftPart = leftAndRightPart[0];
-//      QString leftNonterminal;
-//      const QRegExp leftNonTermExp("^s*<s*(\\w+)s*>s*$");
-//      if(leftNonTermExp.exactMatch(leftPart))
-//      {
-//        leftNonTermExp.indexIn(leftPart);
-//        leftNonterminal = leftNonTermExp(1);
-//      }
-//      else
-//      { // Left part did not match Backus–Naur Form
-//        return;
-//      }
-
-//      // Get right rule part
-//      //
-//      // First split rule with |
-//      QStringList rightRules;
-//      QVector<QVector<CSymbol>> rightPartRules;
-//      foreach(QString rightPartRule , rightRules)
-//      {
-//        rightPartRule.split("<>")
-//      }
-
-//    }
-
-    ~CCFGRule()
-    {
-        ;
-//        foreach(CSymbol symbolPtr, rightString)
-//        {
-//            delete symbolPtr;
-//        }
-    }
+    ~CCFGRule(){}
     static ErrorCode GetRulesFromString(QSet<CCFGRule>& rules, QString sRule);
         bool operator==(const CCFGRule &r) const {
             return ((this->m_leftNonTerminal == r.m_leftNonTerminal) && (this->m_rightString == r.m_rightString));
@@ -118,7 +88,12 @@ public:
     CNonTerminal m_leftNonTerminal;
     QVector<CSymbol> m_rightString;
     QVector<QString> GetRevertedRightRule();
+	QDataStream& WriteToQDataStream(QDataStream &out) const;
+	QDataStream& ReadFromQDataStream(QDataStream &in);
 };
+
+QDataStream& operator<<(QDataStream &out, const CCFGRule& r);
+QDataStream& operator>>(QDataStream &in, CCFGRule& r);
 
 inline uint qHash(const CCFGRule& c){
         return (::qHash(c.m_leftNonTerminal.GetString()) /*^ ::qHash(c.m_rightString)*/);
@@ -144,12 +119,10 @@ public:
     ErrorCode GetFromBackusNaurForm(QString sContextFreeGrammar);
     QString ToBackusNaurForm() const;
     bool operator==(const CContextFreeGrammar& g)const;
-    void Clear(){
-        m_nonTerminalsAlphabet.clear();
-        m_terminalsAlphabet.clear();
-        m_startNonTerminal.Clear();
-        m_rules.clear();
-    }
+	void Clear();
+	QDataStream & WriteToQDataStream(QDataStream & stream) const;
+	QDataStream & ReadFromQDataStream(QDataStream & stream);
+
 protected:
     QSet<CNonTerminal> m_nonTerminalsAlphabet;
     QSet<CTerminal> m_terminalsAlphabet;
@@ -158,5 +131,10 @@ protected:
 
     QList<CCFGRule> GetListOfRules() const;
 };
+
+QDataStream &operator<<(QDataStream& out, const CContextFreeGrammar& g);
+QDataStream &operator >> (QDataStream &in, CContextFreeGrammar& g);
+
+
 //bool operator==(const CContextFreeGrammar& g1, const CContextFreeGrammar& g2);
 #endif // CONTEXTFREEGRAMMAR_H

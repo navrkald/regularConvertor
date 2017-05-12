@@ -90,8 +90,8 @@ public:
 	QString PrintHtmlRules();
 	QString PrintHtmlStartState();
 	QString PrintHtmlFinalStates();
-	QDataStream& operator<<(QDataStream &out);
-	QDataStream& operator >> (QDataStream &in);
+	QDataStream& WriteToQDataStream(QDataStream &out) const;
+	QDataStream& ReadFromQDataStream(QDataStream &in);
 
 // Getters and setters
 public:
@@ -114,6 +114,8 @@ private:
 
 FiniteAutomata operator +(const FiniteAutomata FA1, const FiniteAutomata FA2);
 bool operator==(const FiniteAutomata FA1, const FiniteAutomata FA2);
+QDataStream& operator<<(QDataStream& out, const FiniteAutomata& fa);
+QDataStream& operator>>(QDataStream& in, FiniteAutomata& fa);
 
 /**
   * Overloading operator for debugging purposes

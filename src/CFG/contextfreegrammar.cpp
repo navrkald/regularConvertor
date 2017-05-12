@@ -1,6 +1,7 @@
 #include "contextfreegrammar.h"
 #include <htmlcreator.h>
 #include <algorithms/constants.h>
+#include <QtCore>
 
 ErrorCode CCFGRule::GetRulesFromString(QSet<CCFGRule>& rules, QString sRule)
 {
@@ -145,6 +146,26 @@ QString CCFGRule::ToString() const
 
 QString CCFGRule::ToHtml() const {
     return CHtmlCreator::ConvertTextToHtml(ToString());
+}
+
+QDataStream & CCFGRule::WriteToQDataStream(QDataStream & out) const
+{
+	return out << m_leftNonTerminal << m_rightString;
+}
+
+QDataStream & CCFGRule::ReadFromQDataStream(QDataStream & in)
+{
+	return in >> m_leftNonTerminal >> m_rightString;
+}
+
+QDataStream& operator<<(QDataStream & out, const CCFGRule& r)
+{
+	return r.WriteToQDataStream(out);
+}
+
+QDataStream& operator>>(QDataStream & in, CCFGRule& r)
+{
+	return r.ReadFromQDataStream(in);
 }
 
 QVector<QString> CCFGRule::GetRevertedRightRule()
@@ -300,6 +321,31 @@ bool CContextFreeGrammar::operator==(const CContextFreeGrammar &g) const
          this->m_terminalsAlphabet == g.m_terminalsAlphabet;
 }
 
+void CContextFreeGrammar::Clear() {
+	m_nonTerminalsAlphabet.clear();
+	m_terminalsAlphabet.clear();
+	m_startNonTerminal.Clear();
+	m_rules.clear();
+}
+
+QDataStream& CContextFreeGrammar::WriteToQDataStream(QDataStream& stream) const {
+	return stream << m_nonTerminalsAlphabet << m_terminalsAlphabet << m_startNonTerminal << m_rules;
+}
+
+QDataStream& CContextFreeGrammar::ReadFromQDataStream(QDataStream& stream){
+	return stream >> m_nonTerminalsAlphabet >> m_terminalsAlphabet >> m_startNonTerminal >> m_rules;
+}
+
+QDataStream & operator<<(QDataStream & out, const CContextFreeGrammar& g)
+{
+	return g.WriteToQDataStream(out);
+}
+
+QDataStream & operator>>(QDataStream & in, CContextFreeGrammar& g)
+{
+	return g.ReadFromQDataStream(in);
+}
+
 
 QSet<QString> CSymbol::CSymbolQSetToQStringQSet(const QSet<CSymbol> &csymbolSet)
 {
@@ -329,4 +375,47 @@ QSet<QString> CNonTerminal::CNonTerminalQSetToQStringQSet(const QSet<CNonTermina
       outSet.insert(s.GetString());
   }
   return outSet;
+}
+
+QDataStream& CSymbol::WriteToQDataStream(QDataStream & out) const
+{
+	return out << (quint32) m_type << m_symbol;
+}
+
+QDataStream& CSymbol::ReadFromQDataStream(QDataStream & in)
+{
+	quint32 tmpType;
+	in >> m_symbol >> tmpType;
+	m_type = (TType)tmpType;
+	return in;
+}
+
+QDataStream & operator>>(QDataStream & in, CTerminal & s)
+{
+	return s.ReadFromQDataStream(in);
+}
+
+QDataStream & operator<<(QDataStream & out, const CTerminal & s)
+{
+	return s.WriteToQDataStream(out);
+}
+
+QDataStream & operator >> (QDataStream & in, CNonTerminal & s)
+{
+	return s.ReadFromQDataStream(in);
+}
+
+QDataStream & operator<<(QDataStream & out, const CNonTerminal & s)
+{
+	return s.WriteToQDataStream(out);
+}
+
+QDataStream & operator>>(QDataStream & out, CSymbol& s)
+{
+	return s.ReadFromQDataStream(out);
+}
+
+QDataStream & operator<<(QDataStream & out, const CSymbol & s)
+{
+	return s.WriteToQDataStream(out);
 }

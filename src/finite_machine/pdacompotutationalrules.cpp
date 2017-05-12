@@ -1,4 +1,5 @@
 #include "pdacompotutationalrules.h"
+#include <QtCore>
 
 // TODO: Write unit tests for this method
 CPDACompotutationalRule::CPDACompotutationalRule(QString rule)
@@ -30,18 +31,27 @@ QString CPDACompotutationalRule::ToArrowText(const QSet<CPDACompotutationalRule>
 	return outText;
 }
 
-QDataStream & CPDACompotutationalRule::operator<<(QDataStream & out)
+QDataStream & operator<<(QDataStream & out, const CPDACompotutationalRule& r)
 {
-	ComputationalRules::operator<<(out);
-	out << m_popSymol;
-	out << m_pushSymbols;
-	return out;
-	// TODO: insert return statement here
+	
+	return r.WriteToQDataStream(out);	
 }
 
-QDataStream & CPDACompotutationalRule::operator >> (QDataStream & in)
+QDataStream & operator>>(QDataStream & in, CPDACompotutationalRule& r)
 {
-	// TODO: insert return statement here
+	return r.ReadFromQDataStream(in);
+}
+
+QDataStream & CPDACompotutationalRule::WriteToQDataStream(QDataStream & out) const
+{
+	ComputationalRules::WriteToQDataStream(out);
+	return out << m_popSymol << m_pushSymbols;
+}
+
+QDataStream & CPDACompotutationalRule::ReadFromQDataStream(QDataStream & in)
+{
+	ComputationalRules::ReadFromQDataStream(in);
+	return in >> m_popSymol >> m_pushSymbols;
 }
 
 QSet<QString> CPDACompotutationalRule::GetStackSymbols()

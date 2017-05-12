@@ -609,18 +609,6 @@ void MainWindow::CfgToPda_example(const CContextFreeGrammar& cfg, QString exampl
         PrepareConversionWidget(Conversions::CFG_TO_PDA);
     ((CCfgToPdaWidget*)m_centralWidget)->SetCfg(cfg);
 
-    /* Abylity to set PDA to pda widget
-    CPushDownAutomata pda;
-    pda.SetStartState("s");
-    pda.SetStates(QSet<QString>{"s","s1","s2","f1","f2"});
-    pda.SetFinalStates(QSet<QString>{"f1","f2"});
-    pda.SetAplhabet(QSet<QString>{"a","b","c"});
-    pda.SetStackAlphabet(QSet<QString>{"D","E","F"});
-    pda.AddPDARule("s","s","a","D",QVector<QString>{"E","F"});
-    pda.AddPDARule("s","s1","b","E",QVector<QString>{"D","F"});
-    pda.AddPDARule("s2","f1","c","F","D");
-    ((CCfgToPdaWidget*)m_centralWidget)->SetPda(pda);
-    */
 	m_exampleName = example_name;
     mySetWindowTitle();
 }
@@ -773,7 +761,19 @@ void MainWindow::on_action_open_file_triggered()
             }
         }
         break;
-        case none:
+		case CFG_TO_PDA:
+		{
+			CContextFreeGrammar g;
+			in >> g;
+			CfgToPda_example(g);
+			if (m_mode != AlgorithmModes::algorithmSteping) {
+				CPushDownAutomata pda;
+				in >> pda;
+				((CCfgToPdaWidget*)m_centralWidget)->SetPda(pda);
+			}
+		}
+			break;
+		case none:
             showStatusMessage(tr("ERROR: Input file in wrong format!"));
             return;
         break;

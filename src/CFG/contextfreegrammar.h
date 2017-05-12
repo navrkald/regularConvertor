@@ -24,7 +24,7 @@ public:
     operator QString() const { return m_symbol; }
     static QSet<QString> CSymbolQSetToQStringQSet(const QSet<CSymbol>& csymbolSet);
     bool operator==(const CSymbol& s) const {return this->m_symbol == s.m_symbol ;}
-    CSymbol& operator=(CSymbol other) { this->m_symbol = other.m_symbol; return *this; }
+    CSymbol& operator=(CSymbol other) { this->m_symbol = other.m_symbol; m_type = other.m_type; return *this; }
     bool IsEmpty() const {return m_symbol.isEmpty();}
     void Trim() {m_symbol = m_symbol.trimmed();}
     void Append(QChar charter) {m_symbol.append(charter);}

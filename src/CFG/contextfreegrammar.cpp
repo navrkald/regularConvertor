@@ -129,7 +129,12 @@ QString CCFGRule::ToString() const
     foreach(const CSymbol& symbol, m_rightString){
         switch (symbol.GetType()) {
             case CSymbol::TType::terminal:
-                ruleString += QString(" \"%1\" ").arg(symbol.GetString());
+				if (symbol.GetString() == EPSILON) {
+					ruleString += QString(" %1 ").arg(symbol.GetString());
+				}
+				else {
+					ruleString += QString(" \"%1\" ").arg(symbol.GetString());
+				}
                 break;
             case CSymbol::TType::nonTerminal:
                 ruleString += QString(" <%1> ").arg(symbol.GetString());
@@ -204,26 +209,6 @@ QString CContextFreeGrammar::NonTerminalAlphabetToString() const
   }
   return result.left(result.length() - 2);
 }
-
-//QSet<CTerminal> CContextFreeGrammar::GetTerminalAlphabet()
-//{
-//    QSet<QString> outSet;
-//    foreach(CTerminal terminal, m_terminalsAlphabet)
-//    {
-//        outSet.insert(terminal.GetString());
-//    }
-//    return outSet;
-//}
-
-//QSet<CNonTerminal> CContextFreeGrammar::GetNoonTerminalAlphabet()
-//{
-//    QSet<QString> outSet;
-//    foreach(CNonTerminal nonTerminal, m_nonterminalsAlphabet)
-//    {
-//        outSet.insert(nonTerminal.GetString());
-//    }
-//    return outSet;
-//}
 
 QSet<QString> CContextFreeGrammar::GetBothTerminalAndNonterminalAlphabet()
 {
@@ -385,7 +370,7 @@ QDataStream& CSymbol::WriteToQDataStream(QDataStream & out) const
 QDataStream& CSymbol::ReadFromQDataStream(QDataStream & in)
 {
 	quint32 tmpType;
-	in >> m_symbol >> tmpType;
+	in >> tmpType >> m_symbol;
 	m_type = (TType)tmpType;
 	return in;
 }
@@ -400,7 +385,7 @@ QDataStream & operator<<(QDataStream & out, const CTerminal & s)
 	return s.WriteToQDataStream(out);
 }
 
-QDataStream & operator >> (QDataStream & in, CNonTerminal & s)
+QDataStream & operator>>(QDataStream & in, CNonTerminal & s)
 {
 	return s.ReadFromQDataStream(in);
 }

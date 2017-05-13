@@ -634,9 +634,25 @@ void MainWindow::on_CfgToPda_Example_1_triggered()
     rules.insert(CCFGRule(S, rightRulePart1));
     rules.insert(CCFGRule(S, rightRulePart2));
     g.SetRules(rules);
-    CfgToPda_example(g,tr("Simple example 1"));
+    CfgToPda_example(g,tr("Language of brackets"));
 }
 
+void MainWindow::on_actionLanguage_of_simple_aritmetic_triggered()
+{
+	CContextFreeGrammar g;
+	QString backusNaurForm = R"DELIMITER(
+		<constant> ::= <digit> | <constant> <digit>
+		<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+		<expresion> ::= <expresion> "+" <expresion>
+		<expresion> ::= <expresion> "-" <expresion>
+		<expresion> ::= <expresion> "*" <expresion>
+		<expresion> ::= <expresion> "/" <expresion>
+		<expresion> ::= "(" <expresion> ")"
+		<expresion> ::= <constant>
+	)DELIMITER";
+	g.GetFromBackusNaurForm(backusNaurForm);
+	CfgToPda_example(g, tr("Language of simple arithmetic"));
+}
 void MainWindow::on_action_save_triggered()
 {
     if(m_activeConversion == none)
@@ -845,6 +861,7 @@ void MainWindow::SetActionsGroups()
     examples_group->addAction(ui->Determinization_advanced_example_3);
     examples_group->addAction(ui->Determinization_advanced_example_4);
 	examples_group->addAction(ui->CfgToPda_Example_1);
+	examples_group->addAction(ui->actionLanguage_of_simple_aritmetic);
 
     QActionGroup* language_group = new QActionGroup(this);
     language_group->addAction(ui->actionCzech);
@@ -878,3 +895,4 @@ void MainWindow::on_m_actionCFGtoPDA_triggered()
 	mySetWindowTitle();
     PrepareConversionWidget(CFG_TO_PDA);
 }
+

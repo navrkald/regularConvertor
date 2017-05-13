@@ -1088,6 +1088,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="pictures\cfg_to_pda_arithmetic_language.png" />
     <Image Include="pictures\cfg_to_pda_simple_example_1.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

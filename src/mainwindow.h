@@ -80,7 +80,7 @@ private slots:
 
     void on_Determinization_advanced_example_1_triggered();
 
-    void on_action_save_triggered();
+	void on_action_save_triggered();
 
     void on_action_open_file_triggered();
 
@@ -116,6 +116,7 @@ private slots:
     // CFG to PDA
     //
     void on_m_actionCFGtoPDA_triggered();
+	void on_actionLanguage_of_simple_aritmetic_triggered();
 
     void on_action_Determinization_triggered();
 

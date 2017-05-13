@@ -49,5 +49,6 @@
         <file>pictures/Flag_of_the_Czech_Republic.png</file>
         <file>pictures/Flag_of_the_United_Kingdom.png</file>
         <file>pictures/cfg_to_pda_simple_example_1.png</file>
+        <file>pictures/cfg_to_pda_arithmetic_language.png</file>
     </qresource>
 </RCC>

@@ -117,6 +117,7 @@ p, li { white-space: pre-wrap; }
       <string>Context-free grammar to PushDown Automata</string>
      </property>
      <addaction name="CfgToPda_Example_1"/>
+     <addaction name="actionLanguage_of_simple_aritmetic"/>
     </widget>
     <addaction name="examples_RegExp_FA"/>
     <addaction name="menuRemove_epsilon"/>
@@ -565,6 +566,17 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>&lt;img src=':/main_window/pictures/cfg_to_pda_simple_example_1.png' /&gt;</string>
+   </property>
+  </action>
+  <action name="actionLanguage_of_simple_aritmetic">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Language of simple aritmetic</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;img src=':/main_window/pictures/cfg_to_pda_arithmetic_language.png' /&gt;</string>
    </property>
   </action>
  </widget>

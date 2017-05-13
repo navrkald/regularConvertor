@@ -4,8 +4,29 @@
 
 \listofappendices
 
-\priloha{Název přílohy}
-Obsah přílohy
+\priloha{Analýza nástrojů vytváření vizualizací z existujícího kódu}
 
+Při hledání nástrojů pro vizualizaci a dokumentaci existujícího kódu jsem měl následují požadavky:
+
+\begin{itemize}
+	\item Všechny nástroje musejí být bezplatné.
+	\item Musejí uměl vizualizovat diagram tříd a propojení tříd pomocí Qt mechanizmu Signálů a slotů.
+	\item Musí umět ideálně vygenerovat požadované vizualizace automaticky, tak aby se při změně kódu sami aktualizovaly a nemusely se vytvářet pokaždé ručně.
+\end{itemize}
+
+\n{2}{Qt ModelEditor}
+
+Prvním nástrojem je \textit{ModelEditor}. Tento nástroj jsem zkusil jako první, protože je ve formě pluginu do IDE \textit{QtCreator}, který jsem ze začátku používal pro programování této diplomové práce. \textit{ModelEditor} umožňuje dělat sice jednoduché, ale přehledné UML diagramy. Zásadní nedostatek, je že umožňuje například diagram tříd generovat jenom částečně a to tak, že se přetáhne zdrojový soubor do modelovacího editoru, kde se vytvoří element s názvem třídy, ale metody a členské se musí dopisovat ručně. Na domovské stránce (\url{https://wiki.qt.io/ModelEditor}) a ani na druhé \url{http://doc.qt.io/qtcreator/creator-modeling.html} tohoto nástroje jsem se nikde nedočetl, že by se na této funkcionalitě mělo někdy pracovat, proto jsem tento nástroj prozatím zavrhl.
+
+\n{2}{Doxygen a Graphviz}
+
+Druhým nástrojem je \textit{Doxygen}, který je určen na automatickou tvorbu dokumentace a byl ve svém počátku určen právě pro C++/Qt. \textit{Doxygen} pro tvorbu pokročilých grafů potřebuje doinstalovat \textit{Graphviz} a nastavit systémovou proměnnou PATH na cestu ke spustitelným souborům \textit{Graphviz}. Funguje to tak, že \textit{Doxygen} vytvoří textový popis grafu a \textit{Graphviz} pomocí spustitelného programu \textit{Dot} umí vytvořit grafickou podobu jak ve vektorových, tak v rastrových formátech. Aby bylo generování co nejjednodušší vytvořil jsem si konfigurační soubor pojmenovaný "Doxyfile" v adresáři "src". Následně se celá dokumentace vygeneruje automaticky pomocí zavolání příkazu doxygen ve stejném adresáři ve kterém se nachází "Doxyfile". \textit{Doxygen} umí vytvořit UML diagram tříd. U každé třídy ukáže od kterých tříd dědí a také názvy proměnných a metod spolu s jejich modifikátorem viditelnosti (public, protected, private). Zásadním problémem je, že neukazuje názvy typů členských proměnných, ani návratové typy a typy parametrů metod. 
+Pro automatické generování dokumentace z kódu je tento nástroj ideální, ale já chtěl v této diplomové práci mít kompletní diagram tříd včetně typů a návratových hodnot, proto jsem zkusil ještě třetí nástroj.
+
+\n{2}{Diagram tříd ve Visual studio Express 2015}
+
+Třetím nástrojem, který uspokojil všechny požadavky na diagram tříd se nacházel v IDE \textit{Visual Studio}, ovšem s jednou malou komplikací a to, že si neporadil plně s parsováním tříd, které mají definované makro \texttt{Q\_OBJECT}\ a pro správnou funkčnost bylo nutné toto makro dočasně zakomentovat. 
+
+Diagram konkrétní třídy se ná vygenerovat tak, že se pravým tlačítkem klikne na hlavičkový soubor třídy a následně vybere možnost "zobrazit diagram třídy". Po kliku kamkoliv do volného místa se dá vyvolat nabídka na export do různých formátů. Dá se i zvolit jestli chceme zobrazit celou signaturu, tj. návratové typy, jména a typy parametrů a typy členských proměnných. Jediná drobná výtka by mohla být, že modifikátor viditelnosti je a zda se jedná o metodu nebo proměnnou je značen z hlediska UML nestandardní ikonou. Zásadní je, že diagram tříd vygenerovaný tímto nástrojem obsahuje všechnu podstatné informace, proto jej použiji pro generovaní obrázků tříd do této diplomové práce.
 
 % ============================================================================ %

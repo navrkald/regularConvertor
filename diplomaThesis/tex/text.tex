@@ -431,11 +431,13 @@ Vše popisuje následující tabulka.
 	konvence & poznámka \\
 	\hline
 	\hline
-	m\_\textless název členské proměnné\textgreater & Písmeno \textit{m} podle anglického slova member. \\
+	m\_\nonTerm{Název členské proměnné}& Písmeno \textit{m} podle anglického slova member. \\
 	\hline
-	C\_\textless Název třídy\textgreater & Písmeno \textit{C} Podle anglického slova Class. \\
+	C\_\nonTerm{Název třídy} & Písmeno \textit{C} Podle anglického slova Class. \\
 	\hline
-	I\_\textless Název rozhraní\textgreater & Písmeno \textit{I} podle anglického slova Interface. \\ 
+	I\_\nonTerm{Název rozhraní} & Písmeno \textit{I} podle anglického slova Interface. \\
+	\hline
+	S\_\nonTerm{Název struktury} & Písmeno \textit{S} podle anglického slova Structure. \\  
 	\hline
 }
 
@@ -475,11 +477,48 @@ Tato třída, chcete-li widget, v sobě obsahuje instanci vnitřní třídy zvan
 
 Na obrázku (Obr. \ref{obr:prikladQtPromoting}) můžete vidět rozložení 4 widgetů do mřížky, navzájem oddělených rozdělovači pro konverzi bezkontextové gramatiky na zásobníkový automat. Qt Designer bohužel nezobrazuje konkrétní grafickou podobu pro mnou navržené přizpůsobené widgety popsané ve třídách \texttt{CAlgorithmWidget}, \texttt{CCfgWidget}, \texttt{CPdaWidget} a \texttt{CVariablesWidget}. Ke každé v těchto tříd ve kterých je definované chování je přiložen i \textit{ui} soubor popisující jeho grafickou podobu.
 
-\n{2}{Třída CCfgToPdaWidget zapouzdřujíhí konverzi CFG na PDA}
+\n{2}{Třída CAlgorithmCFGtoPDA obsahující logiku konverze CFG na PDA}
 
-\n{2}{Drobné vylepšení existujícího kódu}
+Na obrázku (Obr. \ref{obr:CAlgorithmCFGToPDA}) můžete vidět diagram třídy \texttt{CAlgorithmCFGtoPDA}, který obsahuje veškerou logiku převodu bezkontextové gramatiky na zásobníkový automat. Má přístup k veškerým widgetům nutných pro úspěšné zvládnutí konverze a obsahuje i samotný algoritmus, který je popsán v metodě \texttt{ComputeNextStep()}, která se skládá ze 2 částí. V první části se na základě toho jaký byl předchozí krok algroritmu a jaká jsou vstupní a průběžná data rozhodně, jakým dalším  krokem se bude pokračovat. A v druhé části se vyková aktuální krok algoritmu.
 
-Pro uložení existujících konverzí do souboru jsem přidal klávesovou zkratku \texttt{CTRL+S} podle anglického \textit{Save} a pro uložení \texttt{CTRL+L}, podle anglického \textit{Load}.
+Funkcionalita pod tlačítky \texttt{play}, \texttt{next} a \texttt{end} je implementovaná pomocí volání metody \texttt{NextStep()}, která volá metodu \texttt{ComputeNextStep()} a dále se stará o to jestli je algoritmus na konci, volá metody pro správné ukládání předchozích kroků, a komunikuje s třídou \texttt{CAlgorithmWidget}, která zobrazuje tlačítka a samotný algoritmus převodu. Tuto třídu sdílí všechny implementace konverzí a je proto naprogramovaná obecně.
+
+Aby bylo možné se vracet v krocích algoritmu i nazpět, pomocí tlačítek \texttt{begin} a \texttt{stop}, je nutné si ukládat informace o předchozích krocích v metodě \texttt{NextStep()}. Jeden krok algoritmu je uložen ve struktuře pojmenované \texttt{SStep}. A celá historie je uložená v proměnné \texttt{QList\textless{}SStep\textgreater{} m\_history}.
+
+Jelikož všechny algoritmy sdílí některé společné vlastnosti, které jsou definované v třídě \texttt{CAlgorithm} a tato třída dědí od vestavěné třídy \texttt{QStandardItemModel}, která reprezentuje model pro třídu AlgorithmView, která je součástí widgetu \texttt{CAlgorithmWidget} a která dědí od třídy QListView, což je vestavěný Qt widget. Tímto mechanizmem jsem dokonale oddělil samotné uživatelské rozhraní od výpočetní logiky.
+
+Dále již nebudu podrobně vysvětlovat jednotlivé třídy, protože by to bylo nad rámec této práce, jen snad zmíním, že stejný princip oddělení uživatelského rozhraní a logiky programu jsem použil i u widgetů pro zobrazování a editaci zásobníkových automat a bezkontextové gramatiky.
+
+Na konec implementační části vyberu už jenom dva zajímavé momenty a to parsování bezkontextové gramatiky v Backus Naurově formě a parsování přechodových pravidel zásobníkového automatu.
+
+\obr{Diagram tříd třídy CAlgorithmCFGToPDA}{obr:CAlgorithmCFGToPDA}{0.9}{classDiagrams/CAlgorithmCFGToPDA.png}
+
+\n{2}{Parsování bezkontextové gramatiky v Backus Naur formě}
+
+Text gramatiky zpracovávám v metodě \texttt{GetFromBackusNaurForm()} třídy \texttt{CContextFreeGrammar}, která reprezentuje bezkontextovou gramatiku. Text se rozdělí na jednotlivé řádky, kde se vyfiltrují ty které jsou prázdné a ty obsahující bílé znaky. Pak se na každý aplikuje statická metoda \texttt{GetRulesFromString} z třídy \texttt{CCFGRule} reprezentující jedno pravidlo vracející ve výstupním parametru množinu pravidel bezkontextové gramatiky. Následně se zkontroluje, jestli pravá strana pravidla neobsahuje epsilon pravidla, pokud ano epsilon znaky se nepřidávají do množiny terminálů. V opačném případě se všechny znaky řetězce správně rozdělí do množit terminálů a non-terminálů. Sluší se říci, že jedno pravidlo reprezentované třídou CCFGRule se skládá z levé strany, což je jeden terminál reprezentovaný třídou \texttt{CNonTerminal} a pravá strana je reprezentovaná vektorem terminánálů a nonterminálů, které mají oba společného předka \texttt{CSymbol}, které má příznak, jestli je terminál nebo nonterminál. Toto je v kostce popis parsování z výšky, ale ještě jsme si nepověděli jak z jednoho řádku symbolů vznikne množina pravidel. Použil jsem na parsování konstrukci "switch case", která používá stavy mezi kterými se přesouvá a čte řetězec znak po znaku. Diagram tohoto modelu můžete vidět na obrázku (Obr. \ref{obr:dd}) 
+
+\obr{Diagram parsování pravidel bezkontextové gramatiky v Backus Naurově formě}{obr:dd}{0.9}{classDiagrams/ddd.png}
+
+\n{2}{Parsování přechodových pravidel konečného automatu}
+
+Příklad formy v jaké se zadávají přechodová pravidla jste již mohli vidět na obrázku (Obr. \ref{obr:dd}). Nyní se podíváme na to, jak z textového řetězce dostat strukturovaná data. Jako u předchozího příkladu, zpracovávám stup po řádcích s tím, že odfiltrují prázdné řádky avšak na rozdíl od předchozího jsem zvolil parsování pomocí tohoto rozšířeného regulárního výrazu: 
+
+"\textasciicircum\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*
+,\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*
+->\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*((,\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*)*)\$". 
+
+Kde znaky '\textasciicircum' a '\$' značí začátek a konec řetězce, dále pak \textbackslash{}s je bílý znak, \textbackslash{}s je nebílý znak a závorky označují tzv. zachytávaný text.
+
+Pojďme si projít jednotlivé části toho rozšířeného regulárního výrazu společně:
+
+\begin{itemize}
+	\item První část "\textasciicircum\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*"\ nám zachytí řetězec, který může začínat libobolným množstvím prázdných znaků, následuje samotný neprázdný řetězec, následovaný libovolným množstvím bílích znaků.
+	\item Druhá část ",\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*" začíná čárkou a dále je vzor shodný s první částí.
+	\item Třetí část "->\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*" začíná šipkou a následuje opět řetězec obklopený libovolným množstvím bílých znaků.
+	\item Poslední a nejzajímavější část "((,\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*)*)" nám říká, že se jedná o řetězec začínající čárkou, následuje libobolné množství bílých znaků, pak je neprázdný řetězec nebílých znaků, za kterým je libobolné množství bílích znaků. Třetí část je zajímavá tím, že se může libobolně krát opakovat a to i nulakrát.
+\end{itemize}
+
+Pro získání všech znaků, které se vkládají na zásobník je ještě nutné zachycenou poslední část regulárního výrazu rozdělit podle čárek a očistit od bílých znaků.
 
 % ============================================================================ %
 
@@ -487,7 +526,6 @@ Pro uložení existujících konverzí do souboru jsem přidal klávesovou zkrat
 
 TODO: Ujasnit si o čem chci v diplomce psat
 
-TODO: Do závěru napsat počet normostran a metriky kody, kolik radku, znaku, kolik zmen jsem udelal v kodech od diplomky...
 
 TODO: Zhodnoceni, co se všechno povedlo. (Ne moc kritiky!!!)
 

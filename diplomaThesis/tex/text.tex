@@ -378,32 +378,34 @@ V tomto widgetu se zobrazují proměnné použité v algoritmickém widgetu spol
 % ============================================================================ %
 \n{1}{Implementace}
 
-V této části práce se detailněji podíváme na to jak samotný program vznikal, z jakých částí se skládá, jak jej sestavit ze zdrojových souborů a co všechno jeho programování zahrnovalo.
+V této části práce se detailněji podíváme na to, jak samotný program vznikal, z jakých částí se skládá, jak jej sestavit ze zdrojových souborů a na výběr některých zajímavých pasáží z kódu.
 
 Aplikaci jsem programoval v jazyce C++ verze normy 11. A nejen pro tvorbu grafického uživatelského prostředí jsem zvolil multiplatformní framework Qt 5.8.
 
 Prvně si ukážeme, jak získat zdrojové soubory a jak je můžeme zkompilovat. Následně si probereme, refaktoring existujícího kódu, který jsem psal v rámci mé bakalářské práce. A poté si probereme nejdůležitější stavební prvky programu.
 
+V příloze najdete malou analýzu existující řešení dokumentace kódu.
+
 \n{2}{Stažení zdrojových souborů a jejich následná kompilace}
 
-Všechny zdrojové soubory jsou opensource a jsou veřejně k dispozici na serveru Github včetně této práce jak ve formátech pdf a \LaTeX. Celou práci jsem verzoval pomocí programu Git a proto si vše můžete naklonovat pomocí příkazu:\newline \texttt{git clone https://github.com/navrkald/regularConvertor.git}. Github umožňuje mimo jiné zobrazovat různé statistiky ohledně množství a rozložení commitů v čase. Github měl pro mě taktéž výhodu, že práce byla uložena na veřejně přístupném serveru a já tak mohl vyvíjet střídavě z různých míst a zařízení. Dále pak jsem mohl mít jistotu, že Github má vše zálohované a i kdyby ne, tak samotný Git má tu úžasnou vlastnost, že každým naklonování mého repositáře vzniká kompletní off-line záloha a vzhledem k faktu, že jsem pracoval z více počítačů, tak mám hned několik záloh.
+Všechny zdrojové soubory jsou opensource a jsou veřejně k dispozici na serveru Github včetně této práce ve formátech pdf a \LaTeX. Celou práci jsem verzoval pomocí programu Git a proto si vše můžete naklonovat pomocí příkazu:\newline \texttt{git clone https://github.com/navrkald/regularConvertor.git}. Github umožňuje mimo jiné zobrazovat různé statistiky ohledně množství a rozložení commitů v čase. Github měl pro mě taktéž výhodu, že práce byla uložena na veřejně přístupném serveru a já tak mohl vyvíjet střídavě z různých míst a zařízení. Dále pak jsem mohl mít jistotu, že Github má vše zálohované a i kdyby ne, tak samotný Git má tu úžasnou vlastnost, že každým naklonování mého repositáře vzniká kompletní off-line záloha a vzhledem k faktu, že jsem pracoval z více počítačů, tak mám hned několik záloh.
 
-Opensource řešení jsem zvolil jednak z důvodů toho, že jsem chtěl, aby moje zdrojové soubory mohl vidět celý svět, aby je kdokoliv mohl upravit a pomocí \textit{pull requestu}, které mám ve ve svém repositáři povolené, dále rozvíjet tuto skvělou aplikaci. Druhým a to právním důvodem bylo, že jelikož nepoužívám multiplatformní Qt framework v komerční licenci, za kterou bych musel platit, jsem povinen všechny své zdrojové soubory zveřejnit.
+Opensource řešení jsem zvolil jednak z důvodů toho, že jsem chtěl, aby moje zdrojové soubory mohl vidět celý svět, aby je kdokoliv mohl upravit a pomocí \textit{pull requestu}, které mám ve ve svém repositáři povolené a dále rozvíjet tuto skvělou aplikaci. Druhým a to právním důvodem bylo, že jelikož nepoužívám multiplatformní Qt framework v komerční licenci, za kterou bych musel platit, jsem povinen všechny své zdrojové soubory zveřejnit.
 
 V předchozích odstavcích jsme se dozvěděli, jak získat zdrojové soubory, nyní si už jen zbývá ukázat, jak zkompilovat zdrojové soubory do spustitelného souboru. 
 
 Základní dvě možnosti jsou, použít nativní integrované vývojové prostředí QtCreator a nebo použít Qt plugin do Visual studia. Obě tyto možnosti začínají tím, že si musíme stáhnou samotný Qt framework pro danou platformu, na které zrovna vyvíjíte. Zde je odkaz na všechny možné instalátory Qt opensource frameworku, pro všechny hlavní platformy: \url{https://www.qt.io/download-open-source/#section-2}. Pro Windows jsou k dispozici mimo jiné verze pro kompilátor Visual studia a MinGW. Já jsem použil kompilátor Qt 5.8.0 for Windows 64-bit (VS 2015, 1.0 GB). Součásti balíčku je i integrované vývojové prostředí QtCreator spolu se zdrojovými kódy a binární podobou Qt frameworku. 
 
-Zdrojové soubory jsou užitečné ve chvíli, pokud chcete udělat staticky zkompilovanou aplikaci používající Qt framework, tak aby v sobě obsahovala všechny Qt závyslosti. Výhodou je, že pak můžete distribuovat vaši aplikaci v takzvaném "portable" formátu, kde aplikace neobsahuje instalátor, nevýhodou je za vyšší velikost výsledného binárního souboru. Jelikož je statická kompilace nad rámec této práce, pouze odkáži na odkaz na internetu: \url{https://wiki.qt.io/Building_a_static_Qt_for_Windows_using_MinGW}.
+Zdrojové soubory jsou užitečné ve chvíli, pokud chcete udělat staticky zkompilovanou aplikaci používající Qt framework, tak aby v sobě obsahovala všechny Qt závyslosti. Výhodou je, že pak můžete distribuovat vaši aplikaci v takzvaném "portable" formátu, kde aplikace neobsahuje instalátor, nevýhodou je za vyšší velikost výsledného binárního souboru. Jelikož je statická kompilace nad rámec této práce, uvedu pouze odkaz na internet: \url{https://wiki.qt.io/Building_a_static_Qt_for_Windows_using_MinGW} a zmíním, že mnou upravený skript pro statickou kompilaci Qt frameworku najdete v mém repositáři v adresáři \texttt{src/scriptToBuildStaticQt.ps1} .
 
-Po stažení a nainstalování Qt frameworku včetně Qt Creatoru a zdrojových souborů, které se hodí i v případě nejasností v dokumentaci Qt, můžete již vyvíjet, tak že si v něm otevřete projektový soubor, který se nachází v cestě <cesta k naklonovanému repositáři>/src/RegularConvertor.pro. Pak již stačí projekt sestavit pomocí \texttt{Build -> Build All} a pak spustit \texttt{Build -> Run}. Pro debuging programu pouze odkážu na nastavení debugeru na url: \url{http://doc.qt.io/qtcreator/creator-debugger-engines.html}.   
+Po stažení a nainstalování Qt frameworku včetně Qt Creatoru a zdrojových souborů, které se hodí i v případě nejasností v dokumentaci Qt, můžete již začít vyvíjet, tak že si v něm otevřete projektový soubor, který se nachází v cestě <cesta k naklonovanému repositáři>/src/RegularConvertor.pro. Pak již stačí projekt sestavit pomocí \texttt{Build -> Build All} a pak spustit \texttt{Build -> Run}. Pro debuging programu pouze odkážu na nastavení debugeru na url: \url{http://doc.qt.io/qtcreator/creator-debugger-engines.html}.   
 
-Mě osobně po čase přestávalo prostředí QtCreatoru stačit a potřeboval jsem více pokročilé IDE, proto jsem si nainstaloval do Visual Studia plugin QtPackage dostupný online: \url{https://marketplace.visualstudio.com/items?itemName=havendv.QtPackage}. Plugin v sobě neobsahuje celý Qt framework, proto jej je nutné předtím stáhnout. Po nastavení pluginu už pak jen stačí ve Visual Studiu spustit a zbuildit pomocí klávesové zkratky \texttt{F5}.
+Mě osobně po čase přestávalo prostředí QtCreatoru stačit a potřeboval jsem více pokročilé IDE, proto jsem si nainstaloval do Visual Studia plugin QtPackage dostupný online: \url{https://marketplace.visualstudio.com/items?itemName=havendv.QtPackage}. Plugin v sobě neobsahuje celý Qt framework, proto jej je nutné předtím stáhnout. Po nastavení pluginu pak už jen stačí ve Visual Studiu spustit a zbuildit pomocí klávesové zkratky \texttt{F5}.
 
 Pokud nechcete, aby vám editor ve Visual studiu červeně podtrhával neznámé symboly, což vám ale nebrání v kompilaci, je nutné mu nastavit cesty k hlavičkovým souborům Qt. To se provede tak, že ve vlastnostech projektu v \texttt{ConfigurationConfiguration Properties -> C/C++ -> General, Additional Include Directories} přidají tyto cesty: 
 \begin{itemize}
 	\item .\textbackslash GeneratedFiles
-	\item \$(QTDIR) \textbackslash include
+	\item \$(QTDIR)\textbackslash include
 	\item .\textbackslash GeneratedFiles\textbackslash\$(ConfigurationName)
 	\item \$(QTDIR)\textbackslash include\textbackslash QtCore
 	\item \$(QTDIR)\textbackslash include\textbackslash QtGui
@@ -449,9 +451,12 @@ Jelikož množství a rozsah zdrojových souborů je značný, pojmenovávací k
 
 \n{2}{Zobrazování náhledů příkladů}
 
-Jak jste mohli vidět na obrázku (Obr. \ref{obr:vyberPrikladu}) u každého příkladu se zobrazuje jeho náhled. Toto není standardní chování Qt frameworku a tohoto efektu jsem docílil, že jsem oddědil od základní třídy \texttt{QMenu} vlastní třídou \texttt{MyTooltipQMenu}, kde přepsal metodu \texttt{event(QEvent *)}, ve které reaguji na rozdílně na událost \texttt{QEvent::ToolTip}, pro kterou zobrazuji místo textu obrázek. Na závěr jsem položku \texttt{Examples -> Context-Free grammar to pushdown automata} povýšil na \texttt{MyTooltipQMenu}.
+Jak jste mohli vidět na obrázku (Obr. \ref{obr:vyberPrikladu}) u každého příkladu se zobrazuje jeho náhled. Toto není standardní chování Qt frameworku a tohoto efektu jsem docílil tím, že jsem oddědil od základní třídy \texttt{QMenu} vlastní třídou \texttt{MyTooltipQMenu}, kde přepsal metodu \texttt{event(QEvent *)}, ve které reaguji na rozdílně na událost \texttt{QEvent::ToolTip}, pro kterou zobrazuji místo textu obrázek. Na závěr jsem položku \texttt{Examples -> Context-Free grammar to pushdown automata} povýšil na \texttt{MyTooltipQMenu}.
 
 Tento lehce detailní popis zde uvádím hlavně pro případně zájemce, kteří by se chtěli podílet na rozšíření této práce, protože jak jsem docílil tohoto speciálního chování, není v tomto konkrétním příkladě z kódu na první pohled zřejmé.
+
+\n{2}{Drobné vylepšení existujícího kódu}
+Pro uložení existujících konverzí do souboru jsem přidal klávesovou zkratku \texttt{CTRL+S} podle anglického \textit{Save} a pro uložení \texttt{CTRL+L}, podle anglického \textit{Load}.
 
 \n{2}{Zapouzdření konverzí}
 
@@ -459,7 +464,7 @@ Příliš velké metody nebo třídy nejsou tolik přehledné a udržovatelné. 
 
 Původně vytváření grafického rozvržení widgetů jsem měl pro všechny konverze implementované v třídě hlavního okna. Naopak nyní jsou všechny konverze popsány graficky v souborech s koncovkou \textit{*.ui} a logika konverzí v asociovaných zdrojových souborech s koncovkami \textit{*.cpp} a \textit{*.h}. Toto jsem dělal ve jménu jedné z hlavních myšlenek OOP a to zapouzdření.
 
-Jelikož takto přepsané všechny widgety popisující jednotlivé konverze obsahují společnou množinu vlastností, tak všechny dědí od společného rozhraní \texttt{ICentralConversionWidget}, které má čistě virtuální metody \texttt{ConnectChangeMode()} a \texttt{ConnectStatusMessage()}. První metoda má za úkol propojit notifikaci o změně módu z hlavního okna do tříd, které zaštiťují jednotlivé konverze. A druhá naopak propojuje notifikace o různých případných chybových stavech z konverzního widgetu do hlavního okna, kde se pak tyto notifikace zobrazují ve stavové liště. Tento princip, kdy jednotlivé třídy mají společné vlastnosti, které zaštiťuje rozhraní a kde se pak v programu pracuje s ukazatelem na rozhraní se nazývá polymorfizmus.
+Jelikož všechny, takto přepsané widgety, které popisují jednotlivé konverze, obsahují společnou množinu vlastností, tak všechny dědí od společného rozhraní \\ \texttt{ICentralConversionWidget}, které má čistě virtuální metody \texttt{ConnectChangeMode()} a \texttt{ConnectStatusMessage()}. První metoda má za úkol propojit notifikaci o změně módu z hlavního okna do tříd, které zaštiťují jednotlivé konverze. A druhá naopak propojuje notifikace o různých případných chybových stavech z konverzního widgetu do hlavního okna, kde se pak tyto notifikace zobrazují ve stavové liště. Tento princip, kdy jednotlivé třídy mají společné vlastnosti, které zaštiťuje rozhraní a kde se pak v programu pracuje s ukazatelem na rozhraní se nazývá polymorfizmus.
 
 Pro vytváření centrálního widgetu, ve kterém se zobrazují jednotlivé konverze složí ve třídě \texttt{MainWindow} metoda \texttt{PrepareConversionWidget(Conversions conversion)}, která má jeden vstupní parametr informující o tom, která konverze se má nastavit.
 
@@ -471,11 +476,11 @@ Nyní si pojďme ukázat na diagramu tříd, z čeho se skládá třída \texttt
 
 \obr{Diagram tříd třídy CCfgToPdaWidget}{obr:CCfgToPdaWidget}{0.9}{classDiagrams/CCfgToPdaWidget.png}
 
-Tato třída, chcete-li widget, v sobě obsahuje instanci vnitřní třídy zvanou ui, která je generovaná z grafického popisu definovaném v Qt Designeru. Obsahuje jako členské proměnné i subwidgety ze kterých se \texttt{CCfgToPdaWidget}
+Tato třída, chcete-li widget, v sobě obsahuje instanci vnitřní třídy zvanou ui, která je generovaná z grafického popisu definovaném v Qt Designeru. Obsahuje jako členské proměnné i subwidgety ze kterých se \texttt{CCfgToPdaWidget} skládá.
 
 \obr{Příklad promoting na widgetu pro konverzi bezkontextové gramatiky na zásobníkový automat.}{obr:prikladQtPromoting}{0.9}{obrazky/PromotingOfWidgets.eps}
 
-Na obrázku (Obr. \ref{obr:prikladQtPromoting}) můžete vidět rozložení 4 widgetů do mřížky, navzájem oddělených rozdělovači pro konverzi bezkontextové gramatiky na zásobníkový automat. Qt Designer bohužel nezobrazuje konkrétní grafickou podobu pro mnou navržené přizpůsobené widgety popsané ve třídách \texttt{CAlgorithmWidget}, \texttt{CCfgWidget}, \texttt{CPdaWidget} a \texttt{CVariablesWidget}. Ke každé v těchto tříd ve kterých je definované chování je přiložen i \textit{ui} soubor popisující jeho grafickou podobu.
+Na obrázku (Obr. \ref{obr:prikladQtPromoting}) můžete vidět rozložení 4 widgetů do mřížky, navzájem oddělených rozdělovači pro konverzi bezkontextové gramatiky na zásobníkový automat. Qt Designer bohužel nezobrazuje konkrétní grafickou podobu pro mnou navržené přizpůsobené widgety popsané ve třídách \texttt{CAlgorithmWidget}, \texttt{CCfgWidget}, \texttt{CPdaWidget} a \texttt{CVariablesWidget}. Ke každé v těchto tříd ve kterých je definované chování je přiložen i \textit{ui} soubor popisující grafickou podobu.
 
 \n{2}{Třída CAlgorithmCFGtoPDA obsahující logiku konverze CFG na PDA}
 
@@ -495,9 +500,11 @@ Na konec implementační části vyberu už jenom dva zajímavé momenty a to pa
 
 \n{2}{Parsování bezkontextové gramatiky v Backus Naur formě}
 
-Text gramatiky zpracovávám v metodě \texttt{GetFromBackusNaurForm()} třídy \texttt{CContextFreeGrammar}, která reprezentuje bezkontextovou gramatiku. Text se rozdělí na jednotlivé řádky, kde se vyfiltrují ty které jsou prázdné a ty obsahující bílé znaky. Pak se na každý aplikuje statická metoda \texttt{GetRulesFromString} z třídy \texttt{CCFGRule} reprezentující jedno pravidlo vracející ve výstupním parametru množinu pravidel bezkontextové gramatiky. Následně se zkontroluje, jestli pravá strana pravidla neobsahuje epsilon pravidla, pokud ano epsilon znaky se nepřidávají do množiny terminálů. V opačném případě se všechny znaky řetězce správně rozdělí do množit terminálů a non-terminálů. Sluší se říci, že jedno pravidlo reprezentované třídou CCFGRule se skládá z levé strany, což je jeden terminál reprezentovaný třídou \texttt{CNonTerminal} a pravá strana je reprezentovaná vektorem terminánálů a nonterminálů, které mají oba společného předka \texttt{CSymbol}, které má příznak, jestli je terminál nebo nonterminál. Toto je v kostce popis parsování z výšky, ale ještě jsme si nepověděli jak z jednoho řádku symbolů vznikne množina pravidel. Použil jsem na parsování konstrukci "switch case", která používá stavy mezi kterými se přesouvá a čte řetězec znak po znaku. Diagram tohoto modelu můžete vidět na obrázku (Obr. \ref{obr:dd}) 
+Text gramatiky zpracovávám v metodě \texttt{GetFromBackusNaurForm()} třídy \texttt{CContextFreeGrammar}, která reprezentuje bezkontextovou gramatiku. Text se rozdělí na jednotlivé řádky, kde se vyfiltrují ty, které jsou prázdné a ty obsahující bílé znaky. Pak se na každý aplikuje statická metoda \texttt{GetRulesFromString} z třídy \texttt{CCFGRule} reprezentující jedno pravidlo vracející ve výstupním parametru množinu pravidel bezkontextové gramatiky. Následně se zkontroluje, jestli pravá strana pravidla neobsahuje epsilon pravidla, pokud ano epsilon znaky se nepřidávají do množiny terminálů. V opačném případě se všechny znaky řetězce správně rozdělí do množin terminálů a non-terminálů. Sluší se říci, že jedno pravidlo reprezentované třídou CCFGRule se skládá z levé strany, což je jeden terminál reprezentovaný třídou \texttt{CNonTerminal} a pravá strana je reprezentovaná vektorem terminánálů a nonterminálů, které mají oba společného předka \texttt{CSymbol}, který má příznak, jestli je terminál nebo nonterminál. 
 
-\obr{Diagram parsování pravidel bezkontextové gramatiky v Backus Naurově formě}{obr:dd}{0.9}{classDiagrams/ddd.png}
+Toto je v kostce popis parsování z výšky, ale ještě jsme si nepověděli jak z jednoho řádku symbolů vznikne množina pravidel. Použil jsem na parsování konstrukci "switch case", která používá stavy mezi kterými se přesouvá a čte řetězec znak po znaku. Diagram tohoto modelu můžete vidět na obrázku (Obr. \ref{obr:dd}). Názvy stavů jsou uvedené v elipsách a přečtený symbol je zobrazený u šipek. Text "else"\ u šipek znamená, že čtený symbol jakýkoliv jiný, než jaké jsou uvedené u šipek vycházející z daného stavu. Stav pojmenovaný "error"\ značí, že gramatika není ve správném syntaktickém formátu. 
+
+\obr{Diagram parsování pravidel bezkontextové gramatiky v Backus Naurově formě}{obr:dd}{0.9}{graphs/FiniteAutomataParsingCFG.jpg}
 
 \n{2}{Parsování přechodových pravidel konečného automatu}
 
@@ -507,18 +514,18 @@ Příklad formy v jaké se zadávají přechodová pravidla jste již mohli vid�
 ,\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*
 ->\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*((,\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*)*)\$". 
 
-Kde znaky '\textasciicircum' a '\$' značí začátek a konec řetězce, dále pak \textbackslash{}s je bílý znak, \textbackslash{}s je nebílý znak a závorky označují tzv. zachytávaný text.
+Kde znaky '\textasciicircum' a '\$' značí začátek a konec řetězce, dále pak \textbackslash{}s je bílý znak, \textbackslash{}S je nebílý znak a závorky označují tzv. zachytávaný text.
 
 Pojďme si projít jednotlivé části toho rozšířeného regulárního výrazu společně:
 
 \begin{itemize}
 	\item První část "\textasciicircum\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*"\ nám zachytí řetězec, který může začínat libobolným množstvím prázdných znaků, následuje samotný neprázdný řetězec, následovaný libovolným množstvím bílích znaků.
-	\item Druhá část ",\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*" začíná čárkou a dále je vzor shodný s první částí.
-	\item Třetí část "->\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*" začíná šipkou a následuje opět řetězec obklopený libovolným množstvím bílých znaků.
-	\item Poslední a nejzajímavější část "((,\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*)*)" nám říká, že se jedná o řetězec začínající čárkou, následuje libobolné množství bílých znaků, pak je neprázdný řetězec nebílých znaků, za kterým je libobolné množství bílích znaků. Třetí část je zajímavá tím, že se může libobolně krát opakovat a to i nulakrát.
+	\item Druhá část ",\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*"\ začíná čárkou a dále je vzor shodný s první částí.
+	\item Třetí část "->\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*"\ začíná šipkou a následuje opět řetězec obklopený libovolným množstvím bílých znaků.
+	\item Poslední a nejzajímavější část "((,\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*)*)"\ nám říká, že se jedná o řetězec začínající čárkou, následuje libobolné množství bílých znaků, pak je neprázdný řetězec nebílých znaků, za kterým je libobolné množství bílích znaků. Třetí část je zajímavá tím, že se může libobolně krát opakovat a to i nulakrát.
 \end{itemize}
 
-Pro získání všech znaků, které se vkládají na zásobník je ještě nutné zachycenou poslední část regulárního výrazu rozdělit podle čárek a očistit od bílých znaků.
+Pro získání všech znaků, které se vkládají na zásobník je ještě nutné zachycenou poslední část regulárního výrazu rozdělit podle čárek a očistit od bílých znaků, ale na to již existují knihovní funkce.
 
 % ============================================================================ %
 

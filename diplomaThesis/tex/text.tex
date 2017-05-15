@@ -311,7 +311,7 @@ Při kontrole, jestli je uživatelský zásobníkový automat ekvivalentní se s
 
 \obr{Pohled na hlavní okno, ke je vybrán první příklad převodu bezkontextové gramatiky na zásobníkový automat na konci krokovacího módu }{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}{1.0}{obrazky/konverzeBezkontextovGramatikyNaZasobnikovyAutomat.png}
 
-\n{1}{Vstupní widget bezkontextové gramatiky}
+\n{2}{Vstupní widget bezkontextové gramatiky}
 
 Do tohoto widgetu se vkládá popis bezkontextové gramatiky pomocí Backus-Naurovi formy popsané v teoretické části této práce. Dále je inteligentní a pozná, jestli je daná gramatika ve správném syntaktickém formátu. Pokud není, tak pozadí editačního kontrolního prvku, kde se daná gramatika vyplňuje zežloutne, čímž uživateli signalizuje, že udělal chybu v syntaxi. V opačném případě se nastaví pozadí na bílou barvu, gramatika automaticky rozparsuje a vyplní se tak počáteční non-terminál, abeceda terminálů a non-terminálů. Uživatel záměrně nemá možnost tyto 3 informace editovat, tak aby se předešlo zbytečným chybám. Za zmínku stojí, že pokud mají jednotlivá gramatická pravidla stejnou levou stranu, lze je zapsat na jeden řádek tak, že pravé strany jsou od sebe odděleny svislítkem. Pokud uživatel vybere čistou konverzi s prázdnou bezkontextovou gramatikou, widget je předvyplněn textem, který uživateli názorně ukáže příklad správné formy, jak zapsat bezkontextovou gramatiku. Je zde uveden proto, aby bylo pro nové uživatele co nejsnadnější používat tento program. Jeho text je uveden na obrázku (Obr. \ref{obr:predvypnenyTextBezkontextoveGramatiky}). 
 
@@ -319,7 +319,7 @@ Jelikož součástí gramatiky může být i epsilon pravidlo a symbol $\epsilon
 
 \obr{Předvyplněný text bezkontextové gramatiky}{obr:predvypnenyTextBezkontextoveGramatiky}{0.7}{obrazky/predvypnenyTextBezkontextoveGramatiky.png}
 
-\n{1}{Algoritmický widget}
+\n{2}{Algoritmický widget}
 
 Tento widget na samotném vrcholku obsahuje tlačítka a kontrolní prvky, které se mění v návaznosti na vybraný mód. Jelikož jsou popsány výše, je zde nebudeme blíže rozebírat.
 
@@ -333,7 +333,7 @@ Nyní bych rád přiložil ještě jeden obrázek (Obr. \ref{obr:LogicDiagramOfA
 
 \obr{Diagram detailně popisující chování algoritmu převodu bezkontextové gramatiky na zásobníkový automat}{obr:LogicDiagramOfAlgorithmCFGtoPDA}{1.0}{graphs/LogicDiagramOfAlgorithmCFGtoPDA.jpg}
 
-\n{1}{Výstupní widget zásobníkového automatu}
+\n{2}{Výstupní widget zásobníkového automatu}
 
 Zásobníkový automat, který můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}) je zde tvořen žlutými kolečky, uvnitř kterých je pojmenování daného stavu. Pokud je jméno stavu delší, než průměr kolečka, tak se mění tvar na elipsu širokou právě tak, aby obsáhla vnitřní text. Počáteční stav je označen tak, že do něj vede tlustá šipka zleva, která nezačíná v žádném ze stavu zásobníkového automatu. Koncové stavy zásobníkového automatu jsou označeny druhým vnitřním kolečkem, nebo elipsou.
 
@@ -371,7 +371,7 @@ Daný uzel lze označit jako koncový, či počáteční kliknutím pravým tla�
 
 \obr{Kontextová nabídka pro nastavování počátečního a koncového stavu automatu}{obr:oznaceniStavuKoncovyAPocatecni}{0.3}{obrazky/oznaceniStavuKoncovyAPocatecni.png}
 
-\n{1}{Widget s aktuálními proměnnými z algoritmického widgetu}
+\n{2}{Widget s aktuálními proměnnými z algoritmického widgetu}
 
 V tomto widgetu se zobrazují proměnné použité v algoritmickém widgetu spolu s jejich  aktuálními hodnotami. Tyto proměnné se zobrazují pouze tehdy, pokud je vybrán mód krokování algoritmu. Vzhledem k tomu, že jsem tento widget implementoval pomocí ovládacích prvků, které umožňují přijímat vstup ve formátu html, tak jsem mohl použít základní formátování textu, které jsem využil k zvýrazňování a obarvování proměnných tak, aby měly stejnou vizuální podobu s proměnnými použitými v algoritmickém widgetu a to vše proto, abych usnadnil orientaci uživateli v dané konverzi.
 
@@ -531,12 +531,18 @@ Pro získání všech znaků, které se vkládají na zásobník je ještě nutn
 
 \nn{Závěr}
 
-TODO: Ujasnit si o čem chci v diplomce psat
+Cílem této práce bylo vytvořit aplikaci pro studenty, která bude rozšířena, o konverze modelů bezkontextových jazyků. Dále pak napsat práci, která se bude skládat z teoretické a praktické části. 
 
+V první z nich byla vysvětlena Chomského hierarchie, dále pak bezkontextový jazyk, včetně modelů které ho reprezentují, jakými jsou zásobníkový automat (PDA) a bezkontextová gramatika (CFG). U obou je uvedena formální definice, která je použitá i v samotné aplikaci. Pro praktické účely byly uvedeny i definice Backus-Naurovy formy a notace zápisu přechodových pravidel zásobníkového automatu. Následně byl definován algoritmus převodu CFG na PDA. Závěr teoretické části se zaobírá základy Qt frameworku, který byl použit pro tvorbu aplikace. 
 
-TODO: Zhodnoceni, co se všechno povedlo. (Ne moc kritiky!!!)
+V praktické části práce byla detailně popsána aplikace, jak z pohledu uživatelského, tak z vnitřního. Bylo zde popsáno, jak může začít uživatel pracovat s programem, že má na výběr z předdefinovaných příkladů, vložení vlastní CFG, nebo načtení konverze ze souboru. Dále bylo vysvětleno, že program má několik módu pro studium a samostatné procvičení prezentované látky. Dále následoval detailní popis konverzního okna a jednotlivých částí, ze kterých se skládá a jak se ovládají. Těmito částmi jsou okno pro vložení CFG v Backus-Naurově formě, okno ve které se tvoří PDA, interaktivní okno popisující algoritmus a okno ve kterém jsou vidět průběžné hodnoty všech proměnných použitých v algoritmu.
 
-V této práci jsem se snažil k hůře stravitelné teorii přikládat množství příkladů, aby byla tato problematika pochopitelná a přínosná pro studenta, který by si tuto práci chtěl půjčit v univerzitní knihovně. Z vlastní zkušenosti vím, že pro lepší pochopení dané problematiky je kromě suché teorie nutné přiložit i příklady. Dával jsem je zde i pro to, že konečným cílem diplomové práce bude kromě textu nutné vytvořit i funkční aplikaci, která má sloužit především studentům, ale samozřejmě ji mohou využít i profesoři na naší škole k prezentaci přednášené látky pro lepší přiblížení studentům. Chtěl jsem, aby i student nepříliš seznámený s danou problematikou mohl po přečtení této práce začít používat mou aplikaci bez obtíží.
+Poslední část praktické části byla věnovaná samotné implementaci. Bylo možné se v ní dočíst, jak získat a zkompilovat aktuální zdrojové kódy ze serveru Github, na kterém je k dispozici i aplikace v binárním formátu pro okamžité použití. Dále byl zmíněn refaktoring a konvence použité v kódu. Bylo zde vysvětleno několik základních tříd použitých v aplikaci a také jakým způsobem byl implementovaný samotný algoritmus převodu, jak probíhalo zpracování bezkontextové gramatiky a přechodových pravidel zásobníkového automatu, obojí z textové formy zadané uživatelem.  
 
+Co se týče samotné aplikace, tak její zdrojové soubory jsou opensource s důrazem na striktní rozdělení samotné logiky programu a popisu grafického uživatelského rozhraní. Je zde kladen důraz na členění do více drobných částí a užití pravidel OOP, kterými jsou zapouzdření polymorfizmus, kompozice, abstrakce a dědičnost. V programu se dodržuje striktní a jasné pojmenovávání, tak aby byl kód co nejvíce čitelný. Pro implementaci byl použit jazyk C++ a grafický framework Qt, obojí je multiplatformní a není problém aplikaci sestavit jak na Microsoft Windows, tak Linux a dalších. Počet negenerovaných a neprázdných řádků kódu v souborech s příponami \textit{*.h} a \textit{*.cpp} se vyšplhal na 10593.
+
+Cíle této aplikace byly, aby měl student k hůře stravitelné teorii přiložené množství příkladů, tak aby se pro něj stala problematika více pochopitelnou. Dále pak, aby s teorii měl student možnost experimentovat a následně si ji samostatně procvičit. Aplikace také má pomoci vyučujícímu prezentovat teorii v průběhu přednášky na příkladech. Možnost uložení a načtení konverzí se souboru zároveň umožňuje si tvořit a vyměňovat další zajímavé příklady a tak dále obohatit tuto aplikaci. 
+
+Cíle této práce, byly splněny.
 
 % ============================================================================ %

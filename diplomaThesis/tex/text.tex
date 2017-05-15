@@ -4,25 +4,25 @@
 
 % ============================================================================ %
 \nn{Úvod}
-Tato práce pojednává o vývoji aplikace která má didakticky prezentovat studentům teoretické informatiky oblast bezkontextových jazyků. Aplikace navazuje na bakalářskou práci \cite{bakalarka} , jejíž praktickou částí bylo implementovat vybrané konverze modelů regulárních jazyků. 
+Tato práce pojednává o~vývoji aplikace která má didakticky prezentovat studentům teoretické informatiky oblast bezkontextových jazyků. Aplikace navazuje na bakalářskou práci \cite{bakalarka}, jejíž praktickou částí bylo implementovat vybrané konverze modelů regulárních jazyků. 
 
-Toto téma jsem zvolil z důvodu, že oblast formálních jazyků může být pro studenty hůře pochopitelná a pomocí zde implementované aplikace si tak mohou tuto náročnou teorii procvičit na praktických příkladech.
+Toto téma jsem zvolil z~důvodu, že oblast formálních jazyků může být pro studenty hůře pochopitelná a pomocí zde implementované aplikace si tak mohou tuto náročnou teorii procvičit na praktických příkladech.
 
-Aplikace by měla umožňovat jak pochopení teorie, tak si ji i samostatně vyzkoušet, proto obsahuje několik módu, které tuto funkcionalitu umožňují. Dále by měla být lokalizovaná v anglickém jazyce, aby z ní měli užitek i zahraniční studenti.
+Aplikace by měla umožňovat jak pochopení teorie, tak si ji i samostatně vyzkoušet, proto obsahuje několik módu, které tuto funkcionalitu umožňují. Dále by měla být lokalizovaná v~anglickém jazyce, aby z~ní měli užitek i zahraniční studenti.
 
-V teoretické části je definovaná teorie nezbytná pro to pochopení konverzí a modelů bezkontextových jazyků. Dočtete se zde o Chomského hierarchii, bezkontextových jazycích a jejich modelech. Jako první je představen zásobníkový automat spolu s šipkovou notací přechodových pravidel. Druhým modelem je bezkontextová gramatika a její Backusova-Naurova forma. Dále je definován algoritmus převodu bezkontextové gramatiky na zásobníkový automat. Závěrem v teoretické části jsou vysvětleny základy Qt frameworku.
+V~teoretické části je definovaná teorie nezbytná pro to pochopení konverzí a modelů bezkontextových jazyků. Dočtete se zde o~Chomského hierarchii, bezkontextových jazycích a jejich modelech. Jako první je představen zásobníkový automat spolu s~šipkovou notací přechodových pravidel. Druhým modelem je bezkontextová gramatika a její Backusova-Naurova forma. Dále je definován algoritmus převodu bezkontextové gramatiky na zásobníkový automat. Závěrem v~teoretické části jsou vysvětleny základy Qt frameworku.
 
-Dále v praktické části je popsán samotný program jak z pohledu vnějšího, ve kterém jsou ukázány všechny jeho funkce a jak se ovládá, tak vnitřního, kde jsou popsány některé zajímavé implementační detaily.
+Dále v~praktické části je popsán samotný program jak z~pohledu vnějšího, ve kterém jsou ukázány všechny jeho funkce a jak se ovládá, tak vnitřního, kde jsou popsány některé zajímavé implementační detaily.
 
-Pro uživatele je zde vysvětleno, jak začít aplikaci používat. Uživatel má na výběr z předdefinovaných příkladů, načtení konverze ze souboru a možnosti vložit vlastní data. Dále následuje popis několika módu určeních pro studium konverzí a jejich samostatné procvičení. Následuje popis okna samotné konverze bezkontextové gramatiky na zásobníkový automat, které se skládá z widgetů pro jejich editaci a těch ve kterých probíhá samotné krokování a zobrazování pomocných proměnných algoritmu. 
+Pro uživatele je zde vysvětleno, jak začít aplikaci používat. Uživatel má na výběr z~předdefinovaných příkladů, načtení konverze ze souboru a možnosti vložit vlastní data. Dále následuje popis několika módu určeních pro studium konverzí a jejich samostatné procvičení. Následuje popis okna samotné konverze bezkontextové gramatiky na zásobníkový automat, které se skládá z~widgetů pro jejich editaci a těch ve kterých probíhá samotné krokování a zobrazování pomocných proměnných algoritmu. 
 
 Zdrojové kódy a tento text, jsou dostupné pod open-source licencí na serveru GitHub pod touto url \url{https://github.com/navrkald/regularConvertor}.
 
-Jak již napovídá název serveru Github, celá práce včetně zdrojových kódů je verzována pomocí Gitu, který je navržen decentralizovaně a tak je zaručeno, že ať se stane cokoliv, záloha dat bude vždy z více zdrojů dostupná. Díky commitům je možné monitorovat postup prací, také je možné nový kód ukládat do větví, což umožňuje mít stabilní větev pro koncové uživatele a vývojovou větev ve které se vyvíjí nová funkcionalita. Jelikož jsou zdrojové kódy veřejně přístupné, tak kdokoliv může přispět k v vývoji této výukové aplikace pomocí takzvaných \textit{pull requestů}.
+Jak již napovídá název serveru Github, celá práce včetně zdrojových kódů je verzována pomocí Gitu, který je navržen decentralizovaně a tak je zaručeno, že ať se stane cokoliv, záloha dat bude vždy z~více zdrojů dostupná. Díky commitům je možné monitorovat postup prací, také je možné nový kód ukládat do větví, což umožňuje mít stabilní větev pro koncové uživatele a vývojovou větev ve které se vyvíjí nová funkcionalita. Jelikož jsou zdrojové kódy veřejně přístupné, tak kdokoliv může přispět k~v~vývoji této výukové aplikace pomocí takzvaných \textit{pull requestů}.
 
-Pro vývoj tohoto programu jsem zvolil jazyk C++ ve verzi standardu 11 spolu s multiplatformním frameworkem Qt v nejnovější verzi 5.8, protože moje požadavky byly, aby aplikace používala nové moderní technologie a také, aby byla přenositelná na všechny hlavní operační systémy.
+Pro vývoj tohoto programu jsem zvolil jazyk C++ ve verzi standardu 11 spolu s~multiplatformním frameworkem Qt v~nejnovější verzi 5.8, protože moje požadavky byly, aby aplikace používala nové moderní technologie a také, aby byla přenositelná na všechny hlavní operační systémy.
 
-Tato práce na rozdíl od bakalářské práce, která byla psána v programu Open Office, používá sázecí program \LaTeX\ \cite{latex}. Tento typografický program umožňuje lepší kontrolu nad formátováním a výsledným vzhledem, hodí se pro technické texty a je s ním snadnější dodržování typografických pravidel. Také umožňuje mít práci uloženou v textové podobě, která se snadněji verzuje, nežli pokud by byla v binární formě. Díky tomu je snadnější porovnávání verzí, a menší výsledná velikost Gitového repositáře.
+Tato práce na rozdíl od bakalářské práce, která byla psána v~programu Open Office, používá sázecí program \LaTeX\ \cite{latex}. Tento typografický program umožňuje lepší kontrolu nad formátováním a výsledným vzhledem, hodí se pro technické texty a je s~ním snadnější dodržování typografických pravidel. Také umožňuje mít práci uloženou v~textové podobě, která se snadněji verzuje, nežli pokud by byla v~binární formě. Díky tomu je snadnější porovnávání verzí, a menší výsledná velikost Gitového repositáře.
 
 %Tuto práci jsem se na rozdíl od své bakalářské, kterou jsem psal v programu Open Office, rozhodl psát v jazyce \LaTeX. Toto rozhodnutí má hned několik důvodů. Prvním z nich je to, že jsem se chtěl tento jazyk už dlouho naučit, protože mi je jako programátorovi mnohem bližší. Nejen technické texty vypadají mnohem lépe v tomto jazyce, protože se za mě stará za základní typografická pravidla a také mám při psaní v \LaTeX u větší kontrolu nad textem. Dalším důvodem, je že pomocí jazyka \LaTeX\ můžu mít práci napsánu v textovém formátu, na rozdíl od programů Open Office nebo Microsoft Word, které používají binární formát, který si nemohu otevřít v poznámkovém bloku, nebo nad ním dělat jednoduše porovnání dvou verzí. Tato zkutečnost znamená i mnohem efektivnější verzování jednotlivých commitů v Gitu, ve kterém si pak můžu prohlížet a porovnávat jednotlivé verze a případně se i vrátit k některé z předchozích verzí \cite{latex}.
 
@@ -32,13 +32,13 @@ Tato práce na rozdíl od bakalářské práce, která byla psána v programu Op
 \cast{Teoretická část}
 
 \n{1}{Chomského hierarchie}
-Abychom si mohli dát bezkontextové jazyky do souvislosti s ostatními formálními jazyky, je nutné si vysvětlit Chomského hierarchii. Tato hierarchie byla vytvořena panem Noamem Chomskym v roce 1956. Dává do souvislosti jazyky regulární, bezkontextové, kontextové a jazyky typu 0. Jejich vztah, můžete vidět na obrázku (Obr. \ref{obr:chomskeho_hierarchie}), jako vztah množin.
+Abychom si mohli dát bezkontextové jazyky do souvislosti s~ostatními formálními jazyky, je nutné si vysvětlit Chomského hierarchii. Tato hierarchie byla vytvořena panem Noamem Chomskym v~roce 1956. Dává do souvislosti jazyky regulární, bezkontextové, kontextové a jazyky typu 0. Jejich vztah, můžete vidět na obrázku (Obr. \ref{obr:chomskeho_hierarchie}), jako vztah množin.
 
 \obr{Chomskeho hierarchie formálních jazyků}{obr:chomskeho_hierarchie}{0.4}{obrazky/Chomskeho_hierarchie.eps}
 
-Jak je vidět z obrázku regulární jazyky zaujímají nejmenší množinu, nebo chcete li nejmenší počet jazyků. Nenechte se však zmýlit pojmem  počet jazyků, protože počet jazyků a množství řetězců generovaných daným jazykem jsou dvě rozdílné věci. Například jednoduchým regulárním výrazem \( (a + b)^* \) lze popsat všechny slova nad abecedou \( \Sigma = {a, b} \). Avšak jazyk, všech slov, kde první půlka slova se skládá ze stejného počtu písmen 'a' jako písmen 'b' v druhé půlce slova regulárním jazykem nepopíšeme. Dalo by se tak říci, že čím výše se jazyk nachází v Chomského hierarchii, tím přesněji dokážeme jazyk popsat, jinými slovy, tím více jazyků jsme schopni generovat.
+Jak je vidět z~obrázku regulární jazyky zaujímají nejmenší množinu, nebo chcete li nejmenší počet jazyků. Nenechte se však zmýlit pojmem  počet jazyků, protože počet jazyků a množství řetězců generovaných daným jazykem jsou dvě rozdílné věci. Například jednoduchým regulárním výrazem \( (a + b)^* \) lze popsat všechny slova nad abecedou \( \Sigma = {a, b} \). Avšak jazyk, všech slov, kde první půlka slova se skládá ze stejného počtu písmen 'a' jako písmen 'b' v~druhé půlce slova regulárním jazykem nepopíšeme. Dalo by se tak říci, že čím výše se jazyk nachází v~Chomského hierarchii, tím přesněji dokážeme jazyk popsat, jinými slovy, tím více jazyků jsme schopni generovat.
 
-Nyní si pro lepší představu u každého jazyku uvedeme modely, které daný jazyk popisují s jedním příkladem konkrétního jazyka.
+Nyní si pro lepší představu u~každého jazyku uvedeme modely, které daný jazyk popisují s~jedním příkladem konkrétního jazyka.
 
 Regulární jazyky můžeme popsat pomocí regulární gramatiky, regulárního výrazu nebo konečného automatu. Příkladem je například jazyk který obsahuje libovolnou kombinaci písmen 'a' a 'b' končící písmenem 'b'. Tento jazyk by se dal pospat regulárním výrazem \( (a + b)^* b \). 
 
@@ -46,19 +46,19 @@ Jazyky bezkontextové lze popsat modely jakými jsou bezkontextové gramatiky a 
 
 Jazyky kontextové můžeme popsat lineárně ohraničeným Turingovým strojem. Příkladem nechť je jazyk \( L = \{ a^n b^n c^n : n >= 1 \}  \)
 
-Třída jazyků typu nula, v sobě obsahuje všechny doposud zmíněné jazyky plus ještě jazyky navíc. Popisujeme je úplným Turingovým strojem. 
+Třída jazyků typu nula, v~sobě obsahuje všechny doposud zmíněné jazyky plus ještě jazyky navíc. Popisujeme je úplným Turingovým strojem. 
 \cite{Chomsky_hierarchy}
 
 \n{1}{Bezkontextový jazyk}
-V předchozí kapitole jsme si uvedli vzájemný vztah formálních jazyků. Nyní se pojďme podívat podrobněji na bezkontextové jazyky. Tyto jazyky popisujeme pomocí dvou hlavních modelů, kterými jsou bezkontextová gramatika (CFG) a konečný zásobníkový automat (PDA).
+V~předchozí kapitole jsme si uvedli vzájemný vztah formálních jazyků. Nyní se pojďme podívat podrobněji na bezkontextové jazyky. Tyto jazyky popisujeme pomocí dvou hlavních modelů, kterými jsou bezkontextová gramatika (CFG) a konečný zásobníkový automat (PDA).
 
 Nenechme se však zmýlit představou, že pomocí obou můžeme generovat bezkontextové jazyky. Protože pomocí bezkontextové gramatiky můžeme jazyk generovat, avšak pomocí konečného zásobníkového automatu můžeme rozpoznat, zda konkretní jazyk je popsán daným automatem. 
 
-Pro nás je každopádně důležitá zkutečnost, že oba popisy jsou vzájemně ekvivalentní, tj. že lze převést PDA na CFG a taktéž lze převést CFG na PDA. Formální popis bezkontextové gramatiky a zásobníkového automatu bude uveden dále spolu s konverzí CFG na PDA. 
+Pro nás je každopádně důležitá zkutečnost, že oba popisy jsou vzájemně ekvivalentní, tj. že lze převést PDA na CFG a taktéž lze převést CFG na PDA. Formální popis bezkontextové gramatiky a zásobníkového automatu bude uveden dále spolu s~konverzí CFG na PDA. 
 
-Pro lepší představu, jaké jsou to vlastně ty bezkontextové jazyky, si nyní uvedeme pár příkladů. Krásným příkladem z praxe by mohl být jazyk závorek, tak aby odpovídal počet levých závorek počtu závorek pravých. Složitějším příkladem by mohl být jazyk matematicky správných algebraických výrazů, který se skládá z operátorů plus, mínus, krát, děleno, symbolů 'x', 'y', 'z' a závorek. Dalším příkladem z praxe je, že velká podmnožina programovacích jazyků se dá popsat pomocí bezkontextové gramatiky. 
+Pro lepší představu, jaké jsou to vlastně ty bezkontextové jazyky, si nyní uvedeme pár příkladů. Krásným příkladem z~praxe by mohl být jazyk závorek, tak aby odpovídal počet levých závorek počtu závorek pravých. Složitějším příkladem by mohl být jazyk matematicky správných algebraických výrazů, který se skládá z~operátorů plus, mínus, krát, děleno, symbolů 'x', 'y', 'z' a závorek. Dalším příkladem z~praxe je, že velká podmnožina programovacích jazyků se dá popsat pomocí bezkontextové gramatiky. 
 
-Jak je vidět z těchto příkladů, pomocí bezkontextového jazyka se dají popsat složitější věci a jejich uplatnění můžeme nalézt u popisu programovacích jazyků. Existuje notace bezkontextové gramatiky, zvaná Backusova-Naurova forma, která se právě často používá pro popis syntaxe programovacích jazyků. Znalost bezkontextových jazyků lze využít při konstrukci překladače, nebo interpretu programovacího jazyka a také při počítačovém zpracování algebraických výrazů. \cite{CFL}
+Jak je vidět z~těchto příkladů, pomocí bezkontextového jazyka se dají popsat složitější věci a jejich uplatnění můžeme nalézt u~popisu programovacích jazyků. Existuje notace bezkontextové gramatiky, zvaná Backusova-Naurova forma, která se právě často používá pro popis syntaxe programovacích jazyků. Znalost bezkontextových jazyků lze využít při konstrukci překladače, nebo interpretu programovacího jazyka a také při počítačovém zpracování algebraických výrazů. \cite{CFL}
 
 \newtheorem{mydef}{Definice}
 \newtheorem{myAlgorithm}{Algoritmus}
@@ -73,8 +73,8 @@ Nyní si definujeme definici zásobníkového automatu. \cite{PDA}
 		\item \( \Sigma \) je konečná vstupní abeceda,
 		\item \( \Gamma \) je konečná abeceda zásobníku,
 		\item \( R \) je přechodová relace, popisující pravidla činnosti automatu, je definovaná jako konečná množina kartézského součinu \( Q \times (\Sigma \cup \{\varepsilon\} ) \times \Gamma \times Q \times \Gamma^* \),
-		\item \( q_0 \) je počáteční stav z množiny \( Q \),
-		\item \( S \) je počáteční symbol na vrcholu zásobníku z množiny \( \Gamma \),
+		\item \( q_0 \) je počáteční stav z~množiny \( Q \),
+		\item \( S~\) je počáteční symbol na vrcholu zásobníku z~množiny \( \Gamma \),
 		\item \( F \) je množina koncových stavů, \( F \subseteq Q \).
 	\end{itemize}
 \end{framed}
@@ -91,7 +91,7 @@ Nechť \(M\) je definován následovně:
 	\item \( \Gamma =  \{A, Z\}\) ,
 	\item \( R = (p, 0, Z, p, AZ) , (p,0,A,p,AA), (p,\epsilon,Z,q,Z), (p,\epsilon,A,q,A), (q,1,A,q,\epsilon), (q,\epsilon,Z,r,Z) \),
 	\item \( q_0 = p\) ,
-	\item \( S = Z \) ,
+	\item \( S~= Z~\) ,
 	\item \( F = \{r\} \) .
 \end{itemize}
 
@@ -101,51 +101,52 @@ Graficky znázorněný stejný zásobníkový automat by vypadal následovně:
 
 \n{2}{Šipková notace přechodových pravidel zásobníkového automatu}
 
-Pro větší přehlednost a čitelnost přechodových pravidel zásobníkového automatu zde uvedu definici přechodových pravidel, kterou budu používat dále v této práci.
+Pro větší přehlednost a čitelnost přechodových pravidel zásobníkového automatu zde uvedu definici přechodových pravidel, kterou budu používat dále v~této práci.
 
 \begin{framed}
 	\begin{flushleft}Přechodová pravidlo $r \in R$ konečného zásobníkového automatu \( M = (Q, \Sigma, \Gamma, R, q_0, S, F) \)\end{flushleft} 
 	Definujeme následovně: \\
-	\( r = A p a \rightarrow w q \), kde $p$ a $ q \in Q$, $A \in \Gamma$, $a \in \Sigma$ a $w$ je řetězec symbolů náležících do $\Gamma$.
+	\( r = A~p a \rightarrow w q \), kde $p$ a $ q \in Q$, $A \in \Gamma$, $a \in \Sigma$ a $w$ je řetězec symbolů náležících do $\Gamma$.
 \end{framed}
 \begin{mydef}
-	Definice přechodových pravidel zásobníkového automatu v šipkové notaci.
+	Definice přechodových pravidel zásobníkového automatu v~šipkové notaci.
 \end{mydef}
 
 
 \n{1}{Bezkontextová gramatika}
-Definice bezkontextové gramatiky je následující.
+Definice bezkontextové gramatiky je následující. \cite{CFG}
 
 \begin{framed}
 	Bezkontextová gramatika \( G \) je uspořádaná čtvrtice \( G = (V, \Sigma, R, S) \) kde:
 	\begin{itemize}
-		\item \( V \) je konečná množina non-terminálních symbolů,
+		\item \( V~\) je konečná množina non-terminálních symbolů,
 		\item \( \Sigma \) je konečná množina terminálních symbolů,
-		\item \( R \) je konečná množina relací z \(V\) do \( (V \cup \Sigma )^* \), taktéž se nazývá množinou přepisovacích pravidel,
-		\item \( S \in V\) se nazývá počáteční non-terminální symbol gramatiky.,
+		\item \( R \) je konečná množina relací z~\(V\) do \( (V~\cup \Sigma )^* \), taktéž se nazývá množinou přepisovacích pravidel,
+		\item \( S~\in V\) se nazývá počáteční non-terminální symbol gramatiky.
 	\end{itemize}
 \end{framed}
 \begin{mydef}
 	Definice bezkontextové gramatiky.
 \end{mydef}
-Jednotlivé přepisovací pravidla často píšeme pomocí \uv{šipkové notace}, kde na levé straně neterminál za ním následuje šipka a na pravé straně je řetězec non-terminálních symbolů. Přepisovací pravidla se nazývají protože, řetězce daného jazyka, které jsou popsány gramatikou vznikají tak, že na počátku máme řetězec skládající se z počátečního non-terminálního symbolu gramatiky \(S\) a na ten aplikuji jedno z přepisovacích pravidel. Pokračuji tím, že postupně nahrazuji non-terminální symboly v řetězci do té doby, dokud mě v něm nezbudou jen terminální symboly a to je pak jedno konkrétní slovo daného bezkontextového jazyka.
 
-Například gramatika \( G = (\{S, B\}, \{ a, b\}, R = \{\{S \rightarrow aBb\}, \{B \rightarrow aBb\},\{B \rightarrow \varepsilon\}\}, S \}) \) popisuje jazyk \( L = \{ a^n b^n : n >= 1 \}  \).
+
+Jednotlivé přepisovací pravidla často píšeme pomocí \uv{šipkové notace}, kde na levé straně neterminál za ním následuje šipka a na pravé straně je řetězec non-terminálních symbolů. Přepisovací pravidla se nazývají protože, řetězce daného jazyka, které jsou popsány gramatikou vznikají tak, že na počátku máme řetězec skládající se z~počátečního non-terminálního symbolu gramatiky \(S\) a na ten aplikuji jedno z~přepisovacích pravidel. Pokračuji tím, že postupně nahrazuji non-terminální symboly v~řetězci do té doby, dokud mě v~něm nezbudou jen terminální symboly a to je pak jedno konkrétní slovo daného bezkontextového jazyka.
+
+Například gramatika \( G = (\{S, B\}, \{ a, b\}, R = \{\{S \rightarrow aBb\}, \{B \rightarrow aBb\},\{B \rightarrow \varepsilon\}\}, S~\}) \) popisuje jazyk \( L = \{ a^n b^n : n >= 1 \}  \).
 
 Příklad konkrétního slova, které generuje tato gramatika by mohl vypadat následovně:
 \begin{enumerate}
-	\item Na začátku máme slovo skládající se z počátečního symbolu \(S\).
+	\item Na začátku máme slovo skládající se z~počátečního symbolu \(S\).
 	\item Po aplikaci přepisovacího pravidla \(S \rightarrow aBb\) dostaneme slovo \(aBb\).
 	\item Toto pravidlo aplikujeme ještě jednou a dostáváme slovo \(aaBbb\).
 	\item Nakonec aplikujeme pravidlo \(B \rightarrow \varepsilon \) a dostáváme slovo \(aa\varepsilon bb\).
-	\item Jelikož \(\varepsilon\) značí prázdný řetězec, tak výsledné slovo jazyka \(L\) je \(aabb\). Slovo se nám skládá jen z terminálních symbolů, takže jsme s generováním slova u konce.
+	\item Jelikož \(\varepsilon\) značí prázdný řetězec, tak výsledné slovo jazyka \(L\) je \(aabb\). Slovo se nám skládá jen z~terminálních symbolů, takže jsme s~generováním slova u~konce.
 \end{enumerate}
-\cite{CFG}
 
 \n{2}{Backusova-Naurova forma}
-Pro zápis bezkontextové gramatiky se používají převážně dvě notace a to Backusova-Naurova forma (BNF) a jako druhá v pořadí je Van Wijngaardenova gramatika. My si zde představíme pouze první z nich, protože s BNF se můžete setkat častěji. Bezkontextovou gramatikou můžeme popsat různé programovací jazyky, jedním z nich je například Algol. \cite{CFG}
+Pro zápis bezkontextové gramatiky se používají převážně dvě notace a to Backusova-Naurova forma (BNF) a jako druhá v~pořadí je Van Wijngaardenova gramatika. My si zde představíme pouze první z~nich, protože s~BNF se můžete setkat častěji. Bezkontextovou gramatikou můžeme popsat různé programovací jazyky, jedním z~nich je například Algol. \cite{CFG}
 
-Syntaktická přepisovací pravidla jsou definována tak, že levou stranu vždy tvoří non-terminál, za kterým následuje oddělovač \uv{::=} (dvě dvojtečky následované rovnítkem) za kterým následuje pravá strana pravidla, která se skládá z řetězců non-terminálů a terminálů. Pravá strana se může skládat z více řetězců oddělených symbolem \uv{\textbar} značící logický operátor OR. Tento operátor byl zaveden, kvůli optimalizaci zápisu pravidel, tak aby místo zápisu, že jeden non-terminální symbol se může rozepsat na \it{N} řetězců, což by muselo být rozepsáno na \it{N} pravidel na \it{N} řádcích. Místo toho se těchto \it{N} řetězců napíše na pravou stranu oddělených symbolem \uv{\textbar}. Terminální symboly jsou uvedeny v uvozovkách.
+Syntaktická přepisovací pravidla jsou definována tak, že levou stranu vždy tvoří non-terminál, za kterým následuje oddělovač \uv{::=} (dvě dvojtečky následované rovnítkem) za kterým následuje pravá strana pravidla, která se skládá z~řetězců non-terminálů a terminálů. Pravá strana se může skládat z~více řetězců oddělených symbolem \uv{\textbar} značící logický operátor OR. Tento operátor byl zaveden, kvůli optimalizaci zápisu pravidel, tak aby místo zápisu, že jeden non-terminální symbol se může rozepsat na \it{N} řetězců, což by muselo být rozepsáno na \it{N} pravidel na \it{N} řádcích. Místo toho se těchto \it{N} řetězců napíše na pravou stranu oddělených symbolem \uv{\textbar}. Terminální symboly jsou uvedeny v~uvozovkách.
 \cite{BCF}
 \\
 \\
@@ -172,12 +173,12 @@ Nyní si pojďme ukázat algoritmus převodu bezkontextové gramatiky na zásobn
 	\begin{enumerate}
 		\item \(Q = {q_0}\)
 		\item \(\Sigma = \Sigma\)
-		\item \(\Gamma = V \cup \Sigma \)
+		\item \(\Gamma = V~\cup \Sigma \)
 		\item Počáteční stav je \(q_0\)
 		\item Konstrukce přechodové množiny \( R \):
 		\begin{enumerate}
 			\item Pro každé $a \in \Sigma$: přidej $(q_0,a,a,q_0,\varepsilon)$ do $R$
-			\item Pro každé $A \rightarrow x$, kde $A \in V, x \in (V \cup \Sigma)^*$, přidej do $R (q_0, \varepsilon, A, q_0, y)$, 
+			\item Pro každé $A \rightarrow x$, kde $A \in V, x \in (V~\cup \Sigma)^*$, přidej do $R (q_0, \varepsilon, A, q_0, y)$, 
 			kde $y = reversal(x)$
 		\end{enumerate}
 		\item \(S = S\)
@@ -188,11 +189,11 @@ Nyní si pojďme ukázat algoritmus převodu bezkontextové gramatiky na zásobn
 	Převod CFG na PDA.
 \end{myAlgorithm}
 
-Po aplikaci tohoto algoritmu nám vznikne nedeterministický PDA s jedním vstupním stavem a žádným ukončovacím stavem. Tento automat přijímá vstupní řetězec vyprázdněním zásobníku. Má stejnou vstupní abecedu, jako byla abeceda terminálů u původní CFG. Zásobníková abeceda automatu vznikla sloučením množin terminálů a non-terminálů vstupní gramatiky. Počátečním symbolem na zásobníku je počáteční non-terminální symbol gramatiky. 
+Po aplikaci tohoto algoritmu nám vznikne nedeterministický PDA s~jedním vstupním stavem a žádným ukončovacím stavem. Tento automat přijímá vstupní řetězec vyprázdněním zásobníku. Má stejnou vstupní abecedu, jako byla abeceda terminálů u~původní CFG. Zásobníková abeceda automatu vznikla sloučením množin terminálů a non-terminálů vstupní gramatiky. Počátečním symbolem na zásobníku je počáteční non-terminální symbol gramatiky. 
 
-První část množiny přechodových pravidel vznikla tak, že pro všechny terminální symboly se přidala přechodová pravidla taková, že počáteční i koncový stav pravidla je vždy počáteční stav automatu. Zároveň aktuální symbol na pásce a stejně tak na vrcholu zásobníku musí být stejný terminální symbol. Znak $\varepsilon$ říká, že symbol z vrcholu zásobníku odstraním. 
+První část množiny přechodových pravidel vznikla tak, že pro všechny terminální symboly se přidala přechodová pravidla taková, že počáteční i koncový stav pravidla je vždy počáteční stav automatu. Zároveň aktuální symbol na pásce a stejně tak na vrcholu zásobníku musí být stejný terminální symbol. Znak $\varepsilon$ říká, že symbol z~vrcholu zásobníku odstraním. 
 
-Zbytek přechodových má taktéž počáteční a koncový stav stejný. $\varepsilon$ zde říká, že nečtu žádný ze symbolů na pásce, ale přečtu jeden non-terminál z vrcholu zásobníku a nahradím jej řetězcem znaků z pravé části pravidla napsaných pozpátku.  
+Zbytek přechodových má taktéž počáteční a koncový stav stejný. $\varepsilon$ zde říká, že nečtu žádný ze symbolů na pásce, ale přečtu jeden non-terminál z~vrcholu zásobníku a nahradím jej řetězcem znaků z~pravé části pravidla napsaných pozpátku.  
 
 \n{1}{Základy Qt frameworku}
 
@@ -200,40 +201,40 @@ Qt framework je multiplatformní, to znamená, že programátor napíše jeden k
 
 \n{2}{QWidget} 
 
-QWidget je základní stavební element a zároveň předek v hierarchii tříd všech grafických elementů uživatelského rozhraní. Například widget je předek všech tlačítek, oken, kontrolních prvků, dialogů a dalších. Samotný widget sám o sobě nemá význam, ale definuje a zaštiťuje společnou množinu vlastností pro všechny od něj odvozené třídy.
+QWidget je základní stavební element a zároveň předek v~hierarchii tříd všech grafických elementů uživatelského rozhraní. Například widget je předek všech tlačítek, oken, kontrolních prvků, dialogů a dalších. Samotný widget sám o~sobě nemá význam, ale definuje a zaštiťuje společnou množinu vlastností pro všechny od něj odvozené třídy.
 
 \n{2}{Popis uživatelského rozhraní pomocí ui souborů}
 
-Ui soubory jsou ve formátu xml, ale needitují se přímo, nýbrž pomocí nástroje zvaného QtDesigner. Dále se při kompilaci zpracovávají a generuje se z nich C++ kód. Slouží k popisu rozmístění a designu jednotlivých buď předdefinovaných nebo uživatelských widgetů. Je vhodné v aplikaci striktně oddělovat samotnou funkčnost od popisu uživatelského rozhraní. Obvykle se používá technika, že funkčnost je definovaná programátorem v přidružené C++ třídě ve které je vložena vnitřní "ui" třída, která je automaticky generovaná a která obsahuje jako členské proměnné jednotlivé vnitřní widgety. V této práci jsem přesunul všechny popisy konverzí do samostatných ui souborů, tak abych zmenšil hlavní třídu okna a více oddělil kód od popisu grafického uživatelského prostředí. 
+Ui soubory jsou ve formátu xml, ale needitují se přímo, nýbrž pomocí nástroje zvaného QtDesigner. Dále se při kompilaci zpracovávají a generuje se z~nich C++ kód. Slouží k~popisu rozmístění a designu jednotlivých buď předdefinovaných nebo uživatelských widgetů. Je vhodné v~aplikaci striktně oddělovat samotnou funkčnost od popisu uživatelského rozhraní. Obvykle se používá technika, že funkčnost je definovaná programátorem v~přidružené C++ třídě ve které je vložena vnitřní "ui" třída, která je automaticky generovaná a která obsahuje jako členské proměnné jednotlivé vnitřní widgety. V~této práci jsem přesunul všechny popisy konverzí do samostatných ui souborů, tak abych zmenšil hlavní třídu okna a více oddělil kód od popisu grafického uživatelského prostředí. 
 
 \n{2}{Promoting} 
 
-Spolu s tím, že QWidget je původní předek všech grafických elementů (a proto je předek i všech mých uživatelských elementů) jsem mohl v QtDesigneru použít techniku zvanou \textit{promoting}. Volně do češtiny by se to dalo přeložit jako povyšování widgetů. Pro všechny konverze jsem si následně vytvořil widgety, které se skládají z jiných také mnou vytvořených widgetů. Proto jsem si vytvořil rozložení widgetů, které jsem následně povýšil na mnou skutečně předem vytvořené widgety.
+Spolu s~tím, že QWidget je původní předek všech grafických elementů (a proto je předek i všech mých uživatelských elementů) jsem mohl v~QtDesigneru použít techniku zvanou \textit{promoting}. Volně do češtiny by se to dalo přeložit jako povyšování widgetů. Pro všechny konverze jsem si následně vytvořil widgety, které se skládají z~jiných také mnou vytvořených widgetů. Proto jsem si vytvořil rozložení widgetů, které jsem následně povýšil na mnou skutečně předem vytvořené widgety.
 
-Má to tu nespornou výhodu, že jsem se zbavil všude v kódu, programového vytváření obrazovky pro jednotlivé konverze, které jsou nově definovány jako samostatné třídy, které zapouzdřují z grafického klediska všechny konverze. Tímto, že se popis UI přesunul do samostatných souborů, se značně ulevilo třídě pro popis hlavního okna aplikace. Tato objektově orientované technika rozdělení aplikace do více menších částí a rozdělení pravomocí zvaná zapouzdření.
+Má to tu nespornou výhodu, že jsem se zbavil všude v~kódu, programového vytváření obrazovky pro jednotlivé konverze, které jsou nově definovány jako samostatné třídy, které zapouzdřují z~grafického klediska všechny konverze. Tímto, že se popis UI přesunul do samostatných souborů, se značně ulevilo třídě pro popis hlavního okna aplikace. Tato objektově orientované technika rozdělení aplikace do více menších částí a rozdělení pravomocí zvaná zapouzdření.
 
 \n{2}{Signály a sloty}
 
 Signály a sloty se podobá jiné programovací technice zvaná \textit{callbacks}, kde se předává ukazatel na funkci nebo metodu. 
 
-Slot je metoda třídy, která se vykoná pokud někdo emitoval signál se kterým je spojená pomocí funkce \textit{connect()}. Stejně jako můžeme propojit emitování signálu s vykonáváním určité metody zvané slot, můžeme později zavolat i opačnou metodu \textit{disconnect()} , která toto spojení zruší. 
+Slot je metoda třídy, která se vykoná pokud někdo emitoval signál se kterým je spojená pomocí funkce \textit{connect()}. Stejně jako můžeme propojit emitování signálu s~vykonáváním určité metody zvané slot, můžeme později zavolat i opačnou metodu \textit{disconnect()} , která toto spojení zruší. 
 
-K jednomu signálu může být propojeno i více slotů. Tak jsem například implementoval, že konečný automat má více grafických reprezentací, tak aby se na základě emitování signálu o změně konečného automatu změnily obě jeho vizuální reprezentace.
+K~jednomu signálu může být propojeno i více slotů. Tak jsem například implementoval, že konečný automat má více grafických reprezentací, tak aby se na základě emitování signálu o~změně konečného automatu změnily obě jeho vizuální reprezentace.
 
 Slot musí mít definované svoje tělo, které se vykonává při emitování signálu, pokud jsou propojeni. Naopak tělo signálu nesmí být nikdy definováno.
 
-Signály a sloty si mohou vyměňovat informace pomocí parametrů. V nižších verzích Qt fungovalo propojení na základě maker \textit{SIGNAL} a \textit{SLOT}. V aktuální verzi Qt se může použít i systém ukazatelů na funkce, které jsem použil na propojení konverzních widgetů s hlavním oknem aplikace.
+Signály a sloty si mohou vyměňovat informace pomocí parametrů. V~nižších verzích Qt fungovalo propojení na základě maker \textit{SIGNAL} a \textit{SLOT}. V~aktuální verzi Qt se může použít i systém ukazatelů na funkce, které jsem použil na propojení konverzních widgetů s~hlavním oknem aplikace.
 
 
 % ============================================================================ %
 \cast{Praktická část}
 
-Na začátku této části své diplomové práce vám představím aplikaci \textit{Regular Convertor} z uživatelského hlediska, z pohledu chování, ovládání a funkcionalit. Konec věnuji implementaci. 
+Na začátku této části své diplomové práce vám představím aplikaci \textit{Regular Convertor} z~uživatelského hlediska, z~pohledu chování, ovládání a funkcionalit. Konec věnuji implementaci. 
 
 Na úvod jsem chtěl zmínit, že samotnou aplikaci jsem lokalizoval do anglického jazyka, protože jsem se nechtěl omezovat pouze na česky mluvící studenty.
-Texty z aplikace zde budu citovat anglicky, ale popisovat je budu v češtině. 
+Texty z~aplikace zde budu citovat anglicky, ale popisovat je budu v~češtině. 
 
-Aplikace by měla sloužit k účelům prezentace formálních jazyků na přednáškách a zároveň i k samostatnému procvičení studenty. Proto obsahuje část, kde se prezentuje jak vlastní algoritmus funguje, tak i části kde si student nasbíranou teorii prakticky vyzkouší. Důležité je, aby uživatel mohl s danými algoritmy experimentovat, proto program umožňuje vložení libovolného vstupu, s následnou kontrolou jeho validity. Tento vstup si může uživatel vložit ručně a nebo jej načíst ze souboru. Proto lze všechny konverze a jejich módy, včetně vstupních i výstupních dat ukládat a načítat ze souborů. Aplikace obsahuje i řadu zabudovaných příkladů, které jsou členěny od jednodušších ke složitějším.
+Aplikace by měla sloužit k~účelům prezentace formálních jazyků na přednáškách a zároveň i k~samostatnému procvičení studenty. Proto obsahuje část, kde se prezentuje jak vlastní algoritmus funguje, tak i části kde si student nasbíranou teorii prakticky vyzkouší. Důležité je, aby uživatel mohl s~danými algoritmy experimentovat, proto program umožňuje vložení libovolného vstupu, s~následnou kontrolou jeho validity. Tento vstup si může uživatel vložit ručně a nebo jej načíst ze souboru. Proto lze všechny konverze a jejich módy, včetně vstupních i výstupních dat ukládat a načítat ze souborů. Aplikace obsahuje i řadu zabudovaných příkladů, které jsou členěny od jednodušších ke složitějším.
 
 \n{1}{Úvodní obrazovka}
 
@@ -242,78 +243,78 @@ Na obrázku (Obr. \ref{obr:uvodniObrazovka}) je pro uživatele připraveno uvít
 \obr{Úvodní obrazovka programu Regular Convertor}{obr:uvodniObrazovka}{0.7}{obrazky/UvodniObrazovka.png}
 
 
-V záhlaví hlavního okna se zobrazují informace pro snadnější orientaci uživatele, který zde vidí, že spuštěný program se jmenuje "Regular Convertor", dále pak jakou konverzi má vybranou, následuje pak jaký konverzní mód má zvolen a jako poslední je uveden název příkladu, který si uživatel vybral. Pokud si nezvolil žádný z příkladů, tak se jeho název nezobrazuje.
+V~záhlaví hlavního okna se zobrazují informace pro snadnější orientaci uživatele, který zde vidí, že spuštěný program se jmenuje "Regular Convertor", dále pak jakou konverzi má vybranou, následuje pak jaký konverzní mód má zvolen a jako poslední je uveden název příkladu, který si uživatel vybral. Pokud si nezvolil žádný z~příkladů, tak se jeho název nezobrazuje.
 
 Příklad takového záhlaví hlavního okna, kde je zvolena konverze bezkontextové gramatiky na zásobníkový automat, vybrán je mód krokování algoritmu a první příklad, můžete vidět na obrázku (Obr. \ref{obr:zahlaviHlavnihoOkna}).
 
 \obr{Výřez záhlaví hlavního okna}{obr:zahlaviHlavnihoOkna}{0.9}{obrazky/zahlaviHlavnihoOkna.png}
 
-\n{1}{Možnosti začátku práce s programem}
+\n{1}{Možnosti začátku práce s~programem}
 
-V předchozí části bylo popsáno hlavní okno spolu s instrukcemi pro uživatele, jak může začít pracovat s programem. Nyní si je pojďme popsat podrobněji.
+V~předchozí části bylo popsáno hlavní okno spolu s~instrukcemi pro uživatele, jak může začít pracovat s~programem. Nyní si je pojďme popsat podrobněji.
 
-\n{2}{Výběr z příkladů}
+\n{2}{Výběr z~příkladů}
 
-Příklady pro konverzi bezkontextové gramatiky na zásobníkový automat jsou dostupné v menu pod \texttt{Examples -> Context-free grammar to PushDown Automata -> <Název příkladu>}. Po najetí myši na libovolný příklad se zobrazí dole pod položkou menu obrázek vstupních dat pro snadnější orientaci uživatele. Toto ukázání obrázku nad položkou v menu není standardní vlastností Qt frameworku a musel jsem ji ručně naprogramovat. Více se dozvíte dále v části nazvanou implementace. Celou situaci můžete vidět na obrázku (Obr. \ref{obr:vyberPrikladu}).
+Příklady pro konverzi bezkontextové gramatiky na zásobníkový automat jsou dostupné v~menu pod \texttt{Examples -> Context-free grammar to PushDown Automata -> <Název příkladu>}. Po najetí myši na libovolný příklad se zobrazí dole pod položkou menu obrázek vstupních dat pro snadnější orientaci uživatele. Toto ukázání obrázku nad položkou v~menu není standardní vlastností Qt frameworku a musel jsem ji ručně naprogramovat. Více se dozvíte dále v~části nazvanou implementace. Celou situaci můžete vidět na obrázku (Obr. \ref{obr:vyberPrikladu}).
 
-\obr{Snímek obrazovky s výběrem příkladu bezkontextové gramatiky na zásobníkový automat}{obr:vyberPrikladu}{0.7}{obrazky/vyberPrikladu.png}
+\obr{Snímek obrazovky s~výběrem příkladu bezkontextové gramatiky na zásobníkový automat}{obr:vyberPrikladu}{0.7}{obrazky/vyberPrikladu.png}
 
-\n{2}{Výběr z konverzí}
+\n{2}{Výběr z~konverzí}
 
-Třetí a poslední možností, jak začít používat program je volba konverze. Uživatel má na výběr celkem z 4 konverzí, z čehož poslední z nich a to převod bezkontextové gramatiky na zásobníkový automat byla implementována v rámci této práce. Pokud uživatel využije této volby musí počítat s tím, že vstupní data budou prázdná.
+Třetí a poslední možností, jak začít používat program je volba konverze. Uživatel má na výběr celkem z~4 konverzí, z~čehož poslední z~nich a to převod bezkontextové gramatiky na zásobníkový automat byla implementována v~rámci této práce. Pokud uživatel využije této volby musí počítat s~tím, že vstupní data budou prázdná.
 
 Všechny implementované konverze zobrazuje obrázek (Obr. \ref{obr:vyberKonverzi}).
 
-\obr{Výseč snímku z obrazovky pro výběr konverzí}{obr:vyberKonverzi}{0.7}{obrazky/vyberKonverzi.png}
+\obr{Výseč snímku z~obrazovky pro výběr konverzí}{obr:vyberKonverzi}{0.7}{obrazky/vyberKonverzi.png}
 
 
 \n{2}{Ukládání a načítání konverzí}
 
-Tyto volby pro načítání z, respektive ukládání do souboru se nachází v menu pod \texttt{"File -> Save"}, respektive pod \texttt{"File -> Load"}. Taktéž jsou v aplikaci implementované zkratky \texttt{ctrl + o} respektive \texttt{ctrl + s} pro otevření, respektive uložení aktuální konverze do souboru. Tuto funkcionalitu jsem přidal zejména z důvodu toho, že zabudované příklady v aplikaci nemohou obsáhnout vše a proto má vyučující možnost připravit další zajímavé příklady pro studenty.  
+Tyto volby pro načítání z, respektive ukládání do souboru se nachází v~menu pod \texttt{"File -> Save"}, respektive pod \texttt{"File -> Load"}. Taktéž jsou v~aplikaci implementované zkratky \texttt{ctrl + o} respektive \texttt{ctrl + s} pro otevření, respektive uložení aktuální konverze do souboru. Tuto funkcionalitu jsem přidal zejména z~důvodu toho, že zabudované příklady v~aplikaci nemohou obsáhnout vše a proto má vyučující možnost připravit další zajímavé příklady pro studenty.  
 
-Screenshot není potřeba přikládat, avšak za zmínku stojí fakt, že u módů "Samostatná práce"\ a "Automatická kontrola"\ se ukládají data, jak vstupní, tak výstupní, avšak u módu "Krokování algoritmu"\ se ukládají jenom vstupní data, protože výstup zde netvoří uživatel, nýbrž samotná aplikace.
+Screenshot není potřeba přikládat, avšak za zmínku stojí fakt, že u~módů "Samostatná práce"\ a "Automatická kontrola"\ se ukládají data, jak vstupní, tak výstupní, avšak u~módu "Krokování algoritmu"\ se ukládají jenom vstupní data, protože výstup zde netvoří uživatel, nýbrž samotná aplikace.
 
 \n{1}{Konverzní módy}
 
-Poslední položkou v menu je výběr módu. Jak již bylo řečeno na začátku této kapitoly, aplikace by měla umožňovat, jak samotné studium konverzních algoritmů, tak jejich samostatné praktické procvičení, proto jsem implementoval následující módy.
+Poslední položkou v~menu je výběr módu. Jak již bylo řečeno na začátku této kapitoly, aplikace by měla umožňovat, jak samotné studium konverzních algoritmů, tak jejich samostatné praktické procvičení, proto jsem implementoval následující módy.
 
 \n{2}{Mód krokování algoritmu}
 
-První mód určený pro prezentace v hodinách na fakultě a pro samostudium implementovaných konverzí je mód nazvaný \textit{Krokování algoritmu}. V tomto módu si uživatel krokuje jednotlivé kroky algoritmu. Ve widgetu pro danou konverzi jsou v jeho horní části následující kontrolní prvky, které můžete vidět na obrázku (Obr. \ref{obr:kontrolniPrvkyKrokovacihoModu}). Ještě než se přesuneme k popisu jednotlivých tlačítek stojí za zmínku, že pokud je algoritmus na úplném začátku, tak je zakázáno tlačítko zpět, stejná situace nastává na konci algoritmu pro tlačítko vpřed. První případ je ostatně vidět na obrázku (Obr. \ref{obr:kontrolniPrvkyKrokovacihoModu}).
+První mód určený pro prezentace v~hodinách na fakultě a pro samostudium implementovaných konverzí je mód nazvaný \textit{Krokování algoritmu}. V~tomto módu si uživatel krokuje jednotlivé kroky algoritmu. Ve widgetu pro danou konverzi jsou v~jeho horní části následující kontrolní prvky, které můžete vidět na obrázku (Obr. \ref{obr:kontrolniPrvkyKrokovacihoModu}). Ještě než se přesuneme k~popisu jednotlivých tlačítek stojí za zmínku, že pokud je algoritmus na úplném začátku, tak je zakázáno tlačítko zpět, stejná situace nastává na konci algoritmu pro tlačítko vpřed. První případ je ostatně vidět na obrázku (Obr. \ref{obr:kontrolniPrvkyKrokovacihoModu}).
 
-\obr{Výřez konrolních prvků z krokovacího módu}{obr:kontrolniPrvkyKrokovacihoModu}{0.7}{obrazky/kontrolniPrvkyKrokovacihoModu.png}
+\obr{Výřez konrolních prvků z~krokovacího módu}{obr:kontrolniPrvkyKrokovacihoModu}{0.7}{obrazky/kontrolniPrvkyKrokovacihoModu.png}
 
-Jak je vidět, k dispozici jsou možnosti \texttt{next}, respektive \texttt{prev}, které nás posunují o jeden krok v algoritmu vpřed, respektive v zad. Dalšími jsou \texttt{begin}, respektive \texttt{end}, které za nás okamžitě přenesou v algoritmu na začátek, respektive na konec. Poslední dvě možnosti jsou \texttt{play} a \texttt{stop}. Předposlední tlačítko je nazváno \texttt{play} začne přehrávat algoritmus po jednotlivých krocích s časovou prodlevou specifikovanou v pravé části pomocí kontrolky pojmenované \texttt{Delay}, ve které se zadává čas v milisekundách. Výchozí volba je 0 ms, která říká programu, že má provádět jednotlivé kroky algoritmu jak nejrychleji dovede. Poslední tlačítko je nazváno \texttt{stop}, které nám přestane přehrávat algoritmus, pokud jsme předtím klikli na \texttt{play}. Více o algoritmickém widgetu a souvislosti breakpointů a tlačítka \texttt{play} si povíme dále.
+Jak je vidět, k~dispozici jsou možnosti \texttt{next}, respektive \texttt{prev}, které nás posunují o~jeden krok v~algoritmu vpřed, respektive v~zad. Dalšími jsou \texttt{begin}, respektive \texttt{end}, které za nás okamžitě přenesou v~algoritmu na začátek, respektive na konec. Poslední dvě možnosti jsou \texttt{play} a \texttt{stop}. Předposlední tlačítko je nazváno \texttt{play} začne přehrávat algoritmus po jednotlivých krocích s~časovou prodlevou specifikovanou v~pravé části pomocí kontrolky pojmenované \texttt{Delay}, ve které se zadává čas v~milisekundách. Výchozí volba je 0 ms, která říká programu, že má provádět jednotlivé kroky algoritmu jak nejrychleji dovede. Poslední tlačítko je nazváno \texttt{stop}, které nám přestane přehrávat algoritmus, pokud jsme předtím klikli na \texttt{play}. Více o~algoritmickém widgetu a souvislosti breakpointů a tlačítka \texttt{play} si povíme dále.
 
 \n{2}{Mód samostatné práce}
 
-Poté co si uživatel prostudoval v praxi, jak funguje algoritmus převodu, si může zkusit konverzi provést sám, tak aby se přesvědčil, že algoritmus plně ovládá. 
+Poté co si uživatel prostudoval v~praxi, jak funguje algoritmus převodu, si může zkusit konverzi provést sám, tak aby se přesvědčil, že algoritmus plně ovládá. 
 
 Poté co ve výstupním widgetu uživatel vytvořil svoje řešení, může si manuálně zkusit, jestli správně převedl daný model formálního jazyka pomocí tlačítka \texttt{Check solution}. 
 
-Pokud uživatel zjistil, že nevytvořil správné řešení a už neví jak dále, může si nechat správné řešení zobrazit pomocí tlačítka \texttt{Show solution}. Po jeho stisku se ve výstupním widgetu zobrazí vzorové řešení. Zároveň s tím se změní text tohoto tlačítka na \texttt{Back}, po jehož stisku se do výstupního widgetu vloží zpět uživatelovo řešení, přesně tak jak jej zanechal před stiskem \texttt{Check solution}. Zobrzení techto dvou respektive tří (s právě skrytým tlačítkem zpět) kontrolních prvků můžete vidět na obrázku (Obr. \ref{obr:kontrolniPrvkyModuSamostatnePrace}).
+Pokud uživatel zjistil, že nevytvořil správné řešení a už neví jak dále, může si nechat správné řešení zobrazit pomocí tlačítka \texttt{Show solution}. Po jeho stisku se ve výstupním widgetu zobrazí vzorové řešení. Zároveň s~tím se změní text tohoto tlačítka na \texttt{Back}, po jehož stisku se do výstupního widgetu vloží zpět uživatelovo řešení, přesně tak jak jej zanechal před stiskem \texttt{Check solution}. Zobrzení techto dvou respektive tří (s~právě skrytým tlačítkem zpět) kontrolních prvků můžete vidět na obrázku (Obr. \ref{obr:kontrolniPrvkyModuSamostatnePrace}).
 
-\obr{Výřez konrolních prvků z módu samostatné práce }{obr:kontrolniPrvkyModuSamostatnePrace}{0.3}{obrazky/kontrolniPrvkyModuSamostatnePrace.png}
+\obr{Výřez konrolních prvků z~módu samostatné práce }{obr:kontrolniPrvkyModuSamostatnePrace}{0.3}{obrazky/kontrolniPrvkyModuSamostatnePrace.png}
 
 \n{2}{Mód automatické kontroly}
 
-Pokud už si uživatel myslí, že "už už" přece řešení musí být správné, nebo ho jen nebaví manuálně klikat, jestli má už správné řešení, může využít poslední mód pojmenovaný v programu \texttt{Instant checking}, taktéž volně přeložený do češtiny \textit{Mód automatické kontroly}. V tomto módu program sám ve velmi krátké periodě kontroluje, jestli je uživatelův vstup ekvivalentní se správným řešením. Více o tom, co je to ekvivalentní řešení, si povíme dále v části popisující převod bezkontextové gramatiky na zásobníkový automat. Stejně jako v předchozím módu se správnost řešení objevuje v levém horním rohu výstupního widgetu. 
+Pokud už si uživatel myslí, že "už už" přece řešení musí být správné, nebo ho jen nebaví manuálně klikat, jestli má už správné řešení, může využít poslední mód pojmenovaný v~programu \texttt{Instant checking}, taktéž volně přeložený do češtiny \textit{Mód automatické kontroly}. V~tomto módu program sám ve velmi krátké periodě kontroluje, jestli je uživatelův vstup ekvivalentní se správným řešením. Více o~tom, co je to ekvivalentní řešení, si povíme dále v~části popisující převod bezkontextové gramatiky na zásobníkový automat. Stejně jako v~předchozím módu se správnost řešení objevuje v~levém horním rohu výstupního widgetu. 
 
 \n{1}{Popis konverze bezkontextové gramatiky na zásobníkový automat}
 
-Stejně jako u předchozích konverzí, jsem se i v této konverzi držel zavedeného schématu z bakalářské práce, že vlevo nahoře je widget, ve kterém je popsán vstupní model formálního jazyka, v pravé horní části je algoritmický widget, v levé dolní části je widget, ve kterém je umístěn výstupní model formálního jazyka a konečně v pravé dolní části je widget, ve kterém jsou zobrazené aktuální hodnoty proměnných použitých v algoritmickém widgetu. Celý pohled je ukázán na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}). 
+Stejně jako u~předchozích konverzí, jsem se i v~této konverzi držel zavedeného schématu z~bakalářské práce, že vlevo nahoře je widget, ve kterém je popsán vstupní model formálního jazyka, v~pravé horní části je algoritmický widget, v~levé dolní části je widget, ve kterém je umístěn výstupní model formálního jazyka a konečně v~pravé dolní části je widget, ve kterém jsou zobrazené aktuální hodnoty proměnných použitých v~algoritmickém widgetu. Celý pohled je ukázán na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}). 
 
-Všechny widgety jsou od sebe navzájem odděleny rozdělovači, které umožňují měnit jejich velikost a to až do té míry, že je možné je úplně schovat. To se může hodit v situaci, když si chce student procvičit danou konverzi do té míry, že nechce být rušen samotným algoritmem. Další ze situací je, když studuje, nebo samostatně provádí konverzi a nezajímají jej aktuální hodnoty proměnných, nebo chce jen více místa pro výstupní widget, pokud převádí rozsáhlý model, tak jistě od-cenní možnost, že si může nechat schovat widget s proměnnými. Oddělovače jsem globálně pro celou aplikaci zvýraznil pomocí kaskádových stylů, aby byly tučné a měly tmavě šedou barvu, protože výchozí styl ve Microsoft Windows byl dosti nevýrazný.
+Všechny widgety jsou od sebe navzájem odděleny rozdělovači, které umožňují měnit jejich velikost a to až do té míry, že je možné je úplně schovat. To se může hodit v~situaci, když si chce student procvičit danou konverzi do té míry, že nechce být rušen samotným algoritmem. Další ze situací je, když studuje, nebo samostatně provádí konverzi a nezajímají jej aktuální hodnoty proměnných, nebo chce jen více místa pro výstupní widget, pokud převádí rozsáhlý model, tak jistě od-cenní možnost, že si může nechat schovat widget s~proměnnými. Oddělovače jsem globálně pro celou aplikaci zvýraznil pomocí kaskádových stylů, aby byly tučné a měly tmavě šedou barvu, protože výchozí styl ve Microsoft Windows byl dosti nevýrazný.
 
-V této konverzi vstupní widget popisuje bezkontextovou gramatiku a ve výstupním se nachází zásobníkový automat.
+V~této konverzi vstupní widget popisuje bezkontextovou gramatiku a ve výstupním se nachází zásobníkový automat.
 
-Při kontrole, jestli je uživatelský zásobníkový automat ekvivalentní se správným řešením, nezáleží na tom jak si uživatel pojmenoval jednotlivé stavy a je jedno v jakém pořadí vloží přechodová pravidla.
+Při kontrole, jestli je uživatelský zásobníkový automat ekvivalentní se správným řešením, nezáleží na tom jak si uživatel pojmenoval jednotlivé stavy a je jedno v~jakém pořadí vloží přechodová pravidla.
 
 \obr{Pohled na hlavní okno, ke je vybrán první příklad převodu bezkontextové gramatiky na zásobníkový automat na konci krokovacího módu }{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}{1.0}{obrazky/konverzeBezkontextovGramatikyNaZasobnikovyAutomat.png}
 
 \n{2}{Vstupní widget bezkontextové gramatiky}
 
-Do tohoto widgetu se vkládá popis bezkontextové gramatiky pomocí Backus-Naurovi formy popsané v teoretické části této práce. Dále je inteligentní a pozná, jestli je daná gramatika ve správném syntaktickém formátu. Pokud není, tak pozadí editačního kontrolního prvku, kde se daná gramatika vyplňuje zežloutne, čímž uživateli signalizuje, že udělal chybu v syntaxi. V opačném případě se nastaví pozadí na bílou barvu, gramatika automaticky rozparsuje a vyplní se tak počáteční non-terminál, abeceda terminálů a non-terminálů. Uživatel záměrně nemá možnost tyto 3 informace editovat, tak aby se předešlo zbytečným chybám. Za zmínku stojí, že pokud mají jednotlivá gramatická pravidla stejnou levou stranu, lze je zapsat na jeden řádek tak, že pravé strany jsou od sebe odděleny svislítkem. Pokud uživatel vybere čistou konverzi s prázdnou bezkontextovou gramatikou, widget je předvyplněn textem, který uživateli názorně ukáže příklad správné formy, jak zapsat bezkontextovou gramatiku. Je zde uveden proto, aby bylo pro nové uživatele co nejsnadnější používat tento program. Jeho text je uveden na obrázku (Obr. \ref{obr:predvypnenyTextBezkontextoveGramatiky}). 
+Do tohoto widgetu se vkládá popis bezkontextové gramatiky pomocí Backus-Naurovi formy popsané v~teoretické části této práce. Dále je inteligentní a pozná, jestli je daná gramatika ve správném syntaktickém formátu. Pokud není, tak pozadí editačního kontrolního prvku, kde se daná gramatika vyplňuje zežloutne, čímž uživateli signalizuje, že udělal chybu v~syntaxi. V~opačném případě se nastaví pozadí na bílou barvu, gramatika automaticky rozparsuje a vyplní se tak počáteční non-terminál, abeceda terminálů a non-terminálů. Uživatel záměrně nemá možnost tyto 3 informace editovat, tak aby se předešlo zbytečným chybám. Za zmínku stojí, že pokud mají jednotlivá gramatická pravidla stejnou levou stranu, lze je zapsat na jeden řádek tak, že pravé strany jsou od sebe odděleny svislítkem. Pokud uživatel vybere čistou konverzi s~prázdnou bezkontextovou gramatikou, widget je předvyplněn textem, který uživateli názorně ukáže příklad správné formy, jak zapsat bezkontextovou gramatiku. Je zde uveden proto, aby bylo pro nové uživatele co nejsnadnější používat tento program. Jeho text je uveden na obrázku (Obr. \ref{obr:predvypnenyTextBezkontextoveGramatiky}). 
 
 Jelikož součástí gramatiky může být i epsilon pravidlo a symbol $\epsilon$ není běžně na klávesnici, proto se na samém spodku widgetu nachází tlačítko, které jej vloží na aktuální pozici kurzoru.  
 
@@ -321,23 +322,23 @@ Jelikož součástí gramatiky může být i epsilon pravidlo a symbol $\epsilon
 
 \n{2}{Algoritmický widget}
 
-Tento widget na samotném vrcholku obsahuje tlačítka a kontrolní prvky, které se mění v návaznosti na vybraný mód. Jelikož jsou popsány výše, je zde nebudeme blíže rozebírat.
+Tento widget na samotném vrcholku obsahuje tlačítka a kontrolní prvky, které se mění v~návaznosti na vybraný mód. Jelikož jsou popsány výše, je zde nebudeme blíže rozebírat.
 
-Pod nimi se nachází samotný textový popis algoritmu, kde v jeho vrchní části je zapsáno, co je jeho vstupem a výstupem. Pod tímto popisem jsou už samotné kroky algoritmu.
+Pod nimi se nachází samotný textový popis algoritmu, kde v~jeho vrchní části je zapsáno, co je jeho vstupem a výstupem. Pod tímto popisem jsou už samotné kroky algoritmu.
 
 Výpočetní model každého algoritmu je postaven tak, že kliknutím na tlačítko \texttt{next} se následující krok provede, jeho pozadí zežloutne, aktualizuje výstupní widget a nastaví aktuální proměnné do widgetu vpravo dole. 
 
-Vlevo od exekutivních kroků je šedé kolečko, které se změní na červené, pokud uživatel kliknul na příslušný řádek. Toto kolečko symbolizuje breakpoint a jeho barva značí, jestli je neaktivní, či aktivní. Breakpointy slouží v režimu krokování algoritmu, kde lze kliknout na tlačítko \texttt{play} a tím se spustí automatické krokování algoritmu s danou prodlevou mezi kroky do doby, než algoritmus narazí na aktivní breakpoit, nebo dokud nebylo stisknuto tlačítko stop. Avšak né každý krok umožňuje nastavit breakpoit, například pro krok algoritmu, kde je uvedeno jen informativní návěští pro snadnější orientaci uživatele. Grafickou podobu algoritmu můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}).
+Vlevo od exekutivních kroků je šedé kolečko, které se změní na červené, pokud uživatel kliknul na příslušný řádek. Toto kolečko symbolizuje breakpoint a jeho barva značí, jestli je neaktivní, či aktivní. Breakpointy slouží v~režimu krokování algoritmu, kde lze kliknout na tlačítko \texttt{play} a tím se spustí automatické krokování algoritmu s~danou prodlevou mezi kroky do doby, než algoritmus narazí na aktivní breakpoit, nebo dokud nebylo stisknuto tlačítko stop. Avšak né každý krok umožňuje nastavit breakpoit, například pro krok algoritmu, kde je uvedeno jen informativní návěští pro snadnější orientaci uživatele. Grafickou podobu algoritmu můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}).
 
-Nyní bych rád přiložil ještě jeden obrázek (Obr. \ref{obr:LogicDiagramOfAlgorithmCFGtoPDA}) s diagramem, který ukazuje, jak celý algoritmus funguje. Uzly s kolečkem značí jednotlivé kroky algoritmu a šipky s textem napravo znázorňují podmínky, za kterých se přechází z jednoho kroku do druhého. Pokud má šipka u sebe text \texttt{always}, tak se následující krok provede vždy. Diagram je dosti názorný, proto jej zde nebudu detailněji popisovat.
+Nyní bych rád přiložil ještě jeden obrázek (Obr. \ref{obr:LogicDiagramOfAlgorithmCFGtoPDA}) s~diagramem, který ukazuje, jak celý algoritmus funguje. Uzly s~kolečkem značí jednotlivé kroky algoritmu a šipky s~textem napravo znázorňují podmínky, za kterých se přechází z~jednoho kroku do druhého. Pokud má šipka u~sebe text \texttt{always}, tak se následující krok provede vždy. Diagram je dosti názorný, proto jej zde nebudu detailněji popisovat.
 
 \obr{Diagram detailně popisující chování algoritmu převodu bezkontextové gramatiky na zásobníkový automat}{obr:LogicDiagramOfAlgorithmCFGtoPDA}{1.0}{graphs/LogicDiagramOfAlgorithmCFGtoPDA.jpg}
 
 \n{2}{Výstupní widget zásobníkového automatu}
 
-Zásobníkový automat, který můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}) je zde tvořen žlutými kolečky, uvnitř kterých je pojmenování daného stavu. Pokud je jméno stavu delší, než průměr kolečka, tak se mění tvar na elipsu širokou právě tak, aby obsáhla vnitřní text. Počáteční stav je označen tak, že do něj vede tlustá šipka zleva, která nezačíná v žádném ze stavu zásobníkového automatu. Koncové stavy zásobníkového automatu jsou označeny druhým vnitřním kolečkem, nebo elipsou.
+Zásobníkový automat, který můžete vidět na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}) je zde tvořen žlutými kolečky, uvnitř kterých je pojmenování daného stavu. Pokud je jméno stavu delší, než průměr kolečka, tak se mění tvar na elipsu širokou právě tak, aby obsáhla vnitřní text. Počáteční stav je označen tak, že do něj vede tlustá šipka zleva, která nezačíná v~žádném ze stavu zásobníkového automatu. Koncové stavy zásobníkového automatu jsou označeny druhým vnitřním kolečkem, nebo elipsou.
 
-Přechodová pravidla jsou symbolizovaná šipkou s textem, která lze vést z jakéhokoliv stavu do dalšího a to i z, a do toho stejného. Pokud přechodové pravidlo začíná a končí v tom samém stavu, tak je pak označeno částečně zakrytým kruhem nad stavem, nad kterým je text přechodového pravidla. 
+Přechodová pravidla jsou symbolizovaná šipkou s~textem, která lze vést z~jakéhokoliv stavu do dalšího a to i z, a do toho stejného. Pokud přechodové pravidlo začíná a končí v~tom samém stavu, tak je pak označeno částečně zakrytým kruhem nad stavem, nad kterým je text přechodového pravidla. 
 
 Na obrázku si taktéž můžete všimnout, je vlevo nahoře tohoto widgetu se nachází zelený text \texttt{CORRECT}, ten značí že zásobníkový automat je ekvivalentní se správným řešením. Pokud by nebyl, tak by tam byl červený text \texttt{WRONG}. 
 
@@ -345,10 +346,10 @@ Pro ilustraci zde uvádím příklad zásobníkového automatu \( M = (Q, \Sigma
 \begin{itemize}
 \item \( Q \in \{ s, f1, f2 \} \) ,
 \item \( \Sigma \in \{ a, b, c \} \) je konečná vstupní abeceda,
-\item \( \Gamma \in \{ P, R, S \} \) je konečná abeceda zásobníku,
-\item \( R \in \{ \{ R, s, c \rightarrow s, R \}, \{ P,s,a \rightarrow f1, R, S \}, \{ S, s, b \rightarrow f2, R, S\}, \} \) je množina, přechodových pravidel zapsaných v šipkové notaci,
-\item \( s \) je počáteční stav z množiny \( Q \),
-\item \( S \) je počáteční symbol na vrcholu zásobníku z množiny \( \Gamma \),
+\item \( \Gamma \in \{ P, R, S~\} \) je konečná abeceda zásobníku,
+\item \( R \in \{ \{ R, s, c \rightarrow s, R \}, \{ P,s,a \rightarrow f1, R, S~\}, \{ S, s, b \rightarrow f2, R, S\}, \} \) je množina, přechodových pravidel zapsaných v~šipkové notaci,
+\item \( s~\) je počáteční stav z~množiny \( Q \),
+\item \( S~\) je počáteční symbol na vrcholu zásobníku z~množiny \( \Gamma \),
 \item \( F \in \{ f1, f2\} \) je množina koncových stavů, kde \( F \subseteq Q \).
 \end{itemize}
 
@@ -356,53 +357,53 @@ viz obrázek (Obr. \ref{obr:prikladZasobnikohovehoAutomatu}).
 
 \obr{Příklad zásobníkového automatu}{obr:prikladZasobnikohovehoAutomatu}{0.4}{obrazky/prikladZasobnikohovehoAutomatu.png}
 
-Pro tvorbu zásobníkového automatu slouží kreslící plocha, uvnitř které se v pravém horním rohu nacházejí 4 tlačítka. Pokud je vybráno první tlačítko s ikonou kurzoru myši, pak lze jednotlivé stavy zásobníkového automatu přemisťovat v kreslící ploše. Taktéž lze označovat, jak přechodová pravidla, tak stavy. Pokud máme označen jeden nebo více stavů, nebo přechodových pravidel, lze je smazat jediným klikem na nejpravější tlačítko s ikonou odpadkového koše.
+Pro tvorbu zásobníkového automatu slouží kreslící plocha, uvnitř které se v~pravém horním rohu nacházejí 4 tlačítka. Pokud je vybráno první tlačítko s~ikonou kurzoru myši, pak lze jednotlivé stavy zásobníkového automatu přemisťovat v~kreslící ploše. Taktéž lze označovat, jak přechodová pravidla, tak stavy. Pokud máme označen jeden nebo více stavů, nebo přechodových pravidel, lze je smazat jediným klikem na nejpravější tlačítko s~ikonou odpadkového koše.
 
-Po kliknutí na tlačítko s ikonou kruhu, uvnitř kterého je obrázek plus, se nastaví mód přidávání stavů, ve kterém každým klikem do kreslící scény se na daném místě objeví nový uzel s unikátním jménem. Standardně jsou takto nové stavy označeny vzrůstající sekvencí čísel začínající nulou.
+Po kliknutí na tlačítko s~ikonou kruhu, uvnitř kterého je obrázek plus, se nastaví mód přidávání stavů, ve kterém každým klikem do kreslící scény se na daném místě objeví nový uzel s~unikátním jménem. Standardně jsou takto nové stavy označeny vzrůstající sekvencí čísel začínající nulou.
 
-Pokud označíme tlačíko s ikonou šipky, pak můžeme kreslit ve scéně přechodová pravidla. Ty se vkládají tak, že se stiskne levé tlačítko myši uvnitř plochy elipsy označující stav automatu, drží se stisklé a uvolní se v jiném nebo stejném stavu. Po uvolnění levého tlačítka myši vyskočí dialog, ve kterém se zadávají přechodová pravidla. Tento dialog můžeme vidět na obrázku (Obr. \ref{obr:pdaDialogForEnteringRules}). 
+Pokud označíme tlačíko s~ikonou šipky, pak můžeme kreslit ve scéně přechodová pravidla. Ty se vkládají tak, že se stiskne levé tlačítko myši uvnitř plochy elipsy označující stav automatu, drží se stisklé a uvolní se v~jiném nebo stejném stavu. Po uvolnění levého tlačítka myši vyskočí dialog, ve kterém se zadávají přechodová pravidla. Tento dialog můžeme vidět na obrázku (Obr. \ref{obr:pdaDialogForEnteringRules}). 
 
-\obr{Okno dialogu pro vkládání přechodová pravidla v zásobníkovém automatu}{obr:pdaDialogForEnteringRules}{0.4}{obrazky/pdaDialogForEnteringRules.png}
+\obr{Okno dialogu pro vkládání přechodová pravidla v~zásobníkovém automatu}{obr:pdaDialogForEnteringRules}{0.4}{obrazky/pdaDialogForEnteringRules.png}
 
-Pokud vkládáme první pravilo mezi stavy automatu, tak je dialog vyplněn šedým textem informujícím v jakém formátu se jednotlivé pravidla zapisují.
-Formát je takový, že každé pravidlo začíná symbolem, který se vybírá ze zásobníku, následuje vstupní symbol abecedy oddělený čárkou, následuje šipka ("->") a za ní je seznam symbolů, které se vkládají na zásobník. Záměrně se zde nezapisuje z jakého na jaký stav se má zásobníkový automat přesunout po provedení pravidla, tak aby uživatel nemohl udělat chybu. Tuto informaci zvolil už tím, že vytvořil šipku, která vždy musí v nějakých stavech začínat a končit.
+Pokud vkládáme první pravilo mezi stavy automatu, tak je dialog vyplněn šedým textem informujícím v~jakém formátu se jednotlivé pravidla zapisují.
+Formát je takový, že každé pravidlo začíná symbolem, který se vybírá ze zásobníku, následuje vstupní symbol abecedy oddělený čárkou, následuje šipka ("->") a za ní je seznam symbolů, které se vkládají na zásobník. Záměrně se zde nezapisuje z~jakého na jaký stav se má zásobníkový automat přesunout po provedení pravidla, tak aby uživatel nemohl udělat chybu. Tuto informaci zvolil už tím, že vytvořil šipku, která vždy musí v~nějakých stavech začínat a končit.
 
 Daný uzel lze označit jako koncový, či počáteční kliknutím pravým tlačítkem uvnitř elipsy a zaškrtnutím příslušného checkboxu. Tuto kontextovou nabídku, kde je vybrán daný uzel jako počáteční a zároveň jako koncový můžete vidět na obrázku (Obr. \ref{obr:oznaceniStavuKoncovyAPocatecni}).
 
 \obr{Kontextová nabídka pro nastavování počátečního a koncového stavu automatu}{obr:oznaceniStavuKoncovyAPocatecni}{0.3}{obrazky/oznaceniStavuKoncovyAPocatecni.png}
 
-\n{2}{Widget s aktuálními proměnnými z algoritmického widgetu}
+\n{2}{Widget s~aktuálními proměnnými z~algoritmického widgetu}
 
-V tomto widgetu se zobrazují proměnné použité v algoritmickém widgetu spolu s jejich  aktuálními hodnotami. Tyto proměnné se zobrazují pouze tehdy, pokud je vybrán mód krokování algoritmu. Vzhledem k tomu, že jsem tento widget implementoval pomocí ovládacích prvků, které umožňují přijímat vstup ve formátu html, tak jsem mohl použít základní formátování textu, které jsem využil k zvýrazňování a obarvování proměnných tak, aby měly stejnou vizuální podobu s proměnnými použitými v algoritmickém widgetu a to vše proto, abych usnadnil orientaci uživateli v dané konverzi.
+V~tomto widgetu se zobrazují proměnné použité v~algoritmickém widgetu spolu s~jejich  aktuálními hodnotami. Tyto proměnné se zobrazují pouze tehdy, pokud je vybrán mód krokování algoritmu. Vzhledem k~tomu, že jsem tento widget implementoval pomocí ovládacích prvků, které umožňují přijímat vstup ve formátu html, tak jsem mohl použít základní formátování textu, které jsem využil k~zvýrazňování a obarvování proměnných tak, aby měly stejnou vizuální podobu s~proměnnými použitými v~algoritmickém widgetu a to vše proto, abych usnadnil orientaci uživateli v~dané konverzi.
 
 % ============================================================================ %
 \n{1}{Implementace}
 
-V této části práce se detailněji podíváme na to, jak samotný program vznikal, z jakých částí se skládá, jak jej sestavit ze zdrojových souborů a na výběr některých zajímavých pasáží z kódu.
+V~této části práce se detailněji podíváme na to, jak samotný program vznikal, z~jakých částí se skládá, jak jej sestavit ze zdrojových souborů a na výběr některých zajímavých pasáží z~kódu.
 
-Aplikaci jsem programoval v jazyce C++ verze normy 11. A nejen pro tvorbu grafického uživatelského prostředí jsem zvolil multiplatformní framework Qt 5.8.
+Aplikaci jsem programoval v~jazyce C++ verze normy 11. A~nejen pro tvorbu grafického uživatelského prostředí jsem zvolil multiplatformní framework Qt 5.8.
 
-Prvně si ukážeme, jak získat zdrojové soubory a jak je můžeme zkompilovat. Následně si probereme, refaktoring existujícího kódu, který jsem psal v rámci mé bakalářské práce. A poté si probereme nejdůležitější stavební prvky programu.
+Prvně si ukážeme, jak získat zdrojové soubory a jak je můžeme zkompilovat. Následně si probereme, refaktoring existujícího kódu, který jsem psal v~rámci mé bakalářské práce. A~poté si probereme nejdůležitější stavební prvky programu.
 
-V příloze najdete malou analýzu existující řešení dokumentace kódu.
+V~příloze najdete malou analýzu existující řešení dokumentace kódu.
 
 \n{2}{Stažení zdrojových souborů a jejich následná kompilace}
 
-Všechny zdrojové soubory jsou opensource a jsou veřejně k dispozici na serveru Github včetně této práce ve formátech pdf a \LaTeX. Celou práci jsem verzoval pomocí programu Git a proto si vše můžete naklonovat pomocí příkazu:\newline \texttt{git clone https://github.com/navrkald/regularConvertor.git}. Github umožňuje mimo jiné zobrazovat různé statistiky ohledně množství a rozložení commitů v čase. Github měl pro mě taktéž výhodu, že práce byla uložena na veřejně přístupném serveru a já tak mohl vyvíjet střídavě z různých míst a zařízení. Dále pak jsem mohl mít jistotu, že Github má vše zálohované a i kdyby ne, tak samotný Git má tu úžasnou vlastnost, že každým naklonování mého repositáře vzniká kompletní off-line záloha a vzhledem k faktu, že jsem pracoval z více počítačů, tak mám hned několik záloh.
+Všechny zdrojové soubory jsou opensource a jsou veřejně k~dispozici na serveru Github včetně této práce ve formátech pdf a \LaTeX. Celou práci jsem verzoval pomocí programu Git a proto si vše můžete naklonovat pomocí příkazu:\newline \texttt{git clone https://github.com/navrkald/regularConvertor.git}. Github umožňuje mimo jiné zobrazovat různé statistiky ohledně množství a rozložení commitů v~čase. Github měl pro mě taktéž výhodu, že práce byla uložena na veřejně přístupném serveru a já tak mohl vyvíjet střídavě z~různých míst a zařízení. Dále pak jsem mohl mít jistotu, že Github má vše zálohované a i kdyby ne, tak samotný Git má tu úžasnou vlastnost, že každým naklonování mého repositáře vzniká kompletní off-line záloha a vzhledem k~faktu, že jsem pracoval z~více počítačů, tak mám hned několik záloh.
 
-Opensource řešení jsem zvolil jednak z důvodů toho, že jsem chtěl, aby moje zdrojové soubory mohl vidět celý svět, aby je kdokoliv mohl upravit a pomocí \textit{pull requestu}, které mám ve ve svém repositáři povolené a dále rozvíjet tuto skvělou aplikaci. Druhým a to právním důvodem bylo, že jelikož nepoužívám multiplatformní Qt framework v komerční licenci, za kterou bych musel platit, jsem povinen všechny své zdrojové soubory zveřejnit.
+Opensource řešení jsem zvolil jednak z~důvodů toho, že jsem chtěl, aby moje zdrojové soubory mohl vidět celý svět, aby je kdokoliv mohl upravit a pomocí \textit{pull requestu}, které mám ve ve svém repositáři povolené a dále rozvíjet tuto skvělou aplikaci. Druhým a to právním důvodem bylo, že jelikož nepoužívám multiplatformní Qt framework v~komerční licenci, za kterou bych musel platit, jsem povinen všechny své zdrojové soubory zveřejnit.
 
-V předchozích odstavcích jsme se dozvěděli, jak získat zdrojové soubory, nyní si už jen zbývá ukázat, jak zkompilovat zdrojové soubory do spustitelného souboru. 
+V~předchozích odstavcích jsme se dozvěděli, jak získat zdrojové soubory, nyní si už jen zbývá ukázat, jak zkompilovat zdrojové soubory do spustitelného souboru. 
 
-Základní dvě možnosti jsou, použít nativní integrované vývojové prostředí QtCreator a nebo použít Qt plugin do Visual studia. Obě tyto možnosti začínají tím, že si musíme stáhnou samotný Qt framework pro danou platformu, na které zrovna vyvíjíte. Zde je odkaz na všechny možné instalátory Qt opensource frameworku, pro všechny hlavní platformy: \url{https://www.qt.io/download-open-source/#section-2}. Pro Windows jsou k dispozici mimo jiné verze pro kompilátor Visual studia a MinGW. Já jsem použil kompilátor Qt 5.8.0 for Windows 64-bit (VS 2015, 1.0 GB). Součásti balíčku je i integrované vývojové prostředí QtCreator spolu se zdrojovými kódy a binární podobou Qt frameworku. 
+Základní dvě možnosti jsou, použít nativní integrované vývojové prostředí QtCreator a nebo použít Qt plugin do Visual studia. Obě tyto možnosti začínají tím, že si musíme stáhnou samotný Qt framework pro danou platformu, na které zrovna vyvíjíte. Zde je odkaz na všechny možné instalátory Qt opensource frameworku, pro všechny hlavní platformy: \url{https://www.qt.io/download-open-source/#section-2}. Pro Windows jsou k~dispozici mimo jiné verze pro kompilátor Visual studia a MinGW. Já jsem použil kompilátor Qt 5.8.0 for Windows 64-bit (VS 2015, 1.0 GB). Součásti balíčku je i integrované vývojové prostředí QtCreator spolu se zdrojovými kódy a binární podobou Qt frameworku. 
 
-Zdrojové soubory jsou užitečné ve chvíli, pokud chcete udělat staticky zkompilovanou aplikaci používající Qt framework, tak aby v sobě obsahovala všechny Qt závyslosti. Výhodou je, že pak můžete distribuovat vaši aplikaci v takzvaném "portable" formátu, kde aplikace neobsahuje instalátor, nevýhodou je za vyšší velikost výsledného binárního souboru. Jelikož je statická kompilace nad rámec této práce, uvedu pouze odkaz na internet: \url{https://wiki.qt.io/Building_a_static_Qt_for_Windows_using_MinGW} a zmíním, že mnou upravený skript pro statickou kompilaci Qt frameworku najdete v mém repositáři v adresáři \texttt{src/scriptToBuildStaticQt.ps1} .
+Zdrojové soubory jsou užitečné ve chvíli, pokud chcete udělat staticky zkompilovanou aplikaci používající Qt framework, tak aby v~sobě obsahovala všechny Qt závyslosti. Výhodou je, že pak můžete distribuovat vaši aplikaci v~takzvaném "portable" formátu, kde aplikace neobsahuje instalátor, nevýhodou je za vyšší velikost výsledného binárního souboru. Jelikož je statická kompilace nad rámec této práce, uvedu pouze odkaz na internet: \url{https://wiki.qt.io/Building_a_static_Qt_for_Windows_using_MinGW} a zmíním, že mnou upravený skript pro statickou kompilaci Qt frameworku najdete v~mém repositáři v~adresáři \texttt{src/scriptToBuildStaticQt.ps1} .
 
-Po stažení a nainstalování Qt frameworku včetně Qt Creatoru a zdrojových souborů, které se hodí i v případě nejasností v dokumentaci Qt, můžete již začít vyvíjet, tak že si v něm otevřete projektový soubor, který se nachází v cestě <cesta k naklonovanému repositáři>/src/RegularConvertor.pro. Pak již stačí projekt sestavit pomocí \texttt{Build -> Build All} a pak spustit \texttt{Build -> Run}. Pro debuging programu pouze odkážu na nastavení debugeru na url: \url{http://doc.qt.io/qtcreator/creator-debugger-engines.html}.   
+Po stažení a nainstalování Qt frameworku včetně Qt Creatoru a zdrojových souborů, které se hodí i v~případě nejasností v~dokumentaci Qt, můžete již začít vyvíjet, tak že si v~něm otevřete projektový soubor, který se nachází v~cestě <cesta k~naklonovanému repositáři>/src/RegularConvertor.pro. Pak již stačí projekt sestavit pomocí \texttt{Build -> Build All} a pak spustit \texttt{Build -> Run}. Pro debuging programu pouze odkážu na nastavení debugeru na url: \url{http://doc.qt.io/qtcreator/creator-debugger-engines.html}.   
 
-Mě osobně po čase přestávalo prostředí QtCreatoru stačit a potřeboval jsem více pokročilé IDE, proto jsem si nainstaloval do Visual Studia plugin QtPackage dostupný online: \url{https://marketplace.visualstudio.com/items?itemName=havendv.QtPackage}. Plugin v sobě neobsahuje celý Qt framework, proto jej je nutné předtím stáhnout. Po nastavení pluginu pak už jen stačí ve Visual Studiu spustit a zbuildit pomocí klávesové zkratky \texttt{F5}.
+Mě osobně po čase přestávalo prostředí QtCreatoru stačit a potřeboval jsem více pokročilé IDE, proto jsem si nainstaloval do Visual Studia plugin QtPackage dostupný online: \url{https://marketplace.visualstudio.com/items?itemName=havendv.QtPackage}. Plugin v~sobě neobsahuje celý Qt framework, proto jej je nutné předtím stáhnout. Po nastavení pluginu pak už jen stačí ve Visual Studiu spustit a zbuildit pomocí klávesové zkratky \texttt{F5}.
 
-Pokud nechcete, aby vám editor ve Visual studiu červeně podtrhával neznámé symboly, což vám ale nebrání v kompilaci, je nutné mu nastavit cesty k hlavičkovým souborům Qt. To se provede tak, že ve vlastnostech projektu v \texttt{ConfigurationConfiguration Properties -> C/C++ -> General, Additional Include Directories} přidají tyto cesty: 
+Pokud nechcete, aby vám editor ve Visual studiu červeně podtrhával neznámé symboly, což vám ale nebrání v~kompilaci, je nutné mu nastavit cesty k~hlavičkovým souborům Qt. To se provede tak, že ve vlastnostech projektu v~\texttt{ConfigurationConfiguration Properties -> C/C++ -> General, Additional Include Directories} přidají tyto cesty: 
 \begin{itemize}
 	\item .\textbackslash GeneratedFiles
 	\item \$(QTDIR)\textbackslash include
@@ -417,11 +418,11 @@ Pokud by si někdo nechtěl aplikaci kompilovat ze zdrojových souborů může s
 
 Refaktoring je činnost při, které se zlepšuje kvalita kódu bez přímého vlivu na uživatele aplikace.
 
-Nerefaktorovaný kód vede k tomu, že jen obtížně mohou programátoři rozumět kódu a to vede k častým chybám a prodloužení vývoje.
+Nerefaktorovaný kód vede k~tomu, že jen obtížně mohou programátoři rozumět kódu a to vede k~častým chybám a prodloužení vývoje.
 
 Všechny zdrojové soubory nutné pro úspěšnou kompilaci kódu jsem přesunul do samostatné složky standardně pojmenované \textit{src}, podle anglického slova \textit{sources}.
 
-Kód by měl být pokud možno homogenní a měl by v něm být dodržován systém pojmenovávaní. 
+Kód by měl být pokud možno homogenní a měl by v~něm být dodržován systém pojmenovávaní. 
 
 \n{3}{Konvence pojmenování částí kódu}
 
@@ -443,17 +444,17 @@ Vše popisuje následující tabulka.
 	\hline
 }
 
-Dalšími konvencemi jsou pojmenovávání pomocí \textit{CammelCase}. To znamená, že pokud se nějaký název skládá z více slov, tak jsou od sebe navzájem oddělena velkými písmeny. Názvy metod začínají velkým písmenem a názvy proměnných malým a pro obojí používám \textit{CamelCase}. V bakalářské práci jsem hodně používal pro víceslovné názvy oddělení podtržítky, ale \textit{CamelCase} se ukázal jak efektivnější varianta. 
+Dalšími konvencemi jsou pojmenovávání pomocí \textit{CammelCase}. To znamená, že pokud se nějaký název skládá z~více slov, tak jsou od sebe navzájem oddělena velkými písmeny. Názvy metod začínají velkým písmenem a názvy proměnných malým a pro obojí používám \textit{CamelCase}. V~bakalářské práci jsem hodně používal pro víceslovné názvy oddělení podtržítky, ale \textit{CamelCase} se ukázal jak efektivnější varianta. 
 
-Při pojmenovávání souborů jsem se snažil dodržet konvenci, že jejich název se skládá pouze z malých písmen následovaný příponou.
+Při pojmenovávání souborů jsem se snažil dodržet konvenci, že jejich název se skládá pouze z~malých písmen následovaný příponou.
 
-Jelikož množství a rozsah zdrojových souborů je značný, pojmenovávací konvence popsané výše jsem použil jen u nově psaných nebo starých upravovaných částí. 
+Jelikož množství a rozsah zdrojových souborů je značný, pojmenovávací konvence popsané výše jsem použil jen u~nově psaných nebo starých upravovaných částí. 
 
 \n{2}{Zobrazování náhledů příkladů}
 
-Jak jste mohli vidět na obrázku (Obr. \ref{obr:vyberPrikladu}) u každého příkladu se zobrazuje jeho náhled. Toto není standardní chování Qt frameworku a tohoto efektu jsem docílil tím, že jsem oddědil od základní třídy \texttt{QMenu} vlastní třídou \texttt{MyTooltipQMenu}, kde přepsal metodu \texttt{event(QEvent *)}, ve které reaguji na rozdílně na událost \texttt{QEvent::ToolTip}, pro kterou zobrazuji místo textu obrázek. Na závěr jsem položku \texttt{Examples -> Context-Free grammar to pushdown automata} povýšil na \texttt{MyTooltipQMenu}.
+Jak jste mohli vidět na obrázku (Obr. \ref{obr:vyberPrikladu}) u~každého příkladu se zobrazuje jeho náhled. Toto není standardní chování Qt frameworku a tohoto efektu jsem docílil tím, že jsem oddědil od základní třídy \texttt{QMenu} vlastní třídou \texttt{MyTooltipQMenu}, kde přepsal metodu \texttt{event(QEvent *)}, ve které reaguji na rozdílně na událost \texttt{QEvent::ToolTip}, pro kterou zobrazuji místo textu obrázek. Na závěr jsem položku \texttt{Examples -> Context-Free grammar to pushdown automata} povýšil na \texttt{MyTooltipQMenu}.
 
-Tento lehce detailní popis zde uvádím hlavně pro případně zájemce, kteří by se chtěli podílet na rozšíření této práce, protože jak jsem docílil tohoto speciálního chování, není v tomto konkrétním příkladě z kódu na první pohled zřejmé.
+Tento lehce detailní popis zde uvádím hlavně pro případně zájemce, kteří by se chtěli podílet na rozšíření této práce, protože jak jsem docílil tohoto speciálního chování, není v~tomto konkrétním příkladě z~kódu na první pohled zřejmé.
 
 \n{2}{Drobné vylepšení existujícího kódu}
 Pro uložení existujících konverzí do souboru jsem přidal klávesovou zkratku \texttt{CTRL+S} podle anglického \textit{Save} a pro uložení \texttt{CTRL+L}, podle anglického \textit{Load}.
@@ -462,53 +463,53 @@ Pro uložení existujících konverzí do souboru jsem přidal klávesovou zkrat
 
 Příliš velké metody nebo třídy nejsou tolik přehledné a udržovatelné. Proto jsem se rozhodl přepsat moji třídu hlavního okna do více menších celků.
 
-Původně vytváření grafického rozvržení widgetů jsem měl pro všechny konverze implementované v třídě hlavního okna. Naopak nyní jsou všechny konverze popsány graficky v souborech s koncovkou \textit{*.ui} a logika konverzí v asociovaných zdrojových souborech s koncovkami \textit{*.cpp} a \textit{*.h}. Toto jsem dělal ve jménu jedné z hlavních myšlenek OOP a to zapouzdření.
+Původně vytváření grafického rozvržení widgetů jsem měl pro všechny konverze implementované v~třídě hlavního okna. Naopak nyní jsou všechny konverze popsány graficky v~souborech s~koncovkou \textit{*.ui} a logika konverzí v~asociovaných zdrojových souborech s~koncovkami \textit{*.cpp} a \textit{*.h}. Toto jsem dělal ve jménu jedné z~hlavních myšlenek OOP a to zapouzdření.
 
-Jelikož všechny, takto přepsané widgety, které popisují jednotlivé konverze, obsahují společnou množinu vlastností, tak všechny dědí od společného rozhraní \\ \texttt{ICentralConversionWidget}, které má čistě virtuální metody \texttt{ConnectChangeMode()} a \texttt{ConnectStatusMessage()}. První metoda má za úkol propojit notifikaci o změně módu z hlavního okna do tříd, které zaštiťují jednotlivé konverze. A druhá naopak propojuje notifikace o různých případných chybových stavech z konverzního widgetu do hlavního okna, kde se pak tyto notifikace zobrazují ve stavové liště. Tento princip, kdy jednotlivé třídy mají společné vlastnosti, které zaštiťuje rozhraní a kde se pak v programu pracuje s ukazatelem na rozhraní se nazývá polymorfizmus.
+Jelikož všechny, takto přepsané widgety, které popisují jednotlivé konverze, obsahují společnou množinu vlastností, tak všechny dědí od společného rozhraní \\ \texttt{ICentralConversionWidget}, které má čistě virtuální metody \texttt{ConnectChangeMode()} a \texttt{ConnectStatusMessage()}. První metoda má za úkol propojit notifikaci o~změně módu z~hlavního okna do tříd, které zaštiťují jednotlivé konverze. A~druhá naopak propojuje notifikace o~různých případných chybových stavech z~konverzního widgetu do hlavního okna, kde se pak tyto notifikace zobrazují ve stavové liště. Tento princip, kdy jednotlivé třídy mají společné vlastnosti, které zaštiťuje rozhraní a kde se pak v~programu pracuje s~ukazatelem na rozhraní se nazývá polymorfizmus.
 
-Pro vytváření centrálního widgetu, ve kterém se zobrazují jednotlivé konverze složí ve třídě \texttt{MainWindow} metoda \texttt{PrepareConversionWidget(Conversions conversion)}, která má jeden vstupní parametr informující o tom, která konverze se má nastavit.
+Pro vytváření centrálního widgetu, ve kterém se zobrazují jednotlivé konverze složí ve třídě \texttt{MainWindow} metoda \texttt{PrepareConversionWidget(Conversions conversion)}, která má jeden vstupní parametr informující o~tom, která konverze se má nastavit.
 
-Vzhledem k tomu, že každá z konverzí má jiná vstupní a výstupní data, tak v připadech, kdy se ukládají nebo načítají data ze souboru, nebo z příkladu je nutné ukazatel na rozhraní přetypovat na konkrétní instanci třídy.
+Vzhledem k~tomu, že každá z~konverzí má jiná vstupní a výstupní data, tak v~připadech, kdy se ukládají nebo načítají data ze souboru, nebo z~příkladu je nutné ukazatel na rozhraní přetypovat na konkrétní instanci třídy.
 
 \n{2}{Třída CCfgToPdaWidget zapouzdřujíhí konverzi CFG na PDA}
 
-Nyní si pojďme ukázat na diagramu tříd, z čeho se skládá třída \texttt{CCfgToPdaWidget} zaštiťující převod bezkontextové gramatiky na zásobníkový automat. Tento diagram můžeme vidět na obrázku (Obr. \ref{obr:CCfgToPdaWidget}).
+Nyní si pojďme ukázat na diagramu tříd, z~čeho se skládá třída \texttt{CCfgToPdaWidget} zaštiťující převod bezkontextové gramatiky na zásobníkový automat. Tento diagram můžeme vidět na obrázku (Obr. \ref{obr:CCfgToPdaWidget}).
 
 \obr{Diagram tříd třídy CCfgToPdaWidget}{obr:CCfgToPdaWidget}{0.9}{classDiagrams/CCfgToPdaWidget.png}
 
-Tato třída, chcete-li widget, v sobě obsahuje instanci vnitřní třídy zvanou ui, která je generovaná z grafického popisu definovaném v Qt Designeru. Obsahuje jako členské proměnné i subwidgety ze kterých se \texttt{CCfgToPdaWidget} skládá.
+Tato třída, chcete-li widget, v~sobě obsahuje instanci vnitřní třídy zvanou ui, která je generovaná z~grafického popisu definovaném v~Qt Designeru. Obsahuje jako členské proměnné i subwidgety ze kterých se \texttt{CCfgToPdaWidget} skládá.
 
 \obr{Příklad promoting na widgetu pro konverzi bezkontextové gramatiky na zásobníkový automat.}{obr:prikladQtPromoting}{0.9}{obrazky/PromotingOfWidgets.eps}
 
-Na obrázku (Obr. \ref{obr:prikladQtPromoting}) můžete vidět rozložení 4 widgetů do mřížky, navzájem oddělených rozdělovači pro konverzi bezkontextové gramatiky na zásobníkový automat. Qt Designer bohužel nezobrazuje konkrétní grafickou podobu pro mnou navržené přizpůsobené widgety popsané ve třídách \texttt{CAlgorithmWidget}, \texttt{CCfgWidget}, \texttt{CPdaWidget} a \texttt{CVariablesWidget}. Ke každé v těchto tříd ve kterých je definované chování je přiložen i \textit{ui} soubor popisující grafickou podobu.
+Na obrázku (Obr. \ref{obr:prikladQtPromoting}) můžete vidět rozložení 4 widgetů do mřížky, navzájem oddělených rozdělovači pro konverzi bezkontextové gramatiky na zásobníkový automat. Qt Designer bohužel nezobrazuje konkrétní grafickou podobu pro mnou navržené přizpůsobené widgety popsané ve třídách \texttt{CAlgorithmWidget}, \texttt{CCfgWidget}, \texttt{CPdaWidget} a \texttt{CVariablesWidget}. Ke každé v~těchto tříd ve kterých je definované chování je přiložen i \textit{ui} soubor popisující grafickou podobu.
 
 \n{2}{Třída CAlgorithmCFGtoPDA obsahující logiku konverze CFG na PDA}
 
-Na obrázku (Obr. \ref{obr:CAlgorithmCFGToPDA}) můžete vidět diagram třídy \texttt{CAlgorithmCFGtoPDA}, který obsahuje veškerou logiku převodu bezkontextové gramatiky na zásobníkový automat. Má přístup k veškerým widgetům nutných pro úspěšné zvládnutí konverze a obsahuje i samotný algoritmus, který je popsán v metodě \texttt{ComputeNextStep()}, která se skládá ze 2 částí. V první části se na základě toho jaký byl předchozí krok algroritmu a jaká jsou vstupní a průběžná data rozhodně, jakým dalším  krokem se bude pokračovat. A v druhé části se vyková aktuální krok algoritmu.
+Na obrázku (Obr. \ref{obr:CAlgorithmCFGToPDA}) můžete vidět diagram třídy \texttt{CAlgorithmCFGtoPDA}, který obsahuje veškerou logiku převodu bezkontextové gramatiky na zásobníkový automat. Má přístup k~veškerým widgetům nutných pro úspěšné zvládnutí konverze a obsahuje i samotný algoritmus, který je popsán v~metodě \texttt{ComputeNextStep()}, která se skládá ze 2 částí. V~první části se na základě toho jaký byl předchozí krok algroritmu a jaká jsou vstupní a průběžná data rozhodně, jakým dalším  krokem se bude pokračovat. A~v~druhé části se vyková aktuální krok algoritmu.
 
-Funkcionalita pod tlačítky \texttt{play}, \texttt{next} a \texttt{end} je implementovaná pomocí volání metody \texttt{NextStep()}, která volá metodu \texttt{ComputeNextStep()} a dále se stará o to jestli je algoritmus na konci, volá metody pro správné ukládání předchozích kroků, a komunikuje s třídou \texttt{CAlgorithmWidget}, která zobrazuje tlačítka a samotný algoritmus převodu. Tuto třídu sdílí všechny implementace konverzí a je proto naprogramovaná obecně.
+Funkcionalita pod tlačítky \texttt{play}, \texttt{next} a \texttt{end} je implementovaná pomocí volání metody \texttt{NextStep()}, která volá metodu \texttt{ComputeNextStep()} a dále se stará o~to jestli je algoritmus na konci, volá metody pro správné ukládání předchozích kroků, a komunikuje s~třídou \texttt{CAlgorithmWidget}, která zobrazuje tlačítka a samotný algoritmus převodu. Tuto třídu sdílí všechny implementace konverzí a je proto naprogramovaná obecně.
 
-Aby bylo možné se vracet v krocích algoritmu i nazpět, pomocí tlačítek \texttt{begin} a \texttt{stop}, je nutné si ukládat informace o předchozích krocích v metodě \texttt{NextStep()}. Jeden krok algoritmu je uložen ve struktuře pojmenované \texttt{SStep}. A celá historie je uložená v proměnné \texttt{QList\textless{}SStep\textgreater{} m\_history}.
+Aby bylo možné se vracet v~krocích algoritmu i nazpět, pomocí tlačítek \texttt{begin} a \texttt{stop}, je nutné si ukládat informace o~předchozích krocích v~metodě \texttt{NextStep()}. Jeden krok algoritmu je uložen ve struktuře pojmenované \texttt{SStep}. A~celá historie je uložená v~proměnné \texttt{QList\textless{}SStep\textgreater{} m\_history}.
 
-Jelikož všechny algoritmy sdílí některé společné vlastnosti, které jsou definované v třídě \texttt{CAlgorithm} a tato třída dědí od vestavěné třídy \texttt{QStandardItemModel}, která reprezentuje model pro třídu AlgorithmView, která je součástí widgetu \texttt{CAlgorithmWidget} a která dědí od třídy QListView, což je vestavěný Qt widget. Tímto mechanizmem jsem dokonale oddělil samotné uživatelské rozhraní od výpočetní logiky.
+Jelikož všechny algoritmy sdílí některé společné vlastnosti, které jsou definované v~třídě \texttt{CAlgorithm} a tato třída dědí od vestavěné třídy \texttt{QStandardItemModel}, která reprezentuje model pro třídu AlgorithmView, která je součástí widgetu \texttt{CAlgorithmWidget} a která dědí od třídy QListView, což je vestavěný Qt widget. Tímto mechanizmem jsem dokonale oddělil samotné uživatelské rozhraní od výpočetní logiky.
 
-Dále již nebudu podrobně vysvětlovat jednotlivé třídy, protože by to bylo nad rámec této práce, jen snad zmíním, že stejný princip oddělení uživatelského rozhraní a logiky programu jsem použil i u widgetů pro zobrazování a editaci zásobníkových automat a bezkontextové gramatiky.
+Dále již nebudu podrobně vysvětlovat jednotlivé třídy, protože by to bylo nad rámec této práce, jen snad zmíním, že stejný princip oddělení uživatelského rozhraní a logiky programu jsem použil i u~widgetů pro zobrazování a editaci zásobníkových automat a bezkontextové gramatiky.
 
-Na konec implementační části vyberu už jenom dva zajímavé momenty a to parsování bezkontextové gramatiky v Backus Naurově formě a parsování přechodových pravidel zásobníkového automatu.
+Na konec implementační části vyberu už jenom dva zajímavé momenty a to parsování bezkontextové gramatiky v~Backus Naurově formě a parsování přechodových pravidel zásobníkového automatu.
 
 \obr{Diagram tříd třídy CAlgorithmCFGToPDA}{obr:CAlgorithmCFGToPDA}{0.9}{classDiagrams/CAlgorithmCFGToPDA.png}
 
-\n{2}{Parsování bezkontextové gramatiky v Backus Naur formě}
+\n{2}{Parsování bezkontextové gramatiky v~Backus Naur formě}
 
-Text gramatiky zpracovávám v metodě \texttt{GetFromBackusNaurForm()} třídy \texttt{CContextFreeGrammar}, která reprezentuje bezkontextovou gramatiku. Text se rozdělí na jednotlivé řádky, kde se vyfiltrují ty, které jsou prázdné a ty obsahující bílé znaky. Pak se na každý aplikuje statická metoda \texttt{GetRulesFromString} z třídy \texttt{CCFGRule} reprezentující jedno pravidlo vracející ve výstupním parametru množinu pravidel bezkontextové gramatiky. Následně se zkontroluje, jestli pravá strana pravidla neobsahuje epsilon pravidla, pokud ano epsilon znaky se nepřidávají do množiny terminálů. V opačném případě se všechny znaky řetězce správně rozdělí do množin terminálů a non-terminálů. Sluší se říci, že jedno pravidlo reprezentované třídou CCFGRule se skládá z levé strany, což je jeden terminál reprezentovaný třídou \texttt{CNonTerminal} a pravá strana je reprezentovaná vektorem terminánálů a nonterminálů, které mají oba společného předka \texttt{CSymbol}, který má příznak, jestli je terminál nebo nonterminál. 
+Text gramatiky zpracovávám v~metodě \texttt{GetFromBackusNaurForm()} třídy \texttt{CContextFreeGrammar}, která reprezentuje bezkontextovou gramatiku. Text se rozdělí na jednotlivé řádky, kde se vyfiltrují ty, které jsou prázdné a ty obsahující bílé znaky. Pak se na každý aplikuje statická metoda \texttt{GetRulesFromString} z~třídy \texttt{CCFGRule} reprezentující jedno pravidlo vracející ve výstupním parametru množinu pravidel bezkontextové gramatiky. Následně se zkontroluje, jestli pravá strana pravidla neobsahuje epsilon pravidla, pokud ano epsilon znaky se nepřidávají do množiny terminálů. V~opačném případě se všechny znaky řetězce správně rozdělí do množin terminálů a non-terminálů. Sluší se říci, že jedno pravidlo reprezentované třídou CCFGRule se skládá z~levé strany, což je jeden terminál reprezentovaný třídou \texttt{CNonTerminal} a pravá strana je reprezentovaná vektorem terminánálů a nonterminálů, které mají oba společného předka \texttt{CSymbol}, který má příznak, jestli je terminál nebo nonterminál. 
 
-Toto je v kostce popis parsování z výšky, ale ještě jsme si nepověděli jak z jednoho řádku symbolů vznikne množina pravidel. Použil jsem na parsování konstrukci "switch case", která používá stavy mezi kterými se přesouvá a čte řetězec znak po znaku. Diagram tohoto modelu můžete vidět na obrázku (Obr. \ref{obr:dd}). Názvy stavů jsou uvedené v elipsách a přečtený symbol je zobrazený u šipek. Text "else"\ u šipek znamená, že čtený symbol jakýkoliv jiný, než jaké jsou uvedené u šipek vycházející z daného stavu. Stav pojmenovaný "error"\ značí, že gramatika není ve správném syntaktickém formátu. 
+Toto je v~kostce popis parsování z~výšky, ale ještě jsme si nepověděli jak z~jednoho řádku symbolů vznikne množina pravidel. Použil jsem na parsování konstrukci "switch case", která používá stavy mezi kterými se přesouvá a čte řetězec znak po znaku. Diagram tohoto modelu můžete vidět na obrázku (Obr. \ref{obr:dd}). Názvy stavů jsou uvedené v~elipsách a přečtený symbol je zobrazený u~šipek. Text "else"\ u~šipek znamená, že čtený symbol jakýkoliv jiný, než jaké jsou uvedené u~šipek vycházející z~daného stavu. Stav pojmenovaný "error"\ značí, že gramatika není ve správném syntaktickém formátu. 
 
-\obr{Diagram parsování pravidel bezkontextové gramatiky v Backus Naurově formě}{obr:dd}{0.9}{graphs/FiniteAutomataParsingCFG.jpg}
+\obr{Diagram parsování pravidel bezkontextové gramatiky v~Backus Naurově formě}{obr:dd}{0.9}{graphs/FiniteAutomataParsingCFG.jpg}
 
 \n{2}{Parsování přechodových pravidel konečného automatu}
 
-Příklad formy v jaké se zadávají přechodová pravidla jste již mohli vidět na obrázku (Obr. \ref{obr:dd}). Nyní se podíváme na to, jak z textového řetězce dostat strukturovaná data. Jako u předchozího příkladu, zpracovávám stup po řádcích s tím, že odfiltrují prázdné řádky avšak na rozdíl od předchozího jsem zvolil parsování pomocí tohoto rozšířeného regulárního výrazu: 
+Příklad formy v~jaké se zadávají přechodová pravidla jste již mohli vidět na obrázku (Obr. \ref{obr:dd}). Nyní se podíváme na to, jak z~textového řetězce dostat strukturovaná data. Jako u~předchozího příkladu, zpracovávám stup po řádcích s~tím, že odfiltrují prázdné řádky avšak na rozdíl od předchozího jsem zvolil parsování pomocí tohoto rozšířeného regulárního výrazu: 
 
 "\textasciicircum\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*
 ,\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*
@@ -520,9 +521,9 @@ Pojďme si projít jednotlivé části toho rozšířeného regulárního výraz
 
 \begin{itemize}
 	\item První část "\textasciicircum\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*"\ nám zachytí řetězec, který může začínat libobolným množstvím prázdných znaků, následuje samotný neprázdný řetězec, následovaný libovolným množstvím bílích znaků.
-	\item Druhá část ",\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*"\ začíná čárkou a dále je vzor shodný s první částí.
+	\item Druhá část ",\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*"\ začíná čárkou a dále je vzor shodný s~první částí.
 	\item Třetí část "->\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*"\ začíná šipkou a následuje opět řetězec obklopený libovolným množstvím bílých znaků.
-	\item Poslední a nejzajímavější část "((,\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*)*)"\ nám říká, že se jedná o řetězec začínající čárkou, následuje libobolné množství bílých znaků, pak je neprázdný řetězec nebílých znaků, za kterým je libobolné množství bílích znaků. Třetí část je zajímavá tím, že se může libobolně krát opakovat a to i nulakrát.
+	\item Poslední a nejzajímavější část "((,\textbackslash{}s*(\textbackslash{}S+)\textbackslash{}s*)*)"\ nám říká, že se jedná o~řetězec začínající čárkou, následuje libobolné množství bílých znaků, pak je neprázdný řetězec nebílých znaků, za kterým je libobolné množství bílích znaků. Třetí část je zajímavá tím, že se může libobolně krát opakovat a to i nulakrát.
 \end{itemize}
 
 Pro získání všech znaků, které se vkládají na zásobník je ještě nutné zachycenou poslední část regulárního výrazu rozdělit podle čárek a očistit od bílých znaků, ale na to již existují knihovní funkce.
@@ -531,17 +532,17 @@ Pro získání všech znaků, které se vkládají na zásobník je ještě nutn
 
 \nn{Závěr}
 
-Cílem této práce bylo vytvořit aplikaci pro studenty, která bude rozšířena, o konverze modelů bezkontextových jazyků. Dále pak napsat práci, která se bude skládat z teoretické a praktické části. 
+Cílem této práce bylo vytvořit aplikaci pro studenty, která bude rozšířena, o~konverze modelů bezkontextových jazyků. Dále pak napsat práci, která se bude skládat z~teoretické a praktické části. 
 
-V první z nich byla vysvětlena Chomského hierarchie, dále pak bezkontextový jazyk, včetně modelů které ho reprezentují, jakými jsou zásobníkový automat (PDA) a bezkontextová gramatika (CFG). U obou je uvedena formální definice, která je použitá i v samotné aplikaci. Pro praktické účely byly uvedeny i definice Backus-Naurovy formy a notace zápisu přechodových pravidel zásobníkového automatu. Následně byl definován algoritmus převodu CFG na PDA. Závěr teoretické části se zaobírá základy Qt frameworku, který byl použit pro tvorbu aplikace. 
+V~první z~nich byla vysvětlena Chomského hierarchie, dále pak bezkontextový jazyk, včetně modelů které ho reprezentují, jakými jsou zásobníkový automat (PDA) a bezkontextová gramatika (CFG). U~obou je uvedena formální definice, která je použitá i v~samotné aplikaci. Pro praktické účely byly uvedeny i definice Backus-Naurovy formy a notace zápisu přechodových pravidel zásobníkového automatu. Následně byl definován algoritmus převodu CFG na PDA. Závěr teoretické části se zaobírá základy Qt frameworku, který byl použit pro tvorbu aplikace. 
 
-V praktické části práce byla detailně popsána aplikace, jak z pohledu uživatelského, tak z vnitřního. Bylo zde popsáno, jak může začít uživatel pracovat s programem, že má na výběr z předdefinovaných příkladů, vložení vlastní CFG, nebo načtení konverze ze souboru. Dále bylo vysvětleno, že program má několik módu pro studium a samostatné procvičení prezentované látky. Dále následoval detailní popis konverzního okna a jednotlivých částí, ze kterých se skládá a jak se ovládají. Těmito částmi jsou okno pro vložení CFG v Backus-Naurově formě, okno ve které se tvoří PDA, interaktivní okno popisující algoritmus a okno ve kterém jsou vidět průběžné hodnoty všech proměnných použitých v algoritmu.
+V~praktické části práce byla detailně popsána aplikace, jak z~pohledu uživatelského, tak z~vnitřního. Bylo zde popsáno, jak může začít uživatel pracovat s~programem, že má na výběr z~předdefinovaných příkladů, vložení vlastní CFG, nebo načtení konverze ze souboru. Dále bylo vysvětleno, že program má několik módu pro studium a samostatné procvičení prezentované látky. Dále následoval detailní popis konverzního okna a jednotlivých částí, ze kterých se skládá a jak se ovládají. Těmito částmi jsou okno pro vložení CFG v~Backus-Naurově formě, okno ve které se tvoří PDA, interaktivní okno popisující algoritmus a okno ve kterém jsou vidět průběžné hodnoty všech proměnných použitých v~algoritmu.
 
-Poslední část praktické části byla věnovaná samotné implementaci. Bylo možné se v ní dočíst, jak získat a zkompilovat aktuální zdrojové kódy ze serveru Github, na kterém je k dispozici i aplikace v binárním formátu pro okamžité použití. Dále byl zmíněn refaktoring a konvence použité v kódu. Bylo zde vysvětleno několik základních tříd použitých v aplikaci a také jakým způsobem byl implementovaný samotný algoritmus převodu, jak probíhalo zpracování bezkontextové gramatiky a přechodových pravidel zásobníkového automatu, obojí z textové formy zadané uživatelem.  
+Poslední část praktické části byla věnovaná samotné implementaci. Bylo možné se v~ní dočíst, jak získat a zkompilovat aktuální zdrojové kódy ze serveru Github, na kterém je k~dispozici i aplikace v~binárním formátu pro okamžité použití. Dále byl zmíněn refaktoring a konvence použité v~kódu. Bylo zde vysvětleno několik základních tříd použitých v~aplikaci a také jakým způsobem byl implementovaný samotný algoritmus převodu, jak probíhalo zpracování bezkontextové gramatiky a přechodových pravidel zásobníkového automatu, obojí z~textové formy zadané uživatelem.  
 
-Co se týče samotné aplikace, tak její zdrojové soubory jsou opensource s důrazem na striktní rozdělení samotné logiky programu a popisu grafického uživatelského rozhraní. Je zde kladen důraz na členění do více drobných částí a užití pravidel OOP, kterými jsou zapouzdření polymorfizmus, kompozice, abstrakce a dědičnost. V programu se dodržuje striktní a jasné pojmenovávání, tak aby byl kód co nejvíce čitelný. Pro implementaci byl použit jazyk C++ a grafický framework Qt, obojí je multiplatformní a není problém aplikaci sestavit jak na Microsoft Windows, tak Linux a dalších. Počet negenerovaných a neprázdných řádků kódu v souborech s příponami \textit{*.h} a \textit{*.cpp} se vyšplhal na 10593.
+Co se týče samotné aplikace, tak její zdrojové soubory jsou opensource s~důrazem na striktní rozdělení samotné logiky programu a popisu grafického uživatelského rozhraní. Je zde kladen důraz na členění do více drobných částí a užití pravidel OOP, kterými jsou zapouzdření polymorfizmus, kompozice, abstrakce a dědičnost. V~programu se dodržuje striktní a jasné pojmenovávání, tak aby byl kód co nejvíce čitelný. Pro implementaci byl použit jazyk C++ a grafický framework Qt, obojí je multiplatformní a není problém aplikaci sestavit jak na Microsoft Windows, tak Linux a dalších. Počet negenerovaných a neprázdných řádků kódu v~souborech s~příponami \textit{*.h} a \textit{*.cpp} se vyšplhal na 10593.
 
-Cíle této aplikace byly, aby měl student k hůře stravitelné teorii přiložené množství příkladů, tak aby se pro něj stala problematika více pochopitelnou. Dále pak, aby s teorii měl student možnost experimentovat a následně si ji samostatně procvičit. Aplikace také má pomoci vyučujícímu prezentovat teorii v průběhu přednášky na příkladech. Možnost uložení a načtení konverzí se souboru zároveň umožňuje si tvořit a vyměňovat další zajímavé příklady a tak dále obohatit tuto aplikaci. 
+Cíle této aplikace byly, aby měl student k~hůře stravitelné teorii přiložené množství příkladů, tak aby se pro něj stala problematika více pochopitelnou. Dále pak, aby s~teorii měl student možnost experimentovat a následně si ji samostatně procvičit. Aplikace také má pomoci vyučujícímu prezentovat teorii v~průběhu přednášky na příkladech. Možnost uložení a načtení konverzí se souboru zároveň umožňuje si tvořit a vyměňovat další zajímavé příklady a tak dále obohatit tuto aplikaci. 
 
 Cíle této práce, byly splněny.
 

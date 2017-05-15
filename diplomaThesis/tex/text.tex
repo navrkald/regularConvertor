@@ -32,15 +32,15 @@ Tato práce na rozdíl od bakalářské práce, která byla psána v~programu Op
 \cast{Teoretická část}
 
 \n{1}{Chomského hierarchie}
-Abychom si mohli dát bezkontextové jazyky do souvislosti s~ostatními formálními jazyky, je nutné si vysvětlit Chomského hierarchii. Byla vytvořena panem Noamem Chomskym v~roce 1956. Dává do souvislosti jazyky regulární, bezkontextové, kontextové a jazyky typu 0. Jejich vztah, je vidět na obrázku (Obr. \ref{obr:chomskeho_hierarchie}), jako vztah množin.
+Abychom si mohli dát bezkontextové jazyky do souvislosti s~ostatními formálními jazyky, je nutné si vysvětlit Chomského hierarchii. Byla vytvořena panem Noamem Chomskym v~roce 1956. Dává do souvislosti jazyky regulární, bezkontextové, kontextové a jazyky typu 0. Jejich souvislost je naznačena na obrázku (Obr. \ref{obr:chomskeho_hierarchie}) jako vztah množin.
 
 \obr{Chomskeho hierarchie formálních jazyků}{obr:chomskeho_hierarchie}{0.4}{obrazky/Chomskeho_hierarchie.eps}
 
-Jak je vidět z~obrázku regulární jazyky zaujímají nejmenší množinu, nebo chcete li nejmenší počet jazyků. Nenechte se však zmýlit pojmem  počet jazyků, protože počet jazyků a množství řetězců generovaných daným jazykem jsou dvě rozdílné věci. Například jednoduchým regulárním výrazem \( (a + b)^* \) lze popsat všechny slova nad abecedou \( \Sigma = {a, b} \). Avšak jazyk, všech slov, kde první půlka slova se skládá ze stejného počtu písmen 'a' jako písmen 'b' v~druhé půlce slova regulárním jazykem nepopíšeme. Dalo by se tak říci, že čím výše se jazyk nachází v~Chomského hierarchii, tím přesněji dokážeme jazyk popsat, jinými slovy, tím více jazyků jsme schopni generovat.
+Jak je vidět z~obrázku regulární jazyky zaujímají nejmenší množinu, nebo chcete-li nejmenší počet jazyků. Nenechte se však zmýlit pojmem  počet jazyků, protože počet jazyků a množství řetězců generovaných daným jazykem jsou dvě rozdílné věci. Například jednoduchým regulárním výrazem \( (a + b)^* \) lze popsat všechny slova nad abecedou \( \Sigma = \{a, b\} \). Avšak jazyk, všech slov, kde první půlka slova se skládá ze stejného počtu písmen 'a' jako písmen 'b' v~druhé půlce slova regulárním jazykem nepopíšeme. Dalo by se tak říci, že čím výše se jazyk nachází v~Chomského hierarchii, tím přesněji dokážeme jazyk popsat, jinými slovy, tím více jazyků jsme schopni generovat.
 
 Nyní si pro lepší představu u~každého jazyku uvedeme modely, které daný jazyk popisují s~jedním příkladem konkrétního jazyka.
 
-Regulární jazyky můžeme popsat pomocí regulární gramatiky, regulárního výrazu nebo konečného automatu. Příkladem je například jazyk který obsahuje libovolnou kombinaci písmen 'a' a 'b' končící písmenem 'b'. Tento jazyk by se dal pospat regulárním výrazem \( (a + b)^* b \). 
+Regulární jazyky můžeme popsat pomocí regulární gramatiky, regulárního výrazu nebo konečného automatu. Příkladem je například, jazyk který obsahuje libovolnou kombinaci písmen 'a' a 'b' končící písmenem 'b'. Tento jazyk by se dal pospat regulárním výrazem \( (a + b)^* b \). 
 
 Jazyky bezkontextové lze popsat modely jakými jsou bezkontextové gramatiky a konečný zásobníkový automat. Všechny jazyky regulární jsou zároveň bezkontextové, avšak obrácené tvrzení neplatí. Příkladem je jazyk \( L = \{ a^n b^n : n >= 1 \}  \)
 
@@ -50,11 +50,11 @@ Třída jazyků typu nula, v~sobě obsahuje všechny doposud zmíněné jazyky p
 \cite{Chomsky_hierarchy}
 
 \n{1}{Bezkontextový jazyk}
-V~předchozí kapitole jsme si uvedli vzájemný vztah formálních jazyků. Nyní se pojďme podívat podrobněji na bezkontextové jazyky. Tyto jazyky popisujeme pomocí dvou hlavních modelů, kterými jsou bezkontextová gramatika (CFG) a konečný zásobníkový automat (PDA).
+V~předchozí kapitole byl uveden vzájemný vztah formálních jazyků. Nyní se pojďme podívat podrobněji na bezkontextové jazyky. Tyto jazyky popisujeme pomocí dvou hlavních modelů, kterými jsou bezkontextová gramatika (CFG) a konečný zásobníkový automat (PDA).
 
 Nenechme se však zmýlit představou, že pomocí obou můžeme generovat bezkontextové jazyky. Protože pomocí bezkontextové gramatiky můžeme jazyk generovat, avšak pomocí konečného zásobníkového automatu můžeme rozpoznat, zda konkretní jazyk je popsán daným automatem. 
 
-Pro nás je každopádně důležitá zkutečnost, že oba popisy jsou vzájemně ekvivalentní, tj. že lze převést PDA na CFG a taktéž lze převést CFG na PDA. Formální popis bezkontextové gramatiky a zásobníkového automatu bude uveden dále spolu s~konverzí CFG na PDA. 
+Důležitá zkutečnost je, že oba popisy jsou vzájemně ekvivalentní, tj. že lze převést PDA na CFG a taktéž lze převést CFG na PDA. Formální popis bezkontextové gramatiky a zásobníkového automatu bude uveden dále spolu s~konverzí CFG na PDA. 
 
 Pro lepší představu, jaké jsou to vlastně ty bezkontextové jazyky, si nyní uvedeme pár příkladů. Krásným příkladem z~praxe by mohl být jazyk závorek, tak aby odpovídal počet levých závorek počtu závorek pravých. Složitějším příkladem by mohl být jazyk matematicky správných algebraických výrazů, který se skládá z~operátorů plus, mínus, krát, děleno, symbolů 'x', 'y', 'z' a závorek. Dalším příkladem z~praxe je, že velká podmnožina programovacích jazyků se dá popsat pomocí bezkontextové gramatiky. 
 
@@ -64,7 +64,7 @@ Jak je vidět z~těchto příkladů, pomocí bezkontextového jazyka se dají po
 \newtheorem{myAlgorithm}{Algoritmus}
 
 \n{1}{Zásobníkový automat}
-Nyní si definujeme definici zásobníkového automatu. \cite{PDA}
+Následuje definice zásobníkového automatu. \cite{PDA}
 
 \begin{framed}
 	\begin{flushleft}Konečný zásobníkový automat \( M \) je uspořádaná sedmice \( M = (Q, \Sigma, \Gamma, R, q_0, S, F) \) kde:\end{flushleft}
@@ -82,7 +82,7 @@ Nyní si definujeme definici zásobníkového automatu. \cite{PDA}
 	Definice zásobníkového automatu.
 \end{mydef}
 
-Pro lepší představu si uvedeme příklad zásobníkového automatu \(M\), který popisuje jazyk \( L = \{ 0^n 1^n \text{, kde } n \geq 0 \} \).
+Pro lepší představu je uveden příklad zásobníkového automatu \(M\), který popisuje jazyk \( L = \{ 0^n 1^n \text{, kde } n \geq 0 \} \).
 
 Nechť \(M\) je definován následovně:  
 \begin{itemize}
@@ -101,7 +101,7 @@ Graficky znázorněný stejný zásobníkový automat by vypadal následovně:
 
 \n{2}{Šipková notace přechodových pravidel zásobníkového automatu}
 
-Pro větší přehlednost a čitelnost přechodových pravidel zásobníkového automatu zde uvedu definici přechodových pravidel, kterou budu používat dále v~této práci.
+Pro větší přehlednost a čitelnost přechodových pravidel zásobníkového automatu je zde uvedena definice šipkové notace, která bude použita dále v~této práci.
 
 \begin{framed}
 	\begin{flushleft}Přechodová pravidlo $r \in R$ konečného zásobníkového automatu \( M = (Q, \Sigma, \Gamma, R, q_0, S, F) \)\end{flushleft} 
@@ -130,7 +130,7 @@ Definice bezkontextové gramatiky je následující. \cite{CFG}
 \end{mydef}
 
 
-Jednotlivé přepisovací pravidla často píšeme pomocí \uv{šipkové notace}, kde na levé straně neterminál za ním následuje šipka a na pravé straně je řetězec non-terminálních symbolů. Přepisovací pravidla se nazývají protože, řetězce daného jazyka, které jsou popsány gramatikou vznikají tak, že na počátku máme řetězec skládající se z~počátečního non-terminálního symbolu gramatiky \(S\) a na ten aplikuji jedno z~přepisovacích pravidel. Pokračuji tím, že postupně nahrazuji non-terminální symboly v~řetězci do té doby, dokud mě v~něm nezbudou jen terminální symboly a to je pak jedno konkrétní slovo daného bezkontextového jazyka.
+Jednotlivé přepisovací pravidla se často zapisují pomocí \uv{šipkové notace}, kde je na levé straně non-terminál, za ním následuje šipka a na pravé straně je řetězec non-terminálních a terminálních symbolů. Přepisovací pravidla se nazývají protože, řetězce daného jazyka, které jsou popsány gramatikou vznikají tak, že na počátku máme řetězec skládající se z~počátečního non-terminálního symbolu gramatiky \(S\) a na ten aplikuji jedno z~přepisovacích pravidel. Pokračuji tím, že postupně nahrazuji non-terminální symboly v~řetězci do té doby, dokud mě v~něm nezbudou jen terminální symboly a to je pak jedno konkrétní slovo daného bezkontextového jazyka.
 
 Například gramatika \( G = (\{S, B\}, \{ a, b\}, R = \{\{S \rightarrow aBb\}, \{B \rightarrow aBb\},\{B \rightarrow \varepsilon\}\}, S~\}) \) popisuje jazyk \( L = \{ a^n b^n : n >= 1 \}  \).
 

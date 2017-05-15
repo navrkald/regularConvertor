@@ -20,7 +20,7 @@ Zdrojové kódy a tento text, jsou dostupné pod open-source licencí na serveru
 
 Jak již napovídá název serveru Github, celá práce včetně zdrojových kódů je verzována pomocí Gitu, který je navržen decentralizovaně a tak je zaručeno, že ať se stane cokoliv, záloha dat bude vždy z~více zdrojů dostupná. Díky commitům je možné monitorovat postup prací, také je možné nový kód ukládat do větví, což umožňuje mít stabilní větev pro koncové uživatele a vývojovou větev ve které se vyvíjí nová funkcionalita. Jelikož jsou zdrojové kódy veřejně přístupné, tak kdokoliv může přispět k~v~vývoji této výukové aplikace pomocí takzvaných \textit{pull requestů}.
 
-Pro vývoj tohoto programu jsem zvolil jazyk C++ ve verzi standardu 11 spolu s~multiplatformním frameworkem Qt v~nejnovější verzi 5.8, protože moje požadavky byly, aby aplikace používala nové moderní technologie a také, aby byla přenositelná na všechny hlavní operační systémy.
+Pro vývoj tohoto programu byl zvolen jazyk C++ ve verzi standardu 11 spolu s~multiplatformním frameworkem Qt v~nejnovější verzi 5.8, protože požadavky byly, aby aplikace používala nové moderní technologie a také, aby byla přenositelná na všechny hlavní operační systémy.
 
 Tato práce na rozdíl od bakalářské práce, která byla psána v~programu Open Office, používá sázecí program \LaTeX\ \cite{latex}. Tento typografický program umožňuje lepší kontrolu nad formátováním a výsledným vzhledem, hodí se pro technické texty a je s~ním snadnější dodržování typografických pravidel. Také umožňuje mít práci uloženou v~textové podobě, která se snadněji verzuje, nežli pokud by byla v~binární formě. Díky tomu je snadnější porovnávání verzí, a menší výsledná velikost Gitového repositáře.
 
@@ -32,7 +32,7 @@ Tato práce na rozdíl od bakalářské práce, která byla psána v~programu Op
 \cast{Teoretická část}
 
 \n{1}{Chomského hierarchie}
-Abychom si mohli dát bezkontextové jazyky do souvislosti s~ostatními formálními jazyky, je nutné si vysvětlit Chomského hierarchii. Tato hierarchie byla vytvořena panem Noamem Chomskym v~roce 1956. Dává do souvislosti jazyky regulární, bezkontextové, kontextové a jazyky typu 0. Jejich vztah, můžete vidět na obrázku (Obr. \ref{obr:chomskeho_hierarchie}), jako vztah množin.
+Abychom si mohli dát bezkontextové jazyky do souvislosti s~ostatními formálními jazyky, je nutné si vysvětlit Chomského hierarchii. Byla vytvořena panem Noamem Chomskym v~roce 1956. Dává do souvislosti jazyky regulární, bezkontextové, kontextové a jazyky typu 0. Jejich vztah, je vidět na obrázku (Obr. \ref{obr:chomskeho_hierarchie}), jako vztah množin.
 
 \obr{Chomskeho hierarchie formálních jazyků}{obr:chomskeho_hierarchie}{0.4}{obrazky/Chomskeho_hierarchie.eps}
 
@@ -302,7 +302,7 @@ Pokud už si uživatel myslí, že "už už" přece řešení musí být správn
 
 \n{1}{Popis konverze bezkontextové gramatiky na zásobníkový automat}
 
-Stejně jako u~předchozích konverzí, jsem se i v~této konverzi držel zavedeného schématu z~bakalářské práce, že vlevo nahoře je widget, ve kterém je popsán vstupní model formálního jazyka, v~pravé horní části je algoritmický widget, v~levé dolní části je widget, ve kterém je umístěn výstupní model formálního jazyka a konečně v~pravé dolní části je widget, ve kterém jsou zobrazené aktuální hodnoty proměnných použitých v~algoritmickém widgetu. Celý pohled je ukázán na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}). 
+Stejně jako u~předchozích konverzí, bylo i u~této konverze dodrženo zavedeného schématu z~bakalářské práce, že vlevo nahoře je widget, ve kterém je popsán vstupní model formálního jazyka, v~pravé horní části je algoritmický widget, v~levé dolní části je widget, ve kterém je umístěn výstupní model formálního jazyka a konečně v~pravé dolní části je widget, ve kterém jsou zobrazené aktuální hodnoty proměnných použitých v~algoritmickém widgetu. Celý pohled je ukázán na obrázku (Obr. \ref{obr:konverzeBezkontextovGramatikyNaZasobnikovyAutomat}). 
 
 Všechny widgety jsou od sebe navzájem odděleny rozdělovači, které umožňují měnit jejich velikost a to až do té míry, že je možné je úplně schovat. To se může hodit v~situaci, když si chce student procvičit danou konverzi do té míry, že nechce být rušen samotným algoritmem. Další ze situací je, když studuje, nebo samostatně provádí konverzi a nezajímají jej aktuální hodnoty proměnných, nebo chce jen více místa pro výstupní widget, pokud převádí rozsáhlý model, tak jistě od-cenní možnost, že si může nechat schovat widget s~proměnnými. Oddělovače jsem globálně pro celou aplikaci zvýraznil pomocí kaskádových stylů, aby byly tučné a měly tmavě šedou barvu, protože výchozí styl ve Microsoft Windows byl dosti nevýrazný.
 
